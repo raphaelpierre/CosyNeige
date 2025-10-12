@@ -111,13 +111,13 @@ export default function Footer() {
                 </div>
               </a>
 
-              <a href="tel:+33XXXXXXXXX" className="flex items-start space-x-3 text-gray-300 hover:text-white transition-colors group">
+              <a href="tel:+33695595865" className="flex items-start space-x-3 text-gray-300 hover:text-white transition-colors group">
                 <svg className="w-5 h-5 text-gold-400 mt-0.5 flex-shrink-0 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
                 <div>
                   <div className="text-xs uppercase tracking-wide text-gray-400 mb-1 font-medium">{t({ en: 'Phone', fr: 'Téléphone' })}</div>
-                  <div className="font-bold text-sm">+33 (0)X XX XX XX XX</div>
+                  <div className="font-bold text-sm">+33 06 95 59 58 65</div>
                 </div>
               </a>
 
@@ -148,10 +148,10 @@ export default function Footer() {
               </p>
             </div>
             <div className="flex items-center space-x-6 text-sm">
-              <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors font-medium">
+              <Link href="/privacy" className="text-gray-200 hover:text-white transition-colors font-medium hover:underline underline-offset-4">
                 {t({ en: 'Privacy Policy', fr: 'Confidentialité' })}
               </Link>
-              <Link href="/terms" className="text-gray-400 hover:text-white transition-colors font-medium">
+              <Link href="/terms" className="text-gray-200 hover:text-white transition-colors font-medium hover:underline underline-offset-4">
                 {t({ en: 'Terms of Service', fr: 'Conditions' })}
               </Link>
             </div>

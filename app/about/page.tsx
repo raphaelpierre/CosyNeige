@@ -22,7 +22,7 @@ export default function AboutPage() {
     {
       year: '2023',
       title: { en: 'Complete Renovation', fr: 'Rénovation Complète' },
-      description: { en: 'Full interior renovation adds modern luxury amenities including sauna, hot tub, and smart home technology while preserving authentic charm.', fr: 'Rénovation intérieure complète ajoutant des équipements de luxe modernes incluant sauna, jacuzzi et domotique tout en préservant le charme authentique.' },
+      description: { en: 'Full interior renovation adds modern luxury amenities including hot tub and smart home technology while preserving authentic charm.', fr: 'Rénovation intérieure complète ajoutant des équipements de luxe modernes incluant jacuzzi et domotique tout en préservant le charme authentique.' },
     },
     {
       year: '2025',

@@ -10,8 +10,8 @@ export const tagline: Translation = {
 export const specs: ChaletSpecs = {
   capacity: 10,
   bedrooms: 4,
-  bathrooms: 3,
-  surface: 180,
+  bathrooms: 2,
+  surface: 250,
   parkingSpaces: 2
 };
 
@@ -31,7 +31,6 @@ export const description: Translation = {
 };
 
 export const amenities: { icon: string; label: Translation }[] = [
-  { icon: "🛁", label: { en: "Private Sauna", fr: "Sauna Privé" } },
   { icon: "♨️", label: { en: "Outdoor Hot Tub", fr: "Jacuzzi Extérieur" } },
   { icon: "🔥", label: { en: "Wood Fireplace", fr: "Cheminée à Bois" } },
   { icon: "⛷️", label: { en: "Ski Room", fr: "Local à Skis" } },
@@ -47,6 +46,8 @@ export const amenities: { icon: string; label: Translation }[] = [
 
 export const nearbyResorts: SkiResort[] = [
   { name: "Le Grand Massif (Les Carroz)", distance: 9, drivingTime: 15 },
+  { name: "Les Gets", distance: 18, drivingTime: 25 },
+  { name: "Flaine", distance: 17, drivingTime: 25 },
   { name: "Praz de Lys-Sommand", distance: 15, drivingTime: 25 },
   { name: "Morzine/Avoriaz", distance: 14, drivingTime: 20 },
   { name: "Chamonix-Mont-Blanc", distance: 29, drivingTime: 35 },
@@ -118,8 +119,8 @@ export const testimonials: Testimonial[] = [
     location: "London, UK",
     rating: 5,
     comment: {
-      en: "Outstanding chalet in a charming village. Easy access to Grand Massif and Morzine. The sauna after skiing was heavenly. Highly recommended!",
-      fr: "Chalet exceptionnel dans un village charmant. Accès facile au Grand Massif et Morzine. Le sauna après le ski était divin. Hautement recommandé !"
+      en: "Outstanding chalet in a charming village. Easy access to Grand Massif and Morzine. The hot tub after skiing was heavenly. Highly recommended!",
+      fr: "Chalet exceptionnel dans un village charmant. Accès facile au Grand Massif et Morzine. Le jacuzzi après le ski était divin. Hautement recommandé !"
     },
     date: "January 2025"
   }
@@ -164,7 +165,6 @@ export const galleryImages: GalleryImage[] = [
   { url: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1200", category: "bedroom", alt: { en: "Master bedroom", fr: "Chambre principale" } },
   { url: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200", category: "bedroom", alt: { en: "Guest bedroom", fr: "Chambre d'invités" } },
   { url: "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200", category: "bathroom", alt: { en: "Luxurious bathroom", fr: "Salle de bain luxueuse" } },
-  { url: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1200", category: "wellness", alt: { en: "Private sauna", fr: "Sauna privé" } },
   { url: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200", category: "wellness", alt: { en: "Hot tub with mountain views", fr: "Jacuzzi avec vue montagne" } },
   { url: "https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?w=1200", category: "kitchen", alt: { en: "Gourmet kitchen", fr: "Cuisine gastronomique" } },
   { url: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1200", category: "kitchen", alt: { en: "Dining area", fr: "Coin repas" } },
