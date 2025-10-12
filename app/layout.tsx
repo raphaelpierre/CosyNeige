@@ -4,6 +4,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/lib/hooks/useLanguage";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
           <Navigation />
           <main className="min-h-screen">{children}</main>
           <Footer />
+          <Analytics />
         </LanguageProvider>
       </body>
     </html>
