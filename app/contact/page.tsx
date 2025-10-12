@@ -69,7 +69,7 @@ export default function ContactPage() {
             <div className="text-center bg-cream rounded-lg p-8 hover:shadow-lg transition-shadow">
               <div className="text-5xl mb-4">📧</div>
               <h3 className="text-xl font-bold text-forest-800 mb-3">{t({ en: 'Email', fr: 'Email' })}</h3>
-              <a href="mailto:info@chaletlessires.com" className="text-forest-700 hover:text-forest-900 transition-colors">
+              <a href="mailto:info@chaletlessires.com" className="text-forest-900 hover:text-forest-800 transition-colors font-semibold">
                 info@chaletlessires.com
               </a>
               <p className="text-sm text-gray-600 mt-2">
@@ -80,8 +80,8 @@ export default function ContactPage() {
             <div className="text-center bg-cream rounded-lg p-8 hover:shadow-lg transition-shadow">
               <div className="text-5xl mb-4">📞</div>
               <h3 className="text-xl font-bold text-forest-800 mb-3">{t({ en: 'Phone', fr: 'Téléphone' })}</h3>
-              <a href="tel:+33XXXXXXXXX" className="text-forest-700 hover:text-forest-900 transition-colors">
-                +33 (0)X XX XX XX XX
+              <a href="tel:+33695595865" className="text-forest-900 hover:text-forest-800 transition-colors font-semibold">
+                +33 06 95 59 58 65
               </a>
               <p className="text-sm text-gray-600 mt-2">
                 {t({ en: 'Mon-Sat: 9AM-7PM CET', fr: 'Lun-Sam : 9h-19h CET' })}
@@ -91,7 +91,7 @@ export default function ContactPage() {
             <div className="text-center bg-cream rounded-lg p-8 hover:shadow-lg transition-shadow">
               <div className="text-5xl mb-4">📍</div>
               <h3 className="text-xl font-bold text-forest-800 mb-3">{t({ en: 'Address', fr: 'Adresse' })}</h3>
-              <p className="text-forest-700">
+              <p className="text-forest-900 font-medium">
                 {chaletName}<br />
                 {location.village}<br />
                 {location.region} ({location.postalCode})
@@ -283,7 +283,7 @@ export default function ContactPage() {
               })}
             </p>
             <a
-              href="tel:+33XXXXXXXXX"
+              href="tel:+33695595865"
               className="inline-block bg-white text-forest-800 hover:bg-cream px-8 py-3 rounded-lg font-semibold transition-colors"
             >
               📞 {t({ en: 'Emergency Contact', fr: 'Contact Urgence' })}

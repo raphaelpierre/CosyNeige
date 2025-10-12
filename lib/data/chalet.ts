@@ -158,18 +158,46 @@ export const faqs: FAQ[] = [
 ];
 
 export const galleryImages: GalleryImage[] = [
-  { url: "/images/chalet_neige_devant.jpeg", category: "exterior", alt: { en: "Chalet-Balmotte810 chalet exterior in winter", fr: "Chalet-Balmotte810 - Extérieur du chalet en hiver" } },
-  { url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200", category: "exterior", alt: { en: "Mountain chalet with snow", fr: "Chalet de montagne sous la neige" } },
-  { url: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200", category: "living", alt: { en: "Living room with fireplace", fr: "Salon avec cheminée" } },
-  { url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200", category: "living", alt: { en: "Cozy lounge area", fr: "Espace salon confortable" } },
-  { url: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1200", category: "bedroom", alt: { en: "Master bedroom", fr: "Chambre principale" } },
-  { url: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200", category: "bedroom", alt: { en: "Guest bedroom", fr: "Chambre d'invités" } },
-  { url: "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200", category: "bathroom", alt: { en: "Luxurious bathroom", fr: "Salle de bain luxueuse" } },
+  // Exterior
+  { url: "/images/chalet_neige_devant.jpeg", category: "exterior", alt: { en: "Chalet-Balmotte810 exterior in winter", fr: "Chalet-Balmotte810 - Extérieur en hiver" } },
+  { url: "/images/ChaletPAnoramique.jpg", category: "exterior", alt: { en: "Chalet panoramic view", fr: "Vue panoramique du chalet" } },
+  { url: "/images/Chalet_Exterieur.jpg", category: "exterior", alt: { en: "Chalet exterior view", fr: "Vue extérieure du chalet" } },
+  { url: "/images/Exterieur.jpg", category: "exterior", alt: { en: "Chalet exterior", fr: "Extérieur du chalet" } },
+  { url: "/images/ExterieurBalcon.jpg", category: "exterior", alt: { en: "Exterior balcony view", fr: "Vue extérieure du balcon" } },
+  { url: "/images/bclon Exterieur.jpg", category: "exterior", alt: { en: "Balcony exterior", fr: "Balcon extérieur" } },
+
+  // Living Room
+  { url: "/images/Salon.jpg", category: "living", alt: { en: "Living room", fr: "Salon" } },
+  { url: "/images/Fauteuil.jpg", category: "living", alt: { en: "Armchair in living area", fr: "Fauteuil dans le salon" } },
+  { url: "/images/FauteuilSalon.jpg", category: "living", alt: { en: "Living room armchair", fr: "Fauteuil du salon" } },
+  { url: "/images/CouloirSalon.jpg", category: "living", alt: { en: "Hallway to living room", fr: "Couloir vers le salon" } },
+
+  // Kitchen
+  { url: "/images/Cuisine.jpg", category: "kitchen", alt: { en: "Gourmet kitchen", fr: "Cuisine gastronomique" } },
+  { url: "/images/Cuisine2.jpg", category: "kitchen", alt: { en: "Kitchen dining area", fr: "Coin repas de la cuisine" } },
+
+  // Bedrooms
+  { url: "/images/Chambre3.jpg", category: "bedroom", alt: { en: "Bedroom 3", fr: "Chambre 3" } },
+  { url: "/images/ChambreDortoir.jpg", category: "bedroom", alt: { en: "Dormitory bedroom", fr: "Chambre dortoir" } },
+  { url: "/images/ChambreDortoir2.jpg", category: "bedroom", alt: { en: "Dormitory bedroom view 2", fr: "Chambre dortoir vue 2" } },
+
+  // Bathrooms
+  { url: "/images/SalledeBain1.jpg", category: "bathroom", alt: { en: "Bathroom 1", fr: "Salle de bain 1" } },
+  { url: "/images/Salledebain2.jpg", category: "bathroom", alt: { en: "Bathroom 2", fr: "Salle de bain 2" } },
+
+  // Interior Details
+  { url: "/images/Hall_Etage.jpg", category: "living", alt: { en: "Upstairs hallway", fr: "Hall d'étage" } },
+  { url: "/images/hallEtage2.jpg", category: "living", alt: { en: "Upstairs hallway view 2", fr: "Hall d'étage vue 2" } },
+
+  // Wellness (keeping hot tub from Unsplash as real image not available)
   { url: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200", category: "wellness", alt: { en: "Hot tub with mountain views", fr: "Jacuzzi avec vue montagne" } },
-  { url: "https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?w=1200", category: "kitchen", alt: { en: "Gourmet kitchen", fr: "Cuisine gastronomique" } },
-  { url: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1200", category: "kitchen", alt: { en: "Dining area", fr: "Coin repas" } },
-  { url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200", category: "terrace", alt: { en: "Terrace with Alpine views", fr: "Terrasse avec vue alpine" } },
+
+  // Winter Activities
   { url: "https://images.unsplash.com/photo-1551524164-687a55dd1126?w=1200", category: "winter", alt: { en: "Skiing nearby", fr: "Ski à proximité" } },
+
+  // Summer Activities
   { url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200", category: "summer", alt: { en: "Summer mountain landscape", fr: "Paysage de montagne en été" } },
+
+  // Local Area
   { url: "https://images.unsplash.com/photo-1605540436563-5bca919ae766?w=1200", category: "local", alt: { en: "French Alps village", fr: "Village des Alpes françaises" } }
 ];
