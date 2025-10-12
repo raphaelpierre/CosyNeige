@@ -1,0 +1,79 @@
+// Language types
+export type Language = 'en' | 'fr';
+
+export interface Translation {
+  en: string;
+  fr: string;
+}
+
+// Chalet data types
+export interface ChaletSpecs {
+  capacity: number;
+  bedrooms: number;
+  bathrooms: number;
+  surface: number;
+  parkingSpaces: number;
+}
+
+export interface Location {
+  village: string;
+  region: string;
+  department?: string;
+  postalCode?: string;
+  altitude: number;
+  latitude: number;
+  longitude: number;
+}
+
+export interface SkiResort {
+  name: string;
+  distance: number;
+  drivingTime: number;
+}
+
+export interface Activity {
+  name: Translation;
+  description: Translation;
+  season: 'summer' | 'winter' | 'all';
+  image: string;
+}
+
+export interface Pricing {
+  highSeason: { min: number; max: number };
+  midSeason: { min: number; max: number };
+  lowSeason: { min: number; max: number };
+  summerSeason: { min: number; max: number };
+  cleaningFee: number;
+  linenPerPerson: number;
+  minimumStay: { highSeason: number; other: number };
+}
+
+export interface GalleryImage {
+  url: string;
+  category: 'exterior' | 'living' | 'bedroom' | 'bathroom' | 'kitchen' | 'wellness' | 'terrace' | 'winter' | 'summer' | 'local';
+  alt: Translation;
+}
+
+export interface Testimonial {
+  name: string;
+  location: string;
+  rating: number;
+  comment: Translation;
+  date: string;
+}
+
+export interface FAQ {
+  question: Translation;
+  answer: Translation;
+}
+
+export interface BookingRequest {
+  checkIn: Date;
+  checkOut: Date;
+  guests: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  message?: string;
+}
