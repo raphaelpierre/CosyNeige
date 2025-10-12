@@ -12,7 +12,7 @@ export default function AboutPage() {
     {
       year: '2018',
       title: { en: 'Construction Completed', fr: 'Construction Achevée' },
-      description: { en: 'CosyNeige is built with traditional Savoyard architecture, using local materials and craftsmanship to honor the Alpine heritage.', fr: 'Le CosyNeige est construit avec une architecture savoyarde traditionnelle, utilisant des matériaux locaux et un savoir-faire artisanal pour honorer l\'héritage alpin.' },
+      description: { en: 'chalet-cozy-balmotte.com is built with traditional Savoyard architecture, using local materials and craftsmanship to honor the Alpine heritage.', fr: 'Le chalet-cozy-balmotte.com est construit avec une architecture savoyarde traditionnelle, utilisant des matériaux locaux et un savoir-faire artisanal pour honorer l\'héritage alpin.' },
     },
     {
       year: '2019',

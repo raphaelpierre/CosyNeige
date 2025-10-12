@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CosyNeige - Luxury Chalet in Châtillon-sur-Cluses, French Alps",
-  description: "Experience luxury alpine living at CosyNeige, perfectly positioned between the Arve and Giffre valleys. Access to 5 major ski resorts including Grand Massif, Morzine, and Chamonix.",
+  title: "chalet-cozy-balmotte.com - Luxury Chalet in Châtillon-sur-Cluses, French Alps",
+  description: "Experience luxury alpine living at chalet-cozy-balmotte.com, perfectly positioned between the Arve and Giffre valleys. Access to 5 major ski resorts including Grand Massif, Morzine, and Chamonix.",
   keywords: "luxury chalet, French Alps, Châtillon-sur-Cluses, Haute-Savoie, Grand Massif, ski chalet, alpine retreat",
 };
 

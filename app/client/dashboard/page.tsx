@@ -349,7 +349,7 @@ export default function ClientDashboard() {
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <span className="font-semibold text-forest-900">
-                              {message.isFromAdmin ? 'CosyNeige' : message.fromName}
+                              {message.isFromAdmin ? 'chalet-cozy-balmotte.com' : message.fromName}
                             </span>
                             {!message.read && message.isFromAdmin && (
                               <span className="px-2 py-0.5 bg-blue-500 text-white text-xs rounded-full">
@@ -637,7 +637,7 @@ export default function ClientDashboard() {
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-3">
                             <span className="font-bold text-forest-900 text-lg">
-                              {message.isFromAdmin ? 'CosyNeige' : message.fromName}
+                              {message.isFromAdmin ? 'chalet-cozy-balmotte.com' : message.fromName}
                             </span>
                             {!message.read && message.isFromAdmin && (
                               <span className="px-3 py-1 bg-blue-500 text-white text-xs rounded-full font-semibold">

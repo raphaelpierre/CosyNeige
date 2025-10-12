@@ -1,6 +1,6 @@
-# 🏔️ CosyNeige - Alpine Chalet Rental Platform
+# 🏔️ chalet-cozy-balmotte.com - Alpine Chalet Rental Platform
 
-**CosyNeige** is a luxury alpine chalet rental platform showcasing a beautiful mountain retreat in Châtillon-sur-Cluses, French Alps. The platform provides a complete booking experience with multilingual support, integrated reservation management, and stunning visual presentation.
+**chalet-cozy-balmotte.com** is a luxury alpine chalet rental platform showcasing a beautiful mountain retreat in Châtillon-sur-Cluses, French Alps. The platform provides a complete booking experience with multilingual support, integrated reservation management, and stunning visual presentation.
 
 ## ✨ Features
 
@@ -269,4 +269,4 @@ Project Link: [https://github.com/raphaelpierre/CosyNeige](https://github.com/ra
 
 ---
 
-*Experience the magic of the French Alps with CosyNeige - where luxury meets authentic mountain charm.* 🏔️✨
+*Experience the magic of the French Alps with chalet-cozy-balmotte.com - where luxury meets authentic mountain charm.* 🏔️✨

@@ -218,8 +218,8 @@ export default function ContactPage() {
           </h2>
           <p className="text-center text-gray-600 mb-12">
             {t({
-              en: 'Find quick answers to common questions about CosyNeige',
-              fr: 'Trouvez des réponses rapides aux questions courantes sur CosyNeige',
+              en: 'Find quick answers to common questions about chalet-cozy-balmotte.com',
+              fr: 'Trouvez des réponses rapides aux questions courantes sur chalet-cozy-balmotte.com',
             })}
           </p>
 

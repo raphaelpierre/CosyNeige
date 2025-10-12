@@ -61,8 +61,8 @@ function BookingConfirmationContent() {
           </h1>
           <p className="text-xl text-gray-600 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150">
             {t({
-              en: 'Thank you for your interest in staying at CosyNeige',
-              fr: 'Merci pour votre intérêt pour un séjour à CosyNeige'
+              en: 'Thank you for your interest in staying at chalet-cozy-balmotte.com',
+              fr: 'Merci pour votre intérêt pour un séjour à chalet-cozy-balmotte.com'
             })}
           </p>
         </div>

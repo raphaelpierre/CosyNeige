@@ -1,4 +1,4 @@
-# 🚀 Vercel Deployment Guide for CosyNeige
+# 🚀 Vercel Deployment Guide for chalet-cozy-balmotte.com
 
 ## Prerequisites
 
