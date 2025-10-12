@@ -1,6 +1,6 @@
 import { ChaletSpecs, Location, SkiResort, Activity, Pricing, GalleryImage, Testimonial, FAQ, Translation } from '@/types';
 
-export const chaletName = "chalet-cozy-balmotte.com";
+export const chaletName = "Chalet-Balmotte810";
 
 export const tagline: Translation = {
   en: "Your cozy mountain retreat",
@@ -26,8 +26,8 @@ export const location: Location = {
 };
 
 export const description: Translation = {
-  en: "Nestled in the charming village of Châtillon-sur-Cluses, chalet-cozy-balmotte.com offers an authentic Savoyard experience with modern luxury. Perfectly positioned between the Arve and Giffre valleys, our chalet provides unparalleled access to multiple world-class ski resorts while maintaining the peace and charm of a traditional Alpine village. The historic setting, crowned by medieval castle ruins, creates a unique atmosphere where heritage meets contemporary comfort.",
-  fr: "Niché dans le charmant village de Châtillon-sur-Cluses, chalet-cozy-balmotte.com offre une expérience savoyarde authentique avec un luxe moderne. Parfaitement situé entre les vallées de l'Arve et du Giffre, notre chalet offre un accès incomparable à plusieurs stations de ski de classe mondiale tout en conservant la paix et le charme d'un village alpin traditionnel. Le cadre historique, couronné par les ruines d'un château médiéval, crée une atmosphère unique où le patrimoine rencontre le confort contemporain."
+  en: "Nestled in the charming village of Châtillon-sur-Cluses, Chalet-Balmotte810 offers an authentic Savoyard experience with modern luxury. Perfectly positioned between the Arve and Giffre valleys, our chalet provides unparalleled access to multiple world-class ski resorts while maintaining the peace and charm of a traditional Alpine village. The historic setting, crowned by medieval castle ruins, creates a unique atmosphere where heritage meets contemporary comfort.",
+  fr: "Niché dans le charmant village de Châtillon-sur-Cluses, Chalet-Balmotte810 offre une expérience savoyarde authentique avec un luxe moderne. Parfaitement situé entre les vallées de l'Arve et du Giffre, notre chalet offre un accès incomparable à plusieurs stations de ski de classe mondiale tout en conservant la paix et le charme d'un village alpin traditionnel. Le cadre historique, couronné par les ruines d'un château médiéval, crée une atmosphère unique où le patrimoine rencontre le confort contemporain."
 };
 
 export const amenities: { icon: string; label: Translation }[] = [
@@ -157,7 +157,7 @@ export const faqs: FAQ[] = [
 ];
 
 export const galleryImages: GalleryImage[] = [
-  { url: "/images/chalet_neige_devant.jpeg", category: "exterior", alt: { en: "chalet-cozy-balmotte.com chalet exterior in winter", fr: "chalet-cozy-balmotte.com - Extérieur du chalet en hiver" } },
+  { url: "/images/chalet_neige_devant.jpeg", category: "exterior", alt: { en: "Chalet-Balmotte810 chalet exterior in winter", fr: "Chalet-Balmotte810 - Extérieur du chalet en hiver" } },
   { url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200", category: "exterior", alt: { en: "Mountain chalet with snow", fr: "Chalet de montagne sous la neige" } },
   { url: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200", category: "living", alt: { en: "Living room with fireplace", fr: "Salon avec cheminée" } },
   { url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200", category: "living", alt: { en: "Cozy lounge area", fr: "Espace salon confortable" } },

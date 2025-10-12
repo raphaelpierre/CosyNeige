@@ -12,7 +12,7 @@ export default function AboutPage() {
     {
       year: '2018',
       title: { en: 'Construction Completed', fr: 'Construction Achevée' },
-      description: { en: 'chalet-cozy-balmotte.com is built with traditional Savoyard architecture, using local materials and craftsmanship to honor the Alpine heritage.', fr: 'Le chalet-cozy-balmotte.com est construit avec une architecture savoyarde traditionnelle, utilisant des matériaux locaux et un savoir-faire artisanal pour honorer l\'héritage alpin.' },
+      description: { en: 'Chalet-Balmotte810 is built with traditional Savoyard architecture, using local materials and craftsmanship to honor the Alpine heritage.', fr: 'Le Chalet-Balmotte810 est construit avec une architecture savoyarde traditionnelle, utilisant des matériaux locaux et un savoir-faire artisanal pour honorer l\'héritage alpin.' },
     },
     {
       year: '2019',

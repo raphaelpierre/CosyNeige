@@ -15,7 +15,7 @@ export default function HomePage() {
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/chalet_neige_devant.jpeg"
-            alt="chalet-cozy-balmotte.com - Chalet de luxe à Châtillon-sur-Cluses"
+            alt="Chalet-Balmotte810 - Chalet de luxe à Châtillon-sur-Cluses"
             fill
             className="object-cover brightness-75 scale-105 animate-[scale_20s_ease-in-out_infinite_alternate]"
             priority

@@ -1,4 +1,4 @@
-# 🚀 Vercel Deployment Guide for chalet-cozy-balmotte.com
+# 🚀 Vercel Deployment Guide for Chalet-Balmotte810
 
 ## Prerequisites
 
