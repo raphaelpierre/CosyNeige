@@ -30,18 +30,21 @@
 ## 🛠️ Tech Stack
 
 ### **Frontend**
+
 - **Next.js 15.5.4** (App Router)
 - **React 19.1.0** with TypeScript
 - **Tailwind CSS 4** for styling
 - **Custom language hook** for i18n
 
 ### **Backend & Database**
+
 - **Prisma ORM** with SQLite database
 - **NextAuth.js** for authentication
 - **bcryptjs** for password hashing
 - **JWT tokens** for session management
 
 ### **APIs & Integration**
+
 - **REST API routes** for all CRUD operations
 - **Unsplash integration** for high-quality imagery
 - **Responsive image optimization**
