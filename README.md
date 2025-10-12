@@ -62,18 +62,21 @@ BookedPeriod   - Availability tracking
 ## 🚀 Getting Started
 
 ### **Prerequisites**
-- Node.js 18+ 
+
+- Node.js 18+
 - npm, yarn, or pnpm
 
 ### **Installation**
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/raphaelpierre/CosyNeige.git
 cd CosyNeige
 ```
 
 2. **Install dependencies**
+
 ```bash
 npm install
 # or
@@ -83,6 +86,7 @@ pnpm install
 ```
 
 3. **Set up environment variables**
+
 ```bash
 # Create .env.local file
 DATABASE_URL="file:./dev.db"
@@ -91,12 +95,14 @@ NEXTAUTH_URL="http://localhost:3000"
 ```
 
 4. **Initialize database**
+
 ```bash
 npx prisma generate
 npx prisma db push
 ```
 
 5. **Run development server**
+
 ```bash
 npm run dev
 # or
@@ -106,11 +112,12 @@ pnpm dev
 ```
 
 6. **Open application**
+
 Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## 📁 Project Structure
 
-```
+```text
 CosyNeige/
 ├── app/                    # Next.js App Router
 │   ├── api/               # API routes (auth, reservations, messages)
@@ -134,6 +141,7 @@ CosyNeige/
 ## 🎯 Key Pages & Features
 
 ### **Public Pages**
+
 - **Homepage** (`/`) - Hero showcase with chalet overview
 - **Chalet Details** (`/chalet`) - Detailed property information
 - **Gallery** (`/gallery`) - Photo gallery with categories
@@ -142,10 +150,12 @@ CosyNeige/
 - **Contact** (`/contact`) - Contact form and information
 
 ### **User Features**
+
 - **Client Dashboard** (`/client/dashboard`) - Booking management
 - **Booking Confirmation** (`/booking/confirmation`) - Post-booking details
 
 ### **Admin Features**
+
 - **Admin Panel** (`/admin`) - Comprehensive management dashboard
 - **Reservation Management** - View, confirm, cancel bookings
 - **Message Center** - Handle customer inquiries
@@ -154,6 +164,7 @@ CosyNeige/
 ## 🌍 Internationalization
 
 The platform supports **English** and **French** with:
+
 - Context-aware translations using custom `useLanguage` hook
 - Seamless language switching
 - Localized content for all user-facing text
@@ -162,22 +173,26 @@ The platform supports **English** and **French** with:
 ## 🏗️ API Endpoints
 
 ### **Authentication**
+
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
 - `POST /api/auth/logout` - User logout
 - `GET /api/auth/me` - Current user info
 
 ### **Reservations**
+
 - `GET /api/reservations` - List all reservations
 - `POST /api/reservations` - Create new reservation
 - `PUT /api/reservations/[id]` - Update reservation
 - `DELETE /api/reservations/[id]` - Cancel reservation
 
 ### **Availability**
+
 - `GET /api/booked-periods` - Get unavailable dates
 - `POST /api/booked-periods` - Block periods
 
 ### **Communication**
+
 - `GET /api/messages` - Retrieve messages
 - `POST /api/messages` - Send new message
 
@@ -211,11 +226,13 @@ The platform supports **English** and **French** with:
 The application is optimized for deployment on:
 
 ### **Vercel (Recommended)**
+
 ```bash
 vercel --prod
 ```
 
 ### **Alternative Platforms**
+
 - Railway
 - Netlify
 - DigitalOcean App Platform
