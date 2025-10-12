@@ -71,8 +71,8 @@ BookedPeriod   - Availability tracking
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/raphaelpierre/CosyNeige.git
-cd CosyNeige
+git clone https://github.com/raphaelpierre/Chalet-Balmotte810.git
+cd Chalet-Balmotte810
 ```
 
 2. **Install dependencies**
@@ -118,7 +118,7 @@ Navigate to [http://localhost:3000](http://localhost:3000)
 ## 📁 Project Structure
 
 ```text
-CosyNeige/
+Chalet-Balmotte810/
 ├── app/                    # Next.js App Router
 │   ├── api/               # API routes (auth, reservations, messages)
 │   ├── booking/           # Booking flow pages
@@ -265,7 +265,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Raphaël Pierre** - [@raphaelpierre](https://github.com/raphaelpierre)
 
-Project Link: [https://github.com/raphaelpierre/CosyNeige](https://github.com/raphaelpierre/CosyNeige)
+Project Link: [https://github.com/raphaelpierre/Chalet-Balmotte810](https://github.com/raphaelpierre/Chalet-Balmotte810)
 
 ---
 

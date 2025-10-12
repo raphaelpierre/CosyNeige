@@ -219,7 +219,7 @@ export default function LocationPage() {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="w-full"
-              title={t({ en: 'CosyNeige Location Map', fr: 'Carte de localisation de CosyNeige' })}
+              title={t({ en: 'Chalet-Balmotte810 Location Map', fr: 'Carte de localisation de Chalet-Balmotte810' })}
             />
           </div>
           <div className="mt-6 text-center">

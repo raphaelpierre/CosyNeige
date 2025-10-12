@@ -61,7 +61,7 @@ export default function AboutPage() {
         <div className="absolute inset-0 z-0">
           <Image
             src="https://images.unsplash.com/photo-1605540436563-5bca919ae766?w=1920"
-            alt="About CosyNeige"
+            alt="About Chalet-Balmotte810"
             fill
             className="object-cover brightness-75"
             priority
@@ -106,14 +106,14 @@ export default function AboutPage() {
               </p>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
                 {t({
-                  en: 'In 2018, we built CosyNeige with one goal: to create a place where families and friends could experience the authentic Alps while enjoying modern luxury. Every room, every amenity was chosen with care to ensure your comfort and create lasting memories.',
-                  fr: 'En 2018, nous avons construit le CosyNeige avec un objectif : créer un lieu où familles et amis pourraient vivre l\'expérience des Alpes authentiques tout en profitant du luxe moderne. Chaque pièce, chaque équipement a été choisi avec soin pour assurer votre confort et créer des souvenirs durables.',
+                  en: 'In 2018, we built Chalet-Balmotte810 with one goal: to create a place where families and friends could experience the authentic Alps while enjoying modern luxury. Every room, every amenity was chosen with care to ensure your comfort and create lasting memories.',
+                  fr: 'En 2018, nous avons construit le Chalet-Balmotte810 avec un objectif : créer un lieu où familles et amis pourraient vivre l\'expérience des Alpes authentiques tout en profitant du luxe moderne. Chaque pièce, chaque équipement a été choisi avec soin pour assurer votre confort et créer des souvenirs durables.',
                 })}
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
                 {t({
-                  en: 'We hope CosyNeige becomes your home in the mountains, a place you return to year after year. Welcome to our Alpine retreat.',
-                  fr: 'Nous espérons que le CosyNeige deviendra votre maison dans les montagnes, un lieu où vous reviendrez année après année. Bienvenue dans notre refuge alpin.',
+                  en: 'We hope Chalet-Balmotte810 becomes your home in the mountains, a place you return to year after year. Welcome to our Alpine retreat.',
+                  fr: 'Nous espérons que le Chalet-Balmotte810 deviendra votre maison dans les montagnes, un lieu où vous reviendrez année après année. Bienvenue dans notre refuge alpin.',
                 })}
               </p>
               <p className="text-xl font-semibold text-forest-800 mt-6">
@@ -157,8 +157,8 @@ export default function AboutPage() {
           </h2>
           <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
             {t({
-              en: 'These values guide everything we do at CosyNeige',
-              fr: 'Ces valeurs guident tout ce que nous faisons au CosyNeige',
+              en: 'These values guide everything we do at Chalet-Balmotte810',
+              fr: 'Ces valeurs guident tout ce que nous faisons au Chalet-Balmotte810',
             })}
           </p>
 
@@ -328,7 +328,7 @@ export default function AboutPage() {
       <section className="py-16 bg-forest-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            {t({ en: 'Experience CosyNeige', fr: 'Découvrez le CosyNeige' })}
+            {t({ en: 'Experience Chalet-Balmotte810', fr: 'Découvrez le Chalet-Balmotte810' })}
           </h2>
           <p className="text-xl text-forest-100 mb-8">
             {t({

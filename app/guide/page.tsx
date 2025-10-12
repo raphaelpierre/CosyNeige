@@ -92,7 +92,7 @@ export default function GuidePage() {
         },
         {
           subtitle: { en: 'Ski Equipment Rental', fr: 'Location Matériel Ski' },
-          content: { en: 'Recommended: Sport 2000 in Les Carroz (10 min) - mention CosyNeige for 10% discount.', fr: 'Recommandé : Sport 2000 aux Carroz (10 min) - mentionnez CosyNeige pour 10% de réduction.' },
+          content: { en: 'Recommended: Sport 2000 in Les Carroz (10 min) - mention Chalet-Balmotte810 for 10% discount.', fr: 'Recommandé : Sport 2000 aux Carroz (10 min) - mentionnez Chalet-Balmotte810 pour 10% de réduction.' },
         },
       ],
     },
@@ -167,7 +167,7 @@ export default function GuidePage() {
       <section className="py-16 md:py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-6">
-            {t({ en: 'Welcome to CosyNeige!', fr: 'Bienvenue à CosyNeige !' })}
+            {t({ en: 'Welcome to Chalet-Balmotte810!', fr: 'Bienvenue à Chalet-Balmotte810 !' })}
           </h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-6">
             {t({
