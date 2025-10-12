@@ -48,8 +48,8 @@ export default function LocationPage() {
       <section className="relative h-[400px] flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920"
-            alt="Mountain landscape"
+            src="/images/Terrasse1.jpg"
+            alt={t({ en: 'Mountain landscape', fr: 'Paysage montagnard' })}
             fill
             className="object-cover brightness-75"
             priority

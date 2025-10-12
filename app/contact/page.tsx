@@ -47,8 +47,8 @@ export default function ContactPage() {
       <section className="relative h-[400px] flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920"
-            alt="Contact us"
+            src="/images/VueEnsemble.jpg"
+            alt={t({ en: 'Contact us', fr: 'Contactez-nous' })}
             fill
             className="object-cover brightness-75"
             priority

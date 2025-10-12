@@ -106,7 +106,7 @@ export default function GuidePage() {
         },
         {
           subtitle: { en: 'Property Owner', fr: 'Propriétaire' },
-          content: { en: 'Available 24/7 for emergencies: +33 (0)X XX XX XX XX', fr: 'Disponible 24h/24 pour urgences : +33 (0)X XX XX XX XX' },
+          content: { en: 'Available 24/7 for emergencies: +33 06 95 59 58 65', fr: 'Disponible 24h/24 pour urgences : +33 06 95 59 58 65' },
         },
         {
           subtitle: { en: 'Local Doctor', fr: 'Médecin Local' },
@@ -148,8 +148,8 @@ export default function GuidePage() {
       <section className="relative h-[400px] flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920"
-            alt="Welcome guide"
+            src="/images/Salon.jpg"
+            alt={t({ en: 'Welcome guide', fr: 'Guide de bienvenue' })}
             fill
             className="object-cover brightness-75"
             priority
@@ -304,7 +304,7 @@ export default function GuidePage() {
               {t({ en: 'Contact Us', fr: 'Nous Contacter' })}
             </a>
             <a
-              href="tel:+33XXXXXXXXX"
+              href="tel:+33695595865"
               className="inline-block bg-cream hover:bg-forest-50 text-forest-800 border-2 border-forest-700 px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
             >
               {t({ en: 'Call Us', fr: 'Appelez-Nous' })}

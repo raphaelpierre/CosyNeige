@@ -11,12 +11,13 @@ export default function GalleryPage() {
   const [filter, setFilter] = useState<string>('all');
 
   const categories = [
-    { value: 'all', label: { en: 'All Photos', fr: 'Toutes les Photos' } },
-    { value: 'exterior', label: { en: 'Exterior', fr: 'Extérieur' } },
-    { value: 'living', label: { en: 'Living Areas', fr: 'Espaces de Vie' } },
-    { value: 'bedroom', label: { en: 'Bedrooms', fr: 'Chambres' } },
-    { value: 'bathroom', label: { en: 'Bathrooms', fr: 'Salles de Bain' } },
-    { value: 'view', label: { en: 'Views', fr: 'Vues' } },
+    { value: 'all', label: { en: 'All Photos', fr: 'Toutes les Photos' }, icon: '📸' },
+    { value: 'exterior', label: { en: 'Exterior', fr: 'Extérieur' }, icon: '🏔️' },
+    { value: 'living', label: { en: 'Living Areas', fr: 'Espaces de Vie' }, icon: '🛋️' },
+    { value: 'kitchen', label: { en: 'Kitchen', fr: 'Cuisine' }, icon: '🍳' },
+    { value: 'bedroom', label: { en: 'Bedrooms', fr: 'Chambres' }, icon: '🛏️' },
+    { value: 'bathroom', label: { en: 'Bathrooms', fr: 'Salles de Bain' }, icon: '🛁' },
+    { value: 'wellness', label: { en: 'Wellness', fr: 'Bien-être' }, icon: '♨️' },
   ];
 
   const filteredImages = filter === 'all'
@@ -71,50 +72,70 @@ export default function GalleryPage() {
       </section>
 
       {/* Filter Tabs */}
-      <section className="py-8 bg-white sticky top-20 z-40 shadow-md">
+      <section className="py-6 bg-white sticky top-20 z-40 shadow-md border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
             {categories.map((category) => (
               <button
                 key={category.value}
                 onClick={() => setFilter(category.value)}
-                className={`px-6 py-2 rounded-lg font-semibold transition-colors ${
+                className={`flex items-center gap-2 px-4 sm:px-6 py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-200 ${
                   filter === category.value
-                    ? 'bg-forest-700 text-white'
-                    : 'bg-cream text-forest-700 hover:bg-forest-50'
+                    ? 'bg-forest-700 text-white shadow-lg scale-105'
+                    : 'bg-cream text-forest-700 hover:bg-forest-100 hover:shadow-md'
                 }`}
               >
-                {t(category.label)}
+                <span className="text-lg">{category.icon}</span>
+                <span>{t(category.label)}</span>
+                {filter === category.value && (
+                  <span className="ml-1 bg-white/20 px-2 py-0.5 rounded-full text-xs">
+                    {galleryImages.filter(img => category.value === 'all' || img.category === category.value).length}
+                  </span>
+                )}
               </button>
             ))}
           </div>
-          <div className="text-center mt-4 text-gray-600">
-            {filteredImages.length} {t({ en: 'photos', fr: 'photos' })}
+          <div className="text-center mt-4 text-gray-600 font-medium">
+            <span className="inline-flex items-center gap-2 bg-forest-50 px-4 py-2 rounded-full">
+              <span className="text-forest-700 font-bold">{filteredImages.length}</span>
+              <span>{t({ en: 'photos', fr: 'photos' })}</span>
+            </span>
           </div>
         </div>
       </section>
 
       {/* Gallery Grid */}
-      <section className="py-16 bg-cream">
+      <section className="py-12 bg-gradient-to-b from-cream to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {filteredImages.map((image, index) => (
               <div
                 key={index}
                 onClick={() => openLightbox(index)}
-                className="relative h-80 rounded-lg overflow-hidden cursor-pointer group shadow-md hover:shadow-xl transition-shadow"
+                className="relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer group shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 bg-white"
               >
                 <Image
                   src={image.url}
                   alt={t(image.alt)}
                   fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-300"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                    <p className="text-sm font-semibold">{t(image.alt)}</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <p className="text-white text-sm font-semibold drop-shadow-lg">{t(image.alt)}</p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <span className="text-xs text-white/80 bg-white/20 px-2 py-1 rounded-full backdrop-blur-sm">
+                        {t({ en: 'Click to enlarge', fr: 'Cliquer pour agrandir' })}
+                      </span>
+                    </div>
                   </div>
+                </div>
+                {/* Category badge */}
+                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <span className="bg-forest-700/90 text-white text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm">
+                    {categories.find(c => c.value === image.category)?.icon}
+                  </span>
                 </div>
               </div>
             ))}
@@ -125,7 +146,7 @@ export default function GalleryPage() {
       {/* Lightbox */}
       {selectedImage !== null && (
         <div
-          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center"
+          className="fixed inset-0 bg-black/96 z-50 flex items-center justify-center backdrop-blur-sm"
           onClick={closeLightbox}
           onKeyDown={handleKeyDown}
           tabIndex={0}
@@ -135,10 +156,10 @@ export default function GalleryPage() {
           {/* Close Button */}
           <button
             onClick={closeLightbox}
-            className="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 transition-colors z-60"
+            className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white text-2xl transition-all z-60 backdrop-blur-sm"
             aria-label="Close"
           >
-            ×
+            ✕
           </button>
 
           {/* Previous Button */}
@@ -147,7 +168,7 @@ export default function GalleryPage() {
               e.stopPropagation();
               prevImage();
             }}
-            className="absolute left-4 text-white text-5xl hover:text-gray-300 transition-colors z-60"
+            className="absolute left-4 w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white text-3xl transition-all z-60 backdrop-blur-sm"
             aria-label="Previous image"
           >
             ‹
@@ -159,7 +180,7 @@ export default function GalleryPage() {
               e.stopPropagation();
               nextImage();
             }}
-            className="absolute right-4 text-white text-5xl hover:text-gray-300 transition-colors z-60"
+            className="absolute right-4 w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white text-3xl transition-all z-60 backdrop-blur-sm"
             aria-label="Next image"
           >
             ›
@@ -167,34 +188,75 @@ export default function GalleryPage() {
 
           {/* Image */}
           <div
-            className="relative w-full h-full max-w-6xl max-h-[90vh] m-8"
+            className="relative w-full h-full max-w-7xl max-h-[85vh] m-8"
             onClick={(e) => e.stopPropagation()}
           >
             <Image
               src={filteredImages[selectedImage].url}
               alt={t(filteredImages[selectedImage].alt)}
               fill
-              className="object-contain"
+              className="object-contain drop-shadow-2xl"
               sizes="100vw"
               priority
             />
           </div>
 
           {/* Caption */}
-          <div className="absolute bottom-8 left-0 right-0 text-center">
-            <div className="bg-black/70 inline-block px-6 py-3 rounded-lg">
-              <p className="text-white text-lg font-semibold">
+          <div className="absolute bottom-6 left-0 right-0 text-center px-4">
+            <div className="bg-black/80 backdrop-blur-md inline-block px-6 py-4 rounded-2xl border border-white/10">
+              <p className="text-white text-base sm:text-lg font-semibold mb-1">
                 {t(filteredImages[selectedImage].alt)}
               </p>
-              <p className="text-gray-300 text-sm mt-1">
-                {selectedImage + 1} / {filteredImages.length}
-              </p>
+              <div className="flex items-center justify-center gap-3 text-gray-300 text-sm">
+                <span className="flex items-center gap-1">
+                  <span className="text-white font-bold">{selectedImage + 1}</span>
+                  <span>/</span>
+                  <span>{filteredImages.length}</span>
+                </span>
+                <span className="text-gray-500">•</span>
+                <span className="flex items-center gap-1">
+                  {categories.find(c => c.value === filteredImages[selectedImage].category)?.icon}
+                  <span className="capitalize">{t(categories.find(c => c.value === filteredImages[selectedImage].category)?.label || { en: '', fr: '' })}</span>
+                </span>
+              </div>
             </div>
           </div>
 
           {/* Instructions */}
-          <div className="absolute top-4 left-4 text-white text-sm opacity-70">
-            <p>{t({ en: 'Press ESC to close, ← → to navigate', fr: 'Appuyez sur ÉCHAP pour fermer, ← → pour naviguer' })}</p>
+          <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm px-4 py-2 rounded-lg text-white text-xs sm:text-sm opacity-80">
+            <p className="hidden sm:block">{t({ en: 'Press ESC to close, ← → to navigate', fr: 'ÉCHAP pour fermer, ← → pour naviguer' })}</p>
+            <p className="sm:hidden">{t({ en: 'Tap to close', fr: 'Appuyer pour fermer' })}</p>
+          </div>
+
+          {/* Thumbnail strip */}
+          <div className="absolute bottom-24 left-0 right-0 px-4 hidden lg:block">
+            <div className="max-w-4xl mx-auto flex gap-2 justify-center overflow-x-auto py-2">
+              {filteredImages.slice(Math.max(0, selectedImage - 4), Math.min(filteredImages.length, selectedImage + 5)).map((img, idx) => {
+                const actualIndex = Math.max(0, selectedImage - 4) + idx;
+                return (
+                  <button
+                    key={actualIndex}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedImage(actualIndex);
+                    }}
+                    className={`relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 transition-all ${
+                      actualIndex === selectedImage
+                        ? 'ring-2 ring-white scale-110'
+                        : 'opacity-60 hover:opacity-100'
+                    }`}
+                  >
+                    <Image
+                      src={img.url}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="64px"
+                    />
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       )}

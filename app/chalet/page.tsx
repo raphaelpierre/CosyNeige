@@ -68,8 +68,8 @@ export default function ChaletPage() {
       <section className="relative h-[400px] flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <Image
-            src={galleryImages[0].url}
-            alt={t(galleryImages[0].alt)}
+            src="/images/Exterieur3.jpg"
+            alt={t({ en: 'Chalet exterior view', fr: 'Vue extérieure du chalet' })}
             fill
             className="object-cover brightness-75"
             priority

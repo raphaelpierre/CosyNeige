@@ -86,7 +86,7 @@ export default function BookingPage() {
       <section className="relative h-[400px] flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1920"
+            src="/images/Exterieur2.jpg"
             alt="Chalet booking"
             fill
             className="object-cover brightness-75"
