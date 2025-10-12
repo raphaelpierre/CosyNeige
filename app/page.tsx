@@ -14,8 +14,8 @@ export default function HomePage() {
       <section className="relative h-[600px] md:h-[700px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920"
-            alt="CosyNeige"
+            src="/images/chalet_neige_devant.jpeg"
+            alt="CosyNeige - Chalet de luxe à Châtillon-sur-Cluses"
             fill
             className="object-cover brightness-75 scale-105 animate-[scale_20s_ease-in-out_infinite_alternate]"
             priority
@@ -225,7 +225,7 @@ export default function HomePage() {
                       <span key={i} className="text-gold-500 text-xl animate-pulse" style={{ animationDelay: `${i * 100}ms` }}>⭐</span>
                     ))}
                   </div>
-                  <p className="text-gray-700 italic mb-6 text-lg leading-relaxed">"{t(review.comment)}"</p>
+                  <p className="text-gray-700 italic mb-6 text-lg leading-relaxed">&ldquo;{t(review.comment)}&rdquo;</p>
                   <div className="flex items-center justify-between text-sm pt-4 border-t border-forest-100">
                     <div className="font-semibold text-forest-800">{review.name}</div>
                     <div className="text-gray-600 flex items-center gap-1">

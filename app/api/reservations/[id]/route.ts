@@ -4,9 +4,10 @@ import { prisma } from '@/lib/prisma';
 // GET - Récupérer une réservation par ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const params = await context.params;
     const reservation = await prisma.reservation.findUnique({
       where: { id: params.id }
     });
@@ -31,9 +32,10 @@ export async function GET(
 // PATCH - Mettre à jour une réservation
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const params = await context.params;
     const body = await request.json();
     const { status, ...updateData } = body;
 
@@ -58,9 +60,10 @@ export async function PATCH(
 // DELETE - Supprimer une réservation
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const params = await context.params;
     await prisma.reservation.delete({
       where: { id: params.id }
     });

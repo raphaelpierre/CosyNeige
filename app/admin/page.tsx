@@ -2,31 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/lib/hooks/useLanguage';
+import { Reservation, Message } from '@/types';
 
 type TabType = 'reservations' | 'calendar' | 'messages' | 'settings';
-
-interface Reservation {
-  id: string;
-  guestName: string;
-  email: string;
-  phone: string;
-  checkIn: string;
-  checkOut: string;
-  guests: number;
-  status: 'pending' | 'confirmed' | 'cancelled';
-  totalPrice: number;
-  createdAt: string;
-}
-
-interface Message {
-  id: string;
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-  date: string;
-  read: boolean;
-}
 
 export default function AdminPage() {
   const { t } = useLanguage();
@@ -37,7 +15,6 @@ export default function AdminPage() {
 
   // Données des réservations depuis l'API
   const [reservations, setReservations] = useState<Reservation[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   // Charger les réservations
   useEffect(() => {
@@ -52,7 +29,13 @@ export default function AdminPage() {
       if (response.ok) {
         const data = await response.json();
         // Convertir les dates ISO en format YYYY-MM-DD
-        const formattedData = data.map((res: any) => ({
+        const formattedData = data.map((res: {
+          id: string;
+          checkIn: string;
+          checkOut: string;
+          createdAt: string;
+          [key: string]: unknown;
+        }) => ({
           ...res,
           checkIn: res.checkIn.split('T')[0],
           checkOut: res.checkOut.split('T')[0],
@@ -62,29 +45,41 @@ export default function AdminPage() {
       }
     } catch (error) {
       console.error('Error fetching reservations:', error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const [messages] = useState<Message[]>([
     {
       id: '1',
+      subject: 'Question sur les équipements',
+      content: 'Bonjour, je voudrais savoir si le chalet dispose d\'un lave-vaisselle et d\'une machine à laver?',
+      fromUserId: undefined,
+      fromEmail: 'sophie.laurent@email.com',
+      fromName: 'Sophie Laurent',
+      isFromAdmin: false,
+      read: false,
+      createdAt: '2025-01-18',
+      // Legacy fields for compatibility
       name: 'Sophie Laurent',
       email: 'sophie.laurent@email.com',
-      subject: 'Question sur les équipements',
       message: 'Bonjour, je voudrais savoir si le chalet dispose d\'un lave-vaisselle et d\'une machine à laver?',
-      date: '2025-01-18',
-      read: false
+      date: '2025-01-18'
     },
     {
       id: '2',
+      subject: 'Disponibilité en août',
+      content: 'Salut, auriez-vous des disponibilités du 15 au 22 août pour 6 personnes?',
+      fromUserId: undefined,
+      fromEmail: 'thomas.bernard@email.com',
+      fromName: 'Thomas Bernard',
+      isFromAdmin: false,
+      read: true,
+      createdAt: '2025-01-16',
+      // Legacy fields for compatibility
       name: 'Thomas Bernard',
       email: 'thomas.bernard@email.com',
-      subject: 'Disponibilité en août',
-      message: 'Bonjour, avez-vous des disponibilités pour la première semaine d\'août?',
-      date: '2025-01-17',
-      read: true
+      message: 'Salut, auriez-vous des disponibilités du 15 au 22 août pour 6 personnes?',
+      date: '2025-01-16'
     }
   ]);
 
@@ -611,7 +606,7 @@ export default function AdminPage() {
                           <div className="text-sm text-gray-600">{message.email}</div>
                         </div>
                         <div className="flex items-center gap-3">
-                          <span className="text-sm text-gray-500">{new Date(message.date).toLocaleDateString('fr-FR')}</span>
+                          <span className="text-sm text-gray-500">{message.date ? new Date(message.date).toLocaleDateString('fr-FR') : ''}</span>
                           {!message.read && (
                             <span className="bg-blue-600 text-white text-xs px-2 py-1 rounded">
                               {t({ en: 'New', fr: 'Nouveau' })}

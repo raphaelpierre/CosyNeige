@@ -157,7 +157,7 @@ export const faqs: FAQ[] = [
 ];
 
 export const galleryImages: GalleryImage[] = [
-  { url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200", category: "exterior", alt: { en: "Chalet exterior in winter", fr: "Extérieur du chalet en hiver" } },
+  { url: "/images/chalet_neige_devant.jpeg", category: "exterior", alt: { en: "CosyNeige chalet exterior in winter", fr: "CosyNeige - Extérieur du chalet en hiver" } },
   { url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200", category: "exterior", alt: { en: "Mountain chalet with snow", fr: "Chalet de montagne sous la neige" } },
   { url: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200", category: "living", alt: { en: "Living room with fireplace", fr: "Salon avec cheminée" } },
   { url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200", category: "living", alt: { en: "Cozy lounge area", fr: "Espace salon confortable" } },

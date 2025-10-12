@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import { formatEuro } from '@/lib/utils';
+import { Reservation } from '@/types';
 
 interface User {
   id: string;
@@ -12,16 +13,6 @@ interface User {
   firstName: string;
   lastName: string;
   phone?: string;
-}
-
-interface Reservation {
-  id: string;
-  checkIn: string;
-  checkOut: string;
-  guests: number;
-  totalPrice: number;
-  status: string;
-  createdAt: string;
 }
 
 interface Message {

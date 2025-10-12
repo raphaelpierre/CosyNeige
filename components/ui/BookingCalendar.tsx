@@ -30,7 +30,7 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
       const response = await fetch('/api/booked-periods');
       if (response.ok) {
         const data = await response.json();
-        const periods = data.map((period: any) => ({
+        const periods = data.map((period: { startDate: string; endDate: string }) => ({
           start: new Date(period.startDate),
           end: new Date(period.endDate)
         }));

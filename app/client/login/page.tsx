@@ -40,8 +40,8 @@ export default function LoginPage() {
 
       // Rediriger vers l'espace client
       router.push('/client/dashboard');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setIsSubmitting(false);
     }

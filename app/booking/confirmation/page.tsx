@@ -1,16 +1,25 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import { chaletName } from '@/lib/data/chalet';
 
-export default function BookingConfirmationPage() {
+function BookingConfirmationContent() {
   const { t } = useLanguage();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [bookingData, setBookingData] = useState<any>(null);
+  const [bookingData, setBookingData] = useState<{
+    id?: string;
+    firstName?: string;
+    lastName?: string;
+    email: string | null;
+    checkIn: string;
+    checkOut: string;
+    guests: string | null;
+    total: string | null;
+  } | null>(null);
 
   useEffect(() => {
     // Récupérer les données de réservation depuis les paramètres URL
@@ -106,7 +115,7 @@ export default function BookingConfirmationPage() {
               </div>
               <div className="bg-white rounded-lg p-4 shadow-sm">
                 <div className="text-sm text-gray-600 mb-1">💰 {t({ en: 'Estimated Total', fr: 'Total Estimé' })}</div>
-                <div className="font-bold text-forest-900">{bookingData.total}€</div>
+                <div className="font-bold text-forest-900">{bookingData.total || '0'}€</div>
               </div>
             </div>
           </div>
@@ -219,5 +228,13 @@ export default function BookingConfirmationPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function BookingConfirmationPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <BookingConfirmationContent />
+    </Suspense>
   );
 }

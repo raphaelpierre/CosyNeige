@@ -36,6 +36,7 @@ export interface Activity {
   description: Translation;
   season: 'summer' | 'winter' | 'all';
   image: string;
+  icon?: string;
 }
 
 export interface Pricing {
@@ -76,4 +77,40 @@ export interface BookingRequest {
   email: string;
   phone: string;
   message?: string;
+}
+
+export interface Reservation {
+  id: string;
+  guestName: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  checkIn: string;
+  checkOut: string;
+  guests: number;
+  totalPrice: number;
+  status: string;
+  message?: string;
+  userId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Message {
+  id: string;
+  subject: string;
+  content: string;
+  fromUserId?: string;
+  fromEmail: string;
+  fromName: string;
+  isFromAdmin: boolean;
+  read: boolean;
+  replyTo?: string;
+  createdAt: string;
+  // Additional fields for admin interface compatibility
+  name?: string;
+  email?: string;
+  message?: string;
+  date?: string;
 }
