@@ -29,7 +29,8 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-cream`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-cream min-h-screen`}
+        style={{ backgroundColor: '#FAFAF8' }}
       >
         <LanguageProvider>
           <Navigation />

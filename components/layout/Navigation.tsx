@@ -40,14 +40,15 @@ export default function Navigation() {
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="/" className="flex items-center gap-3 group text-sm font-medium transition-all duration-300 relative text-gray-700 hover:text-forest-700 px-3 py-2 rounded-lg bg-white/90 backdrop-blur-sm shadow-sm hover:bg-white/95">
             <div className="text-2xl transform group-hover:scale-110 transition-transform duration-300">🏔️</div>
             <div>
-              <div className="text-xl font-bold text-forest-800">
+              <div className="text-lg font-bold">
                 {chaletName}
               </div>
               <div className="text-xs text-wood-600">{t({ en: 'French Alps', fr: 'Alpes Françaises' })}</div>
             </div>
+            <span className="absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-forest-600 to-forest-800 transition-all duration-300 w-0 group-hover:w-full" />
           </Link>
 
           <div className="hidden lg:flex items-center gap-8">
