@@ -67,45 +67,45 @@ export default function GalleryPage() {
         </div>
         <div className="relative z-10 text-center text-white">
           <h1 className="text-5xl md:text-6xl font-bold mb-4">{t({ en: 'Photo Gallery', fr: 'Galerie Photos' })}</h1>
-          <p className="text-xl md:text-2xl">{t({ en: 'Explore Every Corner', fr: 'Explorez Chaque Recoin' })}</p>
+          <p className="text-xl md:text-2xl font-light tracking-wide">{t({ en: 'Explore Every Corner', fr: 'Explorez Chaque Recoin' })}</p>
         </div>
       </section>
 
       {/* Filter Tabs */}
-      <section className="py-6 bg-white sticky top-20 z-40 shadow-md border-b border-gray-200">
+      <section className="py-6 bg-white sticky top-20 z-40 shadow-md border-b border-forest-100/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
             {categories.map((category) => (
               <button
                 key={category.value}
                 onClick={() => setFilter(category.value)}
-                className={`flex items-center gap-2 px-4 sm:px-6 py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-200 ${
+                className={`flex items-center gap-2 px-4 sm:px-6 py-2.5 rounded-full font-medium text-sm sm:text-base transition-all duration-200 ${
                   filter === category.value
-                    ? 'bg-forest-700 text-white shadow-lg scale-105'
-                    : 'bg-cream text-forest-700 hover:bg-forest-100 hover:shadow-md'
+                    ? 'bg-white text-forest-700 shadow-lg scale-105 border-2 border-slate-700'
+                    : 'bg-white text-gray-700 hover:text-forest-700 hover:bg-gray-50 border border-gray-200'
                 }`}
               >
                 <span className="text-lg">{category.icon}</span>
-                <span>{t(category.label)}</span>
+                <span className="font-medium">{t(category.label)}</span>
                 {filter === category.value && (
-                  <span className="ml-1 bg-white/20 px-2 py-0.5 rounded-full text-xs">
+                  <span className="ml-1 bg-slate-700 text-white px-2 py-0.5 rounded-full text-xs font-bold">
                     {galleryImages.filter(img => category.value === 'all' || img.category === category.value).length}
                   </span>
                 )}
               </button>
             ))}
           </div>
-          <div className="text-center mt-4 text-gray-600 font-medium">
-            <span className="inline-flex items-center gap-2 bg-forest-50 px-4 py-2 rounded-full">
+          <div className="text-center mt-4 text-gray-700">
+            <span className="inline-flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full">
               <span className="text-forest-700 font-bold">{filteredImages.length}</span>
-              <span>{t({ en: 'photos', fr: 'photos' })}</span>
+              <span className="font-medium">{t({ en: 'photos', fr: 'photos' })}</span>
             </span>
           </div>
         </div>
       </section>
 
       {/* Gallery Grid */}
-      <section className="py-12 bg-gradient-to-b from-cream to-white">
+      <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {filteredImages.map((image, index) => (
@@ -123,9 +123,9 @@ export default function GalleryPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <p className="text-white text-sm font-semibold drop-shadow-lg">{t(image.alt)}</p>
+                    <p className="text-white text-sm font-medium drop-shadow-lg">{t(image.alt)}</p>
                     <div className="flex items-center gap-2 mt-2">
-                      <span className="text-xs text-white/80 bg-white/20 px-2 py-1 rounded-full backdrop-blur-sm">
+                      <span className="text-xs text-white/80 bg-white/20 px-2 py-1 rounded-full backdrop-blur-sm font-medium">
                         {t({ en: 'Click to enlarge', fr: 'Cliquer pour agrandir' })}
                       </span>
                     </div>
@@ -133,7 +133,7 @@ export default function GalleryPage() {
                 </div>
                 {/* Category badge */}
                 <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="bg-forest-700/90 text-white text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm">
+                  <span className="bg-slate-700/90 text-white text-xs font-medium px-3 py-1 rounded-full backdrop-blur-sm">
                     {categories.find(c => c.value === image.category)?.icon}
                   </span>
                 </div>
@@ -204,7 +204,7 @@ export default function GalleryPage() {
           {/* Caption */}
           <div className="absolute bottom-6 left-0 right-0 text-center px-4">
             <div className="bg-black/80 backdrop-blur-md inline-block px-6 py-4 rounded-2xl border border-white/10">
-              <p className="text-white text-base sm:text-lg font-semibold mb-1">
+              <p className="text-white text-base sm:text-lg font-medium mb-1">
                 {t(filteredImages[selectedImage].alt)}
               </p>
               <div className="flex items-center justify-center gap-3 text-gray-300 text-sm">
@@ -262,24 +262,24 @@ export default function GalleryPage() {
       )}
 
       {/* CTA */}
-      <section className="py-16 bg-forest-800 text-white">
+      <section className="py-16 bg-white border-t border-forest-100/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-6">
             {t({ en: 'Like What You See?', fr: 'Vous Aimez ce que Vous Voyez ?' })}
           </h2>
-          <p className="text-xl text-forest-100 mb-8">
+          <p className="text-xl text-gray-700 mb-8">
             {t({ en: 'Book your stay and experience the chalet in person', fr: 'Réservez votre séjour et découvrez le chalet en personne' })}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="/booking"
-              className="inline-block bg-white text-forest-800 hover:bg-cream px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
+              className="inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors border-2 border-slate-700 hover:border-slate-800"
             >
               {t({ en: 'Check Availability', fr: 'Vérifier Disponibilités' })}
             </a>
             <a
               href="/chalet"
-              className="inline-block bg-forest-700 hover:bg-forest-900 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors border-2 border-white"
+              className="inline-block border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-forest-700 px-8 py-4 rounded-lg font-bold text-lg transition-colors"
             >
               {t({ en: 'Learn More', fr: 'En Savoir Plus' })}
             </a>

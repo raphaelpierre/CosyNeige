@@ -79,7 +79,7 @@ export default function LoginPage() {
                       required={!isLogin}
                       value={formData.firstName}
                       onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
                     />
                   </div>
                   <div>
@@ -91,7 +91,7 @@ export default function LoginPage() {
                       required={!isLogin}
                       value={formData.lastName}
                       onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
                     />
                   </div>
                 </div>
@@ -104,7 +104,7 @@ export default function LoginPage() {
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
                   />
                 </div>
               </>
@@ -119,7 +119,7 @@ export default function LoginPage() {
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
                 placeholder="votre.email@exemple.com"
               />
             </div>
@@ -133,7 +133,7 @@ export default function LoginPage() {
                 required
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
                 placeholder="••••••••"
                 minLength={6}
               />
@@ -154,7 +154,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-forest-700 to-forest-600 hover:from-forest-800 hover:to-forest-700 text-white px-8 py-5 rounded-xl font-bold text-xl transition-all shadow-2xl hover:shadow-forest-700/50 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed border-2 border-forest-800"
+                className="w-full bg-slate-700 hover:bg-slate-800 text-white px-8 py-5 rounded-xl font-bold text-xl transition-colors shadow-2xl border-2 border-slate-700 hover:border-slate-800 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting
                   ? t({ en: '⏳ Please wait...', fr: '⏳ Veuillez patienter...' })
@@ -172,7 +172,7 @@ export default function LoginPage() {
                 setIsLogin(!isLogin);
                 setError('');
               }}
-              className="text-forest-700 hover:text-forest-900 font-semibold"
+              className="text-slate-700 hover:text-slate-900 font-semibold"
             >
               {isLogin
                 ? t({ en: "Don't have an account? Sign up", fr: "Pas de compte ? S'inscrire" })

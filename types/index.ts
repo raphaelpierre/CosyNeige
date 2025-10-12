@@ -46,6 +46,7 @@ export interface Pricing {
   summerSeason: { min: number; max: number };
   cleaningFee: number;
   linenPerPerson: number;
+  depositAmount?: number;
   minimumStay: { highSeason: number; other: number };
 }
 

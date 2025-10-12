@@ -147,7 +147,7 @@ export default function LocationPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {nearbyResorts.map((resort, index) => (
-              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-forest-100 overflow-hidden">
+              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-forest-200/20 to-transparent rounded-bl-full transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500" />
                 <div className="relative">
                   <div className="flex items-center gap-2 mb-3">
@@ -181,7 +181,7 @@ export default function LocationPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {nearbyServices.map((service, index) => (
-              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-forest-100 overflow-hidden">
+              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-forest-200/20 to-transparent rounded-bl-full transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500" />
                 <div className="relative flex items-start gap-4">
                   <div className="text-4xl group-hover:scale-125 transition-transform duration-300">{service.icon}</div>
@@ -231,10 +231,10 @@ export default function LocationPage() {
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${location.latitude},${location.longitude}`}
+                href={`https://www.google.com/maps/dir//${location.latitude},${location.longitude}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-forest-700 hover:bg-forest-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                className="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-bold transition-colors border-2 border-slate-700 hover:border-slate-800"
               >
                 <span>🚗</span>
                 {t({ en: 'Get Directions', fr: 'Obtenir l\'Itinéraire' })}
@@ -243,7 +243,7 @@ export default function LocationPage() {
                 href={`https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-forest-800 border-2 border-forest-700 px-6 py-3 rounded-lg font-semibold transition-colors"
+                className="inline-flex items-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-forest-700 px-6 py-3 rounded-lg font-bold transition-colors"
               >
                 <span>📍</span>
                 {t({ en: 'Open in Google Maps', fr: 'Ouvrir dans Google Maps' })}
@@ -270,7 +270,7 @@ export default function LocationPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {winterActivities.map((activity, index) => (
-              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-forest-100 overflow-hidden">
+              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-forest-200/20 to-transparent rounded-bl-full transform translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform duration-500" />
                 <div className="relative">
                   <div className="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300">{activity.icon}</div>
@@ -300,7 +300,7 @@ export default function LocationPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {summerActivities.map((activity, index) => (
-              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-forest-100 overflow-hidden">
+              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-forest-200/20 to-transparent rounded-bl-full transform translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform duration-500" />
                 <div className="relative">
                   <div className="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300">{activity.icon}</div>
@@ -314,12 +314,12 @@ export default function LocationPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-forest-800 text-white">
+      <section className="py-16 bg-white border-t border-forest-100/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-700">
             {t({ en: 'Ready to Explore?', fr: 'Prêt à Explorer ?' })}
           </h2>
-          <p className="text-xl text-forest-100 mb-8">
+          <p className="text-xl text-gray-700 mb-8">
             {t({
               en: 'Book your stay and discover all that the French Alps have to offer',
               fr: 'Réservez votre séjour et découvrez tout ce que les Alpes françaises ont à offrir',
@@ -327,7 +327,7 @@ export default function LocationPage() {
           </p>
           <Link
             href="/booking"
-            className="inline-block bg-white text-forest-800 hover:bg-cream px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
+            className="inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors border-2 border-slate-700 hover:border-slate-800"
           >
             {t({ en: 'Check Availability', fr: 'Vérifier Disponibilités' })}
           </Link>

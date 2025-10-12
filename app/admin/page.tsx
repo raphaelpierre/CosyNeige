@@ -243,7 +243,7 @@ export default function AdminPage() {
             </div>
             <button
               type="submit"
-              className="w-full bg-forest-700 hover:bg-forest-800 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+              className="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold px-6 py-3 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800"
             >
               {t({ en: 'Login', fr: 'Se connecter' })}
             </button>
@@ -262,7 +262,7 @@ export default function AdminPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'confirmed': return 'bg-green-100 text-green-800';
+      case 'confirmed': return 'bg-green-100 text-forest-700';
       case 'pending': return 'bg-yellow-100 text-yellow-800';
       case 'cancelled': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -342,7 +342,7 @@ export default function AdminPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">{t({ en: 'Unread Messages', fr: 'Messages Non Lus' })}</p>
-                <p className="text-3xl font-bold text-blue-600 mt-2">
+                <p className="text-3xl font-bold text-slate-700 mt-2">
                   {messages.filter(m => !m.read).length}
                 </p>
               </div>
@@ -361,7 +361,7 @@ export default function AdminPage() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 px-6 py-4 border-b-2 font-medium text-sm transition-colors ${
                     activeTab === tab.id
-                      ? 'border-forest-700 text-forest-700'
+                      ? 'border-slate-700 text-forest-700'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }`}
                 >
@@ -380,7 +380,7 @@ export default function AdminPage() {
                   <h2 className="text-xl font-bold text-gray-900">
                     {t({ en: 'Reservation Management', fr: 'Gestion des Réservations' })}
                   </h2>
-                  <button className="bg-forest-700 hover:bg-forest-800 text-white px-4 py-2 rounded-lg transition-colors">
+                  <button className="bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800 font-bold">
                     {t({ en: 'Add Reservation', fr: 'Ajouter une Réservation' })}
                   </button>
                 </div>
@@ -427,7 +427,7 @@ export default function AdminPage() {
                               {reservation.status === 'pending' && (
                                 <button
                                   onClick={() => handleStatusChange(reservation.id, 'confirmed')}
-                                  className="text-green-600 hover:text-green-800 text-lg"
+                                  className="text-green-600 hover:text-forest-700 text-lg"
                                   title={t({ en: 'Confirm', fr: 'Confirmer' })}
                                 >
                                   ✅
@@ -478,7 +478,7 @@ export default function AdminPage() {
                     </button>
                     <button
                       onClick={() => setCurrentCalendarDate(new Date())}
-                      className="px-4 py-2 bg-forest-700 hover:bg-forest-800 text-white rounded-lg transition-colors"
+                      className="px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg transition-colors"
                     >
                       {t({ en: 'Today', fr: 'Aujourd\'hui' })}
                     </button>
@@ -508,7 +508,7 @@ export default function AdminPage() {
                 {/* Calendar Grid */}
                 <div className="bg-white border rounded-lg overflow-hidden">
                   {/* Days of Week Header */}
-                  <div className="grid grid-cols-7 bg-forest-700 text-white">
+                  <div className="grid grid-cols-7 bg-slate-700 text-white">
                     {[
                       t({ en: 'Sun', fr: 'Dim' }),
                       t({ en: 'Mon', fr: 'Lun' }),
@@ -542,7 +542,7 @@ export default function AdminPage() {
                           {day.date && (
                             <>
                               <div className={`text-sm font-semibold mb-2 ${
-                                isToday ? 'text-blue-600' : isCurrentMonth ? 'text-gray-900' : 'text-gray-400'
+                                isToday ? 'text-slate-700' : isCurrentMonth ? 'text-gray-900' : 'text-gray-400'
                               }`}>
                                 {day.date.getDate()}
                               </div>
@@ -551,7 +551,7 @@ export default function AdminPage() {
                                   key={idx}
                                   className={`text-xs p-1 mb-1 rounded truncate cursor-pointer ${
                                     booking.status === 'confirmed'
-                                      ? 'bg-green-100 text-green-800 hover:bg-green-200'
+                                      ? 'bg-green-100 text-forest-700 hover:bg-green-200'
                                       : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
                                   }`}
                                   title={`${booking.guestName} - ${booking.checkIn} → ${booking.checkOut}`}
@@ -608,7 +608,7 @@ export default function AdminPage() {
                         <div className="flex items-center gap-3">
                           <span className="text-sm text-gray-500">{message.date ? new Date(message.date).toLocaleDateString('fr-FR') : ''}</span>
                           {!message.read && (
-                            <span className="bg-blue-600 text-white text-xs px-2 py-1 rounded">
+                            <span className="bg-slate-700 text-white text-xs px-2 py-1 rounded">
                               {t({ en: 'New', fr: 'Nouveau' })}
                             </span>
                           )}
@@ -619,7 +619,7 @@ export default function AdminPage() {
                       </div>
                       <p className="text-gray-700 text-sm">{message.message}</p>
                       <div className="mt-3 flex gap-2">
-                        <button className="text-sm bg-forest-700 hover:bg-forest-800 text-white px-4 py-2 rounded transition-colors">
+                        <button className="text-sm bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded transition-colors">
                           {t({ en: 'Reply', fr: 'Répondre' })}
                         </button>
                         <button className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded transition-colors">
@@ -666,7 +666,7 @@ export default function AdminPage() {
                         <input type="number" className="w-full px-4 py-2 border rounded-lg" defaultValue="200" />
                       </div>
                     </div>
-                    <button className="mt-4 bg-forest-700 hover:bg-forest-800 text-white px-6 py-2 rounded-lg transition-colors">
+                    <button className="mt-4 bg-slate-700 hover:bg-slate-800 text-white px-6 py-2 rounded-lg transition-colors">
                       {t({ en: 'Save Changes', fr: 'Enregistrer' })}
                     </button>
                   </div>
@@ -687,7 +687,7 @@ export default function AdminPage() {
                         <span>{t({ en: 'SMS notifications for urgent matters', fr: 'Notifications SMS pour urgences' })}</span>
                       </label>
                     </div>
-                    <button className="mt-4 bg-forest-700 hover:bg-forest-800 text-white px-6 py-2 rounded-lg transition-colors">
+                    <button className="mt-4 bg-slate-700 hover:bg-slate-800 text-white px-6 py-2 rounded-lg transition-colors">
                       {t({ en: 'Save Changes', fr: 'Enregistrer' })}
                     </button>
                   </div>

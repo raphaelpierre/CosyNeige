@@ -58,7 +58,7 @@ export default function ChaletPage() {
     { label: { en: 'Bathrooms', fr: 'Salles de Bain' }, value: specs.bathrooms.toString() },
     { label: { en: 'Parking', fr: 'Parking' }, value: `${specs.parkingSpaces} ${t({ en: 'spaces', fr: 'places' })}` },
     { label: { en: 'Floor', fr: 'Étage' }, value: t({ en: 'Ground + 1st floor', fr: 'Rez-de-chaussée + 1er' }) },
-    { label: { en: 'Year Built', fr: 'Année Construction' }, value: '2018' },
+    { label: { en: 'Year Built', fr: 'Année Construction' }, value: '2005' },
     { label: { en: 'Last Renovated', fr: 'Dernière Rénovation' }, value: '2023' },
   ];
 
@@ -68,7 +68,7 @@ export default function ChaletPage() {
       <section className="relative h-[400px] flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/Exterieur3.jpg"
+            src="/images/exterieur_terrase_devant.jpg"
             alt={t({ en: 'Chalet exterior view', fr: 'Vue extérieure du chalet' })}
             fill
             className="object-cover brightness-75"
@@ -96,8 +96,8 @@ export default function ChaletPage() {
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
                 {t({
-                  en: 'Built in 2018 and completely renovated in 2023, our chalet combines traditional Savoyard architecture with modern luxury. Every detail has been carefully chosen to create a warm and refined atmosphere, perfect for unforgettable family or friends gatherings.',
-                  fr: 'Construit en 2018 et entièrement rénové en 2023, notre chalet allie architecture savoyarde traditionnelle et luxe moderne. Chaque détail a été soigneusement choisi pour créer une atmosphère chaleureuse et raffinée, parfaite pour des séjours inoubliables en famille ou entre amis.',
+                  en: 'Built in 2005 and completely renovated in 2023, our chalet combines traditional Savoyard architecture with modern luxury. Every detail has been carefully chosen to create a warm and refined atmosphere, perfect for unforgettable family or friends gatherings.',
+                  fr: 'Construit en 2005 et entièrement rénové en 2023, notre chalet allie architecture savoyarde traditionnelle et luxe moderne. Chaque détail a été soigneusement choisi pour créer une atmosphère chaleureuse et raffinée, parfaite pour des séjours inoubliables en famille ou entre amis.',
                 })}
               </p>
             </div>
@@ -122,7 +122,7 @@ export default function ChaletPage() {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {specifications.map((spec, index) => (
-              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-forest-100 overflow-hidden text-center">
+              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden text-center">
                 <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-forest-200/20 to-transparent rounded-bl-full transform translate-x-6 -translate-y-6 group-hover:scale-150 transition-transform duration-500" />
                 <div className="relative">
                   <div className="text-sm text-gray-600 mb-2">{t(spec.label)}</div>
@@ -142,7 +142,7 @@ export default function ChaletPage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {rooms.map((room, index) => (
-              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-forest-100 overflow-hidden">
+              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-forest-200/20 to-transparent rounded-bl-full transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500" />
                 <div className="relative flex items-start gap-4">
                   <div className="text-4xl group-hover:scale-125 transition-transform duration-300">{room.icon}</div>
@@ -165,7 +165,7 @@ export default function ChaletPage() {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {amenities.map((amenity, index) => (
-              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-forest-100 overflow-hidden text-center">
+              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden text-center">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-forest-200/20 to-transparent rounded-bl-full transform translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform duration-500" />
                 <div className="relative">
                   <div className="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300">{amenity.icon}</div>
@@ -199,7 +199,7 @@ export default function ChaletPage() {
           <div className="text-center">
             <Link
               href="/gallery"
-              className="inline-block bg-forest-700 hover:bg-forest-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+              className="inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-3 rounded-lg font-bold transition-colors border-2 border-slate-700 hover:border-slate-800"
             >
               {t({ en: 'View Full Gallery', fr: 'Voir Toute la Galerie' })}
             </Link>
@@ -207,44 +207,51 @@ export default function ChaletPage() {
         </div>
       </section>
 
-      {/* Virtual Tour Placeholder */}
+      {/* Virtual Tour */}
       <section className="py-16 bg-forest-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-6 text-center">
             {t({ en: '360° Virtual Tour', fr: 'Visite Virtuelle 360°' })}
           </h2>
-          <p className="text-lg text-gray-700 mb-8">
+          <p className="text-lg text-gray-700 mb-8 text-center">
             {t({
-              en: 'Coming soon: Explore every corner of the chalet from the comfort of your home with our immersive virtual tour.',
-              fr: 'Bientôt disponible : Explorez chaque recoin du chalet depuis chez vous avec notre visite virtuelle immersive.',
+              en: 'Explore every corner of the chalet from the comfort of your home with our immersive virtual tour.',
+              fr: 'Explorez chaque recoin du chalet depuis chez vous avec notre visite virtuelle immersive.',
             })}
           </p>
-          <div className="bg-white rounded-lg p-12 shadow-md">
-            <div className="text-6xl mb-4">🏔️</div>
-            <p className="text-gray-600">{t({ en: 'Virtual tour coming soon', fr: 'Visite virtuelle à venir' })}</p>
+          <div className="bg-white rounded-lg overflow-hidden shadow-xl">
+            <iframe
+              src="https://view.ricoh360.com/1b07e554-b9eb-4b08-9b18-2940ab2496ea"
+              width="100%"
+              height="600"
+              style={{ border: 0 }}
+              allowFullScreen
+              className="w-full"
+              title={t({ en: '360° Virtual Tour of the Chalet', fr: 'Visite Virtuelle 360° du Chalet' })}
+            />
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-forest-800 text-white">
+      <section className="py-16 bg-white border-t border-forest-100/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-700">
             {t({ en: 'Ready to Experience This?', fr: 'Prêt à Vivre Cette Expérience ?' })}
           </h2>
-          <p className="text-xl text-forest-100 mb-8">
+          <p className="text-xl text-gray-700 mb-8">
             {t({ en: 'Check our rates and book your stay', fr: 'Consultez nos tarifs et réservez votre séjour' })}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/booking"
-              className="inline-block bg-white text-forest-800 hover:bg-cream px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
+              className="inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors border-2 border-slate-700 hover:border-slate-800"
             >
               {t({ en: 'View Rates & Book', fr: 'Voir Tarifs & Réserver' })}
             </Link>
             <Link
               href="/location"
-              className="inline-block bg-forest-700 hover:bg-forest-900 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors border-2 border-white"
+              className="inline-block border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-forest-700 px-8 py-4 rounded-lg font-bold text-lg transition-colors"
             >
               {t({ en: 'Explore Location', fr: 'Découvrir la Localisation' })}
             </Link>

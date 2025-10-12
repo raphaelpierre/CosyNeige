@@ -40,35 +40,34 @@ export default function HomePage() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 mb-12 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
-            <div className="bg-white/10 backdrop-blur-xl border border-white/20 px-6 py-3 rounded-2xl hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl group">
+            <div className="bg-white/10 backdrop-blur-xl border border-white/20 px-6 py-3 rounded-2xl hover:bg-white/20 transition-all duration-300  hover:shadow-2xl group">
               <div className="text-2xl font-bold text-white group-hover:scale-110 transition-transform">{specs.capacity}</div>
               <div className="text-sm text-white/80">{t({ en: 'Guests', fr: 'Personnes' })}</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-xl border border-white/20 px-6 py-3 rounded-2xl hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl group">
+            <div className="bg-white/10 backdrop-blur-xl border border-white/20 px-6 py-3 rounded-2xl hover:bg-white/20 transition-all duration-300  hover:shadow-2xl group">
               <div className="text-2xl font-bold text-white group-hover:scale-110 transition-transform">{specs.bedrooms}</div>
               <div className="text-sm text-white/80">{t({ en: 'Bedrooms', fr: 'Chambres' })}</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-xl border border-white/20 px-6 py-3 rounded-2xl hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl group">
+            <div className="bg-white/10 backdrop-blur-xl border border-white/20 px-6 py-3 rounded-2xl hover:bg-white/20 transition-all duration-300  hover:shadow-2xl group">
               <div className="text-2xl font-bold text-white group-hover:scale-110 transition-transform">{specs.bathrooms}</div>
               <div className="text-sm text-white/80">{t({ en: 'Bathrooms', fr: 'Salles de bain' })}</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-xl border border-white/20 px-6 py-3 rounded-2xl hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl group">
+            <div className="bg-white/10 backdrop-blur-xl border border-white/20 px-6 py-3 rounded-2xl hover:bg-white/20 transition-all duration-300  hover:shadow-2xl group">
               <div className="text-2xl font-bold text-white group-hover:scale-110 transition-transform">{specs.surface}m²</div>
               <div className="text-sm text-white/80">{t({ en: 'Surface', fr: 'Surface' })}</div>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
-            <Link
-              href="/booking"
-              className="group relative bg-gradient-to-r from-forest-700 to-forest-600 hover:from-forest-800 hover:to-forest-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 inline-block shadow-xl hover:shadow-2xl hover:scale-105 overflow-hidden"
-            >
-              <span className="relative z-10">{t({ en: 'Check Availability', fr: 'Vérifier Disponibilités' })}</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-            </Link>
+                          <Link
+                href="/booking"
+                className="group relative inline-block bg-slate-700 hover:bg-slate-800 text-white px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl border-2 border-slate-700 hover:border-slate-800"
+              >
+                <span className="relative z-10">{t({ en: 'Check Availability', fr: 'Vérifier Disponibilités' })}</span>
+              </Link>
             <Link
               href="/chalet"
-              className="group bg-white/10 hover:bg-white/20 backdrop-blur-xl border-2 border-white/30 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 inline-block shadow-xl hover:shadow-2xl hover:scale-105"
+              className="group bg-white/10 hover:bg-white/20 backdrop-blur-xl border-2 border-white/30 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 inline-block shadow-xl hover:shadow-2xl "
             >
               {t({ en: 'Discover the Chalet', fr: 'Découvrir le Chalet' })}
             </Link>
@@ -127,7 +126,7 @@ export default function HomePage() {
           <div className="text-center">
             <Link
               href="/gallery"
-              className="group relative inline-block bg-gradient-to-r from-forest-700 to-forest-600 hover:from-forest-800 hover:to-forest-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 overflow-hidden"
+              className="group relative inline-block bg-gradient-to-r from-forest-700 to-forest-600 hover:from-forest-800 hover:to-forest-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl  overflow-hidden"
             >
               <span className="relative z-10">{t({ en: 'View Full Gallery', fr: 'Voir Toute la Galerie' })}</span>
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
@@ -149,7 +148,7 @@ export default function HomePage() {
             {amenities.map((amenity, index) => (
               <div
                 key={index}
-                className="group relative flex flex-col items-center text-center p-6 bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-forest-100 overflow-hidden"
+                className="group relative flex flex-col items-center text-center p-6 bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-forest-200/20 to-transparent rounded-bl-full transform translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform duration-500" />
@@ -179,7 +178,7 @@ export default function HomePage() {
             {nearbyResorts.map((resort, index) => (
               <div
                 key={index}
-                className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-forest-100 overflow-hidden"
+                className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden"
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-forest-200/20 to-transparent rounded-bl-full transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500" />
                 <div className="relative">
@@ -216,7 +215,7 @@ export default function HomePage() {
             {testimonials.map((review, index) => (
               <div
                 key={index}
-                className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl p-8 transition-all duration-300 hover:scale-105 border border-forest-50 overflow-hidden"
+                className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl p-8 transition-all duration-300  border border-forest-50 overflow-hidden"
               >
                 <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-gold-100/40 to-transparent rounded-br-full transform -translate-x-8 -translate-y-8" />
                 <div className="relative">
@@ -241,26 +240,24 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-forest-900 via-forest-800 to-forest-900" />
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjAzIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-40" />
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="py-20 bg-white border-t border-forest-100/20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-700">
               {t({ en: 'Ready to Book Your Alpine Retreat?', fr: 'Prêt à Réserver Votre Refuge Alpin ?' })}
             </h2>
-            <p className="text-xl md:text-2xl text-forest-100 mb-8 flex items-center justify-center gap-2">
-              <span className="text-gold-400">✨</span>
-              {t({ en: 'From €1,200 per week', fr: 'À partir de 1 200€ par semaine' })}
-              <span className="text-gold-400">✨</span>
+            <p className="text-xl md:text-2xl text-gray-700 mb-8 flex items-center justify-center gap-2">
+              <span className="text-forest-700">✨</span>
+              {t({ en: 'From €310 per night', fr: 'À partir de 310€ par nuit' })}
+              <span className="text-forest-700">✨</span>
             </p>
             <Link
               href="/booking"
-              className="group relative inline-block bg-white text-forest-800 hover:bg-gradient-to-r hover:from-gold-100 hover:to-white px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-2xl hover:shadow-gold-500/20 hover:scale-105"
+              className="group relative inline-block bg-slate-700 hover:bg-slate-800 text-white px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl border-2 border-slate-700 hover:border-slate-800"
             >
-              <span className="relative z-10 flex items-center gap-2">
+              <span className="relative z-10 flex items-center gap-2 font-bold">
                 {t({ en: 'View Rates & Book', fr: 'Voir Tarifs & Réserver' })}
-                <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+                <span className="group-hover:translate-x-1 transition-transform duration-300 font-bold">→</span>
               </span>
             </Link>
           </div>

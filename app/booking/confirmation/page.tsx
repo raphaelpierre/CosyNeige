@@ -41,7 +41,7 @@ function BookingConfirmationContent() {
   if (!bookingData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-forest-700"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-slate-700"></div>
       </div>
     );
   }
@@ -69,7 +69,7 @@ function BookingConfirmationContent() {
 
         {/* Confirmation Details */}
         <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-12 mb-8 animate-in fade-in slide-in-from-bottom-12 duration-700 delay-300">
-          <div className="border-l-4 border-forest-700 pl-6 mb-8">
+          <div className="border-l-4 border-slate-700 pl-6 mb-8">
             <h2 className="text-2xl font-bold text-forest-900 mb-2">
               {t({ en: 'What happens next?', fr: 'Et maintenant ?' })}
             </h2>
@@ -189,7 +189,7 @@ function BookingConfirmationContent() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link
             href="/"
-            className="group inline-flex items-center gap-2 bg-gradient-to-r from-forest-700 to-forest-600 hover:from-forest-800 hover:to-forest-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
+            className="group inline-flex items-center gap-2 bg-gradient-to-r from-forest-700 to-forest-600 hover:from-forest-800 hover:to-forest-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl "
           >
             <span>{t({ en: 'Back to Home', fr: 'Retour Accueil' })}</span>
             <span className="group-hover:translate-x-1 transition-transform">→</span>
@@ -197,7 +197,7 @@ function BookingConfirmationContent() {
 
           <Link
             href="/guide"
-            className="inline-flex items-center gap-2 bg-white hover:bg-forest-50 border-2 border-forest-700 text-forest-700 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+            className="inline-flex items-center gap-2 bg-white hover:bg-forest-50 border-2 border-slate-700 text-forest-700 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl "
           >
             <span>📖</span>
             <span>{t({ en: 'Guest Guide', fr: 'Guide Voyageur' })}</span>

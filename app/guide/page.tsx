@@ -110,11 +110,11 @@ export default function GuidePage() {
         },
         {
           subtitle: { en: 'Local Doctor', fr: 'Médecin Local' },
-          content: { en: 'Dr. Martin Dubois, Cluses: +33 4 50 98 XX XX', fr: 'Dr. Martin Dubois, Cluses : +33 4 50 98 XX XX' },
+          content: { en: 'Dr Cecile NEUVILLERS, Cluses: +33 06 65 05 95 13', fr: 'Dr Cecile NEUVILLERS, Cluses : +33 4 50 98 XX XX' },
         },
         {
           subtitle: { en: 'Plumber/Electrician', fr: 'Plombier/Électricien' },
-          content: { en: 'For non-emergency repairs, contact us first. Emergency plumber: +33 6 XX XX XX XX', fr: 'Pour réparations non urgentes, contactez-nous d\'abord. Plombier urgence : +33 6 XX XX XX XX' },
+          content: { en: 'For non-emergency repairs, contact us first. Emergency plumber: +33 06 01 61 67 49', fr: 'Pour réparations non urgentes, contactez-nous d\'abord. Plombier urgence : +33 6 XX XX XX XX' },
         },
       ],
     },
@@ -216,43 +216,43 @@ export default function GuidePage() {
       ))}
 
       {/* Local Tips */}
-      <section className="py-16 bg-forest-800 text-white">
+      <section className="py-16 bg-white border-t border-forest-100/20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-700">
             {t({ en: 'Local Tips & Recommendations', fr: 'Conseils & Recommandations Locales' })}
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-forest-700 rounded-lg p-6">
-              <h3 className="text-xl font-bold mb-3">🍽️ {t({ en: 'Restaurants', fr: 'Restaurants' })}</h3>
-              <ul className="space-y-2 text-forest-100">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+              <h3 className="text-xl font-bold mb-3 text-gray-700">🍽️ {t({ en: 'Restaurants', fr: 'Restaurants' })}</h3>
+              <ul className="space-y-2 text-gray-700">
                 <li><strong>La Ferme des Vonezins</strong> - {t({ en: 'Traditional Savoyard cuisine', fr: 'Cuisine savoyarde traditionnelle' })}</li>
                 <li><strong>Le Belvédère</strong> - {t({ en: 'Mountain views, fondue specialist', fr: 'Vue montagne, spécialiste fondue' })}</li>
                 <li><strong>Le Refuge</strong> - {t({ en: 'Cozy atmosphere, local ingredients', fr: 'Ambiance chaleureuse, produits locaux' })}</li>
               </ul>
             </div>
 
-            <div className="bg-forest-700 rounded-lg p-6">
-              <h3 className="text-xl font-bold mb-3">🛒 {t({ en: 'Shopping', fr: 'Courses' })}</h3>
-              <ul className="space-y-2 text-forest-100">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+              <h3 className="text-xl font-bold mb-3 text-gray-700">🛒 {t({ en: 'Shopping', fr: 'Courses' })}</h3>
+              <ul className="space-y-2 text-gray-700">
                 <li><strong>Carrefour Cluses</strong> - {t({ en: 'Large supermarket, 5 min drive', fr: 'Grand supermarché, 5 min voiture' })}</li>
                 <li><strong>Boulangerie du Village</strong> - {t({ en: 'Fresh bread daily, 3 min', fr: 'Pain frais quotidien, 3 min' })}</li>
                 <li><strong>Fromagerie Bouvier</strong> - {t({ en: 'Local cheeses, must-visit', fr: 'Fromages locaux, incontournable' })}</li>
               </ul>
             </div>
 
-            <div className="bg-forest-700 rounded-lg p-6">
-              <h3 className="text-xl font-bold mb-3">⛷️ {t({ en: 'Ski Tips', fr: 'Conseils Ski' })}</h3>
-              <ul className="space-y-2 text-forest-100">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+              <h3 className="text-xl font-bold mb-3 text-gray-700">⛷️ {t({ en: 'Ski Tips', fr: 'Conseils Ski' })}</h3>
+              <ul className="space-y-2 text-gray-700">
                 <li>{t({ en: 'Arrive at slopes before 9 AM to avoid crowds', fr: 'Arriver aux pistes avant 9h pour éviter la foule' })}</li>
                 <li>{t({ en: 'Book ski school in advance during holidays', fr: 'Réserver l\'école de ski à l\'avance pendant vacances' })}</li>
                 <li>{t({ en: 'Flaine on Sundays - quieter than weekdays', fr: 'Flaine le dimanche - plus calme qu\'en semaine' })}</li>
               </ul>
             </div>
 
-            <div className="bg-forest-700 rounded-lg p-6">
-              <h3 className="text-xl font-bold mb-3">🌄 {t({ en: 'Activities', fr: 'Activités' })}</h3>
-              <ul className="space-y-2 text-forest-100">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+              <h3 className="text-xl font-bold mb-3 text-gray-700">🌄 {t({ en: 'Activities', fr: 'Activités' })}</h3>
+              <ul className="space-y-2 text-gray-700">
                 <li>{t({ en: 'Ice climbing - Cascade de Boëge', fr: 'Cascade de glace - Boëge' })}</li>
                 <li>{t({ en: 'Snowshoeing - Col de la Colombière', fr: 'Raquettes - Col de la Colombière' })}</li>
                 <li>{t({ en: 'Thermal spa - Les Thermes de St-Gervais', fr: 'Spa thermal - Thermes de St-Gervais' })}</li>
@@ -276,7 +276,7 @@ export default function GuidePage() {
           </p>
           <button
             onClick={() => alert(t({ en: 'PDF download coming soon!', fr: 'Téléchargement PDF bientôt disponible !' }))}
-            className="inline-flex items-center gap-2 bg-forest-700 hover:bg-forest-800 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
+            className="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors border-2 border-slate-700 hover:border-slate-800"
           >
             <span>📄</span>
             {t({ en: 'Download PDF Guide', fr: 'Télécharger le Guide PDF' })}
@@ -285,9 +285,9 @@ export default function GuidePage() {
       </section>
 
       {/* Contact CTA */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white border-t border-forest-100/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-forest-900 mb-6">
+          <h2 className="text-3xl font-bold text-gray-700 mb-6">
             {t({ en: 'Questions or Issues During Your Stay?', fr: 'Questions ou Problèmes Pendant Votre Séjour ?' })}
           </h2>
           <p className="text-lg text-gray-700 mb-8">
@@ -299,13 +299,13 @@ export default function GuidePage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="/contact"
-              className="inline-block bg-forest-700 hover:bg-forest-800 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
+              className="inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors border-2 border-slate-700 hover:border-slate-800"
             >
               {t({ en: 'Contact Us', fr: 'Nous Contacter' })}
             </a>
             <a
               href="tel:+33695595865"
-              className="inline-block bg-cream hover:bg-forest-50 text-forest-800 border-2 border-forest-700 px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
+              className="inline-block border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-forest-700 px-8 py-4 rounded-lg font-bold text-lg transition-colors"
             >
               {t({ en: 'Call Us', fr: 'Appelez-Nous' })}
             </a>

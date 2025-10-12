@@ -112,7 +112,7 @@ export default function ClientDashboard() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-cream">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-forest-700"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-slate-700"></div>
       </div>
     );
   }
@@ -162,7 +162,7 @@ export default function ClientDashboard() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-forest-700">
+          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-slate-700">
             <div className="flex items-center gap-4">
               <div className="text-4xl">📅</div>
               <div>
@@ -176,7 +176,7 @@ export default function ClientDashboard() {
             <div className="flex items-center gap-4">
               <div className="text-4xl">✉️</div>
               <div>
-                <div className="text-3xl font-bold text-blue-600">{unreadMessages.length}</div>
+                <div className="text-3xl font-bold text-slate-700">{unreadMessages.length}</div>
                 <div className="text-gray-600">{t({ en: 'Unread Messages', fr: 'Messages Non Lus' })}</div>
               </div>
             </div>
@@ -186,7 +186,7 @@ export default function ClientDashboard() {
             <div className="flex items-center gap-4">
               <div className="text-4xl">📊</div>
               <div>
-                <div className="text-3xl font-bold text-gold-600">{reservations.length}</div>
+                <div className="text-3xl font-bold text-slate-700">{reservations.length}</div>
                 <div className="text-gray-600">{t({ en: 'Total Bookings', fr: 'Total Réservations' })}</div>
               </div>
             </div>
@@ -199,7 +199,7 @@ export default function ClientDashboard() {
             onClick={() => setActiveTab('overview')}
             className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all ${
               activeTab === 'overview'
-                ? 'bg-forest-700 text-white shadow-lg'
+                ? 'bg-slate-700 text-white shadow-lg'
                 : 'text-gray-700 hover:bg-gray-100'
             }`}
           >
@@ -209,7 +209,7 @@ export default function ClientDashboard() {
             onClick={() => setActiveTab('reservations')}
             className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all ${
               activeTab === 'reservations'
-                ? 'bg-forest-700 text-white shadow-lg'
+                ? 'bg-slate-700 text-white shadow-lg'
                 : 'text-gray-700 hover:bg-gray-100'
             }`}
           >
@@ -219,7 +219,7 @@ export default function ClientDashboard() {
             onClick={() => setActiveTab('messages')}
             className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all relative ${
               activeTab === 'messages'
-                ? 'bg-forest-700 text-white shadow-lg'
+                ? 'bg-slate-700 text-white shadow-lg'
                 : 'text-gray-700 hover:bg-gray-100'
             }`}
           >
@@ -248,7 +248,7 @@ export default function ClientDashboard() {
                   </p>
                   <Link
                     href="/booking"
-                    className="inline-block bg-forest-700 hover:bg-forest-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+                    className="inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
                   >
                     {t({ en: 'Book Now', fr: 'Réserver Maintenant' })}
                   </Link>
@@ -258,14 +258,14 @@ export default function ClientDashboard() {
                   {upcomingReservations.slice(0, 3).map((reservation) => (
                     <div
                       key={reservation.id}
-                      className="border-2 border-gray-200 rounded-lg p-6 hover:border-forest-700 hover:shadow-md transition-all"
+                      className="border-2 border-gray-200 rounded-lg p-6 hover:border-slate-700 hover:shadow-md transition-all"
                     >
                       <div className="flex flex-col md:flex-row justify-between gap-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-3">
                             <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
                               reservation.status === 'confirmed'
-                                ? 'bg-green-100 text-green-800'
+                                ? 'bg-green-100 text-forest-700'
                                 : reservation.status === 'pending'
                                   ? 'bg-yellow-100 text-yellow-800'
                                   : 'bg-gray-100 text-gray-800'
@@ -380,7 +380,7 @@ export default function ClientDashboard() {
               </h2>
               <Link
                 href="/booking"
-                className="bg-forest-700 hover:bg-forest-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                className="bg-slate-700 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
               >
                 + {t({ en: 'New Booking', fr: 'Nouvelle Réservation' })}
               </Link>
@@ -394,7 +394,7 @@ export default function ClientDashboard() {
                 </p>
                 <Link
                   href="/booking"
-                  className="inline-block bg-forest-700 hover:bg-forest-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+                  className="inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
                 >
                   {t({ en: 'Book Now', fr: 'Réserver Maintenant' })}
                 </Link>
@@ -407,14 +407,14 @@ export default function ClientDashboard() {
                 {upcomingReservations.map((reservation) => (
                   <div
                     key={reservation.id}
-                    className="border-2 border-gray-200 rounded-xl p-6 hover:border-forest-700 hover:shadow-lg transition-all"
+                    className="border-2 border-gray-200 rounded-xl p-6 hover:border-slate-700 hover:shadow-lg transition-all"
                   >
                     <div className="flex flex-col lg:flex-row justify-between gap-6">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-4">
                           <span className={`px-4 py-1.5 rounded-full text-sm font-bold ${
                             reservation.status === 'confirmed'
-                              ? 'bg-green-100 text-green-800'
+                              ? 'bg-green-100 text-forest-700'
                               : reservation.status === 'pending'
                                 ? 'bg-yellow-100 text-yellow-800'
                                 : 'bg-gray-100 text-gray-800'
@@ -476,7 +476,7 @@ export default function ClientDashboard() {
                             setShowMessageForm(true);
                             setActiveTab('messages');
                           }}
-                          className="w-full lg:w-auto bg-forest-700 hover:bg-forest-800 text-white px-6 py-2 rounded-lg font-semibold transition-colors text-sm"
+                          className="w-full lg:w-auto bg-slate-700 hover:bg-slate-800 text-white px-6 py-2 rounded-lg font-semibold transition-colors text-sm"
                         >
                           {t({ en: 'Contact Us', fr: 'Nous Contacter' })}
                         </button>
@@ -554,7 +554,7 @@ export default function ClientDashboard() {
                     setMessageForm({ subject: '', content: '', replyTo: '' });
                   }
                 }}
-                className="bg-forest-700 hover:bg-forest-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                className="bg-slate-700 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
               >
                 {showMessageForm
                   ? t({ en: 'Cancel', fr: 'Annuler' })
@@ -595,7 +595,7 @@ export default function ClientDashboard() {
                   <button
                     type="submit"
                     disabled={sendingMessage}
-                    className="w-full bg-forest-700 hover:bg-forest-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors disabled:opacity-50"
+                    className="w-full bg-slate-700 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors disabled:opacity-50"
                   >
                     {sendingMessage
                       ? t({ en: 'Sending...', fr: 'Envoi...' })

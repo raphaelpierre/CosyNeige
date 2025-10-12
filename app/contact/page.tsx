@@ -16,20 +16,47 @@ export default function ContactPage() {
   });
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Contact Form Submission:', formData);
-    alert(t({
-      en: 'Thank you for your message! We will get back to you within 24 hours.',
-      fr: 'Merci pour votre message ! Nous vous répondrons sous 24 heures.',
-    }));
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: 'general',
-      message: '',
-    });
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(t({
+          en: 'Thank you for your message! We will get back to you within 24 hours.',
+          fr: 'Merci pour votre message ! Nous vous répondrons sous 24 heures.',
+        }));
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: 'general',
+          message: '',
+        });
+      } else {
+        throw new Error(data.error || 'Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error sending contact form:', error);
+      alert(t({
+        en: 'Sorry, there was an error sending your message. Please try again or contact us directly.',
+        fr: 'Désolé, une erreur s\'est produite lors de l\'envoi de votre message. Veuillez réessayer ou nous contacter directement.',
+      }));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const subjects = [
@@ -69,8 +96,8 @@ export default function ContactPage() {
             <div className="text-center bg-cream rounded-lg p-8 hover:shadow-lg transition-shadow">
               <div className="text-5xl mb-4">📧</div>
               <h3 className="text-xl font-bold text-forest-800 mb-3">{t({ en: 'Email', fr: 'Email' })}</h3>
-              <a href="mailto:info@chaletlessires.com" className="text-forest-900 hover:text-forest-800 transition-colors font-semibold">
-                info@chaletlessires.com
+              <a href="mailto:info@chalet-balmotte810.com" className="text-forest-900 hover:text-forest-800 transition-colors font-semibold">
+                info@chalet-balmotte810.com
               </a>
               <p className="text-sm text-gray-600 mt-2">
                 {t({ en: 'Response within 24 hours', fr: 'Réponse sous 24 heures' })}
@@ -195,9 +222,13 @@ export default function ContactPage() {
 
             <button
               type="submit"
-              className="w-full bg-forest-700 hover:bg-forest-800 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
+              disabled={isSubmitting}
+              className="w-full bg-slate-700 hover:bg-slate-800 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors border-2 border-slate-700 hover:border-slate-800 disabled:border-gray-400"
             >
-              {t({ en: 'Send Message', fr: 'Envoyer le Message' })}
+              {isSubmitting 
+                ? t({ en: 'Sending...', fr: 'Envoi en cours...' })
+                : t({ en: 'Send Message', fr: 'Envoyer le Message' })
+              }
             </button>
 
             <p className="text-xs text-gray-600 text-center mt-4">
@@ -261,7 +292,7 @@ export default function ContactPage() {
             </p>
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="inline-block bg-forest-700 hover:bg-forest-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+              className="inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-3 rounded-lg font-bold transition-colors border-2 border-slate-700 hover:border-slate-800"
             >
               {t({ en: 'Contact Us', fr: 'Nous Contacter' })}
             </button>
@@ -270,13 +301,13 @@ export default function ContactPage() {
       </section>
 
       {/* Emergency Contact */}
-      <section className="py-12 bg-forest-800 text-white">
+      <section className="py-12 bg-red-50 border-t border-red-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-forest-700 rounded-lg p-8 max-w-2xl mx-auto">
-            <h3 className="text-xl font-bold mb-4">
+          <div className="bg-white border-2 border-red-200 rounded-lg p-8 max-w-2xl mx-auto">
+            <h3 className="text-xl font-bold mb-4 text-red-700">
               {t({ en: 'Emergency During Your Stay?', fr: 'Urgence Pendant Votre Séjour ?' })}
             </h3>
-            <p className="text-forest-100 mb-4">
+            <p className="text-gray-700 mb-4">
               {t({
                 en: 'We are available 24/7 for emergencies during your stay. Don\'t hesitate to call us anytime.',
                 fr: 'Nous sommes disponibles 24h/24 pour les urgences pendant votre séjour. N\'hésitez pas à nous appeler à tout moment.',
@@ -284,7 +315,7 @@ export default function ContactPage() {
             </p>
             <a
               href="tel:+33695595865"
-              className="inline-block bg-white text-forest-800 hover:bg-cream px-8 py-3 rounded-lg font-semibold transition-colors"
+              className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-bold transition-colors border-2 border-red-600 hover:border-red-700"
             >
               📞 {t({ en: 'Emergency Contact', fr: 'Contact Urgence' })}
             </a>
@@ -306,7 +337,7 @@ export default function ContactPage() {
           </p>
           <a
             href="/booking"
-            className="inline-block bg-forest-700 hover:bg-forest-800 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
+            className="inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors border-2 border-slate-700 hover:border-slate-800"
           >
             {t({ en: 'View Rates & Book', fr: 'Voir Tarifs & Réserver' })}
           </a>

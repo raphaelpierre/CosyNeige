@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { sendBookingConfirmation, sendAdminNotification } from '@/lib/email';
 
 // GET - Récupérer toutes les réservations
 export async function GET() {
@@ -67,6 +68,38 @@ export async function POST(request: NextRequest) {
         endDate: new Date(checkOut)
       }
     });
+
+    // Envoyer les emails de confirmation
+    try {
+      // Email au client
+      await sendBookingConfirmation({
+        to: email,
+        firstName,
+        lastName,
+        checkIn,
+        checkOut,
+        guests,
+        totalPrice: parseFloat(totalPrice) || 0,
+        reservationId: reservation.id
+      });
+
+      // Email à l'admin
+      await sendAdminNotification({
+        firstName,
+        lastName,
+        email,
+        phone,
+        checkIn,
+        checkOut,
+        guests,
+        totalPrice: parseFloat(totalPrice) || 0,
+        message,
+        reservationId: reservation.id
+      });
+    } catch (emailError) {
+      console.error('Error sending emails:', emailError);
+      // Continue même si l'email échoue
+    }
 
     return NextResponse.json(reservation, { status: 201 });
   } catch (error) {

@@ -94,12 +94,13 @@ export const activities: Activity[] = [
 ];
 
 export const pricing: Pricing = {
-  highSeason: { min: 2200, max: 2800 },
-  midSeason: { min: 1600, max: 2000 },
-  lowSeason: { min: 1200, max: 1400 },
-  summerSeason: { min: 1800, max: 2200 },
+  highSeason: { min: 2870, max: 2870 }, // 410€ x 7 nuits
+  midSeason: { min: 1600, max: 2000 }, // Conservé pour compatibilité
+  lowSeason: { min: 930, max: 930 }, // 310€ x 3 nuits  
+  summerSeason: { min: 930, max: 930 }, // 310€ x 3 nuits (basse saison)
   cleaningFee: 200,
   linenPerPerson: 25,
+  depositAmount: 1500, // Nouvelle caution
   minimumStay: { highSeason: 7, other: 3 }
 };
 

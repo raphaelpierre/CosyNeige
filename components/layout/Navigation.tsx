@@ -21,7 +21,6 @@ export default function Navigation() {
     { href: '/gallery', label: { en: 'Gallery', fr: 'Galerie' } },
     { href: '/guide', label: { en: 'Guest Guide', fr: 'Guide' } },
     { href: '/contact', label: { en: 'Contact', fr: 'Contact' } },
-    { href: '/about', label: { en: 'About', fr: 'À propos' } },
   ];
 
   useEffect(() => {

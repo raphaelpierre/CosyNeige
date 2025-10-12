@@ -1,0 +1,341 @@
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+interface EmailTemplate {
+  to: string;
+  subject: string;
+  html: string;
+  text?: string;
+}
+
+// Email de confirmation de réservation pour le client
+export async function sendBookingConfirmation({
+  to,
+  firstName,
+  lastName,
+  checkIn,
+  checkOut,
+  guests,
+  totalPrice,
+  reservationId
+}: {
+  to: string;
+  firstName: string;
+  lastName: string;
+  checkIn: string;
+  checkOut: string;
+  guests: number;
+  totalPrice: number;
+  reservationId: string;
+}) {
+  const checkInDate = new Date(checkIn).toLocaleDateString('fr-FR');
+  const checkOutDate = new Date(checkOut).toLocaleDateString('fr-FR');
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>Confirmation de réservation - Chalet-Balmotte810</title>
+    </head>
+    <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+          <h1 style="color: #2d5016; margin-bottom: 10px;">🏔️ Chalet-Balmotte810</h1>
+          <p style="color: #666; margin: 0;">Châtillon-sur-Cluses, Alpes Françaises</p>
+        </div>
+        
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+          <h2 style="color: #2d5016; margin-top: 0;">Confirmation de votre réservation</h2>
+          <p>Bonjour ${firstName} ${lastName},</p>
+          <p>Nous avons bien reçu votre demande de réservation. Voici le récapitulatif :</p>
+        </div>
+
+        <div style="background-color: #fff; border: 2px solid #2d5016; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+          <h3 style="color: #2d5016; margin-top: 0;">Détails de la réservation</h3>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Référence :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${reservationId}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Arrivée :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${checkInDate}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Départ :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${checkOutDate}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Nombre de personnes :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${guests}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0;"><strong>Prix total :</strong></td>
+              <td style="padding: 8px 0; font-weight: bold; color: #2d5016;">${totalPrice.toLocaleString('fr-FR')}€</td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+          <p style="margin: 0;"><strong>⚠️ Important :</strong> Cette réservation est en attente de confirmation. Nous vous recontacterons sous 24h pour finaliser votre séjour.</p>
+        </div>
+
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px;">
+          <h3 style="color: #2d5016; margin-top: 0;">Prochaines étapes</h3>
+          <ul style="padding-left: 20px;">
+            <li>Nous examinerons votre demande dans les plus brefs délais</li>
+            <li>Vous recevrez un email de confirmation définitive avec les détails de paiement</li>
+            <li>Une caution de 1 500€ sera demandée</li>
+            <li>Nous vous enverrons le guide d'accès au chalet avant votre arrivée</li>
+          </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+          <p style="color: #666; font-size: 14px;">
+            Pour toute question, contactez-nous :<br>
+            <a href="mailto:contact@chalet-balmotte810.fr" style="color: #2d5016;">contact@chalet-balmotte810.fr</a>
+          </p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  const text = `
+Confirmation de réservation - Chalet-Balmotte810
+
+Bonjour ${firstName} ${lastName},
+
+Nous avons bien reçu votre demande de réservation.
+
+Détails de la réservation :
+- Référence : ${reservationId}
+- Arrivée : ${checkInDate}
+- Départ : ${checkOutDate}
+- Nombre de personnes : ${guests}
+- Prix total : ${totalPrice.toLocaleString('fr-FR')}€
+
+Cette réservation est en attente de confirmation. Nous vous recontacterons sous 24h.
+
+Cordialement,
+L'équipe Chalet-Balmotte810
+  `;
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.fr>',
+      to,
+      subject: 'Confirmation de votre réservation - Chalet-Balmotte810',
+      html,
+      text,
+    });
+
+    if (error) {
+      console.error('Error sending booking confirmation email:', error);
+      return { success: false, error };
+    }
+
+    return { success: true, data };
+  } catch (error) {
+    console.error('Error sending booking confirmation email:', error);
+    return { success: false, error };
+  }
+}
+
+// Email de notification pour l'admin
+export async function sendAdminNotification({
+  firstName,
+  lastName,
+  email,
+  phone,
+  checkIn,
+  checkOut,
+  guests,
+  totalPrice,
+  message,
+  reservationId
+}: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  checkIn: string;
+  checkOut: string;
+  guests: number;
+  totalPrice: number;
+  message?: string;
+  reservationId: string;
+}) {
+  const checkInDate = new Date(checkIn).toLocaleDateString('fr-FR');
+  const checkOutDate = new Date(checkOut).toLocaleDateString('fr-FR');
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>Nouvelle réservation - Chalet-Balmotte810</title>
+    </head>
+    <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+          <h1 style="color: #2d5016;">🏔️ Nouvelle réservation</h1>
+        </div>
+        
+        <div style="background-color: #fff; border: 2px solid #2d5016; border-radius: 8px; padding: 20px;">
+          <h2 style="color: #2d5016; margin-top: 0;">Détails de la réservation</h2>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Référence :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${reservationId}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Client :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${firstName} ${lastName}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Email :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${email}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Téléphone :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${phone}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Arrivée :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${checkInDate}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Départ :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${checkOutDate}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Personnes :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${guests}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0;"><strong>Prix total :</strong></td>
+              <td style="padding: 8px 0; font-weight: bold;">${totalPrice.toLocaleString('fr-FR')}€</td>
+            </tr>
+          </table>
+          
+          ${message ? `
+          <div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+            <h3 style="color: #2d5016; margin-top: 0;">Message du client :</h3>
+            <p style="margin: 0;">${message}</p>
+          </div>
+          ` : ''}
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+          <a href="${process.env.NEXT_PUBLIC_BASE_URL}/admin" 
+             style="background-color: #2d5016; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
+            Gérer la réservation
+          </a>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.fr>',
+      to: process.env.ADMIN_EMAIL || 'admin@chalet-balmotte810.fr',
+      subject: `Nouvelle réservation : ${firstName} ${lastName} - ${checkInDate}`,
+      html,
+    });
+
+    if (error) {
+      console.error('Error sending admin notification email:', error);
+      return { success: false, error };
+    }
+
+    return { success: true, data };
+  } catch (error) {
+    console.error('Error sending admin notification email:', error);
+    return { success: false, error };
+  }
+}
+
+// Email de contact
+export async function sendContactEmail({
+  name,
+  email,
+  subject,
+  message
+}: {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}) {
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>Nouveau message de contact - Chalet-Balmotte810</title>
+    </head>
+    <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+          <h1 style="color: #2d5016;">💬 Nouveau message de contact</h1>
+        </div>
+        
+        <div style="background-color: #fff; border: 2px solid #2d5016; border-radius: 8px; padding: 20px;">
+          <h2 style="color: #2d5016; margin-top: 0;">Détails du message</h2>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Nom :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${name}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Email :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${email}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Sujet :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${subject}</td>
+            </tr>
+          </table>
+          
+          <div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+            <h3 style="color: #2d5016; margin-top: 0;">Message :</h3>
+            <p style="margin: 0; white-space: pre-wrap;">${message}</p>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+          <a href="mailto:${email}" 
+             style="background-color: #2d5016; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
+            Répondre à ${name}
+          </a>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.fr>',
+      to: process.env.ADMIN_EMAIL || 'admin@chalet-balmotte810.fr',
+      subject: `Contact: ${subject}`,
+      html,
+      replyTo: email,
+    });
+
+    if (error) {
+      console.error('Error sending contact email:', error);
+      return { success: false, error };
+    }
+
+    return { success: true, data };
+  } catch (error) {
+    console.error('Error sending contact email:', error);
+    return { success: false, error };
+  }
+}

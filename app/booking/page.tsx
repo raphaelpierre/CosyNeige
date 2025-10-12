@@ -39,6 +39,17 @@ export default function BookingPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validation des séjours minimum
+    const minimumNights = season === 'high' ? 7 : 3;
+    if (nights < minimumNights) {
+      alert(t({
+        en: `Minimum ${minimumNights} nights required for this period`,
+        fr: `Minimum ${minimumNights} nuits requis pour cette période`
+      }));
+      return;
+    }
+    
     setIsSubmitting(true);
 
     try {
@@ -86,7 +97,7 @@ export default function BookingPage() {
       <section className="relative h-[400px] flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/Exterieur2.jpg"
+            src="/images/ExteriieurJacuzi.jpg"
             alt="Chalet booking"
             fill
             className="object-cover brightness-75"
@@ -109,8 +120,8 @@ export default function BookingPage() {
           </h2>
           <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
             {t({
-              en: 'Our rates vary by season. Minimum stay: 7 nights.',
-              fr: 'Nos tarifs varient selon la saison. Séjour minimum : 7 nuits.',
+              en: 'Our rates vary by season. Minimum stay: 7 nights in high season, 3 nights in low season.',
+              fr: 'Nos tarifs varient selon la saison. Séjour minimum : 7 nuits en haute saison, 3 nuits en basse saison.',
             })}
           </p>
 
@@ -125,50 +136,22 @@ export default function BookingPage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-forest-900">{formatEuro(pricing.highSeason.min)}</div>
-                  <div className="text-sm text-gray-600">{t({ en: 'per week', fr: 'par semaine' })}</div>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between py-4 border-b border-gray-300">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">⛷️</span>
-                  <div>
-                    <div className="font-bold text-forest-900">{t({ en: 'Mid Season', fr: 'Moyenne Saison' })}</div>
-                    <div className="text-sm text-gray-600">{t({ en: 'January, March', fr: 'Janvier, Mars' })}</div>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-forest-900">{formatEuro(pricing.midSeason.min)}</div>
-                  <div className="text-sm text-gray-600">{t({ en: 'per week', fr: 'par semaine' })}</div>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between py-4 border-b border-gray-300">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">🍂</span>
-                  <div>
-                    <div className="font-bold text-forest-900">{t({ en: 'Low Season', fr: 'Basse Saison' })}</div>
-                    <div className="text-sm text-gray-600">{t({ en: 'April, November, early December', fr: 'Avril, Novembre, début Décembre' })}</div>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-forest-900">{formatEuro(pricing.lowSeason.min)}</div>
-                  <div className="text-sm text-gray-600">{t({ en: 'per week', fr: 'par semaine' })}</div>
+                  <div className="text-2xl font-bold text-forest-900">{formatEuro(410)}</div>
+                  <div className="text-sm text-gray-600">{t({ en: 'per night', fr: 'par nuit' })}</div>
                 </div>
               </div>
 
               <div className="flex items-center justify-between py-4">
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">☀️</span>
+                  <span className="text-2xl">🍂</span>
                   <div>
-                    <div className="font-bold text-forest-900">{t({ en: 'Summer', fr: 'Été' })}</div>
-                    <div className="text-sm text-gray-600">{t({ en: 'June, July, August', fr: 'Juin, Juillet, Août' })}</div>
+                    <div className="font-bold text-forest-900">{t({ en: 'Low Season', fr: 'Basse Saison' })}</div>
+                    <div className="text-sm text-gray-600">{t({ en: 'All other periods', fr: 'Toutes les autres périodes' })}</div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-forest-900">{formatEuro(pricing.summerSeason.min)}</div>
-                  <div className="text-sm text-gray-600">{t({ en: 'per week', fr: 'par semaine' })}</div>
+                  <div className="text-2xl font-bold text-forest-900">{formatEuro(310)}</div>
+                  <div className="text-sm text-gray-600">{t({ en: 'per night', fr: 'par nuit' })}</div>
                 </div>
               </div>
             </div>
@@ -272,14 +255,16 @@ export default function BookingPage() {
               </div>
             </div>
 
-            {priceCalculation && nights >= 7 && (
-              <div className="bg-forest-50 rounded-lg p-6 border-2 border-forest-700">
+            {priceCalculation && (
+              // Vérification des séjours minimum selon la saison
+              (season === 'high' ? nights >= 7 : nights >= 3) ? (
+              <div className="bg-forest-50 rounded-lg p-6 border-2 border-slate-700">
                 <h3 className="text-xl font-bold text-forest-900 mb-4">{t({ en: 'Price Breakdown', fr: 'Détail du Prix' })}</h3>
                 <div className="space-y-3">
                   <div className="flex justify-between text-gray-700">
                     <span>{nights} {t({ en: 'nights', fr: 'nuits' })} ({season && t({
-                      en: season === 'high' ? 'High Season' : season === 'mid' ? 'Mid Season' : season === 'low' ? 'Low Season' : 'Summer',
-                      fr: season === 'high' ? 'Haute Saison' : season === 'mid' ? 'Moyenne Saison' : season === 'low' ? 'Basse Saison' : 'Été'
+                      en: season === 'high' ? 'High Season' : 'Low Season',
+                      fr: season === 'high' ? 'Haute Saison' : 'Basse Saison'
                     })})</span>
                     <span className="font-semibold">{formatEuro(priceCalculation.basePrice)}</span>
                   </div>
@@ -287,20 +272,43 @@ export default function BookingPage() {
                     <span>{t({ en: 'Cleaning fee', fr: 'Frais de ménage' })}</span>
                     <span className="font-semibold">{formatEuro(priceCalculation.cleaningFee)}</span>
                   </div>
-                  <div className="pt-3 border-t-2 border-forest-700 flex justify-between text-xl font-bold text-forest-900">
+                  <div className="pt-3 border-t-2 border-slate-700 flex justify-between text-xl font-bold text-forest-900">
                     <span>{t({ en: 'Total', fr: 'Total' })}</span>
                     <span>{formatEuro(priceCalculation.total)}</span>
+                  </div>
+                  <div className="flex justify-between text-gray-700 pt-2">
+                    <span>{t({ en: 'Security deposit', fr: 'Caution' })}</span>
+                    <span className="font-semibold">{formatEuro(priceCalculation.depositAmount)}</span>
                   </div>
                   <div className="text-sm text-gray-600 pt-2">
                     + {t({ en: 'Tourist tax', fr: 'Taxe de séjour' })}: {formatEuro(guests * nights * 2)}
                   </div>
+                  <div className="text-sm text-gray-500 mt-3 p-3 bg-gray-100 rounded">
+                    {t({ 
+                      en: 'The security deposit will be returned after checkout if no damage is found.',
+                      fr: 'La caution sera restituée après le départ si aucun dégât n\'est constaté.'
+                    })}
+                  </div>
                 </div>
               </div>
+              ) : (
+                <div className="bg-red-50 border-2 border-red-200 rounded-lg p-4">
+                  <p className="text-red-700 font-medium">
+                    {season === 'high' 
+                      ? t({ en: 'Minimum 7 nights required for high season', fr: 'Minimum 7 nuits requis en haute saison' })
+                      : t({ en: 'Minimum 3 nights required', fr: 'Minimum 3 nuits requis' })
+                    }
+                  </p>
+                </div>
+              )
             )}
 
-            {nights > 0 && nights < 7 && (
+            {nights > 0 && !((season === 'high' ? nights >= 7 : nights >= 3)) && (
               <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4 text-red-800">
-                {t({ en: 'Minimum stay is 7 nights', fr: 'Séjour minimum de 7 nuits' })}
+                {season === 'high' 
+                  ? t({ en: 'Minimum stay is 7 nights in high season', fr: 'Séjour minimum de 7 nuits en haute saison' })
+                  : t({ en: 'Minimum stay is 3 nights', fr: 'Séjour minimum de 3 nuits' })
+                }
               </div>
             )}
           </div>
@@ -403,7 +411,7 @@ export default function BookingPage() {
               </div>
             </div>
 
-            {(!checkIn || !checkOut || nights < 7) && (
+            {(!checkIn || !checkOut || !((season === 'high' ? nights >= 7 : nights >= 3))) && (
               <div className="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4 mb-6 text-yellow-800">
                 <p className="font-semibold mb-2">
                   {t({ en: 'Complete these steps to submit your booking:', fr: 'Complétez ces étapes pour soumettre votre réservation :' })}
@@ -411,7 +419,14 @@ export default function BookingPage() {
                 <ul className="list-disc list-inside space-y-1 text-sm">
                   {!checkIn && <li>{t({ en: 'Select a check-in date', fr: 'Sélectionnez une date d\'arrivée' })}</li>}
                   {!checkOut && <li>{t({ en: 'Select a check-out date', fr: 'Sélectionnez une date de départ' })}</li>}
-                  {checkIn && checkOut && nights < 7 && <li>{t({ en: 'Minimum stay is 7 nights (currently: ' + nights + ' nights)', fr: 'Séjour minimum de 7 nuits (actuellement : ' + nights + ' nuits)' })}</li>}
+                  {checkIn && checkOut && nights > 0 && !((season === 'high' ? nights >= 7 : nights >= 3)) && (
+                    <li>
+                      {season === 'high' 
+                        ? t({ en: `Minimum stay is 7 nights in high season (currently: ${nights} nights)`, fr: `Séjour minimum de 7 nuits en haute saison (actuellement : ${nights} nuits)` })
+                        : t({ en: `Minimum stay is 3 nights (currently: ${nights} nights)`, fr: `Séjour minimum de 3 nuits (actuellement : ${nights} nuits)` })
+                      }
+                    </li>
+                  )}
                 </ul>
               </div>
             )}
@@ -419,17 +434,20 @@ export default function BookingPage() {
             <div className="pt-6">
               <button
                 type="submit"
-                disabled={!checkIn || !checkOut || nights < 7 || isSubmitting}
+                disabled={!checkIn || !checkOut || !((season === 'high' ? nights >= 7 : nights >= 3)) || isSubmitting}
                 className={`w-full px-8 py-5 rounded-xl font-bold text-xl transition-all shadow-2xl border-2 ${
-                  !checkIn || !checkOut || nights < 7 || isSubmitting
+                  !checkIn || !checkOut || !((season === 'high' ? nights >= 7 : nights >= 3)) || isSubmitting
                     ? 'bg-gray-300 text-gray-600 cursor-not-allowed border-gray-400'
-                    : 'bg-gradient-to-r from-forest-700 to-forest-600 hover:from-forest-800 hover:to-forest-700 text-white hover:shadow-forest-700/50 hover:scale-105 border-forest-800'
+                    : 'bg-gradient-to-r from-forest-700 to-forest-600 hover:from-forest-800 hover:to-forest-700 text-white hover:shadow-forest-700/50  border-forest-800'
                 }`}
               >
                 {isSubmitting
                   ? t({ en: '⏳ Sending...', fr: '⏳ Envoi en cours...' })
-                  : (!checkIn || !checkOut || nights < 7)
-                    ? t({ en: '⚠️ Complete dates above (minimum 7 nights)', fr: '⚠️ Complétez les dates ci-dessus (minimum 7 nuits)' })
+                  : (!checkIn || !checkOut || !((season === 'high' ? nights >= 7 : nights >= 3)))
+                    ? t({ 
+                        en: season === 'high' ? '⚠️ Complete dates above (minimum 7 nights)' : '⚠️ Complete dates above (minimum 3 nights)', 
+                        fr: season === 'high' ? '⚠️ Complétez les dates ci-dessus (minimum 7 nuits)' : '⚠️ Complétez les dates ci-dessus (minimum 3 nuits)' 
+                      })
                     : t({ en: '✅ Submit Booking Request', fr: '✅ Envoyer la Demande de Réservation' })}
               </button>
             </div>
@@ -465,7 +483,7 @@ export default function BookingPage() {
 
             <div className="bg-white rounded-lg p-6">
               <h3 className="font-bold text-lg text-forest-800 mb-3">🔒 {t({ en: 'Security Deposit', fr: 'Caution' })}</h3>
-              <p className="text-gray-700 text-sm">{t({ en: '€500 refundable deposit', fr: 'Caution remboursable de 500€' })}</p>
+              <p className="text-gray-700 text-sm">{t({ en: '€1,500 refundable deposit', fr: 'Caution remboursable de 1 500€' })}</p>
               <p className="text-gray-700 text-sm">{t({ en: 'Returned within 7 days after departure', fr: 'Restituée sous 7 jours après le départ' })}</p>
             </div>
 
