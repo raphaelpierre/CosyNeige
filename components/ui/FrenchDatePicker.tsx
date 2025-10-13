@@ -19,7 +19,7 @@ interface FrenchDatePickerProps {
 }
 
 // Composant personnalisé pour l'input
-const CustomInput = forwardRef<HTMLInputElement, any>(({ value, onClick, placeholder, className, required }, ref) => (
+const CustomInput = forwardRef<HTMLInputElement, { value?: string; onClick?: () => void; placeholder?: string; className?: string; required?: boolean }>(({ value, onClick, placeholder, className, required }, ref) => (
   <input
     className={className}
     onClick={onClick}

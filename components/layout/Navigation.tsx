@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import LanguageToggle from '@/components/ui/LanguageToggle';
+import UserDropdown from '@/components/ui/UserDropdown';
+import UserMobileMenu from '@/components/ui/UserMobileMenu';
 import { chaletName } from '@/lib/data/chalet';
 
 export default function Navigation() {
@@ -67,19 +69,7 @@ export default function Navigation() {
                 }`} />
               </Link>
             ))}
-            <Link
-              href="/client/login"
-              className={`text-sm font-medium transition-all duration-300 relative group ${
-                pathname === '/client/login' || pathname.startsWith('/client')
-                  ? 'text-forest-700'
-                  : 'text-gray-700 hover:text-forest-700'
-              }`}
-            >
-              👤 {t({ en: 'My Account', fr: 'Mon Compte' })}
-              <span className={`absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-forest-600 to-forest-800 transition-all duration-300 ${
-                pathname === '/client/login' || pathname.startsWith('/client') ? 'w-full' : 'w-0 group-hover:w-full'
-              }`} />
-            </Link>
+            <UserDropdown />
             <LanguageToggle />
           </div>
 
@@ -98,7 +88,7 @@ export default function Navigation() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="lg:hidden pb-4 animate-in slide-in-from-top duration-300">
+          <div className="lg:hidden pb-4 opacity-100 transform translate-y-0 transition-all duration-300">
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 <Link
@@ -114,17 +104,7 @@ export default function Navigation() {
                   {t(link.label)}
                 </Link>
               ))}
-              <Link
-                href="/client/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  pathname === '/client/login' || pathname.startsWith('/client')
-                    ? 'bg-gradient-to-r from-forest-50 to-forest-100 text-forest-700 shadow-sm'
-                    : 'text-gray-700 hover:bg-forest-50'
-                }`}
-              >
-                👤 {t({ en: 'My Account', fr: 'Mon Compte' })}
-              </Link>
+              <UserMobileMenu onLinkClick={() => setMobileMenuOpen(false)} />
               <div className="px-4 py-2">
                 <LanguageToggle />
               </div>

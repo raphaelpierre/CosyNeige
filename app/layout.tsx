@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/lib/hooks/useLanguage";
+import { AuthProvider } from "@/lib/context/AuthContext";
+import { NotificationProvider } from "@/lib/context/NotificationContext";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import LocaleWrapper from "@/components/LocaleWrapper";
@@ -36,13 +38,17 @@ export default function RootLayout({
         style={{ backgroundColor: '#FAFAF8' }}
       >
         <LanguageProvider>
-          <LocaleWrapper>
-            <Navigation />
-            <main className="min-h-screen">{children}</main>
-            <Footer />
-            <Analytics />
-            <SpeedInsights />
-          </LocaleWrapper>
+          <AuthProvider>
+            <NotificationProvider>
+              <LocaleWrapper>
+                <Navigation />
+                <main className="min-h-screen">{children}</main>
+                <Footer />
+                <Analytics />
+                <SpeedInsights />
+              </LocaleWrapper>
+            </NotificationProvider>
+          </AuthProvider>
         </LanguageProvider>
       </body>
     </html>

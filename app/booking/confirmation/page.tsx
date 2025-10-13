@@ -186,21 +186,23 @@ function BookingConfirmationContent() {
         </div>
 
         {/* Actions */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
           <Link
             href="/"
-            className="group inline-flex items-center gap-2 bg-gradient-to-r from-forest-700 to-forest-600 hover:from-forest-800 hover:to-forest-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl "
+            className="group inline-flex items-center gap-3 bg-gradient-to-r from-forest-700 to-forest-600 hover:from-forest-800 hover:to-forest-700 text-white px-10 py-5 rounded-xl font-bold text-xl transition-all duration-300 shadow-2xl hover:shadow-forest-700/50 border-2 border-forest-800 hover:scale-105"
           >
+            <span className="text-2xl">🏠</span>
             <span>{t({ en: 'Back to Home', fr: 'Retour Accueil' })}</span>
-            <span className="group-hover:translate-x-1 transition-transform">→</span>
+            <span className="group-hover:translate-x-2 transition-transform text-xl">→</span>
           </Link>
 
           <Link
             href="/guide"
-            className="inline-flex items-center gap-2 bg-white hover:bg-forest-50 border-2 border-slate-700 text-forest-700 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl "
+            className="group inline-flex items-center gap-3 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white px-10 py-5 rounded-xl font-bold text-xl transition-all duration-300 shadow-2xl hover:shadow-gold-500/50 border-2 border-gold-600 hover:scale-105"
           >
-            <span>📖</span>
+            <span className="text-2xl">📖</span>
             <span>{t({ en: 'Guest Guide', fr: 'Guide Voyageur' })}</span>
+            <span className="group-hover:translate-x-1 transition-transform">✨</span>
           </Link>
         </div>
 

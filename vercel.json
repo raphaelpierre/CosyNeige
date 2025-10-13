@@ -11,5 +11,6 @@
     "env": {
       "PRISMA_GENERATE_SKIP_AUTOINSTALL": "true"
     }
-  }
+  },
+  "crons": []
 }

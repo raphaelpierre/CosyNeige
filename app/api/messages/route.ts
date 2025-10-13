@@ -4,10 +4,17 @@ import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
-// GET - Récupérer les messages de l'utilisateur
+// GET - Récupérer les messages de l'utilisateur ou tous les messages si admin
 export async function GET(request: NextRequest) {
   try {
-    const token = request.cookies.get('auth-token')?.value;
+    // Vérifier d'abord le token dans les headers (pour admin)
+    let token = request.headers.get('authorization')?.replace('Bearer ', '');
+    const isHeaderAuth = !!token;
+    
+    // Si pas de token dans les headers, vérifier les cookies (pour client)
+    if (!token) {
+      token = request.cookies.get('auth-token')?.value;
+    }
 
     if (!token) {
       return NextResponse.json(
@@ -16,9 +23,17 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
+    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; role?: string };
 
-    // Récupérer les messages de l'utilisateur et les réponses admin
+    // Si c'est un admin avec authentification par header, récupérer tous les messages
+    if (isHeaderAuth && decoded.role === 'admin') {
+      const messages = await prisma.message.findMany({
+        orderBy: { createdAt: 'desc' }
+      });
+      return NextResponse.json({ messages });
+    }
+
+    // Sinon, récupérer les messages de l'utilisateur
     const messages = await prisma.message.findMany({
       where: {
         OR: [

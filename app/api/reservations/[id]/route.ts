@@ -37,13 +37,57 @@ export async function PATCH(
   try {
     const params = await context.params;
     const body = await request.json();
-    const { status, ...updateData } = body;
+    const { status, checkIn, checkOut, guests, message, ...updateData } = body;
+
+    // Vérifier que la réservation existe
+    const existingReservation = await prisma.reservation.findUnique({
+      where: { id: params.id }
+    });
+
+    if (!existingReservation) {
+      return NextResponse.json(
+        { error: 'Reservation not found' },
+        { status: 404 }
+      );
+    }
+
+    // Pour les modifications client, vérifier le statut
+    if (checkIn || checkOut || guests || message !== undefined) {
+      // Seules les réservations pending ou confirmed peuvent être modifiées par le client
+      if (!['pending', 'confirmed'].includes(existingReservation.status)) {
+        return NextResponse.json(
+          { error: 'This reservation cannot be modified. Please contact us for assistance.' },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Calculer le nouveau prix si les dates changent
+    let totalPrice = existingReservation.totalPrice;
+    if (checkIn && checkOut) {
+      // Import de calculatePrice si disponible
+      try {
+        const { calculatePrice } = await import('@/lib/utils');
+        const priceCalculation = calculatePrice(checkIn, checkOut);
+        if (priceCalculation) {
+          totalPrice = priceCalculation.total;
+        }
+      } catch (error) {
+        console.log('Price calculation not available');
+      }
+    }
 
     const reservation = await prisma.reservation.update({
       where: { id: params.id },
       data: {
         ...updateData,
-        ...(status && { status })
+        ...(status && { status }),
+        ...(checkIn && { checkIn }),
+        ...(checkOut && { checkOut }),
+        ...(guests && { guests }),
+        ...(message !== undefined && { message }),
+        ...(checkIn && checkOut && totalPrice !== existingReservation.totalPrice && { totalPrice }),
+        updatedAt: new Date()
       }
     });
 

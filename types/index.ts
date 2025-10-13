@@ -92,6 +92,9 @@ export interface Reservation {
   guests: number;
   totalPrice: number;
   status: string;
+  paymentStatus?: string;
+  stripePaymentId?: string;
+  depositAmount?: number;
   message?: string;
   userId?: string;
   createdAt: string;

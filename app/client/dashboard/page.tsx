@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useLanguage } from '@/lib/hooks/useLanguage';
+import { useAuth } from '@/lib/context/AuthContext';
 import { formatEuro } from '@/lib/utils';
 import { Reservation } from '@/types';
+import InvoiceGenerator from '@/components/invoice/InvoiceGenerator';
 
 interface User {
   id: string;
@@ -26,42 +28,62 @@ interface Message {
   createdAt: string;
 }
 
-export default function ClientDashboard() {
+function ClientDashboardContent() {
   const { t } = useLanguage();
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
+  const searchParams = useSearchParams();
+  const { user, isAuthenticated, logout, loading: authLoading } = useAuth();
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [activeTab, setActiveTab] = useState<'overview' | 'reservations' | 'messages'>('overview');
-  const [loading, setLoading] = useState(true);
+  const [dataLoading, setDataLoading] = useState(true);
 
   // Message form state
   const [showMessageForm, setShowMessageForm] = useState(false);
   const [messageForm, setMessageForm] = useState({ subject: '', content: '', replyTo: '' });
   const [sendingMessage, setSendingMessage] = useState(false);
 
+  // Reservation editing state
+  const [editingReservation, setEditingReservation] = useState<string | null>(null);
+  const [editForm, setEditForm] = useState({
+    checkIn: '',
+    checkOut: '',
+    guests: 2,
+    message: ''
+  });
+  const [isUpdating, setIsUpdating] = useState(false);
+  
+  // Invoice generation state
+  const [showInvoiceGenerator, setShowInvoiceGenerator] = useState(false);
+  const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
+
+  // Gérer les paramètres d'URL pour les onglets
   useEffect(() => {
-    fetchUserData();
-  }, []);
+    const tab = searchParams.get('tab');
+    if (tab && ['overview', 'reservations', 'messages'].includes(tab)) {
+      setActiveTab(tab as 'overview' | 'reservations' | 'messages');
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      router.push('/client/login');
+    } else if (!authLoading && isAuthenticated && user) {
+      fetchUserData();
+    }
+  }, [authLoading, isAuthenticated, user, router]);
 
   const fetchUserData = async () => {
-    try {
-      // Récupérer l'utilisateur
-      const userRes = await fetch('/api/auth/me');
-      if (!userRes.ok) {
-        router.push('/client/login');
-        return;
-      }
-      const userData = await userRes.json();
-      setUser(userData);
+    if (!user) return;
 
+    try {
       // Récupérer les réservations
       const resRes = await fetch('/api/reservations');
       if (resRes.ok) {
         const allReservations = await resRes.json();
         // Filtrer les réservations de l'utilisateur
         const userReservations = allReservations.filter(
-          (r: Reservation) => r.email === userData.email
+          (r: Reservation) => r.email === user.email
         );
         setReservations(userReservations);
       }
@@ -75,14 +97,11 @@ export default function ClientDashboard() {
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
-      setLoading(false);
+      setDataLoading(false);
     }
   };
 
-  const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
-    router.push('/');
-  };
+
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,12 +128,78 @@ export default function ClientDashboard() {
     }
   };
 
-  if (loading) {
+  const startEditReservation = (reservation: Reservation) => {
+    setEditingReservation(reservation.id);
+    setEditForm({
+      checkIn: reservation.checkIn,
+      checkOut: reservation.checkOut,
+      guests: reservation.guests,
+      message: reservation.message || ''
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingReservation(null);
+    setEditForm({ checkIn: '', checkOut: '', guests: 2, message: '' });
+  };
+
+  const handleUpdateReservation = async (reservationId: string) => {
+    setIsUpdating(true);
+    
+    try {
+      const response = await fetch(`/api/reservations/${reservationId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editForm),
+      });
+
+      if (response.ok) {
+        alert(t({ 
+          en: 'Reservation updated successfully!', 
+          fr: 'Réservation modifiée avec succès !' 
+        }));
+        setEditingReservation(null);
+        fetchUserData(); // Recharger les données
+      } else {
+        throw new Error('Failed to update reservation');
+      }
+    } catch (error) {
+      console.error('Error updating reservation:', error);
+      alert(t({ 
+        en: 'Error updating reservation. Please try again.', 
+        fr: 'Erreur lors de la modification. Veuillez réessayer.' 
+      }));
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const canEditReservation = (reservation: Reservation) => {
+    return reservation.status === 'pending' || reservation.status === 'confirmed';
+  };
+
+  const handleGenerateInvoice = (reservation: Reservation) => {
+    setSelectedReservation(reservation);
+    setShowInvoiceGenerator(true);
+  };
+
+  const canGenerateInvoice = (reservation: Reservation) => {
+    return reservation.status === 'confirmed' || reservation.paymentStatus === 'deposit_paid' || reservation.paymentStatus === 'fully_paid';
+  };
+
+  if (authLoading || dataLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-cream">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-slate-700"></div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-forest-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">{t({ en: 'Loading...', fr: 'Chargement...' })}</p>
+        </div>
       </div>
     );
+  }
+
+  if (!isAuthenticated || !user) {
+    return null; // Le useEffect redirigera vers la page de login
   }
 
   if (!user) {
@@ -132,30 +217,40 @@ export default function ClientDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-cream to-white py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-forest-700 to-forest-800 rounded-2xl shadow-2xl p-8 mb-8 text-white">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">
-                {t({ en: 'Welcome back,', fr: 'Bon retour,' })} {user.firstName}!
-              </h1>
-              <p className="text-forest-100">
-                {t({ en: 'Manage your reservations and messages', fr: 'Gérez vos réservations et messages' })}
-              </p>
+        {/* Header avec contraste maximum */}
+        <div className="bg-white rounded-3xl shadow-2xl p-8 mb-8 border-4 border-gray-300">
+          {/* Barre d'accent simple */}
+          <div className="w-full h-1 bg-slate-600 rounded-full mb-6"></div>
+          
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div className="flex items-center gap-6">
+              {/* Avatar simple et contrasté */}
+              <div className="w-20 h-20 bg-slate-700 rounded-2xl flex items-center justify-center text-2xl font-bold text-white shadow-xl">
+                {user.firstName.charAt(0).toUpperCase()}{user.lastName.charAt(0).toUpperCase()}
+              </div>
+              
+              <div>
+                <h1 className="text-4xl font-black mb-2 text-black">
+                  {t({ en: 'Welcome back,', fr: 'Bon retour,' })} <span className="text-slate-700">{user.firstName}</span>!
+                </h1>
+                <p className="text-xl text-gray-800 font-bold">
+                  {t({ en: 'Manage your alpine retreat', fr: 'Gérez votre séjour alpin' })}
+                </p>
+                <div className="flex items-center gap-2 mt-3 text-gray-700 text-base font-semibold">
+                  <span>🏔️</span>
+                  <span>{t({ en: 'Chalet-Balmotte810 Guest Portal', fr: 'Portail Client Chalet-Balmotte810' })}</span>
+                </div>
+              </div>
             </div>
-            <div className="flex gap-3">
+            
+            <div className="flex">
               <Link
-                href="/"
-                className="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg font-semibold transition-all"
+                href="/booking"
+                className="inline-flex items-center gap-3 bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-xl font-bold transition-all duration-200 shadow-lg border-2 border-slate-600 text-lg"
               >
-                {t({ en: 'Home', fr: 'Accueil' })}
+                <span className="text-2xl">➕</span>
+                <span>{t({ en: 'New Booking', fr: 'Nouvelle Réservation' })}</span>
               </Link>
-              <button
-                onClick={handleLogout}
-                className="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg font-semibold transition-all"
-              >
-                {t({ en: 'Logout', fr: 'Déconnexion' })}
-              </button>
             </div>
           </div>
         </div>
@@ -407,81 +502,198 @@ export default function ClientDashboard() {
                 {upcomingReservations.map((reservation) => (
                   <div
                     key={reservation.id}
-                    className="border-2 border-gray-200 rounded-xl p-6 hover:border-slate-700 hover:shadow-lg transition-all"
+                    className={`border-2 rounded-xl p-6 transition-all ${
+                      editingReservation === reservation.id 
+                        ? 'border-gold-300 bg-gold-50 shadow-xl' 
+                        : 'border-gray-200 hover:border-slate-700 hover:shadow-lg'
+                    }`}
                   >
-                    <div className="flex flex-col lg:flex-row justify-between gap-6">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-4">
-                          <span className={`px-4 py-1.5 rounded-full text-sm font-bold ${
-                            reservation.status === 'confirmed'
-                              ? 'bg-green-100 text-forest-700'
-                              : reservation.status === 'pending'
-                                ? 'bg-yellow-100 text-yellow-800'
-                                : 'bg-gray-100 text-gray-800'
-                          }`}>
-                            {reservation.status.toUpperCase()}
-                          </span>
-                          <span className="text-sm text-gray-500">
-                            {t({ en: 'Booked on', fr: 'Réservé le' })}{' '}
-                            {new Date(reservation.createdAt).toLocaleDateString('fr-FR')}
-                          </span>
+                    {editingReservation === reservation.id ? (
+                      // Mode édition
+                      <div className="space-y-6">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-bold text-gold-800">
+                            📝 {t({ en: 'Edit Reservation', fr: 'Modifier la Réservation' })}
+                          </h3>
+                          <button
+                            onClick={cancelEdit}
+                            className="text-gray-500 hover:text-gray-700 text-xl"
+                          >
+                            ✕
+                          </button>
                         </div>
+
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          <div className="bg-forest-50 rounded-lg p-4">
-                            <div className="text-xs text-gray-600 mb-1">
+                          <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">
                               {t({ en: 'Check-in', fr: 'Arrivée' })}
-                            </div>
-                            <div className="font-bold text-forest-900">
-                              {new Date(reservation.checkIn).toLocaleDateString('fr-FR', {
-                                day: 'numeric',
-                                month: 'short',
-                                year: 'numeric'
-                              })}
-                            </div>
+                            </label>
+                            <input
+                              type="date"
+                              value={editForm.checkIn}
+                              onChange={(e) => setEditForm({ ...editForm, checkIn: e.target.value })}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold-500"
+                            />
                           </div>
-                          <div className="bg-forest-50 rounded-lg p-4">
-                            <div className="text-xs text-gray-600 mb-1">
+                          <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">
                               {t({ en: 'Check-out', fr: 'Départ' })}
-                            </div>
-                            <div className="font-bold text-forest-900">
-                              {new Date(reservation.checkOut).toLocaleDateString('fr-FR', {
-                                day: 'numeric',
-                                month: 'short',
-                                year: 'numeric'
-                              })}
-                            </div>
+                            </label>
+                            <input
+                              type="date"
+                              value={editForm.checkOut}
+                              onChange={(e) => setEditForm({ ...editForm, checkOut: e.target.value })}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold-500"
+                            />
                           </div>
-                          <div className="bg-forest-50 rounded-lg p-4">
-                            <div className="text-xs text-gray-600 mb-1">
+                          <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">
                               {t({ en: 'Guests', fr: 'Personnes' })}
+                            </label>
+                            <select
+                              value={editForm.guests}
+                              onChange={(e) => setEditForm({ ...editForm, guests: Number(e.target.value) })}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold-500"
+                            >
+                              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+                                <option key={n} value={n}>{n}</option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            {t({ en: 'Message', fr: 'Message' })}
+                          </label>
+                          <textarea
+                            rows={3}
+                            value={editForm.message}
+                            onChange={(e) => setEditForm({ ...editForm, message: e.target.value })}
+                            placeholder={t({ en: 'Additional requests...', fr: 'Demandes supplémentaires...' })}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold-500"
+                          />
+                        </div>
+
+                        <div className="flex gap-3">
+                          <button
+                            onClick={() => handleUpdateReservation(reservation.id)}
+                            disabled={isUpdating}
+                            className="flex-1 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white px-6 py-3 rounded-lg font-semibold transition-all disabled:opacity-50"
+                          >
+                            {isUpdating 
+                              ? t({ en: 'Updating...', fr: 'Modification...' })
+                              : t({ en: '✅ Save Changes', fr: '✅ Sauvegarder' })
+                            }
+                          </button>
+                          <button
+                            onClick={cancelEdit}
+                            className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                          >
+                            {t({ en: 'Cancel', fr: 'Annuler' })}
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      // Mode affichage
+                      <div className="flex flex-col lg:flex-row justify-between gap-6">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-4">
+                            <span className={`px-4 py-1.5 rounded-full text-sm font-bold ${
+                              reservation.status === 'confirmed'
+                                ? 'bg-green-100 text-forest-700'
+                                : reservation.status === 'pending'
+                                  ? 'bg-yellow-100 text-yellow-800'
+                                  : 'bg-gray-100 text-gray-800'
+                            }`}>
+                              {reservation.status.toUpperCase()}
+                            </span>
+                            <span className="text-sm text-gray-500">
+                              {t({ en: 'Booked on', fr: 'Réservé le' })}{' '}
+                              {new Date(reservation.createdAt).toLocaleDateString('fr-FR')}
+                            </span>
+                            {canEditReservation(reservation) && (
+                              <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                                {t({ en: 'Editable', fr: 'Modifiable' })}
+                              </span>
+                            )}
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="bg-forest-50 rounded-lg p-4">
+                              <div className="text-xs text-gray-600 mb-1">
+                                {t({ en: 'Check-in', fr: 'Arrivée' })}
+                              </div>
+                              <div className="font-bold text-forest-900">
+                                {new Date(reservation.checkIn).toLocaleDateString('fr-FR', {
+                                  day: 'numeric',
+                                  month: 'short',
+                                  year: 'numeric'
+                                })}
+                              </div>
                             </div>
-                            <div className="font-bold text-forest-900">{reservation.guests}</div>
+                            <div className="bg-forest-50 rounded-lg p-4">
+                              <div className="text-xs text-gray-600 mb-1">
+                                {t({ en: 'Check-out', fr: 'Départ' })}
+                              </div>
+                              <div className="font-bold text-forest-900">
+                                {new Date(reservation.checkOut).toLocaleDateString('fr-FR', {
+                                  day: 'numeric',
+                                  month: 'short',
+                                  year: 'numeric'
+                                })}
+                              </div>
+                            </div>
+                            <div className="bg-forest-50 rounded-lg p-4">
+                              <div className="text-xs text-gray-600 mb-1">
+                                {t({ en: 'Guests', fr: 'Personnes' })}
+                              </div>
+                              <div className="font-bold text-forest-900">{reservation.guests}</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="lg:text-right border-t lg:border-t-0 lg:border-l border-gray-200 pt-6 lg:pt-0 lg:pl-6">
+                          <div className="text-sm text-gray-600 mb-2">
+                            {t({ en: 'Total Price', fr: 'Prix Total' })}
+                          </div>
+                          <div className="text-3xl font-bold text-forest-900 mb-4">
+                            {formatEuro(reservation.totalPrice)}
+                          </div>
+                          
+                          <div className="space-y-2">
+                            {canEditReservation(reservation) && (
+                              <button
+                                onClick={() => startEditReservation(reservation)}
+                                className="w-full lg:w-auto bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white px-6 py-2 rounded-lg font-semibold transition-all text-sm mb-2"
+                              >
+                                📝 {t({ en: 'Edit', fr: 'Modifier' })}
+                              </button>
+                            )}
+                            {canGenerateInvoice(reservation) && (
+                              <button
+                                onClick={() => handleGenerateInvoice(reservation)}
+                                className="w-full lg:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-all text-sm mb-2"
+                              >
+                                📄 {t({ en: 'Generate Invoice', fr: 'Générer Facture' })}
+                              </button>
+                            )}
+                            <button
+                              onClick={() => {
+                                setMessageForm({
+                                  subject: `Question about reservation ${reservation.id}`,
+                                  content: '',
+                                  replyTo: ''
+                                });
+                                setShowMessageForm(true);
+                                setActiveTab('messages');
+                              }}
+                              className="w-full lg:w-auto bg-slate-700 hover:bg-slate-800 text-white px-6 py-2 rounded-lg font-semibold transition-colors text-sm"
+                            >
+                              {t({ en: 'Contact Us', fr: 'Nous Contacter' })}
+                            </button>
                           </div>
                         </div>
                       </div>
-                      <div className="lg:text-right border-t lg:border-t-0 lg:border-l border-gray-200 pt-6 lg:pt-0 lg:pl-6">
-                        <div className="text-sm text-gray-600 mb-2">
-                          {t({ en: 'Total Price', fr: 'Prix Total' })}
-                        </div>
-                        <div className="text-3xl font-bold text-forest-900 mb-4">
-                          {formatEuro(reservation.totalPrice)}
-                        </div>
-                        <button
-                          onClick={() => {
-                            setMessageForm({
-                              subject: `Question about reservation ${reservation.id}`,
-                              content: '',
-                              replyTo: ''
-                            });
-                            setShowMessageForm(true);
-                            setActiveTab('messages');
-                          }}
-                          className="w-full lg:w-auto bg-slate-700 hover:bg-slate-800 text-white px-6 py-2 rounded-lg font-semibold transition-colors text-sm"
-                        >
-                          {t({ en: 'Contact Us', fr: 'Nous Contacter' })}
-                        </button>
-                      </div>
-                    </div>
+                    )}
                   </div>
                 ))}
 
@@ -678,6 +890,32 @@ export default function ClientDashboard() {
           </div>
         )}
       </div>
+
+      {/* Générateur de facture */}
+      {showInvoiceGenerator && selectedReservation && (
+        <InvoiceGenerator
+          reservation={selectedReservation}
+          onClose={() => {
+            setShowInvoiceGenerator(false);
+            setSelectedReservation(null);
+          }}
+        />
+      )}
     </div>
+  );
+}
+
+export default function ClientDashboard() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white p-8 rounded-lg shadow-lg text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Chargement de votre tableau de bord...</p>
+        </div>
+      </div>
+    }>
+      <ClientDashboardContent />
+    </Suspense>
   );
 }

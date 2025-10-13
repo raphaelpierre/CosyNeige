@@ -1,13 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useLanguage } from '@/lib/hooks/useLanguage';
+import { useAuth } from '@/lib/context/AuthContext';
 
 export default function LoginPage() {
   const { t } = useLanguage();
   const router = useRouter();
+  const { isAuthenticated, login, checkAuthStatus, loading } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     email: '',
@@ -19,12 +21,21 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Rediriger si déjà connecté
+  useEffect(() => {
+    if (!loading && isAuthenticated) {
+      router.push('/client/dashboard');
+    }
+  }, [isAuthenticated, loading, router]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setIsSubmitting(true);
 
     try {
+      console.log('🔐 Tentative de connexion avec:', { email: formData.email });
+      
       const url = isLogin ? '/api/auth/login' : '/api/auth/register';
       const response = await fetch(url, {
         method: 'POST',
@@ -32,20 +43,44 @@ export default function LoginPage() {
         body: JSON.stringify(formData),
       });
 
+      console.log('📥 Réponse du serveur:', response.status);
+
       const data = await response.json();
+      console.log('📊 Données reçues:', { user: data.user?.email, role: data.user?.role });
 
       if (!response.ok) {
+        console.error('❌ Erreur de connexion:', data.error);
         throw new Error(data.error || 'An error occurred');
       }
 
+      console.log('✅ Connexion réussie, mise à jour du contexte...');
+      
+      // Mettre à jour le contexte d'authentification en récupérant les données complètes depuis l'API
+      await checkAuthStatus();
+
+      console.log('🚀 Redirection vers le dashboard...');
+      
       // Rediriger vers l'espace client
       router.push('/client/dashboard');
     } catch (err: unknown) {
+      console.error('❌ Erreur dans handleSubmit:', err);
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  // Afficher un loader pendant la vérification de l'authentification
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-cream via-white to-cream py-16 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-forest-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">{t({ en: 'Loading...', fr: 'Chargement...' })}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-cream via-white to-cream py-16">

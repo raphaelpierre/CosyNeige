@@ -172,135 +172,231 @@ export default function BookingPage() {
 
       {/* Availability Calendar */}
       <section className="py-12 bg-cream">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4 text-center">
-            {t({ en: 'Availability Calendar', fr: 'Calendrier des Disponibilités' })}
+            {t({ en: 'Check Availability & Calculate Your Stay', fr: 'Vérifiez les Disponibilités et Calculez Votre Séjour' })}
           </h2>
-          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+          <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
             {t({
-              en: 'Select your check-in and check-out dates. Green dates are available, red dates are already booked.',
-              fr: 'Sélectionnez vos dates d\'arrivée et de départ. Les dates vertes sont disponibles, les dates rouges sont déjà réservées.',
+              en: 'Use the calendar to select your dates and instantly see the price calculation. Green dates are available, red dates are already booked.',
+              fr: 'Utilisez le calendrier pour sélectionner vos dates et voir instantanément le calcul des prix. Les dates vertes sont disponibles, les dates rouges sont déjà réservées.',
             })}
           </p>
 
-          <div className="max-w-xl mx-auto">
+          {/* Sélecteur du nombre de personnes */}
+          <div className="mb-8 max-w-xs mx-auto">
+            <label className="block text-sm font-semibold text-gray-700 mb-3 text-center">
+              👥 {t({ en: 'Number of Guests', fr: 'Nombre de Personnes' })}
+            </label>
+            <select
+              value={guests}
+              onChange={(e) => setGuests(Number(e.target.value))}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent text-center font-semibold"
+            >
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+                <option key={n} value={n}>{n} {t({ en: n === 1 ? 'guest' : 'guests', fr: n === 1 ? 'personne' : 'personnes' })}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="max-w-2xl mx-auto">
             <BookingCalendar onDateSelect={handleDateSelect} />
           </div>
 
+          {/* Légende des couleurs */}
+          <div className="flex justify-center gap-6 mt-6 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-green-200 border border-green-400 rounded"></div>
+              <span className="text-gray-600">{t({ en: 'Available', fr: 'Disponible' })}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-red-200 border border-red-400 rounded"></div>
+              <span className="text-gray-600">{t({ en: 'Booked', fr: 'Réservé' })}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-blue-200 border border-blue-400 rounded"></div>
+              <span className="text-gray-600">{t({ en: 'Selected', fr: 'Sélectionné' })}</span>
+            </div>
+          </div>
+
           {checkIn && checkOut && (
-            <div className="mt-8 bg-white rounded-lg p-6 text-center max-w-xl mx-auto">
-              <h3 className="font-bold text-forest-900 mb-4">{t({ en: 'Selected Period', fr: 'Période Sélectionnée' })}</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
+            <div className="mt-8 bg-white rounded-lg p-6 shadow-lg max-w-2xl mx-auto">
+              <h3 className="font-bold text-forest-900 mb-6 text-xl text-center">
+                ✨ {t({ en: 'Selected Period & Price', fr: 'Période Sélectionnée et Prix' })}
+              </h3>
+              
+              {/* Résumé des dates */}
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="text-center">
                   <div className="text-sm text-gray-600 mb-1">{t({ en: 'Check-in', fr: 'Arrivée' })}</div>
-                  <div className="font-bold text-forest-900">{new Date(checkIn).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+                  <div className="font-bold text-forest-900">
+                    {new Date(checkIn).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
+                  </div>
                 </div>
-                <div>
+                <div className="text-center">
+                  <div className="text-sm text-gray-600 mb-1">{t({ en: 'Duration', fr: 'Durée' })}</div>
+                  <div className="text-2xl font-bold text-forest-700">
+                    {nights} {t({ en: nights === 1 ? 'night' : 'nights', fr: nights === 1 ? 'nuit' : 'nuits' })}
+                  </div>
+                </div>
+                <div className="text-center">
                   <div className="text-sm text-gray-600 mb-1">{t({ en: 'Check-out', fr: 'Départ' })}</div>
-                  <div className="font-bold text-forest-900">{new Date(checkOut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+                  <div className="font-bold text-forest-900">
+                    {new Date(checkOut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
+                  </div>
                 </div>
               </div>
-              <div className="mt-4 text-2xl font-bold text-forest-700">
-                {nights} {t({ en: nights === 1 ? 'night' : 'nights', fr: nights === 1 ? 'nuit' : 'nuits' })}
-              </div>
+
+              {/* Calcul des prix */}
+              {priceCalculation && (
+                (season === 'high' ? nights >= 7 : nights >= 3) ? (
+                  <div className="bg-forest-50 rounded-lg p-6 border-2 border-forest-200">
+                    <h4 className="text-lg font-bold text-forest-900 mb-4 text-center">
+                      💰 {t({ en: 'Price Breakdown', fr: 'Détail du Prix' })}
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="flex justify-between text-gray-700">
+                        <span>{nights} {t({ en: 'nights', fr: 'nuits' })} ({season && t({
+                          en: season === 'high' ? 'High Season' : 'Low Season',
+                          fr: season === 'high' ? 'Haute Saison' : 'Basse Saison'
+                        })})</span>
+                        <span className="font-semibold">{formatEuro(priceCalculation.basePrice)}</span>
+                      </div>
+                      <div className="flex justify-between text-gray-700">
+                        <span>{t({ en: 'Cleaning fee', fr: 'Frais de ménage' })}</span>
+                        <span className="font-semibold">{formatEuro(priceCalculation.cleaningFee)}</span>
+                      </div>
+                      <div className="pt-3 border-t-2 border-forest-300 flex justify-between text-xl font-bold text-forest-900">
+                        <span>{t({ en: 'Total', fr: 'Total' })}</span>
+                        <span>{formatEuro(priceCalculation.total)}</span>
+                      </div>
+                      <div className="flex justify-between text-gray-700 pt-2">
+                        <span>{t({ en: 'Security deposit', fr: 'Caution' })}</span>
+                        <span className="font-semibold">{formatEuro(priceCalculation.depositAmount)}</span>
+                      </div>
+                      <div className="text-sm text-gray-600 pt-2 text-center">
+                        + {t({ en: 'Tourist tax', fr: 'Taxe de séjour' })}: {formatEuro(guests * nights * 2)}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-red-50 border-2 border-red-200 rounded-lg p-4 text-center">
+                    <p className="text-red-700 font-medium">
+                      ⚠️ {season === 'high' 
+                        ? t({ en: 'Minimum 7 nights required for high season', fr: 'Minimum 7 nuits requis en haute saison' })
+                        : t({ en: 'Minimum 3 nights required', fr: 'Minimum 3 nuits requis' })
+                      }
+                    </p>
+                  </div>
+                )
+              )}
+
+              {/* Message d'information pour séjours trop courts */}
+              {nights > 0 && !((season === 'high' ? nights >= 7 : nights >= 3)) && (
+                <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-4 mt-4 text-center">
+                  <p className="text-yellow-800 font-medium text-sm">
+                    {season === 'high' 
+                      ? t({ en: 'Please select at least 7 nights for high season periods', fr: 'Veuillez sélectionner au moins 7 nuits pour les périodes de haute saison' })
+                      : t({ en: 'Please select at least 3 nights for your stay', fr: 'Veuillez sélectionner au moins 3 nuits pour votre séjour' })
+                    }
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </div>
       </section>
 
-      {/* Price Calculator */}
-      <section className="py-12 bg-white">
+
+
+      {/* Account Creation Invitation */}
+      <section className="py-8 bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-8 text-center">
-            {t({ en: 'Calculate Your Stay', fr: 'Calculez Votre Séjour' })}
-          </h2>
+          <div className="bg-white rounded-2xl shadow-xl p-8 border border-blue-200">
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+                <span className="text-3xl">⚡</span>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                {t({ 
+                  en: 'Create Your Account for Lightning-Fast Booking!', 
+                  fr: 'Créez Votre Compte pour une Réservation Ultra-Rapide !' 
+                })}
+              </h3>
+              <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                {t({
+                  en: 'Join thousands of satisfied guests! Create your free account in 30 seconds and enjoy auto-filled forms, booking history, and exclusive member offers.',
+                  fr: 'Rejoignez des milliers de clients satisfaits ! Créez votre compte gratuit en 30 secondes et profitez de formulaires pré-remplis, d\'un historique de réservations et d\'offres exclusives membres.',
+                })}
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                  <span className="text-2xl">📝</span>
+                  <div className="text-left">
+                    <p className="font-semibold text-green-800 text-sm">
+                      {t({ en: 'Auto-Fill Forms', fr: 'Formulaires Pré-remplis' })}
+                    </p>
+                    <p className="text-green-600 text-xs">
+                      {t({ en: 'Save time on future bookings', fr: 'Gagnez du temps sur vos futures réservations' })}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-lg">
+                  <span className="text-2xl">📚</span>
+                  <div className="text-left">
+                    <p className="font-semibold text-purple-800 text-sm">
+                      {t({ en: 'Booking History', fr: 'Historique de Réservations' })}
+                    </p>
+                    <p className="text-purple-600 text-xs">
+                      {t({ en: 'Track all your stays', fr: 'Suivez tous vos séjours' })}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg">
+                  <span className="text-2xl">🎁</span>
+                  <div className="text-left">
+                    <p className="font-semibold text-yellow-800 text-sm">
+                      {t({ en: 'Exclusive Offers', fr: 'Offres Exclusives' })}
+                    </p>
+                    <p className="text-yellow-600 text-xs">
+                      {t({ en: 'Member-only discounts', fr: 'Réductions réservées aux membres' })}
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-              <FrenchDatePicker
-                value={checkIn}
-                onChange={setCheckIn}
-                label={t({ en: 'Check-in', fr: 'Arrivée' })}
-              />
-
-              <FrenchDatePicker
-                value={checkOut}
-                onChange={setCheckOut}
-                label={t({ en: 'Check-out', fr: 'Départ' })}
-              />
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  {t({ en: 'Guests', fr: 'Personnes' })}
-                </label>
-                <select
-                  value={guests}
-                  onChange={(e) => setGuests(Number(e.target.value))}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent"
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button
+                  onClick={() => window.open('/client/login', '_blank')}
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 >
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
-                    <option key={n} value={n}>{n}</option>
-                  ))}
-                </select>
+                  <span className="flex items-center gap-2">
+                    <span className="text-xl">🚀</span>
+                    {t({ en: 'Create Free Account', fr: 'Créer un Compte Gratuit' })}
+                  </span>
+                </button>
+                
+                <p className="text-sm text-gray-500">
+                  {t({ 
+                    en: 'Already have an account? Sign in to auto-fill below', 
+                    fr: 'Déjà un compte ? Connectez-vous pour pré-remplir ci-dessous' 
+                  })}
+                </p>
+              </div>
+              
+              <div className="mt-4 text-xs text-gray-400 flex items-center justify-center gap-1">
+                <span>🔒</span>
+                <span>
+                  {t({ 
+                    en: '100% secure • No spam • Cancel anytime', 
+                    fr: '100% sécurisé • Pas de spam • Annulation libre' 
+                  })}
+                </span>
               </div>
             </div>
-
-            {priceCalculation && (
-              // Vérification des séjours minimum selon la saison
-              (season === 'high' ? nights >= 7 : nights >= 3) ? (
-              <div className="bg-forest-50 rounded-lg p-6 border-2 border-slate-700">
-                <h3 className="text-xl font-bold text-forest-900 mb-4">{t({ en: 'Price Breakdown', fr: 'Détail du Prix' })}</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between text-gray-700">
-                    <span>{nights} {t({ en: 'nights', fr: 'nuits' })} ({season && t({
-                      en: season === 'high' ? 'High Season' : 'Low Season',
-                      fr: season === 'high' ? 'Haute Saison' : 'Basse Saison'
-                    })})</span>
-                    <span className="font-semibold">{formatEuro(priceCalculation.basePrice)}</span>
-                  </div>
-                  <div className="flex justify-between text-gray-700">
-                    <span>{t({ en: 'Cleaning fee', fr: 'Frais de ménage' })}</span>
-                    <span className="font-semibold">{formatEuro(priceCalculation.cleaningFee)}</span>
-                  </div>
-                  <div className="pt-3 border-t-2 border-slate-700 flex justify-between text-xl font-bold text-forest-900">
-                    <span>{t({ en: 'Total', fr: 'Total' })}</span>
-                    <span>{formatEuro(priceCalculation.total)}</span>
-                  </div>
-                  <div className="flex justify-between text-gray-700 pt-2">
-                    <span>{t({ en: 'Security deposit', fr: 'Caution' })}</span>
-                    <span className="font-semibold">{formatEuro(priceCalculation.depositAmount)}</span>
-                  </div>
-                  <div className="text-sm text-gray-600 pt-2">
-                    + {t({ en: 'Tourist tax', fr: 'Taxe de séjour' })}: {formatEuro(guests * nights * 2)}
-                  </div>
-                  <div className="text-sm text-gray-500 mt-3 p-3 bg-gray-100 rounded">
-                    {t({ 
-                      en: 'The security deposit will be returned after checkout if no damage is found.',
-                      fr: 'La caution sera restituée après le départ si aucun dégât n\'est constaté.'
-                    })}
-                  </div>
-                </div>
-              </div>
-              ) : (
-                <div className="bg-red-50 border-2 border-red-200 rounded-lg p-4">
-                  <p className="text-red-700 font-medium">
-                    {season === 'high' 
-                      ? t({ en: 'Minimum 7 nights required for high season', fr: 'Minimum 7 nuits requis en haute saison' })
-                      : t({ en: 'Minimum 3 nights required', fr: 'Minimum 3 nuits requis' })
-                    }
-                  </p>
-                </div>
-              )
-            )}
-
-            {nights > 0 && !((season === 'high' ? nights >= 7 : nights >= 3)) && (
-              <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4 text-red-800">
-                {season === 'high' 
-                  ? t({ en: 'Minimum stay is 7 nights in high season', fr: 'Séjour minimum de 7 nuits en haute saison' })
-                  : t({ en: 'Minimum stay is 3 nights', fr: 'Séjour minimum de 3 nuits' })
-                }
-              </div>
-            )}
           </div>
         </div>
       </section>
@@ -425,20 +521,36 @@ export default function BookingPage() {
               <button
                 type="submit"
                 disabled={!checkIn || !checkOut || !((season === 'high' ? nights >= 7 : nights >= 3)) || isSubmitting}
-                className={`w-full px-8 py-5 rounded-xl font-bold text-xl transition-all shadow-2xl border-2 ${
+                className={`w-full px-8 py-5 rounded-xl font-bold text-xl transition-all duration-300 shadow-lg border-2 transform hover:scale-[1.02] ${
                   !checkIn || !checkOut || !((season === 'high' ? nights >= 7 : nights >= 3)) || isSubmitting
-                    ? 'bg-gray-300 text-gray-600 cursor-not-allowed border-gray-400'
-                    : 'bg-gradient-to-r from-forest-700 to-forest-600 hover:from-forest-800 hover:to-forest-700 text-white hover:shadow-forest-700/50  border-forest-800'
+                    ? 'bg-gray-400 text-gray-700 cursor-not-allowed border-gray-500 opacity-75'
+                    : 'bg-gray-800 hover:bg-gray-900 text-white border-gray-900 hover:shadow-xl'
                 }`}
               >
-                {isSubmitting
-                  ? t({ en: '⏳ Sending...', fr: '⏳ Envoi en cours...' })
-                  : (!checkIn || !checkOut || !((season === 'high' ? nights >= 7 : nights >= 3)))
-                    ? t({ 
-                        en: season === 'high' ? '⚠️ Complete dates above (minimum 7 nights)' : '⚠️ Complete dates above (minimum 3 nights)', 
-                        fr: season === 'high' ? '⚠️ Complétez les dates ci-dessus (minimum 7 nuits)' : '⚠️ Complétez les dates ci-dessus (minimum 3 nuits)' 
-                      })
-                    : t({ en: '✅ Submit Booking Request', fr: '✅ Envoyer la Demande de Réservation' })}
+                <div className="flex items-center justify-center gap-3">
+                  {isSubmitting ? (
+                    <>
+                      <span className="animate-spin text-2xl">⏳</span>
+                      <span>{t({ en: 'Sending...', fr: 'Envoi en cours...' })}</span>
+                    </>
+                  ) : (!checkIn || !checkOut || !((season === 'high' ? nights >= 7 : nights >= 3))) ? (
+                    <>
+                      <span className="text-2xl animate-bounce">⚠️</span>
+                      <span className="text-lg">
+                        {t({ 
+                          en: season === 'high' ? 'Complete dates above (minimum 7 nights)' : 'Complete dates above (minimum 3 nights)', 
+                          fr: season === 'high' ? 'Complétez les dates ci-dessus (minimum 7 nuits)' : 'Complétez les dates ci-dessus (minimum 3 nuits)' 
+                        })}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-2xl animate-pulse">✅</span>
+                      <span>{t({ en: 'Submit Booking Request', fr: 'Envoyer la Demande de Réservation' })}</span>
+                      <span className="text-2xl animate-bounce">🏔️</span>
+                    </>
+                  )}
+                </div>
               </button>
             </div>
 
@@ -467,8 +579,24 @@ export default function BookingPage() {
 
             <div className="bg-white rounded-lg p-6">
               <h3 className="font-bold text-lg text-forest-800 mb-3">💳 {t({ en: 'Payment', fr: 'Paiement' })}</h3>
-              <p className="text-gray-700 text-sm">{t({ en: '30% deposit at booking', fr: 'Acompte de 30% à la réservation' })}</p>
-              <p className="text-gray-700 text-sm">{t({ en: 'Balance due 30 days before arrival', fr: 'Solde 30 jours avant l\'arrivée' })}</p>
+              <p className="text-gray-700 text-sm mb-2">{t({ en: '30% deposit at booking', fr: 'Acompte de 30% à la réservation' })}</p>
+              <p className="text-gray-700 text-sm mb-3">{t({ en: 'Balance due 30 days before arrival', fr: 'Solde 30 jours avant l\'arrivée' })}</p>
+              
+              <div className="border-t border-gray-200 pt-3 mt-3">
+                <p className="text-sm font-semibold text-gray-800 mb-2">
+                  {t({ en: 'Payment Methods:', fr: 'Moyens de paiement :' })}
+                </p>
+                <div className="space-y-2 text-sm text-gray-700">
+                  <div className="flex items-center gap-2">
+                    <span className="text-blue-600">💎</span>
+                    <span>{t({ en: 'Secure online payment via Stripe', fr: 'Paiement en ligne sécurisé via Stripe' })}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">🏦</span>
+                    <span>{t({ en: 'Bank transfer (contact us for details)', fr: 'Virement bancaire (nous contacter pour les détails)' })}</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="bg-white rounded-lg p-6">

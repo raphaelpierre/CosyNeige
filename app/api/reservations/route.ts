@@ -33,7 +33,11 @@ export async function POST(request: NextRequest) {
       checkOut,
       guests,
       totalPrice,
-      message
+      message,
+      status = 'pending',
+      paymentStatus = 'none',
+      stripePaymentId,
+      depositAmount
     } = body;
 
     // Validation
@@ -57,7 +61,10 @@ export async function POST(request: NextRequest) {
         guests: parseInt(guests),
         totalPrice: parseFloat(totalPrice) || 0,
         message: message || null,
-        status: 'pending'
+        status,
+        paymentStatus,
+        stripePaymentId: stripePaymentId || null,
+        depositAmount: depositAmount ? parseFloat(depositAmount) : null
       }
     });
 
