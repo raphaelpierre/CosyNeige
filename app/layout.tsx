@@ -5,6 +5,7 @@ import { LanguageProvider } from "@/lib/hooks/useLanguage";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +39,7 @@ export default function RootLayout({
           <main className="min-h-screen">{children}</main>
           <Footer />
           <Analytics />
+          <SpeedInsights />
         </LanguageProvider>
       </body>
     </html>
