@@ -83,7 +83,7 @@ export default function HomePage() {
       </section>
 
       {/* Description */}
-      <section className="py-16 md:py-24">
+      <section className="py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-6">
             {t({ en: 'Between Two Valleys', fr: 'Entre Deux Vallées' })}
@@ -95,7 +95,7 @@ export default function HomePage() {
       </section>
 
       {/* Gallery Preview */}
-      <section className="py-16 bg-white">
+      <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
@@ -126,17 +126,16 @@ export default function HomePage() {
           <div className="text-center">
             <Link
               href="/gallery"
-              className="group relative inline-block bg-gradient-to-r from-forest-700 to-forest-600 hover:from-forest-800 hover:to-forest-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl  overflow-hidden"
+              className="group relative inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-3 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl border-2 border-slate-700 hover:border-slate-800"
             >
               <span className="relative z-10">{t({ en: 'View Full Gallery', fr: 'Voir Toute la Galerie' })}</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
             </Link>
           </div>
         </div>
       </section>
 
       {/* Amenities */}
-      <section className="py-16 bg-gradient-to-b from-white to-cream">
+      <section className="py-12 bg-gradient-to-b from-white to-cream">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
@@ -163,7 +162,7 @@ export default function HomePage() {
       </section>
 
       {/* Nearby Resorts */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-cream via-white to-cream">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-cream via-white to-cream">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
@@ -203,7 +202,7 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 md:py-20 bg-gradient-to-b from-cream to-white">
+      <section className="py-12 md:py-14 bg-gradient-to-b from-cream to-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
@@ -240,7 +239,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-white border-t border-forest-100/20">
+      <section className="py-14 bg-white border-t border-forest-100/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000">
             <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-700">

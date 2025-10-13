@@ -11,8 +11,8 @@ export const specs: ChaletSpecs = {
   capacity: 10,
   bedrooms: 4,
   bathrooms: 2,
-  surface: 250,
-  parkingSpaces: 2
+  surface: 200,
+  parkingSpaces: 5
 };
 
 export const location: Location = {
@@ -38,20 +38,20 @@ export const amenities: { icon: string; label: Translation }[] = [
   { icon: "🏔️", label: { en: "Mountain Views", fr: "Vue Montagne" } },
   { icon: "📶", label: { en: "High-Speed WiFi", fr: "WiFi Haut Débit" } },
   { icon: "📺", label: { en: "Smart TV", fr: "Smart TV" } },
-  { icon: "🚗", label: { en: "2 Parking Spaces", fr: "2 Places de Parking" } },
+  { icon: "🚗", label: { en: "5 Parking Spaces", fr: "5 Places de Parking" } },
   { icon: "🔆", label: { en: "Heated Floors", fr: "Sols Chauffants" } },
   { icon: "🌄", label: { en: "Terrace", fr: "Terrasse" } },
   { icon: "🍖", label: { en: "BBQ Area", fr: "Espace Barbecue" } }
 ];
 
 export const nearbyResorts: SkiResort[] = [
-  { name: "Le Grand Massif (Les Carroz)", distance: 9, drivingTime: 15 },
-  { name: "Les Gets", distance: 18, drivingTime: 25 },
-  { name: "Flaine", distance: 17, drivingTime: 25 },
+  { name: "Les Carroz (Grand Massif)", distance: 9, drivingTime: 15 },
+  { name: "Les Gets (Portes du Soleil)", distance: 18, drivingTime: 25 },
+  { name: "Flaine (Grand Massif)", distance: 17, drivingTime: 25 },
   { name: "Praz de Lys-Sommand", distance: 15, drivingTime: 25 },
-  { name: "Morzine/Avoriaz", distance: 14, drivingTime: 20 },
+  { name: "Morzine (Portes du Soleil)", distance: 14, drivingTime: 20 },
   { name: "Chamonix-Mont-Blanc", distance: 29, drivingTime: 35 },
-  { name: "Megève", distance: 26, drivingTime: 30 }
+  { name: "Megève (Evasion Mont-Blanc)", distance: 26, drivingTime: 30 }
 ];
 
 export const activities: Activity[] = [
@@ -120,8 +120,8 @@ export const testimonials: Testimonial[] = [
     location: "London, UK",
     rating: 5,
     comment: {
-      en: "Outstanding chalet in a charming village. Easy access to Grand Massif and Morzine. The hot tub after skiing was heavenly. Highly recommended!",
-      fr: "Chalet exceptionnel dans un village charmant. Accès facile au Grand Massif et Morzine. Le jacuzzi après le ski était divin. Hautement recommandé !"
+      en: "Outstanding chalet in a charming village. Easy access to Grand Massif and Portes du Soleil. The hot tub after skiing was heavenly. Highly recommended!",
+      fr: "Chalet exceptionnel dans un village charmant. Accès facile au Grand Massif et Portes du Soleil. Le jacuzzi après le ski était divin. Hautement recommandé !"
     },
     date: "January 2025"
   }
@@ -145,8 +145,8 @@ export const faqs: FAQ[] = [
   {
     question: { en: "Is the chalet ski-in/ski-out?", fr: "Le chalet est-il skis aux pieds ?" },
     answer: {
-      en: "The chalet is not ski-in/ski-out, but is strategically located 9-15km from 3 major ski resorts (Grand Massif, Praz de Lys, Morzine). This central position gives you flexibility to choose different resorts daily.",
-      fr: "Le chalet n'est pas skis aux pieds, mais est stratégiquement situé à 9-15km de 3 grandes stations (Grand Massif, Praz de Lys, Morzine). Cette position centrale vous offre la flexibilité de choisir différentes stations chaque jour."
+      en: "The chalet is not ski-in/ski-out, but is strategically located 9-15km from 3 major ski resorts (Grand Massif, Praz de Lys, Portes du Soleil). This central position gives you flexibility to choose different resorts daily.",
+      fr: "Le chalet n'est pas skis aux pieds, mais est stratégiquement situé à 9-15km de 3 grandes stations (Grand Massif, Praz de Lys, Portes du Soleil). Cette position centrale vous offre la flexibilité de choisir différentes stations chaque jour."
     }
   },
   {

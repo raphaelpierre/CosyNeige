@@ -90,7 +90,7 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Information */}
-      <section className="py-16 bg-white">
+      <section className="py-12 bg-cream">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             <div className="text-center bg-cream rounded-lg p-8 hover:shadow-lg transition-shadow">
@@ -129,7 +129,7 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form */}
-      <section className="py-16 bg-cream">
+      <section className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4 text-center">
             {t({ en: 'Send Us a Message', fr: 'Envoyez-nous un Message' })}
@@ -242,7 +242,7 @@ export default function ContactPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 md:py-20 bg-white">
+      <section className="py-12 md:py-14 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4 text-center">
             {t({ en: 'Frequently Asked Questions', fr: 'Questions Fréquentes' })}

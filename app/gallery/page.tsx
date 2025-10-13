@@ -282,7 +282,7 @@ export default function GalleryPage() {
       )}
 
       {/* CTA */}
-      <section className="py-16 bg-white border-t border-forest-100/20">
+      <section className="py-12 bg-white border-t border-forest-100/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-6">
             {t({ en: 'Like What You See?', fr: 'Vous Aimez ce que Vous Voyez ?' })}

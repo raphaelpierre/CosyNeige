@@ -164,7 +164,7 @@ export default function GuidePage() {
       </section>
 
       {/* Welcome Message */}
-      <section className="py-16 md:py-20 bg-white">
+      <section className="py-12 md:py-14 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-6">
             {t({ en: 'Welcome to Chalet-Balmotte810!', fr: 'Bienvenue à Chalet-Balmotte810 !' })}
@@ -188,7 +188,7 @@ export default function GuidePage() {
       {sections.map((section, sectionIndex) => (
         <section
           key={sectionIndex}
-          className={`py-16 ${sectionIndex % 2 === 0 ? 'bg-cream' : 'bg-white'}`}
+          className={`py-12 ${sectionIndex % 2 === 0 ? 'bg-cream' : 'bg-white'}`}
         >
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-12 text-center flex items-center justify-center gap-3">
@@ -216,7 +216,7 @@ export default function GuidePage() {
       ))}
 
       {/* Local Tips */}
-      <section className="py-16 bg-white border-t border-forest-100/20">
+      <section className="py-12 bg-white border-t border-forest-100/20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-700">
             {t({ en: 'Local Tips & Recommendations', fr: 'Conseils & Recommandations Locales' })}
@@ -246,7 +246,7 @@ export default function GuidePage() {
               <ul className="space-y-2 text-gray-700">
                 <li>{t({ en: 'Arrive at slopes before 9 AM to avoid crowds', fr: 'Arriver aux pistes avant 9h pour éviter la foule' })}</li>
                 <li>{t({ en: 'Book ski school in advance during holidays', fr: 'Réserver l\'école de ski à l\'avance pendant vacances' })}</li>
-                <li>{t({ en: 'Flaine on Sundays - quieter than weekdays', fr: 'Flaine le dimanche - plus calme qu\'en semaine' })}</li>
+                <li>{t({ en: 'Flaine (Grand Massif) on Sundays - quieter than weekdays', fr: 'Flaine (Grand Massif) le dimanche - plus calme qu\'en semaine' })}</li>
               </ul>
             </div>
 
@@ -263,7 +263,7 @@ export default function GuidePage() {
       </section>
 
       {/* Download PDF */}
-      <section className="py-16 bg-cream">
+      <section className="py-12 bg-cream">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-forest-900 mb-6">
             {t({ en: 'Need This Information Offline?', fr: 'Besoin de ces Infos Hors Ligne ?' })}
@@ -285,7 +285,7 @@ export default function GuidePage() {
       </section>
 
       {/* Contact CTA */}
-      <section className="py-16 bg-white border-t border-forest-100/20">
+      <section className="py-12 bg-white border-t border-forest-100/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-gray-700 mb-6">
             {t({ en: 'Questions or Issues During Your Stay?', fr: 'Questions ou Problèmes Pendant Votre Séjour ?' })}

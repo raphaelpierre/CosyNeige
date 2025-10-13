@@ -64,7 +64,7 @@ export default function LocationPage() {
       </section>
 
       {/* Strategic Location */}
-      <section className="py-16 md:py-20 bg-white">
+      <section className="py-12 md:py-14 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
@@ -130,7 +130,7 @@ export default function LocationPage() {
       </section>
 
       {/* Nearby Ski Resorts */}
-      <section className="py-16 bg-cream">
+      <section className="py-12 bg-cream">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
@@ -171,7 +171,7 @@ export default function LocationPage() {
       </section>
 
       {/* Nearby Services */}
-      <section className="py-16 bg-white">
+      <section className="py-12 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
@@ -201,7 +201,7 @@ export default function LocationPage() {
       </section>
 
       {/* Interactive Map */}
-      <section className="py-16 bg-forest-50">
+      <section className="py-12 bg-forest-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
@@ -254,7 +254,7 @@ export default function LocationPage() {
       </section>
 
       {/* Winter Activities */}
-      <section className="py-16 md:py-20 bg-white">
+      <section className="py-12 md:py-14 bg-cream">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
@@ -284,7 +284,7 @@ export default function LocationPage() {
       </section>
 
       {/* Summer Activities */}
-      <section className="py-16 md:py-20 bg-cream">
+      <section className="py-12 md:py-14 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
@@ -314,7 +314,7 @@ export default function LocationPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-white border-t border-forest-100/20">
+      <section className="py-12 bg-white border-t border-forest-100/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-700">
             {t({ en: 'Ready to Explore?', fr: 'Prêt à Explorer ?' })}

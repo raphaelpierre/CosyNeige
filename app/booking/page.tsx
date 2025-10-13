@@ -113,7 +113,7 @@ export default function BookingPage() {
       </section>
 
       {/* Pricing Overview */}
-      <section className="py-16 bg-white">
+      <section className="py-12 bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4 text-center">
             {t({ en: 'Seasonal Rates', fr: 'Tarifs Saisonniers' })}
@@ -169,7 +169,7 @@ export default function BookingPage() {
       </section>
 
       {/* Availability Calendar */}
-      <section className="py-16 bg-cream">
+      <section className="py-12 bg-cream">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4 text-center">
             {t({ en: 'Availability Calendar', fr: 'Calendrier des Disponibilités' })}
@@ -207,7 +207,7 @@ export default function BookingPage() {
       </section>
 
       {/* Price Calculator */}
-      <section className="py-16 bg-white">
+      <section className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-8 text-center">
             {t({ en: 'Calculate Your Stay', fr: 'Calculez Votre Séjour' })}
@@ -316,7 +316,7 @@ export default function BookingPage() {
       </section>
 
       {/* Booking Form */}
-      <section className="py-16 bg-white">
+      <section className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4 text-center">
             {t({ en: 'Request a Booking', fr: 'Demande de Réservation' })}
@@ -463,7 +463,7 @@ export default function BookingPage() {
       </section>
 
       {/* Booking Info */}
-      <section className="py-16 bg-cream">
+      <section className="py-12 bg-cream">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-forest-900 mb-8 text-center">
             {t({ en: 'Booking Information', fr: 'Informations Réservation' })}

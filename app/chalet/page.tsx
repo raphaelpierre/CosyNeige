@@ -10,43 +10,43 @@ export default function ChaletPage() {
 
   const rooms = [
     {
-      name: { en: 'Master Bedroom', fr: 'Chambre Principale' },
-      description: { en: 'King-size bed, en-suite bathroom with bathtub, mountain view balcony, walk-in closet', fr: 'Lit king-size, salle de bain attenante avec baignoire, balcon vue montagne, dressing' },
+      name: { en: 'Ground Floor Bedroom', fr: 'Chambre Rez-de-Chaussée' },
+      description: { en: 'Elegant queen-size bed with premium bedding, peaceful garden views, spacious traditional alpine wardrobe with ample storage', fr: 'Élégant lit queen-size avec literie premium, vue paisible sur jardin, spacieuse armoire alpine traditionnelle avec grand rangement' },
       icon: '🛏️',
     },
     {
-      name: { en: 'Second Bedroom', fr: 'Deuxième Chambre' },
-      description: { en: 'Queen-size bed, shared bathroom access, south-facing windows', fr: 'Lit queen-size, accès salle de bain partagée, fenêtres plein sud' },
+      name: { en: 'Master Bedroom', fr: 'Suite Master' },
+      description: { en: 'Luxurious suite with walk-in dressing room, breathtaking mountain panorama, private balcony access, climate control, and children\'s bed on request', fr: 'Suite luxueuse avec dressing, panorama montagneux à couper le souffle, accès balcon privé, climatisation, et lit enfant sur demande' },
       icon: '🛏️',
     },
     {
-      name: { en: 'Third Bedroom', fr: 'Troisième Chambre' },
-      description: { en: 'Two single beds (can be joined), mountain views, desk area', fr: 'Deux lits simples (jumelables), vue montagne, coin bureau' },
+      name: { en: 'Garden View Bedroom', fr: 'Chambre Vue Jardin' },
+      description: { en: 'Comfortable queen-size bed overlooking the private garden, authentic alpine closet with traditional wood finishes', fr: 'Confortable lit queen-size donnant sur le jardin privé, penderie alpine authentique aux finitions bois traditionnelles' },
       icon: '🛏️',
     },
     {
-      name: { en: 'Fourth Bedroom', fr: 'Quatrième Chambre' },
-      description: { en: 'Bunk beds + single bed, perfect for children, playful decor', fr: 'Lits superposés + lit simple, parfait pour enfants, décoration ludique' },
+      name: { en: 'Children\'s Bedroom', fr: 'Chambre des Enfants' },
+      description: { en: 'Three single beds in a cheerful, family-friendly space with playful mountain-themed décor and dedicated storage closet', fr: 'Trois lits simples dans un espace familial chaleureux avec décoration ludique aux thèmes montagnards et penderie dédiée' },
       icon: '🛏️',
     },
     {
-      name: { en: 'Living Room', fr: 'Salon' },
-      description: { en: 'Spacious area with stone fireplace, comfortable sofas, Smart TV, large windows with panoramic views', fr: 'Espace spacieux avec cheminée en pierre, canapés confortables, Smart TV, grandes fenêtres vue panoramique' },
+      name: { en: 'Living Room', fr: 'Salon Principal' },
+      description: { en: 'Grand living space featuring authentic stone fireplace, premium leather sofas, 65" Smart TV, and floor-to-ceiling windows showcasing spectacular Alpine panoramas', fr: 'Grand espace de vie avec authentique cheminée en pierre, canapés cuir premium, Smart TV 65", et baies vitrées offrant des panoramas alpins spectaculaires' },
       icon: '🛋️',
     },
     {
-      name: { en: 'Kitchen', fr: 'Cuisine' },
-      description: { en: 'Fully equipped modern kitchen: oven, induction hob, dishwasher, Nespresso machine, large dining table for 10', fr: 'Cuisine moderne entièrement équipée : four, plaques induction, lave-vaisselle, machine Nespresso, grande table pour 10' },
+      name: { en: 'Gourmet Kitchen', fr: 'Cuisine Gastronomique' },
+      description: { en: 'Authentic Savoyard kitchen fully equipped: professional oven, traditional gas range, premium dishwasher, Nespresso machine, and grand dining table seating 10 guests', fr: 'Authentique cuisine savoyarde entièrement équipée : four professionnel, piano à gaz traditionnel, lave-vaisselle haut de gamme, machine Nespresso, et grande table conviviale pour 10 convives' },
       icon: '🍳',
     },
     {
-      name: { en: 'Bathrooms', fr: 'Salles de Bain' },
-      description: { en: '3 bathrooms: 1 en-suite with bathtub, 2 with walk-in showers, heated towel rails, luxury toiletries', fr: '3 salles de bain : 1 attenante avec baignoire, 2 avec douches italiennes, sèche-serviettes, produits de luxe' },
+      name: { en: 'Luxury Bathrooms', fr: 'Salles de Bain de Luxe' },
+      description: { en: 'Two designer bathrooms: master bathroom with oversized Italian shower and double vanity with heated towel rails; family bathroom with deep soaking tub, separate shower, and elegant fixtures', fr: 'Deux salles de bain design : salle de bain master avec grande douche italienne et double vasque avec sèche-serviettes chauffants ; salle familiale avec baignoire profonde, douche séparée, et élégants équipements' },
       icon: '🚿',
     },
     {
-      name: { en: 'Outdoor Spaces', fr: 'Espaces Extérieurs' },
-      description: { en: 'Large terrace with outdoor furniture, BBQ area, private garden, mountain panorama, 2 parking spaces', fr: 'Grande terrasse avec mobilier extérieur, espace BBQ, jardin privé, panorama montagne, 2 places parking' },
+      name: { en: 'Alpine Outdoor Paradise', fr: 'Paradis Extérieur Alpin' },
+      description: { en: 'Expansive terrace with premium outdoor furniture, professional BBQ station, manicured private garden, breathtaking 360° mountain panoramas, and convenient 5-space private parking', fr: 'Vaste terrasse avec mobilier extérieur haut de gamme, station BBQ professionnelle, jardin privé paysagé, panoramas montagneux 360° à couper le souffle, et parking privé pratique de 5 places' },
       icon: '🌲',
     },
   ];
@@ -59,7 +59,6 @@ export default function ChaletPage() {
     { label: { en: 'Parking', fr: 'Parking' }, value: `${specs.parkingSpaces} ${t({ en: 'spaces', fr: 'places' })}` },
     { label: { en: 'Floor', fr: 'Étage' }, value: t({ en: 'Ground + 1st floor', fr: 'Rez-de-chaussée + 1er' }) },
     { label: { en: 'Year Built', fr: 'Année Construction' }, value: '2005' },
-    { label: { en: 'Last Renovated', fr: 'Dernière Rénovation' }, value: '2023' },
   ];
 
   return (
@@ -84,7 +83,7 @@ export default function ChaletPage() {
       </section>
 
       {/* Description */}
-      <section className="py-16 md:py-20 bg-white">
+      <section className="py-12 md:py-14 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -96,8 +95,8 @@ export default function ChaletPage() {
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
                 {t({
-                  en: 'Built in 2005 and completely renovated in 2023, our chalet combines traditional Savoyard architecture with modern luxury. Every detail has been carefully chosen to create a warm and refined atmosphere, perfect for unforgettable family or friends gatherings.',
-                  fr: 'Construit en 2005 et entièrement rénové en 2023, notre chalet allie architecture savoyarde traditionnelle et luxe moderne. Chaque détail a été soigneusement choisi pour créer une atmosphère chaleureuse et raffinée, parfaite pour des séjours inoubliables en famille ou entre amis.',
+                  en: 'Our chalet combines traditional Savoyard architecture with modern luxury. Every detail has been carefully chosen to create a warm and refined atmosphere, perfect for unforgettable family or friends gatherings.',
+                  fr: 'Notre chalet allie architecture savoyarde traditionnelle et luxe moderne. Chaque détail a été soigneusement choisi pour créer une atmosphère chaleureuse et raffinée, parfaite pour des séjours inoubliables en famille ou entre amis.',
                 })}
               </p>
             </div>
@@ -115,7 +114,7 @@ export default function ChaletPage() {
       </section>
 
       {/* Specifications */}
-      <section className="py-16 bg-cream">
+      <section className="py-12 bg-cream">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-12 text-center">
             {t({ en: 'Specifications', fr: 'Caractéristiques' })}
@@ -135,7 +134,7 @@ export default function ChaletPage() {
       </section>
 
       {/* Room Details */}
-      <section className="py-16 md:py-20 bg-white">
+      <section className="py-12 md:py-14 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-12 text-center">
             {t({ en: 'Room by Room', fr: 'Pièce par Pièce' })}
@@ -158,7 +157,7 @@ export default function ChaletPage() {
       </section>
 
       {/* Amenities */}
-      <section className="py-16 bg-cream">
+      <section className="py-12 bg-cream">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-12 text-center">
             {t({ en: 'All Amenities', fr: 'Tous les Équipements' })}
@@ -178,7 +177,7 @@ export default function ChaletPage() {
       </section>
 
       {/* Photo Gallery Preview */}
-      <section className="py-16 bg-white">
+      <section className="py-12 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-12 text-center">
             {t({ en: 'Explore the Chalet', fr: 'Découvrez le Chalet' })}
@@ -208,7 +207,7 @@ export default function ChaletPage() {
       </section>
 
       {/* Virtual Tour */}
-      <section className="py-16 bg-forest-50">
+      <section className="py-12 bg-forest-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-6 text-center">
             {t({ en: '360° Virtual Tour', fr: 'Visite Virtuelle 360°' })}
@@ -234,7 +233,7 @@ export default function ChaletPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-white border-t border-forest-100/20">
+      <section className="py-12 bg-white border-t border-forest-100/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-700">
             {t({ en: 'Ready to Experience This?', fr: 'Prêt à Vivre Cette Expérience ?' })}
