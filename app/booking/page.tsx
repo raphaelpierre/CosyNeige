@@ -325,8 +325,8 @@ export default function BookingPage() {
               </h3>
               <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
                 {t({
-                  en: 'Join thousands of satisfied guests! Create your free account in 30 seconds and enjoy auto-filled forms, booking history, and exclusive member offers.',
-                  fr: 'Rejoignez des milliers de clients satisfaits ! Créez votre compte gratuit en 30 secondes et profitez de formulaires pré-remplis, d\'un historique de réservations et d\'offres exclusives membres.',
+                  en: 'Create your free account in 30 seconds and enjoy auto-filled forms, booking history, and exclusive member offers.',
+                  fr: 'Créez votre compte gratuit en 30 secondes et profitez de formulaires pré-remplis, d\'un historique de réservations et d\'offres exclusives membres.',
                 })}
               </p>
               
