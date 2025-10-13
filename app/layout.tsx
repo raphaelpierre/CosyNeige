@@ -4,6 +4,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/lib/hooks/useLanguage";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
+import LocaleWrapper from "@/components/LocaleWrapper";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -35,11 +36,13 @@ export default function RootLayout({
         style={{ backgroundColor: '#FAFAF8' }}
       >
         <LanguageProvider>
-          <Navigation />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-          <Analytics />
-          <SpeedInsights />
+          <LocaleWrapper>
+            <Navigation />
+            <main className="min-h-screen">{children}</main>
+            <Footer />
+            <Analytics />
+            <SpeedInsights />
+          </LocaleWrapper>
         </LanguageProvider>
       </body>
     </html>

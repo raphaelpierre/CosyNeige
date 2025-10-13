@@ -7,9 +7,11 @@ import { useLanguage } from '@/lib/hooks/useLanguage';
 import { chaletName, pricing } from '@/lib/data/chalet';
 import { calculateNights, calculatePrice, formatEuro, getSeason } from '@/lib/utils';
 import BookingCalendar from '@/components/ui/BookingCalendar';
+import DateInput from '@/components/ui/DateInput';
+import FrenchDatePicker from '@/components/ui/FrenchDatePicker';
 
 export default function BookingPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const router = useRouter();
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
@@ -215,29 +217,17 @@ export default function BookingPage() {
 
           <div className="bg-white rounded-lg shadow-lg p-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  {t({ en: 'Check-in', fr: 'Arrivée' })}
-                </label>
-                <input
-                  type="date"
-                  value={checkIn}
-                  onChange={(e) => setCheckIn(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent"
-                />
-              </div>
+              <FrenchDatePicker
+                value={checkIn}
+                onChange={setCheckIn}
+                label={t({ en: 'Check-in', fr: 'Arrivée' })}
+              />
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  {t({ en: 'Check-out', fr: 'Départ' })}
-                </label>
-                <input
-                  type="date"
-                  value={checkOut}
-                  onChange={(e) => setCheckOut(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent"
-                />
-              </div>
+              <FrenchDatePicker
+                value={checkOut}
+                onChange={setCheckOut}
+                label={t({ en: 'Check-out', fr: 'Départ' })}
+              />
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
