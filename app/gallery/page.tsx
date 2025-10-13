@@ -71,35 +71,55 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* Filter Tabs */}
-      <section className="py-6 bg-white sticky top-20 z-40 shadow-md border-b border-forest-100/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+      {/* Filter Tabs - Modern Compact Design */}
+      <section className="py-2 sm:py-3 bg-white/95 backdrop-blur-sm sticky top-20 z-40 border-b border-gray-200">
+        <div className="w-full px-2 sm:px-4">
+          <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto scrollbar-hide">
+            {/* Boutons filtres adaptés par taille d'écran */}
             {categories.map((category) => (
               <button
                 key={category.value}
                 onClick={() => setFilter(category.value)}
-                className={`flex items-center gap-2 px-4 sm:px-6 py-2.5 rounded-full font-medium text-sm sm:text-base transition-all duration-200 ${
+                className={`flex-shrink-0 flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 md:px-3 py-1 sm:py-1.5 rounded-full transition-all duration-300 ${
                   filter === category.value
-                    ? 'bg-white text-forest-700 shadow-lg scale-105 border-2 border-slate-700'
-                    : 'bg-white text-gray-700 hover:text-forest-700 hover:bg-gray-50 border border-gray-200'
+                    ? 'bg-slate-900 text-white shadow-lg scale-105'
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
                 }`}
               >
-                <span className="text-lg">{category.icon}</span>
-                <span className="font-medium">{t(category.label)}</span>
+                <span className="text-xs sm:text-sm md:text-base">{category.icon}</span>
+                {/* Texte responsive selon la taille d'écran */}
+                <span className="font-medium text-xs hidden sm:inline md:text-sm whitespace-nowrap">
+                  {/* Version courte sur petits écrans, complète sur desktop */}
+                  <span className="md:hidden">
+                    {category.value === 'all' ? 'Toutes' : 
+                     category.value === 'exterior' ? 'Ext.' :
+                     category.value === 'living' ? 'Salon' :
+                     category.value === 'kitchen' ? 'Cuisine' :
+                     category.value === 'bedroom' ? 'Chambres' :
+                     category.value === 'bathroom' ? 'Bains' :
+                     'Spa'}
+                  </span>
+                  <span className="hidden md:inline">
+                    {t(category.label)}
+                  </span>
+                </span>
+                {/* Compteur dans le bouton actif */}
                 {filter === category.value && (
-                  <span className="ml-1 bg-slate-700 text-white px-2 py-0.5 rounded-full text-xs font-bold">
+                  <span className="bg-white/20 text-white px-1 py-0.5 rounded text-xs font-bold">
                     {galleryImages.filter(img => category.value === 'all' || img.category === category.value).length}
                   </span>
                 )}
               </button>
             ))}
-          </div>
-          <div className="text-center mt-4 text-gray-700">
-            <span className="inline-flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full">
-              <span className="text-forest-700 font-bold">{filteredImages.length}</span>
-              <span className="font-medium">{t({ en: 'photos', fr: 'photos' })}</span>
-            </span>
+            
+            {/* Séparateur subtil */}
+            <div className="flex-shrink-0 w-0.5 h-4 sm:h-5 bg-gray-300 mx-1 sm:mx-2"></div>
+            
+            {/* Compteur total moderne */}
+            <div className="flex-shrink-0 flex items-center gap-1 bg-gradient-to-r from-slate-50 to-slate-100 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border border-slate-200">
+              <span className="text-slate-700 font-bold text-xs sm:text-sm">{filteredImages.length}</span>
+              <span className="text-slate-600 text-xs hidden sm:inline">photos</span>
+            </div>
           </div>
         </div>
       </section>
