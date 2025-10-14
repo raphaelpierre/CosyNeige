@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import { useAuth } from '@/lib/context/AuthContext';
@@ -9,6 +9,7 @@ import { useAuth } from '@/lib/context/AuthContext';
 export default function LoginPage() {
   const { t } = useLanguage();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { isAuthenticated, login, checkAuthStatus, loading } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
@@ -20,6 +21,14 @@ export default function LoginPage() {
   });
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Lire les paramètres URL au chargement
+  useEffect(() => {
+    const action = searchParams.get('action');
+    if (action === 'register') {
+      setIsLogin(false); // Basculer vers le mode création de compte
+    }
+  }, [searchParams]);
 
   // Rediriger si déjà connecté
   useEffect(() => {
@@ -73,26 +82,26 @@ export default function LoginPage() {
   // Afficher un loader pendant la vérification de l'authentification
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-cream via-white to-cream py-16 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-forest-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">{t({ en: 'Loading...', fr: 'Chargement...' })}</p>
+      <div className="min-h-screen bg-gradient-to-b from-cream via-white to-cream py-8 flex items-center justify-center">
+        <div className="text-center px-4">
+          <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-forest-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 text-sm sm:text-base">{t({ en: 'Loading...', fr: 'Chargement...' })}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cream via-white to-cream py-16">
+    <div className="min-h-screen bg-gradient-to-b from-cream via-white to-cream py-8 lg:py-16">
       <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-forest-900 mb-2">
+        <div className="text-center mb-6 lg:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-forest-900 mb-2">
             {isLogin
               ? t({ en: 'Client Login', fr: 'Connexion Client' })
               : t({ en: 'Create Account', fr: 'Créer un Compte' })}
           </h1>
-          <p className="text-gray-600">
+          <p className="text-sm sm:text-base text-gray-600">
             {isLogin
               ? t({ en: 'Access your reservations and messages', fr: 'Accédez à vos réservations et messages' })
               : t({ en: 'Join us to manage your bookings', fr: 'Rejoignez-nous pour gérer vos réservations' })}
@@ -100,11 +109,11 @@ export default function LoginPage() {
         </div>
 
         {/* Form */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             {!isLogin && (
               <>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       {t({ en: 'First Name', fr: 'Prénom' })} *
@@ -114,7 +123,7 @@ export default function LoginPage() {
                       required={!isLogin}
                       value={formData.firstName}
                       onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent text-base"
                     />
                   </div>
                   <div>
@@ -126,7 +135,7 @@ export default function LoginPage() {
                       required={!isLogin}
                       value={formData.lastName}
                       onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent text-base"
                     />
                   </div>
                 </div>
@@ -139,7 +148,7 @@ export default function LoginPage() {
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent text-base"
                   />
                 </div>
               </>
@@ -154,7 +163,7 @@ export default function LoginPage() {
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent text-base"
                 placeholder="votre.email@exemple.com"
               />
             </div>
@@ -168,7 +177,7 @@ export default function LoginPage() {
                 required
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent text-base"
                 placeholder="••••••••"
                 minLength={6}
               />
@@ -180,16 +189,23 @@ export default function LoginPage() {
             </div>
 
             {error && (
-              <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4 text-red-800">
-                {error}
+              <div className="bg-red-50 border-2 border-red-300 rounded-lg p-3 sm:p-4 text-red-800">
+                <div className="flex items-start gap-2">
+                  <span className="text-red-500 text-lg sm:text-xl">⚠️</span>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm sm:text-base font-medium break-words">
+                      {error}
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
 
-            <div className="pt-4">
+            <div className="pt-3 sm:pt-4">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-slate-700 hover:bg-slate-800 text-white px-8 py-5 rounded-xl font-bold text-xl transition-colors shadow-2xl border-2 border-slate-700 hover:border-slate-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-slate-700 hover:bg-slate-800 text-white px-6 sm:px-8 py-3 sm:py-4 lg:py-5 rounded-xl font-bold text-lg sm:text-xl transition-colors shadow-2xl border-2 border-slate-700 hover:border-slate-800 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting
                   ? t({ en: '⏳ Please wait...', fr: '⏳ Veuillez patienter...' })
@@ -201,13 +217,13 @@ export default function LoginPage() {
           </form>
 
           {/* Toggle Login/Register */}
-          <div className="mt-6 text-center">
+          <div className="mt-4 sm:mt-6 text-center">
             <button
               onClick={() => {
                 setIsLogin(!isLogin);
                 setError('');
               }}
-              className="text-slate-700 hover:text-slate-900 font-semibold"
+              className="text-slate-700 hover:text-slate-900 font-semibold text-sm sm:text-base"
             >
               {isLogin
                 ? t({ en: "Don't have an account? Sign up", fr: "Pas de compte ? S'inscrire" })
@@ -216,7 +232,7 @@ export default function LoginPage() {
           </div>
 
           {/* Back to Home */}
-          <div className="mt-4 text-center">
+          <div className="mt-3 sm:mt-4 text-center">
             <Link href="/" className="text-sm text-gray-600 hover:text-gray-900">
               ← {t({ en: 'Back to home', fr: "Retour à l'accueil" })}
             </Link>
@@ -224,25 +240,25 @@ export default function LoginPage() {
         </div>
 
         {/* Benefits */}
-        <div className="mt-8 bg-gradient-to-br from-forest-50 to-cream rounded-xl p-6">
-          <h3 className="font-bold text-forest-900 mb-4 text-center">
+        <div className="mt-6 sm:mt-8 bg-gradient-to-br from-forest-50 to-cream rounded-xl p-4 sm:p-6">
+          <h3 className="font-bold text-forest-900 mb-3 sm:mb-4 text-center text-sm sm:text-base">
             {t({ en: 'With your client account:', fr: 'Avec votre espace client :' })}
           </h3>
-          <ul className="space-y-2 text-sm text-gray-700">
+          <ul className="space-y-2 text-xs sm:text-sm text-gray-700">
             <li className="flex items-start gap-2">
-              <span className="text-green-600">✓</span>
+              <span className="text-green-600 text-sm">✓</span>
               <span>{t({ en: 'View and manage your reservations', fr: 'Consultez et gérez vos réservations' })}</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-green-600">✓</span>
+              <span className="text-green-600 text-sm">✓</span>
               <span>{t({ en: 'Send and receive messages', fr: 'Envoyez et recevez des messages' })}</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-green-600">✓</span>
+              <span className="text-green-600 text-sm">✓</span>
               <span>{t({ en: 'Access exclusive offers', fr: 'Accédez à des offres exclusives' })}</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-green-600">✓</span>
+              <span className="text-green-600 text-sm">✓</span>
               <span>{t({ en: 'Track your booking history', fr: 'Suivez votre historique de réservations' })}</span>
             </li>
           </ul>

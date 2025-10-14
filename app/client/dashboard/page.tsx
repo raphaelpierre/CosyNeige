@@ -189,10 +189,10 @@ function ClientDashboardContent() {
 
   if (authLoading || dataLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-cream">
+      <div className="min-h-screen flex items-center justify-center bg-cream px-4">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-forest-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">{t({ en: 'Loading...', fr: 'Chargement...' })}</p>
+          <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-forest-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 text-sm sm:text-base">{t({ en: 'Loading...', fr: 'Chargement...' })}</p>
         </div>
       </div>
     );
@@ -215,40 +215,40 @@ function ClientDashboardContent() {
   const unreadMessages = messages.filter(m => !m.read && m.isFromAdmin);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-cream to-white py-8">
+    <div className="min-h-screen bg-gradient-to-b from-white via-cream to-white py-4 sm:py-6 lg:py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header avec contraste maximum */}
-        <div className="bg-white rounded-3xl shadow-2xl p-8 mb-8 border-4 border-gray-300">
+        <div className="bg-white rounded-2xl lg:rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 mb-6 lg:mb-8 border-2 lg:border-4 border-gray-300">
           {/* Barre d'accent simple */}
-          <div className="w-full h-1 bg-slate-600 rounded-full mb-6"></div>
+          <div className="w-full h-1 bg-slate-600 rounded-full mb-4 lg:mb-6"></div>
           
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-            <div className="flex items-center gap-6">
+          <div className="flex flex-col gap-4 sm:gap-6">
+            <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
               {/* Avatar simple et contrasté */}
-              <div className="w-20 h-20 bg-slate-700 rounded-2xl flex items-center justify-center text-2xl font-bold text-white shadow-xl">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-slate-700 rounded-xl lg:rounded-2xl flex items-center justify-center text-sm sm:text-lg lg:text-2xl font-bold text-white shadow-xl flex-shrink-0">
                 {user.firstName.charAt(0).toUpperCase()}{user.lastName.charAt(0).toUpperCase()}
               </div>
               
-              <div>
-                <h1 className="text-4xl font-black mb-2 text-black">
+              <div className="min-w-0 flex-1">
+                <h1 className="text-xl sm:text-2xl lg:text-4xl font-black mb-1 sm:mb-2 text-black">
                   {t({ en: 'Welcome back,', fr: 'Bon retour,' })} <span className="text-slate-700">{user.firstName}</span>!
                 </h1>
-                <p className="text-xl text-gray-800 font-bold">
+                <p className="text-sm sm:text-lg lg:text-xl text-gray-800 font-bold">
                   {t({ en: 'Manage your alpine retreat', fr: 'Gérez votre séjour alpin' })}
                 </p>
-                <div className="flex items-center gap-2 mt-3 text-gray-700 text-base font-semibold">
+                <div className="flex items-center gap-2 mt-2 lg:mt-3 text-gray-700 text-xs sm:text-sm lg:text-base font-semibold">
                   <span>🏔️</span>
-                  <span>{t({ en: 'Chalet-Balmotte810 Guest Portal', fr: 'Portail Client Chalet-Balmotte810' })}</span>
+                  <span className="truncate">{t({ en: 'Chalet-Balmotte810 Guest Portal', fr: 'Portail Client Chalet-Balmotte810' })}</span>
                 </div>
               </div>
             </div>
             
-            <div className="flex">
+            <div className="flex w-full">
               <Link
                 href="/booking"
-                className="inline-flex items-center gap-3 bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-xl font-bold transition-all duration-200 shadow-lg border-2 border-slate-600 text-lg"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 sm:gap-3 bg-slate-700 hover:bg-slate-800 text-white px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-lg lg:rounded-xl font-bold transition-all duration-200 shadow-lg border-2 border-slate-600 text-sm sm:text-base lg:text-lg"
               >
-                <span className="text-2xl">➕</span>
+                <span className="text-lg sm:text-xl lg:text-2xl">➕</span>
                 <span>{t({ en: 'New Booking', fr: 'Nouvelle Réservation' })}</span>
               </Link>
             </div>
@@ -256,43 +256,43 @@ function ClientDashboardContent() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-slate-700">
-            <div className="flex items-center gap-4">
-              <div className="text-4xl">📅</div>
-              <div>
-                <div className="text-3xl font-bold text-forest-900">{upcomingReservations.length}</div>
-                <div className="text-gray-600">{t({ en: 'Upcoming Bookings', fr: 'Réservations à Venir' })}</div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mb-6 lg:mb-8">
+          <div className="bg-white rounded-lg lg:rounded-xl shadow-lg p-4 lg:p-6 border-l-4 border-slate-700">
+            <div className="flex items-center gap-3 lg:gap-4">
+              <div className="text-2xl sm:text-3xl lg:text-4xl">📅</div>
+              <div className="min-w-0">
+                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-forest-900">{upcomingReservations.length}</div>
+                <div className="text-xs sm:text-sm lg:text-base text-gray-600 truncate">{t({ en: 'Upcoming Bookings', fr: 'Réservations à Venir' })}</div>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
-            <div className="flex items-center gap-4">
-              <div className="text-4xl">✉️</div>
-              <div>
-                <div className="text-3xl font-bold text-slate-700">{unreadMessages.length}</div>
-                <div className="text-gray-600">{t({ en: 'Unread Messages', fr: 'Messages Non Lus' })}</div>
+          <div className="bg-white rounded-lg lg:rounded-xl shadow-lg p-4 lg:p-6 border-l-4 border-blue-500">
+            <div className="flex items-center gap-3 lg:gap-4">
+              <div className="text-2xl sm:text-3xl lg:text-4xl">✉️</div>
+              <div className="min-w-0">
+                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-700">{unreadMessages.length}</div>
+                <div className="text-xs sm:text-sm lg:text-base text-gray-600 truncate">{t({ en: 'Unread Messages', fr: 'Messages Non Lus' })}</div>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-gold-500">
-            <div className="flex items-center gap-4">
-              <div className="text-4xl">📊</div>
-              <div>
-                <div className="text-3xl font-bold text-slate-700">{reservations.length}</div>
-                <div className="text-gray-600">{t({ en: 'Total Bookings', fr: 'Total Réservations' })}</div>
+          <div className="bg-white rounded-lg lg:rounded-xl shadow-lg p-4 lg:p-6 border-l-4 border-gold-500">
+            <div className="flex items-center gap-3 lg:gap-4">
+              <div className="text-2xl sm:text-3xl lg:text-4xl">📊</div>
+              <div className="min-w-0">
+                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-700">{reservations.length}</div>
+                <div className="text-xs sm:text-sm lg:text-base text-gray-600 truncate">{t({ en: 'Total Bookings', fr: 'Total Réservations' })}</div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="bg-white rounded-xl shadow-lg p-2 mb-8 flex gap-2">
+        <div className="bg-white rounded-lg lg:rounded-xl shadow-lg p-1 sm:p-2 mb-6 lg:mb-8 flex gap-1 sm:gap-2 overflow-x-auto">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all ${
+            className={`flex-shrink-0 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
               activeTab === 'overview'
                 ? 'bg-slate-700 text-white shadow-lg'
                 : 'text-gray-700 hover:bg-gray-100'
@@ -302,17 +302,19 @@ function ClientDashboardContent() {
           </button>
           <button
             onClick={() => setActiveTab('reservations')}
-            className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all ${
+            className={`flex-shrink-0 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
               activeTab === 'reservations'
                 ? 'bg-slate-700 text-white shadow-lg'
                 : 'text-gray-700 hover:bg-gray-100'
             }`}
           >
-            {t({ en: 'Reservations', fr: 'Réservations' })} ({reservations.length})
+            <span className="hidden sm:inline">{t({ en: 'Reservations', fr: 'Réservations' })} </span>
+            <span className="sm:hidden">{t({ en: 'Bookings', fr: 'Réserv.' })} </span>
+            ({reservations.length})
           </button>
           <button
             onClick={() => setActiveTab('messages')}
-            className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all relative ${
+            className={`flex-shrink-0 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-all relative text-sm sm:text-base ${
               activeTab === 'messages'
                 ? 'bg-slate-700 text-white shadow-lg'
                 : 'text-gray-700 hover:bg-gray-100'
@@ -320,7 +322,7 @@ function ClientDashboardContent() {
           >
             {t({ en: 'Messages', fr: 'Messages' })} ({messages.length})
             {unreadMessages.length > 0 && (
-              <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center">
                 {unreadMessages.length}
               </span>
             )}
