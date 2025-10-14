@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const { amount, currency = 'eur', metadata = {} } = await request.json();
 
     // Validation
-    if (!amount || amount < 50) { // Minimum 0.50 EUR
+    if (!amount || amount < 50) { // Minimum 50 centimes (0.50 EUR)
       return NextResponse.json(
         { error: 'Invalid amount. Minimum is 0.50 EUR' },
         { status: 400 }
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
 
     // Créer le Payment Intent
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100), // Stripe attend le montant en centimes
+      amount: Math.round(amount), // Montant déjà en centimes
       currency,
       automatic_payment_methods: {
         enabled: true,

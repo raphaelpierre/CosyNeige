@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import { calculateNights, calculatePrice, formatEuro, getSeason } from '@/lib/utils';
 import BookingCalendar from '@/components/ui/BookingCalendar';
+import StripeProvider from '@/components/payment/StripeProvider';
+import PaymentForm from '@/components/payment/PaymentForm';
 
 interface BookingStep {
   id: number;
@@ -30,6 +32,8 @@ export default function BookingPage() {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bookingId, setBookingId] = useState<string | null>(null);
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
 
   // Calculs automatiques
   const nights = checkIn && checkOut ? calculateNights(checkIn, checkOut) : 0;
@@ -55,7 +59,13 @@ export default function BookingPage() {
     {
       id: 3,
       title: { en: 'Confirm', fr: 'Confirmer' },
-      description: { en: 'Review & submit', fr: 'Vérifier & envoyer' },
+      description: { en: 'Review booking', fr: 'Vérifier réservation' },
+      completed: bookingId !== null,
+    },
+    {
+      id: 4,
+      title: { en: 'Payment', fr: 'Paiement' },
+      description: { en: 'Secure payment', fr: 'Paiement sécurisé' },
       completed: false,
     },
   ];
@@ -78,10 +88,11 @@ export default function BookingPage() {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleCreateReservation = async () => {
     setIsSubmitting(true);
 
     try {
+      // Créer d'abord la réservation
       const response = await fetch('/api/reservations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -91,30 +102,39 @@ export default function BookingPage() {
           checkOut,
           guests,
           totalPrice: priceCalculation?.total || 0,
+          depositAmount: Math.round((priceCalculation?.total || 0) * 0.3),
         }),
       });
 
       if (response.ok) {
         const result = await response.json();
-        const bookingId = result.id;
+        const newBookingId = result.id;
+        setBookingId(newBookingId);
         
-        const params = new URLSearchParams({
-          bookingId: bookingId.toString(),
-          checkIn,
-          checkOut,
-          guests: guests.toString(),
-          total: priceCalculation?.total.toString() || '0',
-          deposit: Math.round((priceCalculation?.total || 0) * 0.3).toString(),
-          email: formData.email,
-          firstName: formData.firstName,
-          lastName: formData.lastName,
+        // Créer le Payment Intent pour Stripe
+        const paymentResponse = await fetch('/api/payments/create-payment-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bookingId: newBookingId,
+            amount: Math.round((priceCalculation?.total || 0) * 0.3) * 100, // Stripe utilise les centimes
+            currency: 'eur',
+          }),
         });
-        router.push(`/booking/payment?${params.toString()}`);
+
+        if (paymentResponse.ok) {
+          const { clientSecret: newClientSecret } = await paymentResponse.json();
+          setClientSecret(newClientSecret);
+          // Petite pause pour que l'utilisateur voie la confirmation, puis passer au paiement
+          setTimeout(() => setCurrentStep(4), 800);
+        } else {
+          throw new Error('Failed to create payment intent');
+        }
       } else {
         throw new Error('Failed to submit booking');
       }
     } catch (error) {
-      console.error('Error submitting booking:', error);
+      console.error('Error creating reservation:', error);
       alert(t({
         en: 'An error occurred. Please try again.',
         fr: 'Une erreur s\'est produite. Veuillez réessayer.',
@@ -625,7 +645,7 @@ export default function BookingPage() {
                       ← {t({ en: 'Edit', fr: 'Modifier' })}
                     </button>
                     <button
-                      onClick={handleSubmit}
+                      onClick={handleCreateReservation}
                       disabled={isSubmitting}
                       className="flex-1 px-6 py-4 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white rounded-lg font-bold text-lg transition-all transform hover:scale-[1.02] disabled:opacity-50"
                     >
@@ -636,10 +656,106 @@ export default function BookingPage() {
                         </span>
                       ) : (
                         <span className="flex items-center justify-center gap-2">
-                          <span>🚀</span>
-                          {t({ en: 'Submit Booking', fr: 'Envoyer la Demande' })}
+                          <span>�</span>
+                          {t({ en: 'Continue to Payment', fr: 'Continuer vers le Paiement' })}
                         </span>
                       )}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* ÉTAPE 4: Paiement */}
+              {currentStep === 4 && clientSecret && (
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <div className="flex items-center justify-center gap-3 mb-3">
+                      <span className="text-3xl">💳</span>
+                      <h3 className="text-xl font-bold text-gray-900">
+                        {t({ en: 'Secure Payment', fr: 'Paiement Sécurisé' })}
+                      </h3>
+                    </div>
+                    <p className="text-gray-600">
+                      {t({ 
+                        en: 'Pay your deposit securely with Stripe', 
+                        fr: 'Payez votre acompte en toute sécurité avec Stripe' 
+                      })}
+                    </p>
+                  </div>
+
+                  {/* Résumé de paiement */}
+                  <div className="bg-blue-50 rounded-lg p-6 space-y-4">
+                    <h4 className="font-bold text-gray-900 text-lg flex items-center gap-2">
+                      💰 {t({ en: 'Payment Summary', fr: 'Résumé du Paiement' })}
+                    </h4>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <strong>{t({ en: 'Guest:', fr: 'Client :' })}</strong> {formData.firstName} {formData.lastName}
+                      </div>
+                      <div>
+                        <strong>{t({ en: 'Dates:', fr: 'Dates :' })}</strong> {checkIn} → {checkOut}
+                      </div>
+                      <div>
+                        <strong>{t({ en: 'Total stay:', fr: 'Total séjour :' })}</strong> {formatEuro(priceCalculation?.total || 0)}
+                      </div>
+                      <div className="text-lg font-bold text-blue-600">
+                        <strong>{t({ en: 'Deposit (30%):', fr: 'Acompte (30%) :' })}</strong> {formatEuro(Math.round((priceCalculation?.total || 0) * 0.3))}
+                      </div>
+                    </div>
+
+                    <div className="mt-4 p-3 bg-blue-100 rounded-lg text-sm text-blue-800">
+                      ℹ️ {t({ 
+                        en: 'The remaining balance will be due 30 days before your arrival.',
+                        fr: 'Le solde restant sera dû 30 jours avant votre arrivée.'
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Formulaire de paiement Stripe */}
+                  <StripeProvider clientSecret={clientSecret}>
+                    <PaymentForm
+                      amount={Math.round((priceCalculation?.total || 0) * 0.3)}
+                      clientSecret={clientSecret}
+                      onSuccess={() => {
+                        router.push(`/booking/confirmation?bookingId=${bookingId}`);
+                      }}
+                      onError={(error) => {
+                        console.error('Payment error:', error);
+                        alert(t({
+                          en: 'Payment failed. Please try again.',
+                          fr: 'Échec du paiement. Veuillez réessayer.'
+                        }));
+                      }}
+                    />
+                  </StripeProvider>
+
+                  {/* Option virement bancaire */}
+                  <div className="mt-8 pt-6 border-t">
+                    <div className="text-center">
+                      <p className="text-sm text-gray-600 mb-4">
+                        {t({ 
+                          en: 'Or pay by bank transfer if you prefer',
+                          fr: 'Ou payez par virement bancaire si vous préférez'
+                        })}
+                      </p>
+                      <button
+                        onClick={() => router.push(`/booking/payment/bank-transfer?bookingId=${bookingId}&deposit=${Math.round((priceCalculation?.total || 0) * 0.3)}`)}
+                        className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 mx-auto"
+                      >
+                        <span>🏦</span>
+                        {t({ en: 'Pay by Bank Transfer', fr: 'Payer par Virement' })}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Bouton retour */}
+                  <div className="flex justify-start pt-4">
+                    <button
+                      onClick={() => setCurrentStep(3)}
+                      className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                    >
+                      ← {t({ en: 'Back to Review', fr: 'Retour à la Vérification' })}
                     </button>
                   </div>
                 </div>
