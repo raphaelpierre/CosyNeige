@@ -122,7 +122,11 @@ export default function AdminPage() {
 
   const fetchReservations = async () => {
     try {
-      const response = await fetch('/api/reservations');
+      const response = await fetch('/api/admin/reservations', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
+        }
+      });
       if (response.ok) {
         const data = await response.json();
         // Convertir les dates ISO en format YYYY-MM-DD
@@ -147,7 +151,11 @@ export default function AdminPage() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('/api/admin/users');
+      const response = await fetch('/api/admin/users', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
+        }
+      });
       if (response.ok) {
         const data = await response.json();
         setUsers(data);
@@ -159,7 +167,11 @@ export default function AdminPage() {
 
   const fetchInvoices = async () => {
     try {
-      const response = await fetch('/api/admin/invoices');
+      const response = await fetch('/api/admin/invoices', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
+        }
+      });
       if (response.ok) {
         const data = await response.json();
         setInvoices(data);
@@ -201,7 +213,10 @@ export default function AdminPage() {
     try {
       const response = await fetch('/api/admin/users', {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
+        },
         body: JSON.stringify({ userId })
       });
 
@@ -265,7 +280,8 @@ export default function AdminPage() {
         method: 'DELETE',
         credentials: 'include',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
         }
       });
 
@@ -469,12 +485,13 @@ export default function AdminPage() {
   // Fonction pour changer le statut d'une réservation
   const handleStatusChange = async (id: string, newStatus: string) => {
     try {
-      const response = await fetch(`/api/reservations/${id}`, {
-        method: 'PATCH',
+      const response = await fetch('/api/admin/reservations', {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
         },
-        body: JSON.stringify({ status: newStatus }),
+        body: JSON.stringify({ reservationId: id, status: newStatus }),
       });
 
       if (response.ok) {
@@ -503,8 +520,13 @@ export default function AdminPage() {
     }
 
     try {
-      const response = await fetch(`/api/reservations/${id}`, {
+      const response = await fetch('/api/admin/reservations', {
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
+        },
+        body: JSON.stringify({ reservationId: id }),
       });
 
       if (response.ok) {

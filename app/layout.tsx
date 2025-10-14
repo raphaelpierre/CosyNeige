@@ -7,6 +7,7 @@ import { NotificationProvider } from "@/lib/context/NotificationContext";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import LocaleWrapper from "@/components/LocaleWrapper";
+import AdminRedirect from "@/components/AdminRedirect";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -41,6 +42,7 @@ export default function RootLayout({
           <AuthProvider>
             <NotificationProvider>
               <LocaleWrapper>
+                <AdminRedirect />
                 <Navigation />
                 <main className="min-h-screen">{children}</main>
                 <Footer />
