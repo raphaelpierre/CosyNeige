@@ -576,111 +576,191 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      {/* Header Mobile-First */}
+      <header className="bg-white shadow-sm border-b sticky top-0 z-40">
+        <div className="px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-bold text-forest-900">
-                {t({ en: 'Admin Dashboard', fr: 'Tableau de Bord Admin' })}
+            <div className="flex-1 min-w-0">
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-forest-900 truncate">
+                {t({ en: 'Admin Dashboard', fr: 'Panneau Admin' })}
               </h1>
-              <p className="text-sm text-gray-600 mt-1">Chalet-Balmotte810 Management</p>
+              <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">Chalet-Balmotte810</p>
             </div>
             <button
               onClick={logout}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors"
+              className="flex items-center gap-1 px-2 sm:px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors ml-2"
             >
               <span>🚪</span>
-              <span className="font-medium">{t({ en: 'Logout', fr: 'Déconnexion' })}</span>
+              <span className="font-medium text-xs sm:text-sm hidden sm:inline">{t({ en: 'Logout', fr: 'Déconnexion' })}</span>
             </button>
           </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">{t({ en: 'Total Reservations', fr: 'Réservations Totales' })}</p>
-                <p className="text-3xl font-bold text-forest-900 mt-2">{reservations.length}</p>
+      <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 max-w-7xl mx-auto">
+        {/* Stats Cards - Mobile Responsive */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
+          <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6">
+            <div className="text-center sm:flex sm:items-center sm:justify-between">
+              <div className="sm:text-left">
+                <p className="text-xs sm:text-sm text-gray-600">{t({ en: 'Total', fr: 'Total' })}</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-forest-900 mt-1">{reservations.length}</p>
               </div>
-              <div className="text-4xl">📊</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl mt-2 sm:mt-0">📊</div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">{t({ en: 'Pending', fr: 'En Attente' })}</p>
-                <p className="text-3xl font-bold text-yellow-600 mt-2">
+          <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6">
+            <div className="text-center sm:flex sm:items-center sm:justify-between">
+              <div className="sm:text-left">
+                <p className="text-xs sm:text-sm text-gray-600">{t({ en: 'Pending', fr: 'En Attente' })}</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-yellow-600 mt-1">
                   {reservations.filter(r => r.status === 'pending').length}
                 </p>
               </div>
-              <div className="text-4xl">⏳</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl mt-2 sm:mt-0">⏳</div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">{t({ en: 'Confirmed', fr: 'Confirmées' })}</p>
-                <p className="text-3xl font-bold text-green-600 mt-2">
+          <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6">
+            <div className="text-center sm:flex sm:items-center sm:justify-between">
+              <div className="sm:text-left">
+                <p className="text-xs sm:text-sm text-gray-600">{t({ en: 'Confirmed', fr: 'Confirmées' })}</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-600 mt-1">
                   {reservations.filter(r => r.status === 'confirmed').length}
                 </p>
               </div>
-              <div className="text-4xl">✅</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl mt-2 sm:mt-0">✅</div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">{t({ en: 'Unread Messages', fr: 'Messages Non Lus' })}</p>
-                <p className="text-3xl font-bold text-slate-700 mt-2">
+          <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6">
+            <div className="text-center sm:flex sm:items-center sm:justify-between">
+              <div className="sm:text-left">
+                <p className="text-xs sm:text-sm text-gray-600">{t({ en: 'Messages', fr: 'Messages' })}</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-700 mt-1">
                   {messages.filter(m => !m.read).length}
                 </p>
               </div>
-              <div className="text-4xl">📧</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl mt-2 sm:mt-0">📧</div>
             </div>
           </div>
         </div>
 
-        {/* Tabs */}
+        {/* Mobile Navigation - Dropdown Style */}
         <div className="bg-white rounded-lg shadow mb-6">
-          <div className="border-b border-gray-200">
-            <nav className="flex -mb-px">
+          {/* Mobile Tab Selector */}
+          <div className="sm:hidden">
+            <select
+              value={activeTab}
+              onChange={(e) => setActiveTab(e.target.value as TabType)}
+              className="w-full p-4 text-base font-medium bg-white border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
+            >
+              {tabs.map(tab => (
+                <option key={tab.id} value={tab.id}>
+                  {tab.icon} {t(tab.label)}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Desktop Tabs - Hidden on Mobile */}
+          <div className="hidden sm:block border-b border-gray-200">
+            <nav className="flex -mb-px overflow-x-auto">
               {tabs.map(tab => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-6 py-4 border-b-2 font-medium text-sm transition-colors ${
+                  className={`flex items-center gap-2 px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
                     activeTab === tab.id
                       ? 'border-slate-700 text-forest-700'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }`}
                 >
-                  <span className="text-xl">{tab.icon}</span>
-                  <span>{t(tab.label)}</span>
+                  <span className="text-lg sm:text-xl">{tab.icon}</span>
+                  <span className="hidden lg:inline">{t(tab.label)}</span>
                 </button>
               ))}
             </nav>
           </div>
 
-          {/* Tab Content */}
-          <div className="p-6">
+          {/* Tab Content - Mobile Optimized */}
+          <div className="p-3 sm:p-4 lg:p-6">
             {activeTab === 'reservations' && (
               <div>
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-xl font-bold text-gray-900">
-                    {t({ en: 'Reservation Management', fr: 'Gestion des Réservations' })}
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3">
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+                    {t({ en: 'Reservations', fr: 'Réservations' })}
                   </h2>
-                  <button className="bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800 font-bold">
-                    {t({ en: 'Add Reservation', fr: 'Ajouter une Réservation' })}
+                  <button className="bg-slate-700 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800 font-bold text-sm">
+                    {t({ en: '+ Add', fr: '+ Ajouter' })}
                   </button>
                 </div>
-                <div className="overflow-x-auto">
+
+                {/* Mobile Card View */}
+                <div className="sm:hidden space-y-4">
+                  {reservations.map(reservation => (
+                    <div key={reservation.id} className="bg-white border rounded-lg p-4 shadow-sm">
+                      <div className="flex justify-between items-start mb-3">
+                        <div>
+                          <h3 className="font-semibold text-gray-900">{reservation.guestName}</h3>
+                          <p className="text-sm text-gray-600">{reservation.email}</p>
+                          <p className="text-sm text-gray-600">{reservation.phone}</p>
+                        </div>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(reservation.status)}`}>
+                          {getStatusLabel(reservation.status)}
+                        </span>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-3 mb-3 text-sm">
+                        <div>
+                          <span className="text-gray-500">Arrivée:</span>
+                          <div className="font-medium">{new Date(reservation.checkIn).toLocaleDateString('fr-FR')}</div>
+                        </div>
+                        <div>
+                          <span className="text-gray-500">Départ:</span>
+                          <div className="font-medium">{new Date(reservation.checkOut).toLocaleDateString('fr-FR')}</div>
+                        </div>
+                        <div>
+                          <span className="text-gray-500">Personnes:</span>
+                          <div className="font-medium">{reservation.guests}</div>
+                        </div>
+                        <div>
+                          <span className="text-gray-500">Prix:</span>
+                          <div className="font-semibold text-forest-900">{reservation.totalPrice}€</div>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-end gap-2">
+                        {reservation.status === 'pending' && (
+                          <button
+                            onClick={() => handleStatusChange(reservation.id, 'confirmed')}
+                            className="bg-green-100 text-green-700 px-3 py-1 rounded text-sm font-medium"
+                          >
+                            ✅ Confirmer
+                          </button>
+                        )}
+                        {reservation.status === 'confirmed' && (
+                          <button
+                            onClick={() => handleStatusChange(reservation.id, 'cancelled')}
+                            className="bg-orange-100 text-orange-700 px-3 py-1 rounded text-sm font-medium"
+                          >
+                            ⚠️ Annuler
+                          </button>
+                        )}
+                        <button
+                          onClick={() => handleDeleteReservation(reservation.id)}
+                          className="bg-red-100 text-red-700 px-3 py-1 rounded text-sm font-medium"
+                        >
+                          🗑️ Supprimer
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Desktop Table View */}
+                <div className="hidden sm:block overflow-x-auto">
                   <table className="w-full">
                     <thead>
                       <tr className="border-b">
@@ -757,26 +837,30 @@ export default function AdminPage() {
 
             {activeTab === 'calendar' && (
               <div>
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-xl font-bold text-gray-900">
-                    {t({ en: 'Booking Calendar', fr: 'Calendrier de Réservations' })}
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3">
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+                    {t({ en: 'Calendar', fr: 'Calendrier' })}
                   </h2>
-                  <div className="flex gap-2">
+                  
+                  {/* Mobile Navigation - Compact */}
+                  <div className="flex gap-1 sm:gap-2">
                     <button
                       onClick={() => {
                         const newDate = new Date(currentCalendarDate);
                         newDate.setMonth(newDate.getMonth() - 1);
                         setCurrentCalendarDate(newDate);
                       }}
-                      className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                      className="px-2 sm:px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm"
                     >
-                      ← {t({ en: 'Previous', fr: 'Précédent' })}
+                      <span className="sm:hidden">←</span>
+                      <span className="hidden sm:inline">← {t({ en: 'Previous', fr: 'Précédent' })}</span>
                     </button>
                     <button
                       onClick={() => setCurrentCalendarDate(new Date())}
-                      className="px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg transition-colors"
+                      className="px-2 sm:px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg transition-colors text-sm"
                     >
-                      {t({ en: 'Today', fr: 'Aujourd\'hui' })}
+                      <span className="sm:hidden">•</span>
+                      <span className="hidden sm:inline">{t({ en: 'Today', fr: 'Aujourd\'hui' })}</span>
                     </button>
                     <button
                       onClick={() => {
@@ -784,16 +868,17 @@ export default function AdminPage() {
                         newDate.setMonth(newDate.getMonth() + 1);
                         setCurrentCalendarDate(newDate);
                       }}
-                      className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                      className="px-2 sm:px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm"
                     >
-                      {t({ en: 'Next', fr: 'Suivant' })} →
+                      <span className="sm:hidden">→</span>
+                      <span className="hidden sm:inline">{t({ en: 'Next', fr: 'Suivant' })} →</span>
                     </button>
                   </div>
                 </div>
 
                 {/* Current Month Display */}
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-forest-900 capitalize">
+                <div className="text-center mb-4 sm:mb-6">
+                  <h3 className="text-xl sm:text-2xl font-bold text-forest-900 capitalize">
                     {currentCalendarDate.toLocaleDateString(t({ en: 'en-US', fr: 'fr-FR' }), {
                       month: 'long',
                       year: 'numeric'
@@ -806,16 +891,27 @@ export default function AdminPage() {
                   {/* Days of Week Header */}
                   <div className="grid grid-cols-7 bg-slate-700 text-white">
                     {[
-                      t({ en: 'Sun', fr: 'Dim' }),
-                      t({ en: 'Mon', fr: 'Lun' }),
-                      t({ en: 'Tue', fr: 'Mar' }),
-                      t({ en: 'Wed', fr: 'Mer' }),
-                      t({ en: 'Thu', fr: 'Jeu' }),
-                      t({ en: 'Fri', fr: 'Ven' }),
-                      t({ en: 'Sat', fr: 'Sam' })
+                      t({ en: 'Sun', fr: 'D' }),
+                      t({ en: 'Mon', fr: 'L' }),
+                      t({ en: 'Tue', fr: 'M' }),
+                      t({ en: 'Wed', fr: 'M' }),
+                      t({ en: 'Thu', fr: 'J' }),
+                      t({ en: 'Fri', fr: 'V' }),
+                      t({ en: 'Sat', fr: 'S' })
                     ].map((day, i) => (
-                      <div key={i} className="p-3 text-center font-semibold text-sm">
-                        {day}
+                      <div key={i} className="p-2 sm:p-3 text-center font-semibold text-xs sm:text-sm">
+                        <span className="sm:hidden">
+                          {[
+                            t({ en: 'S', fr: 'D' }),
+                            t({ en: 'M', fr: 'L' }),
+                            t({ en: 'T', fr: 'M' }),
+                            t({ en: 'W', fr: 'M' }),
+                            t({ en: 'T', fr: 'J' }),
+                            t({ en: 'F', fr: 'V' }),
+                            t({ en: 'S', fr: 'S' })
+                          ][i]}
+                        </span>
+                        <span className="hidden sm:inline">{day}</span>
                       </div>
                     ))}
                   </div>
@@ -831,13 +927,13 @@ export default function AdminPage() {
                       return (
                         <div
                           key={i}
-                          className={`min-h-[120px] border-b border-r p-2 ${
+                          className={`min-h-[60px] sm:min-h-[120px] border-b border-r p-1 sm:p-2 ${
                             !isCurrentMonth ? 'bg-gray-50' : 'bg-white'
-                          } ${isToday ? 'bg-blue-50 ring-2 ring-blue-400' : ''}`}
+                          } ${isToday ? 'bg-blue-50 ring-1 sm:ring-2 ring-blue-400' : ''}`}
                         >
                           {day.date && (
                             <>
-                              <div className={`text-sm font-semibold mb-2 ${
+                              <div className={`text-xs sm:text-sm font-semibold mb-1 sm:mb-2 ${
                                 isToday ? 'text-slate-700' : isCurrentMonth ? 'text-gray-900' : 'text-gray-400'
                               }`}>
                                 {day.date.getDate()}
@@ -845,15 +941,17 @@ export default function AdminPage() {
                               {day.bookings.map((booking, idx) => (
                                 <div
                                   key={idx}
-                                  className={`text-xs p-1 mb-1 rounded truncate cursor-pointer ${
+                                  className={`text-xs p-0.5 sm:p-1 mb-1 rounded truncate cursor-pointer ${
                                     booking.status === 'confirmed'
                                       ? 'bg-green-100 text-forest-700 hover:bg-green-200'
                                       : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
                                   }`}
                                   title={`${booking.guestName} - ${booking.checkIn} → ${booking.checkOut}`}
                                 >
-                                  {booking.isStart ? '🏠 ' : ''}
-                                  {booking.guestName}
+                                  {booking.isStart && <span className="hidden sm:inline">🏠 </span>}
+                                  <span className="text-xs">
+                                    {booking.guestName.split(' ')[0]}
+                                  </span>
                                 </div>
                               ))}
                             </>
@@ -865,22 +963,22 @@ export default function AdminPage() {
                 </div>
 
                 {/* Legend */}
-                <div className="mt-6 flex flex-wrap gap-6 justify-center">
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-green-100 border border-green-300 rounded"></div>
-                    <span className="text-sm text-gray-700">
-                      {t({ en: 'Confirmed Booking', fr: 'Réservation Confirmée' })}
+                <div className="mt-4 sm:mt-6 flex flex-wrap gap-2 sm:gap-6 justify-center text-xs sm:text-sm">
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <div className="w-3 h-3 sm:w-4 sm:h-4 bg-green-100 border border-green-300 rounded"></div>
+                    <span className="text-gray-700">
+                      {t({ en: 'Confirmed', fr: 'Confirmée' })}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-yellow-100 border border-yellow-300 rounded"></div>
-                    <span className="text-sm text-gray-700">
-                      {t({ en: 'Pending Booking', fr: 'Réservation En Attente' })}
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <div className="w-3 h-3 sm:w-4 sm:h-4 bg-yellow-100 border border-yellow-300 rounded"></div>
+                    <span className="text-gray-700">
+                      {t({ en: 'Pending', fr: 'En Attente' })}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-blue-50 border-2 border-blue-400 rounded"></div>
-                    <span className="text-sm text-gray-700">
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <div className="w-3 h-3 sm:w-4 sm:h-4 bg-blue-50 border-2 border-blue-400 rounded"></div>
+                    <span className="text-gray-700">
                       {t({ en: 'Today', fr: 'Aujourd\'hui' })}
                     </span>
                   </div>
@@ -890,19 +988,61 @@ export default function AdminPage() {
 
             {activeTab === 'users' && (
               <div>
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-xl font-bold text-gray-900">
-                    {t({ en: 'User Management', fr: 'Gestion des Utilisateurs' })}
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3">
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+                    {t({ en: 'Users', fr: 'Utilisateurs' })}
                   </h2>
                   <button 
                     onClick={() => setShowUserModal(true)}
-                    className="bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800 font-bold"
+                    className="bg-slate-700 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800 font-bold text-sm"
                   >
-                    {t({ en: 'Add User', fr: 'Ajouter un Utilisateur' })}
+                    {t({ en: '+ Add User', fr: '+ Ajouter' })}
                   </button>
                 </div>
+
+                {/* Mobile Card View */}
+                <div className="sm:hidden space-y-4">
+                  {users.map(user => (
+                    <div key={user.id} className="bg-white border rounded-lg p-4 shadow-sm">
+                      <div className="flex justify-between items-start mb-3">
+                        <div>
+                          <h3 className="font-semibold text-gray-900">{user.firstName} {user.lastName}</h3>
+                          <p className="text-sm text-gray-600">{user.email}</p>
+                          {user.phone && <p className="text-sm text-gray-600">{user.phone}</p>}
+                        </div>
+                        <span className={`px-2 py-1 rounded text-xs font-medium ${
+                          user.role === 'admin' 
+                            ? 'bg-red-100 text-red-800' 
+                            : 'bg-blue-100 text-blue-800'
+                        }`}>
+                          {user.role}
+                        </span>
+                      </div>
+                      
+                      <div className="text-sm text-gray-500 mb-3">
+                        Créé le {new Date(user.createdAt).toLocaleDateString('fr-FR')}
+                      </div>
+
+                      <div className="flex justify-end gap-2">
+                        <button
+                          onClick={() => setEditingUser(user)}
+                          className="bg-blue-100 text-blue-700 px-3 py-1 rounded text-sm font-medium"
+                        >
+                          ✏️ Modifier
+                        </button>
+                        <button
+                          onClick={() => handleDeleteUser(user.id)}
+                          className="bg-red-100 text-red-700 px-3 py-1 rounded text-sm font-medium"
+                        >
+                          🗑️ Supprimer
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
                 
-                <div className="overflow-x-auto">
+                {/* Desktop Table View */}
+                <div className="hidden sm:block overflow-x-auto">
                   <table className="w-full">
                     <thead>
                       <tr className="border-b">
@@ -956,14 +1096,14 @@ export default function AdminPage() {
                   </table>
                 </div>
 
-                {/* Modal pour créer/éditer un utilisateur */}
+                {/* Modal pour créer/éditer un utilisateur - Mobile Optimized */}
                 {showUserModal && (
-                  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 w-full max-w-md">
-                      <h3 className="text-lg font-bold mb-4">
+                  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md mx-auto max-h-[90vh] overflow-y-auto">
+                      <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4">
                         {t({ en: 'Add New User', fr: 'Ajouter un Utilisateur' })}
                       </h3>
-                      <form onSubmit={handleCreateUser} className="space-y-4">
+                      <form onSubmit={handleCreateUser} className="space-y-3 sm:space-y-4">
                         <div>
                           <label className="block text-sm font-medium mb-1">
                             {t({ en: 'First Name', fr: 'Prénom' })}
@@ -972,7 +1112,7 @@ export default function AdminPage() {
                             type="text"
                             value={newUser.firstName}
                             onChange={(e) => setNewUser({...newUser, firstName: e.target.value})}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
                             required
                           />
                         </div>
@@ -984,7 +1124,7 @@ export default function AdminPage() {
                             type="text"
                             value={newUser.lastName}
                             onChange={(e) => setNewUser({...newUser, lastName: e.target.value})}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
                             required
                           />
                         </div>
@@ -994,7 +1134,7 @@ export default function AdminPage() {
                             type="email"
                             value={newUser.email}
                             onChange={(e) => setNewUser({...newUser, email: e.target.value})}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
                             required
                           />
                         </div>
@@ -1006,7 +1146,7 @@ export default function AdminPage() {
                             type="tel"
                             value={newUser.phone}
                             onChange={(e) => setNewUser({...newUser, phone: e.target.value})}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
                           />
                         </div>
                         <div>
@@ -1017,7 +1157,7 @@ export default function AdminPage() {
                             type="password"
                             value={newUser.password}
                             onChange={(e) => setNewUser({...newUser, password: e.target.value})}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
                             required
                           />
                         </div>
@@ -1028,23 +1168,23 @@ export default function AdminPage() {
                           <select
                             value={newUser.role}
                             onChange={(e) => setNewUser({...newUser, role: e.target.value})}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
                           >
                             <option value="client">Client</option>
                             <option value="admin">Admin</option>
                           </select>
                         </div>
-                        <div className="flex gap-2 pt-4">
+                        <div className="flex flex-col sm:flex-row gap-2 pt-3 sm:pt-4">
                           <button
                             type="submit"
-                            className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
+                            className="w-full sm:flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 text-sm sm:text-base"
                           >
                             {t({ en: 'Create', fr: 'Créer' })}
                           </button>
                           <button
                             type="button"
                             onClick={() => setShowUserModal(false)}
-                            className="flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600"
+                            className="w-full sm:flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 text-sm sm:text-base"
                           >
                             {t({ en: 'Cancel', fr: 'Annuler' })}
                           </button>
@@ -1058,31 +1198,56 @@ export default function AdminPage() {
 
             {activeTab === 'messages' && (
               <div>
-                <h2 className="text-xl font-bold text-gray-900 mb-6">
-                  {t({ en: 'Contact Messages', fr: 'Messages de Contact' })}
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">
+                  {t({ en: 'Messages', fr: 'Messages' })}
                 </h2>
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {messages.map(message => (
-                    <div key={message.id} className={`border rounded-lg p-4 ${!message.read ? 'bg-blue-50 border-blue-200' : 'bg-white'}`}>
-                      <div className="flex justify-between items-start mb-3">
-                        <div>
+                    <div key={message.id} className={`border rounded-lg p-3 sm:p-4 ${!message.read ? 'bg-blue-50 border-blue-200' : 'bg-white'}`}>
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3 gap-2">
+                        <div className="flex-1">
                           <div className="font-semibold text-gray-900">{message.name}</div>
                           <div className="text-sm text-gray-600">{message.email}</div>
                         </div>
-                        <div className="flex items-center gap-3">
-                          <span className="text-sm text-gray-500">{message.date ? new Date(message.date).toLocaleDateString('fr-FR') : ''}</span>
+                        <div className="flex items-center gap-2 sm:gap-3 text-sm">
+                          <span className="text-gray-500">{message.date ? new Date(message.date).toLocaleDateString('fr-FR') : ''}</span>
                           {!message.read && (
-                            <span className="bg-slate-700 text-white text-xs px-2 py-1 rounded">
+                            <span className="bg-slate-700 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
                               {t({ en: 'New', fr: 'Nouveau' })}
                             </span>
                           )}
                         </div>
                       </div>
+                      
                       <div className="mb-2">
-                        <span className="font-medium text-gray-800">{message.subject}</span>
+                        <span className="font-medium text-gray-800 text-sm sm:text-base">{message.subject}</span>
                       </div>
-                      <p className="text-gray-700 text-sm">{message.message}</p>
-                      <div className="mt-3 flex gap-2">
+                      
+                      <p className="text-gray-700 text-sm mb-3 line-clamp-3">{message.message}</p>
+                      
+                      {/* Mobile Actions - Stacked */}
+                      <div className="sm:hidden flex flex-col gap-2">
+                        <div className="flex gap-2">
+                          <button 
+                            onClick={() => setSelectedMessage(message)}
+                            className="flex-1 text-sm bg-slate-700 hover:bg-slate-800 text-white px-3 py-2 rounded transition-colors"
+                          >
+                            💬 {t({ en: 'Reply', fr: 'Répondre' })}
+                          </button>
+                          <button 
+                            onClick={() => handleDeleteMessage(message.id, 'internal')}
+                            className="flex-1 text-sm bg-red-100 hover:bg-red-200 text-red-700 px-3 py-2 rounded transition-colors"
+                          >
+                            🗑️ {t({ en: 'Delete', fr: 'Supprimer' })}
+                          </button>
+                        </div>
+                        <button className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded transition-colors">
+                          ✓ {t({ en: 'Mark as read', fr: 'Marquer comme lu' })}
+                        </button>
+                      </div>
+
+                      {/* Desktop Actions - Inline */}
+                      <div className="hidden sm:flex gap-2">
                         <button 
                           onClick={() => setSelectedMessage(message)}
                           className="text-sm bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded transition-colors"
@@ -1101,17 +1266,93 @@ export default function AdminPage() {
                       </div>
                     </div>
                   ))}
+                  
+                  {messages.length === 0 && (
+                    <div className="text-center py-8 sm:py-12">
+                      <div className="text-gray-500 text-3xl sm:text-4xl mb-4">📧</div>
+                      <p className="text-gray-500">
+                        {t({ en: 'No messages found', fr: 'Aucun message trouvé' })}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
 
             {activeTab === 'invoices' && (
               <div>
-                <h2 className="text-xl font-bold text-gray-900 mb-6">
-                  {t({ en: 'Invoice Management', fr: 'Gestion des Factures' })}
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">
+                  {t({ en: 'Invoices', fr: 'Factures' })}
                 </h2>
-                
-                <div className="bg-white rounded-lg shadow overflow-hidden">
+
+                {/* Mobile Card View */}
+                <div className="sm:hidden space-y-4">
+                  {invoices.map((invoice, index) => (
+                    <div key={invoice.id || index} className="bg-white border rounded-lg p-4 shadow-sm">
+                      <div className="flex justify-between items-start mb-3">
+                        <div>
+                          <h3 className="font-semibold text-gray-900">INV-{invoice.invoiceNumber || invoice.id}</h3>
+                          <p className="text-sm text-gray-600">{invoice.clientName}</p>
+                          <p className="text-sm text-gray-600">{invoice.clientEmail}</p>
+                        </div>
+                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                          invoice.paymentStatus === 'paid' 
+                            ? 'bg-green-100 text-green-800'
+                            : invoice.paymentStatus === 'partial'
+                            ? 'bg-yellow-100 text-yellow-800'  
+                            : 'bg-red-100 text-red-800'
+                        }`}>
+                          {invoice.paymentStatus === 'paid' 
+                            ? t({ en: 'Paid', fr: 'Payée' })
+                            : invoice.paymentStatus === 'partial'
+                            ? t({ en: 'Partial', fr: 'Partielle' })
+                            : t({ en: 'Unpaid', fr: 'Impayée' })
+                          }
+                        </span>
+                      </div>
+                      
+                      <div className="flex justify-between items-center mb-3">
+                        <div className="text-lg font-bold text-forest-900">€{invoice.totalAmount}</div>
+                        <div className="text-sm text-gray-500">
+                          {new Date(invoice.createdAt).toLocaleDateString('fr-FR')}
+                        </div>
+                      </div>
+
+                      <div className="flex gap-2 text-sm">
+                        <button 
+                          onClick={() => handleViewInvoice(invoice)}
+                          className="flex-1 bg-slate-100 text-slate-700 px-3 py-2 rounded font-medium"
+                        >
+                          👁️ Voir
+                        </button>
+                        <button 
+                          onClick={() => handleViewInvoice(invoice)}
+                          className="flex-1 bg-forest-100 text-forest-700 px-3 py-2 rounded font-medium"
+                        >
+                          ✏️ Modifier
+                        </button>
+                        <button 
+                          onClick={() => handleDownloadPDF(invoice)}
+                          className="flex-1 bg-blue-100 text-blue-700 px-3 py-2 rounded font-medium"
+                        >
+                          📄 PDF
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {invoices.length === 0 && (
+                    <div className="text-center py-8 sm:py-12">
+                      <div className="text-gray-500 text-3xl sm:text-4xl mb-4">🧾</div>
+                      <p className="text-gray-500">
+                        {t({ en: 'No invoices found', fr: 'Aucune facture trouvée' })}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Desktop Table View */}
+                <div className="hidden sm:block bg-white rounded-lg shadow overflow-hidden">
                   <div className="overflow-x-auto">
                     <table className="w-full">
                       <thead className="bg-gray-50">
@@ -1216,60 +1457,70 @@ export default function AdminPage() {
 
             {activeTab === 'settings' && (
               <div>
-                <h2 className="text-xl font-bold text-gray-900 mb-6">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">
                   {t({ en: 'Settings', fr: 'Paramètres' })}
                 </h2>
-                <div className="space-y-6">
-                  <div className="bg-white border rounded-lg p-6">
-                    <h3 className="font-semibold text-lg mb-4">{t({ en: 'Pricing Configuration', fr: 'Configuration des Tarifs' })}</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-4 sm:space-y-6">
+                  <div className="bg-white border rounded-lg p-4 sm:p-6">
+                    <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">
+                      {t({ en: 'Pricing Configuration', fr: 'Configuration des Tarifs' })}
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           {t({ en: 'High Season (€/week)', fr: 'Haute Saison (€/semaine)' })}
                         </label>
-                        <input type="number" className="w-full px-4 py-2 border rounded-lg" defaultValue="2200" />
+                        <input type="number" className="w-full px-3 sm:px-4 py-2 border rounded-lg text-sm sm:text-base" defaultValue="2200" />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           {t({ en: 'Mid Season (€/week)', fr: 'Moyenne Saison (€/semaine)' })}
                         </label>
-                        <input type="number" className="w-full px-4 py-2 border rounded-lg" defaultValue="1600" />
+                        <input type="number" className="w-full px-3 sm:px-4 py-2 border rounded-lg text-sm sm:text-base" defaultValue="1600" />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           {t({ en: 'Low Season (€/week)', fr: 'Basse Saison (€/semaine)' })}
                         </label>
-                        <input type="number" className="w-full px-4 py-2 border rounded-lg" defaultValue="1200" />
+                        <input type="number" className="w-full px-3 sm:px-4 py-2 border rounded-lg text-sm sm:text-base" defaultValue="1200" />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           {t({ en: 'Cleaning Fee (€)', fr: 'Frais de Ménage (€)' })}
                         </label>
-                        <input type="number" className="w-full px-4 py-2 border rounded-lg" defaultValue="200" />
+                        <input type="number" className="w-full px-3 sm:px-4 py-2 border rounded-lg text-sm sm:text-base" defaultValue="200" />
                       </div>
                     </div>
-                    <button className="mt-4 bg-slate-700 hover:bg-slate-800 text-white px-6 py-2 rounded-lg transition-colors">
+                    <button className="mt-4 w-full sm:w-auto bg-slate-700 hover:bg-slate-800 text-white px-4 sm:px-6 py-2 rounded-lg transition-colors text-sm sm:text-base">
                       {t({ en: 'Save Changes', fr: 'Enregistrer' })}
                     </button>
                   </div>
 
-                  <div className="bg-white border rounded-lg p-6">
-                    <h3 className="font-semibold text-lg mb-4">{t({ en: 'Notification Settings', fr: 'Paramètres de Notification' })}</h3>
-                    <div className="space-y-3">
-                      <label className="flex items-center gap-3">
-                        <input type="checkbox" defaultChecked className="w-5 h-5 text-forest-700 rounded" />
-                        <span>{t({ en: 'Email notifications for new bookings', fr: 'Notifications email pour nouvelles réservations' })}</span>
+                  <div className="bg-white border rounded-lg p-4 sm:p-6">
+                    <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">
+                      {t({ en: 'Notification Settings', fr: 'Paramètres de Notification' })}
+                    </h3>
+                    <div className="space-y-3 sm:space-y-4">
+                      <label className="flex items-start sm:items-center gap-3">
+                        <input type="checkbox" defaultChecked className="w-4 h-4 sm:w-5 sm:h-5 text-forest-700 rounded mt-0.5 sm:mt-0 flex-shrink-0" />
+                        <span className="text-sm sm:text-base">
+                          {t({ en: 'Email notifications for new bookings', fr: 'Notifications email pour nouvelles réservations' })}
+                        </span>
                       </label>
-                      <label className="flex items-center gap-3">
-                        <input type="checkbox" defaultChecked className="w-5 h-5 text-forest-700 rounded" />
-                        <span>{t({ en: 'Email notifications for new messages', fr: 'Notifications email pour nouveaux messages' })}</span>
+                      <label className="flex items-start sm:items-center gap-3">
+                        <input type="checkbox" defaultChecked className="w-4 h-4 sm:w-5 sm:h-5 text-forest-700 rounded mt-0.5 sm:mt-0 flex-shrink-0" />
+                        <span className="text-sm sm:text-base">
+                          {t({ en: 'Email notifications for new messages', fr: 'Notifications email pour nouveaux messages' })}
+                        </span>
                       </label>
-                      <label className="flex items-center gap-3">
-                        <input type="checkbox" className="w-5 h-5 text-forest-700 rounded" />
-                        <span>{t({ en: 'SMS notifications for urgent matters', fr: 'Notifications SMS pour urgences' })}</span>
+                      <label className="flex items-start sm:items-center gap-3">
+                        <input type="checkbox" className="w-4 h-4 sm:w-5 sm:h-5 text-forest-700 rounded mt-0.5 sm:mt-0 flex-shrink-0" />
+                        <span className="text-sm sm:text-base">
+                          {t({ en: 'SMS notifications for urgent matters', fr: 'Notifications SMS pour urgences' })}
+                        </span>
                       </label>
                     </div>
-                    <button className="mt-4 bg-slate-700 hover:bg-slate-800 text-white px-6 py-2 rounded-lg transition-colors">
+                    <button className="mt-4 w-full sm:w-auto bg-slate-700 hover:bg-slate-800 text-white px-4 sm:px-6 py-2 rounded-lg transition-colors text-sm sm:text-base">
                       {t({ en: 'Save Changes', fr: 'Enregistrer' })}
                     </button>
                   </div>
@@ -1280,21 +1531,21 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* Modal pour répondre aux messages */}
+      {/* Modal pour répondre aux messages - Mobile Optimized */}
       {selectedMessage && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
-            <h3 className="text-lg font-semibold mb-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md mx-auto max-h-[90vh] overflow-y-auto">
+            <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
               {t({ en: 'Reply to Message', fr: 'Répondre au Message' })}
             </h3>
-            <div className="mb-4 p-3 bg-gray-50 rounded">
-              <p className="text-sm text-gray-600 mb-2">
+            <div className="mb-3 sm:mb-4 p-3 bg-gray-50 rounded text-sm">
+              <p className="text-gray-600 mb-2">
                 <strong>De :</strong> {selectedMessage.name} ({selectedMessage.email})
               </p>
-              <p className="text-sm text-gray-600 mb-2">
+              <p className="text-gray-600 mb-2">
                 <strong>Sujet :</strong> {selectedMessage.subject}
               </p>
-              <p className="text-sm text-gray-700">
+              <p className="text-gray-700">
                 <strong>Message :</strong> {selectedMessage.message}
               </p>
             </div>
@@ -1305,7 +1556,7 @@ export default function AdminPage() {
               <textarea
                 value={replyContent}
                 onChange={(e) => setReplyContent(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-500 text-sm"
                 rows={4}
                 placeholder={t({ 
                   en: 'Type your reply here...', 
@@ -1313,19 +1564,19 @@ export default function AdminPage() {
                 })}
               />
             </div>
-            <div className="flex gap-2 justify-end">
+            <div className="flex flex-col sm:flex-row gap-2 sm:justify-end">
               <button
                 onClick={() => {
                   setSelectedMessage(null);
                   setReplyContent('');
                 }}
-                className="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                className="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm sm:text-base"
               >
                 {t({ en: 'Cancel', fr: 'Annuler' })}
               </button>
               <button
                 onClick={() => handleReplyMessage(selectedMessage)}
-                className="px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg transition-colors"
+                className="px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg transition-colors text-sm sm:text-base"
               >
                 {t({ en: 'Send Reply', fr: 'Envoyer' })}
               </button>
@@ -1401,68 +1652,68 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* Modal de visualisation/édition de facture */}
+      {/* Modal de visualisation/édition de facture - Mobile Optimized */}
       {showInvoiceModal && selectedInvoice && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-8 w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-start mb-6">
-              <h3 className="text-2xl font-bold text-gray-900">
-                {t({ en: 'Invoice Details', fr: 'Détails de la Facture' })} - INV-{selectedInvoice.invoiceNumber || selectedInvoice.id}
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg p-4 sm:p-6 lg:p-8 w-full max-w-4xl mx-auto max-h-[95vh] overflow-y-auto">
+            <div className="flex justify-between items-start mb-4 sm:mb-6">
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 pr-2">
+                {t({ en: 'Invoice Details', fr: 'Détails Facture' })} - INV-{selectedInvoice.invoiceNumber || selectedInvoice.id}
               </h3>
               <button
                 onClick={() => {
                   setShowInvoiceModal(false);
                   setSelectedInvoice(null);
                 }}
-                className="text-gray-500 hover:text-gray-700 text-2xl"
+                className="text-gray-500 hover:text-gray-700 text-xl sm:text-2xl flex-shrink-0"
               >
                 ✕
               </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
               {/* Informations client */}
-              <div className="bg-gray-50 rounded-lg p-6">
-                <h4 className="text-lg font-semibold mb-4 text-gray-800">
+              <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
+                <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">
                   {t({ en: 'Client Information', fr: 'Informations Client' })}
                 </h4>
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   <div>
                     <span className="text-sm text-gray-600">{t({ en: 'Name:', fr: 'Nom :' })}</span>
-                    <div className="font-semibold">{selectedInvoice.clientName}</div>
+                    <div className="font-semibold text-sm sm:text-base">{selectedInvoice.clientName}</div>
                   </div>
                   <div>
                     <span className="text-sm text-gray-600">{t({ en: 'Email:', fr: 'Email :' })}</span>
-                    <div className="font-semibold">{selectedInvoice.clientEmail}</div>
+                    <div className="font-semibold text-sm sm:text-base break-all">{selectedInvoice.clientEmail}</div>
                   </div>
                   <div>
                     <span className="text-sm text-gray-600">{t({ en: 'Phone:', fr: 'Téléphone :' })}</span>
-                    <div className="font-semibold">{selectedInvoice.clientPhone || 'N/A'}</div>
+                    <div className="font-semibold text-sm sm:text-base">{selectedInvoice.clientPhone || 'N/A'}</div>
                   </div>
                 </div>
               </div>
 
               {/* Détails de la réservation */}
-              <div className="bg-blue-50 rounded-lg p-6">
-                <h4 className="text-lg font-semibold mb-4 text-gray-800">
-                  {t({ en: 'Reservation Details', fr: 'Détails de la Réservation' })}
+              <div className="bg-blue-50 rounded-lg p-4 sm:p-6">
+                <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">
+                  {t({ en: 'Reservation Details', fr: 'Détails Réservation' })}
                 </h4>
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   <div>
                     <span className="text-sm text-gray-600">{t({ en: 'Check-in:', fr: 'Arrivée :' })}</span>
-                    <div className="font-semibold">{new Date(selectedInvoice.checkIn).toLocaleDateString('fr-FR')}</div>
+                    <div className="font-semibold text-sm sm:text-base">{new Date(selectedInvoice.checkIn).toLocaleDateString('fr-FR')}</div>
                   </div>
                   <div>
                     <span className="text-sm text-gray-600">{t({ en: 'Check-out:', fr: 'Départ :' })}</span>
-                    <div className="font-semibold">{new Date(selectedInvoice.checkOut).toLocaleDateString('fr-FR')}</div>
+                    <div className="font-semibold text-sm sm:text-base">{new Date(selectedInvoice.checkOut).toLocaleDateString('fr-FR')}</div>
                   </div>
                   <div>
                     <span className="text-sm text-gray-600">{t({ en: 'Guests:', fr: 'Personnes :' })}</span>
-                    <div className="font-semibold">{selectedInvoice.guests}</div>
+                    <div className="font-semibold text-sm sm:text-base">{selectedInvoice.guests}</div>
                   </div>
                   <div>
                     <span className="text-sm text-gray-600">{t({ en: 'Duration:', fr: 'Durée :' })}</span>
-                    <div className="font-semibold">
+                    <div className="font-semibold text-sm sm:text-base">
                       {Math.ceil((new Date(selectedInvoice.checkOut).getTime() - new Date(selectedInvoice.checkIn).getTime()) / (1000 * 60 * 60 * 24))} {t({ en: 'nights', fr: 'nuits' })}
                     </div>
                   </div>
@@ -1471,18 +1722,18 @@ export default function AdminPage() {
             </div>
 
             {/* Détails financiers */}
-            <div className="mt-8 bg-green-50 rounded-lg p-6">
-              <h4 className="text-lg font-semibold mb-4 text-gray-800">
+            <div className="mt-4 sm:mt-6 lg:mt-8 bg-green-50 rounded-lg p-4 sm:p-6">
+              <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">
                 {t({ en: 'Financial Details', fr: 'Détails Financiers' })}
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 <div>
                   <span className="text-sm text-gray-600">{t({ en: 'Total Amount:', fr: 'Montant Total :' })}</span>
-                  <div className="text-2xl font-bold text-green-600">€{selectedInvoice.totalAmount}</div>
+                  <div className="text-xl sm:text-2xl font-bold text-green-600">€{selectedInvoice.totalAmount}</div>
                 </div>
                 <div>
-                  <span className="text-sm text-gray-600">{t({ en: 'Payment Status:', fr: 'Statut Paiement :' })}</span>
-                  <div className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${
+                  <span className="text-sm text-gray-600">{t({ en: 'Payment Status:', fr: 'Statut :' })}</span>
+                  <div className={`inline-block px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold mt-1 ${
                     selectedInvoice.paymentStatus === 'paid' 
                       ? 'bg-green-100 text-green-800'
                       : selectedInvoice.paymentStatus === 'partial'
@@ -1499,61 +1750,61 @@ export default function AdminPage() {
                 </div>
                 <div>
                   <span className="text-sm text-gray-600">{t({ en: 'Created:', fr: 'Créée le :' })}</span>
-                  <div className="font-semibold">{new Date(selectedInvoice.createdAt).toLocaleDateString('fr-FR')}</div>
+                  <div className="font-semibold text-sm sm:text-base">{new Date(selectedInvoice.createdAt).toLocaleDateString('fr-FR')}</div>
                 </div>
               </div>
             </div>
 
             {/* Modification du statut */}
-            <div className="mt-8 bg-yellow-50 rounded-lg p-6">
-              <h4 className="text-lg font-semibold mb-4 text-gray-800">
-                {t({ en: 'Update Payment Status', fr: 'Modifier le Statut de Paiement' })}
+            <div className="mt-4 sm:mt-6 lg:mt-8 bg-yellow-50 rounded-lg p-4 sm:p-6">
+              <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">
+                {t({ en: 'Update Status', fr: 'Modifier le Statut' })}
               </h4>
-              <div className="flex gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4">
                 <button
                   onClick={() => handleUpdateInvoiceStatus(selectedInvoice.id, 'unpaid')}
-                  className="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 rounded-lg font-semibold transition-colors"
+                  className="px-3 sm:px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 rounded-lg font-semibold transition-colors text-sm sm:text-base"
                 >
-                  {t({ en: 'Mark as Unpaid', fr: 'Marquer Impayée' })}
+                  {t({ en: 'Mark Unpaid', fr: 'Marquer Impayée' })}
                 </button>
                 <button
                   onClick={() => handleUpdateInvoiceStatus(selectedInvoice.id, 'partial')}
-                  className="px-4 py-2 bg-yellow-100 hover:bg-yellow-200 text-yellow-800 rounded-lg font-semibold transition-colors"
+                  className="px-3 sm:px-4 py-2 bg-yellow-100 hover:bg-yellow-200 text-yellow-800 rounded-lg font-semibold transition-colors text-sm sm:text-base"
                 >
-                  {t({ en: 'Mark as Partial', fr: 'Marquer Partielle' })}
+                  {t({ en: 'Mark Partial', fr: 'Marquer Partielle' })}
                 </button>
                 <button
                   onClick={() => handleUpdateInvoiceStatus(selectedInvoice.id, 'paid')}
-                  className="px-4 py-2 bg-green-100 hover:bg-green-200 text-green-800 rounded-lg font-semibold transition-colors"
+                  className="px-3 sm:px-4 py-2 bg-green-100 hover:bg-green-200 text-green-800 rounded-lg font-semibold transition-colors text-sm sm:text-base"
                 >
-                  {t({ en: 'Mark as Paid', fr: 'Marquer Payée' })}
+                  {t({ en: 'Mark Paid', fr: 'Marquer Payée' })}
                 </button>
               </div>
             </div>
 
             {/* Message de la réservation */}
             {selectedInvoice.message && (
-              <div className="mt-8 bg-gray-50 rounded-lg p-6">
-                <h4 className="text-lg font-semibold mb-4 text-gray-800">
+              <div className="mt-4 sm:mt-6 lg:mt-8 bg-gray-50 rounded-lg p-4 sm:p-6">
+                <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">
                   {t({ en: 'Client Message', fr: 'Message du Client' })}
                 </h4>
-                <p className="text-gray-700 whitespace-pre-wrap">{selectedInvoice.message}</p>
+                <p className="text-gray-700 whitespace-pre-wrap text-sm sm:text-base">{selectedInvoice.message}</p>
               </div>
             )}
 
-            <div className="mt-8 flex gap-4 justify-end">
+            <div className="mt-4 sm:mt-6 lg:mt-8 flex flex-col sm:flex-row gap-2 sm:gap-4 sm:justify-end">
               <button
                 onClick={() => {
                   setShowInvoiceModal(false);
                   setSelectedInvoice(null);
                 }}
-                className="px-6 py-2 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                className="w-full sm:w-auto px-4 sm:px-6 py-2 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors text-sm sm:text-base"
               >
                 {t({ en: 'Close', fr: 'Fermer' })}
               </button>
               <button 
                 onClick={() => handleDownloadPDF(selectedInvoice)}
-                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
+                className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors text-sm sm:text-base"
               >
                 {t({ en: 'Download PDF', fr: 'Télécharger PDF' })}
               </button>
