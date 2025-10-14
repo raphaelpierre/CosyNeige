@@ -123,9 +123,7 @@ export default function AdminPage() {
   const fetchReservations = async () => {
     try {
       const response = await fetch('/api/admin/reservations', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
-        }
+        credentials: 'include' // Pour inclure les cookies
       });
       if (response.ok) {
         const data = await response.json();
@@ -143,6 +141,8 @@ export default function AdminPage() {
           createdAt: res.createdAt.split('T')[0]
         }));
         setReservations(formattedData);
+      } else {
+        console.error('Failed to fetch reservations:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error fetching reservations:', error);
@@ -152,13 +152,13 @@ export default function AdminPage() {
   const fetchUsers = async () => {
     try {
       const response = await fetch('/api/admin/users', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
-        }
+        credentials: 'include' // Pour inclure les cookies
       });
       if (response.ok) {
         const data = await response.json();
         setUsers(data);
+      } else {
+        console.error('Failed to fetch users:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -168,13 +168,13 @@ export default function AdminPage() {
   const fetchInvoices = async () => {
     try {
       const response = await fetch('/api/admin/invoices', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
-        }
+        credentials: 'include' // Pour inclure les cookies
       });
       if (response.ok) {
         const data = await response.json();
         setInvoices(data);
+      } else {
+        console.error('Failed to fetch invoices:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error fetching invoices:', error);
@@ -214,9 +214,9 @@ export default function AdminPage() {
       const response = await fetch('/api/admin/users', {
         method: 'DELETE',
         headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
+          'Content-Type': 'application/json'
         },
+        credentials: 'include', // Pour inclure les cookies
         body: JSON.stringify({ userId })
       });
 
@@ -280,8 +280,7 @@ export default function AdminPage() {
         method: 'DELETE',
         credentials: 'include',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
+          'Content-Type': 'application/json'
         }
       });
 
@@ -488,9 +487,9 @@ export default function AdminPage() {
       const response = await fetch('/api/admin/reservations', {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
+          'Content-Type': 'application/json'
         },
+        credentials: 'include', // Pour inclure les cookies
         body: JSON.stringify({ reservationId: id, status: newStatus }),
       });
 
@@ -523,9 +522,9 @@ export default function AdminPage() {
       const response = await fetch('/api/admin/reservations', {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
+          'Content-Type': 'application/json'
         },
+        credentials: 'include', // Pour inclure les cookies
         body: JSON.stringify({ reservationId: id }),
       });
 

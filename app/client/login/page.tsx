@@ -10,7 +10,7 @@ function LoginPageContent() {
   const { t } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { isAuthenticated, login, checkAuthStatus, loading } = useAuth();
+  const { isAuthenticated, login, checkAuthStatus, loading, user } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     email: '',
@@ -32,10 +32,14 @@ function LoginPageContent() {
 
   // Rediriger si déjà connecté
   useEffect(() => {
-    if (!loading && isAuthenticated) {
-      router.push('/client/dashboard');
+    if (!loading && isAuthenticated && user) {
+      if (user.role === 'admin') {
+        router.push('/admin');
+      } else {
+        router.push('/client/dashboard');
+      }
     }
-  }, [isAuthenticated, loading, router]);
+  }, [isAuthenticated, loading, user, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,10 +71,16 @@ function LoginPageContent() {
       // Mettre à jour le contexte d'authentification en récupérant les données complètes depuis l'API
       await checkAuthStatus();
 
-      console.log('🚀 Redirection vers le dashboard...');
+      console.log('🚀 Redirection en cours...');
       
-      // Rediriger vers l'espace client
-      router.push('/client/dashboard');
+      // Rediriger selon le rôle de l'utilisateur
+      if (data.user?.role === 'admin') {
+        console.log('👑 Utilisateur admin détecté, redirection vers le panneau admin');
+        router.push('/admin');
+      } else {
+        console.log('👤 Utilisateur client, redirection vers le dashboard');
+        router.push('/client/dashboard');
+      }
     } catch (err: unknown) {
       console.error('❌ Erreur dans handleSubmit:', err);
       setError(err instanceof Error ? err.message : 'An error occurred');
