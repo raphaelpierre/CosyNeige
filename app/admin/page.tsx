@@ -1490,20 +1490,12 @@ export default function AdminPage() {
                   <h2 className="text-lg sm:text-xl font-bold text-gray-900">
                     {t({ en: 'Users', fr: 'Utilisateurs' })}
                   </h2>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setShowSendMessageModal(true)}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors font-bold text-sm"
-                    >
-                      💬 {t({ en: 'Send Message', fr: 'Envoyer Message' })}
-                    </button>
-                    <button
-                      onClick={() => setShowUserModal(true)}
-                      className="bg-slate-700 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800 font-bold text-sm"
-                    >
-                      {t({ en: '+ Add User', fr: '+ Ajouter' })}
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => setShowUserModal(true)}
+                    className="bg-slate-700 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800 font-bold text-sm"
+                  >
+                    {t({ en: '+ Add User', fr: '+ Ajouter' })}
+                  </button>
                 </div>
 
                 {/* Mobile Card View */}

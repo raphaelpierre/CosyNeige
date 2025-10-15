@@ -272,7 +272,7 @@ export default function BookingPage() {
                 <div className="space-y-6">
                   <div className="text-center">
                     <div className="flex items-center justify-center gap-3 mb-3">
-                      <span className="text-3xl">📅</span>
+                      <span className="text-3xl">🗓️</span>
                       <h3 className="text-xl font-bold text-gray-900">
                         {t({ en: 'Choose Your Dates', fr: 'Choisissez Vos Dates' })}
                       </h3>
@@ -282,7 +282,7 @@ export default function BookingPage() {
                   {/* Section Tarifs et Conditions */}
                   <div className="bg-gradient-to-br from-blue-50 to-white border-2 border-blue-200 rounded-xl p-6">
                     <div className="flex items-center gap-3 mb-4">
-                      <span className="text-2xl">💰</span>
+                      <span className="text-2xl">💵</span>
                       <h4 className="text-lg font-bold text-gray-900">
                         {t({ en: 'Rates & Conditions', fr: 'Tarifs & Conditions' })}
                       </h4>
