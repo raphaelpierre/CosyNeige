@@ -196,7 +196,7 @@ export default function BookingPage() {
                       currentStep === step.id
                         ? 'bg-forest-600 text-white border-forest-600 scale-110'
                         : step.completed
-                          ? 'bg-green-600 text-white border-green-600'
+                          ? 'bg-slate-600 text-white border-slate-600'
                           : 'bg-white text-gray-400 border-gray-300'
                     }`}
                   >
@@ -204,7 +204,7 @@ export default function BookingPage() {
                   </div>
                   {index < steps.length - 1 && (
                     <div className={`w-4 h-0.5 mx-1 transition-colors ${
-                      step.completed ? 'bg-green-600' : 'bg-gray-300'
+                      step.completed ? 'bg-slate-600' : 'bg-gray-300'
                     }`} />
                   )}
                 </div>
@@ -306,14 +306,14 @@ export default function BookingPage() {
                           </p>
                         </div>
                       ) : (
-                        <div className="bg-green-50 border border-green-300 rounded-xl p-4 text-center">
+                        <div className="bg-slate-50 border border-slate-300 rounded-xl p-4 text-center">
                           <div className="flex items-center justify-center gap-2 mb-2">
-                            <span className="text-green-600 text-xl">✅</span>
-                            <h4 className="text-green-800 font-bold">
+                            <span className="text-slate-600 text-xl">✅</span>
+                            <h4 className="text-slate-800 font-bold">
                               {t({ en: 'Perfect selection!', fr: 'Parfait !' })}
                             </h4>
                           </div>
-                          <p className="text-green-700 text-sm">
+                          <p className="text-slate-700 text-sm">
                             {t({ en: `${nights} nights • ${guests} guests`, fr: `${nights} nuits • ${guests} personnes` })}
                           </p>
                         </div>
@@ -529,7 +529,7 @@ export default function BookingPage() {
                       disabled={!steps[1].completed || isSubmitting}
                       className={`flex-1 px-6 py-4 rounded-lg font-bold text-lg transition-all ${
                         steps[1].completed && !isSubmitting
-                          ? 'bg-gradient-to-r from-forest-600 to-forest-700 hover:from-forest-700 hover:to-forest-800 text-white shadow-lg hover:shadow-xl'
+                          ? 'bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-800 hover:to-slate-900 text-white shadow-lg hover:shadow-xl'
                           : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                       }`}
                     >
@@ -625,7 +625,7 @@ export default function BookingPage() {
                     </p>
                     <button
                       onClick={() => router.push(`/booking/payment/bank-transfer?bookingId=${bookingId}&deposit=${Math.round((priceCalculation?.total || 0) * 0.3)}`)}
-                      className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
+                      className="px-6 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
                     >
                       <span>🏦</span>
                       {t({ en: 'Pay by Bank Transfer', fr: 'Payer par Virement' })}
@@ -658,7 +658,7 @@ export default function BookingPage() {
                     </h3>
                   </div>
                   {checkIn && checkOut && isValidStay && priceCalculation && (
-                    <div className="bg-green-500 text-white rounded-full px-2 py-1 text-xs font-semibold">
+                    <div className="bg-slate-600 text-white rounded-full px-2 py-1 text-xs font-semibold">
                       ✓
                     </div>
                   )}
@@ -763,7 +763,7 @@ export default function BookingPage() {
           {currentStep === 1 && steps[0].completed && (
             <button
               onClick={() => setCurrentStep(2)}
-              className="w-full bg-forest-600 hover:bg-forest-700 text-white py-3 rounded-lg font-bold transition-colors"
+              className="w-full bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-lg font-bold transition-colors"
             >
               {t({ en: 'Continue', fr: 'Continuer' })} →
             </button>
