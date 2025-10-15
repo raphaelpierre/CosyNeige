@@ -31,12 +31,12 @@ export default function ChaletPage() {
     },
     {
       name: { en: 'Living Room', fr: 'Salon Principal' },
-      description: { en: 'Grand living space featuring authentic stone fireplace, premium leather sofas, 65" Smart TV, and floor-to-ceiling windows showcasing spectacular Alpine panoramas', fr: 'Grand espace de vie avec authentique cheminée en pierre, canapés cuir premium, Smart TV 65", et baies vitrées offrant des panoramas alpins spectaculaires' },
+      description: { en: 'Grand living space featuring authentic stone fireplace with complimentary firewood, premium leather sofas, 65" Smart TV with Netflix and Amazon Prime, heated floors, and floor-to-ceiling windows showcasing spectacular Alpine panoramas', fr: 'Grand espace de vie avec authentique cheminée en pierre avec bois gratuit, canapés cuir premium, Smart TV 65" avec Netflix et Amazon Prime, sols chauffants, et baies vitrées offrant des panoramas alpins spectaculaires' },
       icon: '🛋️',
     },
     {
       name: { en: 'Gourmet Kitchen', fr: 'Cuisine Gastronomique' },
-      description: { en: 'Authentic Savoyard kitchen fully equipped: professional oven, traditional gas range, premium dishwasher, Nespresso machine, and grand dining table seating 10 guests', fr: 'Authentique cuisine savoyarde entièrement équipée : four professionnel, piano à gaz traditionnel, lave-vaisselle haut de gamme, machine Nespresso, et grande table conviviale pour 10 convives' },
+      description: { en: 'Authentic Savoyard kitchen fully equipped: professional oven, traditional gas range, premium dishwasher, Nespresso machine, toaster, kettle, and grand dining table seating 10 guests with all cooking utensils provided', fr: 'Authentique cuisine savoyarde entièrement équipée : four professionnel, piano à gaz traditionnel, lave-vaisselle haut de gamme, machine Nespresso, grille-pain, bouilloire, et grande table conviviale pour 10 convives avec tous ustensiles fournis' },
       icon: '🍳',
     },
     {
@@ -46,7 +46,7 @@ export default function ChaletPage() {
     },
     {
       name: { en: 'Alpine Outdoor Paradise', fr: 'Paradis Extérieur Alpin' },
-      description: { en: 'Expansive terrace with premium outdoor furniture, professional BBQ station, manicured private garden, breathtaking 360° mountain panoramas, and convenient 5-space private parking', fr: 'Vaste terrasse avec mobilier extérieur haut de gamme, station BBQ professionnelle, jardin privé paysagé, panoramas montagneux 360° à couper le souffle, et parking privé pratique de 5 places' },
+      description: { en: 'Expansive terrace with premium outdoor furniture, professional BBQ station, outdoor hot tub with breathtaking mountain views, manicured private garden, and convenient 5-space private parking with ski room featuring boot warmers', fr: 'Vaste terrasse avec mobilier extérieur haut de gamme, station BBQ professionnelle, jacuzzi extérieur avec vue montagne à couper le souffle, jardin privé paysagé, et parking privé pratique de 5 places avec local à skis équipé de chauffe-chaussures' },
       icon: '🌲',
     },
   ];

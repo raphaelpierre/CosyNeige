@@ -22,7 +22,7 @@ export default function GuidePage() {
         },
         {
           subtitle: { en: 'WiFi Access', fr: 'Accès WiFi' },
-          content: { en: 'Network: ChaletLesSires | Password: Alps2024!', fr: 'Réseau : ChaletLesSires | Mot de passe : Alps2024!' },
+          content: { en: 'Network: chalet-balmotte810 | Password: Alps2024!', fr: 'Réseau : chalet-balmotte810 | Mot de passe : Alps2024!' },
         },
       ],
     },
@@ -31,20 +31,20 @@ export default function GuidePage() {
       icon: '🔧',
       items: [
         {
-          subtitle: { en: 'Kitchen', fr: 'Cuisine' },
-          content: { en: 'Fully equipped with oven, induction hob, dishwasher, Nespresso machine, toaster, kettle. All cooking utensils, pots, pans, and dinnerware provided.', fr: 'Entièrement équipée avec four, plaques induction, lave-vaisselle, machine Nespresso, grille-pain, bouilloire. Tous ustensiles, casseroles, poêles et vaisselle fournis.' },
+          subtitle: { en: 'Gourmet Kitchen', fr: 'Cuisine Gastronomique' },
+          content: { en: 'Authentic Savoyard kitchen fully equipped: professional oven, traditional gas range, premium dishwasher, Nespresso machine, toaster, kettle, and grand dining table seating 10 guests. All cooking utensils, pots, pans, and dinnerware provided.', fr: 'Authentique cuisine savoyarde entièrement équipée : four professionnel, piano à gaz traditionnel, lave-vaisselle haut de gamme, machine Nespresso, grille-pain, bouilloire, et grande table conviviale pour 10 convives. Tous ustensiles, casseroles, poêles et vaisselle fournis.' },
         },
         {
-          subtitle: { en: 'Laundry', fr: 'Buanderie' },
-          content: { en: 'Washing machine and dryer available. Detergent provided. Iron and ironing board in the utility room.', fr: 'Lave-linge et sèche-linge disponibles. Lessive fournie. Fer et planche à repasser dans la buanderie.' },
+          subtitle: { en: 'Wellness & Relaxation', fr: 'Bien-être & Détente' },
+          content: { en: 'Outdoor hot tub with breathtaking mountain views, authentic stone fireplace with complimentary firewood, and premium heated floors throughout for ultimate comfort.', fr: 'Jacuzzi extérieur avec vue montagne à couper le souffle, authentique cheminée en pierre avec bois gratuit, et sols chauffants haut de gamme partout pour un confort ultime.' },
         },
         {
-          subtitle: { en: 'Heating', fr: 'Chauffage' },
-          content: { en: 'Central heating throughout. Thermostat in the living room (please keep between 19-21°C). Fireplace available with complimentary firewood.', fr: 'Chauffage central partout. Thermostat dans le salon (merci de maintenir entre 19-21°C). Cheminée avec bois gratuit.' },
+          subtitle: { en: 'Entertainment & Technology', fr: 'Divertissement & Technologie' },
+          content: { en: '65" Smart TV with Netflix and Amazon Prime, high-speed WiFi throughout, Bluetooth speaker available. Board games and books in the living room cabinet for cozy evenings.', fr: 'Smart TV 65" avec Netflix et Amazon Prime, WiFi haut débit partout, enceinte Bluetooth disponible. Jeux de société et livres dans le meuble du salon pour les soirées cosy.' },
         },
         {
-          subtitle: { en: 'Entertainment', fr: 'Divertissement' },
-          content: { en: 'Smart TV with Netflix, Amazon Prime. Board games and books in the living room cabinet. Bluetooth speaker available.', fr: 'Smart TV avec Netflix, Amazon Prime. Jeux de société et livres dans le meuble du salon. Enceinte Bluetooth disponible.' },
+          subtitle: { en: 'Practical Amenities', fr: 'Équipements Pratiques' },
+          content: { en: 'Ski room with boot warmers, washing machine and dryer with detergent provided, iron and ironing board in utility room, 5 private parking spaces, and professional BBQ station on the terrace.', fr: 'Local à skis avec chauffe-chaussures, lave-linge et sèche-linge avec lessive fournie, fer et planche à repasser dans la buanderie, 5 places de parking privé, et station BBQ professionnelle sur la terrasse.' },
         },
       ],
     },

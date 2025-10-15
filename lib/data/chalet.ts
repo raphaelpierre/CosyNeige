@@ -32,16 +32,18 @@ export const description: Translation = {
 
 export const amenities: { icon: string; label: Translation }[] = [
   { icon: "♨️", label: { en: "Outdoor Hot Tub", fr: "Jacuzzi Extérieur" } },
-  { icon: "🔥", label: { en: "Wood Fireplace", fr: "Cheminée à Bois" } },
-  { icon: "⛷️", label: { en: "Ski Room", fr: "Local à Skis" } },
+  { icon: "🔥", label: { en: "Stone Fireplace", fr: "Cheminée en Pierre" } },
+  { icon: "⛷️", label: { en: "Ski Room & Boot Warmers", fr: "Local à Skis & Chauffe-chaussures" } },
   { icon: "🍳", label: { en: "Gourmet Kitchen", fr: "Cuisine Gastronomique" } },
   { icon: "🏔️", label: { en: "Mountain Views", fr: "Vue Montagne" } },
   { icon: "📶", label: { en: "High-Speed WiFi", fr: "WiFi Haut Débit" } },
-  { icon: "📺", label: { en: "Smart TV", fr: "Smart TV" } },
+  { icon: "📺", label: { en: "65\" Smart TV", fr: "Smart TV 65\"" } },
   { icon: "🚗", label: { en: "5 Parking Spaces", fr: "5 Places de Parking" } },
   { icon: "🔆", label: { en: "Heated Floors", fr: "Sols Chauffants" } },
-  { icon: "🌄", label: { en: "Terrace", fr: "Terrasse" } },
-  { icon: "🍖", label: { en: "BBQ Area", fr: "Espace Barbecue" } }
+  { icon: "🌄", label: { en: "Mountain Terrace", fr: "Terrasse Montagne" } },
+  { icon: "🍖", label: { en: "Professional BBQ", fr: "BBQ Professionnel" } },
+  { icon: "🧺", label: { en: "Laundry Facilities", fr: "Buanderie Équipée" } },
+  { icon: "☕", label: { en: "Nespresso Machine", fr: "Machine Nespresso" } }
 ];
 
 export const nearbyResorts: SkiResort[] = [
