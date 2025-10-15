@@ -110,8 +110,8 @@ export default function HomePage() {
               <div className="grid md:grid-cols-2 gap-0 items-center">
                 <div className="relative h-80 md:h-96 overflow-hidden">
                   <Image
-                    src="/images/entre2vallees.webp"
-                    alt="Between two valleys - Strategic location"
+                    src="/images/chaletneigedehors.webp"
+                    alt="Chalet in winter - Between two valleys"
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-700"
                     sizes="(max-width: 768px) 100vw, 50vw"
@@ -151,16 +151,16 @@ export default function HomePage() {
                   </h3>
                   <p className="text-lg text-gray-700 mb-6 leading-relaxed">
                     {t({
-                      en: 'After a day on the slopes, unwind in your private sauna, soak in the outdoor hot tub with mountain views, or cozy up by the wood-burning fireplace.',
-                      fr: 'Après une journée sur les pistes, détendez-vous dans votre sauna privatif, plongez dans le jacuzzi extérieur avec vue montagne, ou installez-vous près de la cheminée.'
+                      en: 'After a day on the slopes, soak in the outdoor hot tub with mountain views, enjoy the comfort of heated floors throughout, or cozy up by the wood-burning fireplace.',
+                      fr: 'Après une journée sur les pistes, plongez dans le jacuzzi extérieur avec vue montagne, profitez du confort des sols chauffants, ou installez-vous près de la cheminée.'
                     })}
                   </p>
                   <div className="flex flex-wrap gap-3">
                     <div className="bg-white px-4 py-2 rounded-full shadow-md">
-                      <span className="text-forest-700 font-semibold">🧖 {t({ en: 'Private Sauna', fr: 'Sauna Privatif' })}</span>
+                      <span className="text-forest-700 font-semibold">♨️ {t({ en: 'Hot Tub', fr: 'Jacuzzi' })}</span>
                     </div>
                     <div className="bg-white px-4 py-2 rounded-full shadow-md">
-                      <span className="text-forest-700 font-semibold">💆 {t({ en: 'Hot Tub', fr: 'Jacuzzi' })}</span>
+                      <span className="text-forest-700 font-semibold">🔆 {t({ en: 'Heated Floors', fr: 'Sols Chauffants' })}</span>
                     </div>
                     <div className="bg-white px-4 py-2 rounded-full shadow-md">
                       <span className="text-forest-700 font-semibold">🔥 {t({ en: 'Fireplace', fr: 'Cheminée' })}</span>
