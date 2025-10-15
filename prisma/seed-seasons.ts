@@ -11,7 +11,7 @@ async function main() {
     update: {},
     create: {
       id: 'default',
-      cleaningFee: 450,
+      cleaningFee: 700,
       linenPerPerson: 25,
       depositAmount: 1500,
       defaultHighSeasonPrice: 410,

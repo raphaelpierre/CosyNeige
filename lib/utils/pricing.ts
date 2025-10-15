@@ -64,7 +64,7 @@ export async function fetchSeasons(): Promise<{ seasons: SeasonPeriod[], pricing
     return {
       seasons: [],
       pricingSettings: {
-        cleaningFee: 450,
+        cleaningFee: 700,
         linenPerPerson: 25,
         depositAmount: 1500,
         defaultHighSeasonPrice: 410,

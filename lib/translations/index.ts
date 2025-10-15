@@ -20,9 +20,9 @@ export const translations = {
 
   // Notifications
   notifications: {
-    logoutSuccess: { 
-      fr: '🚪 Déconnexion réussie !', 
-      en: '🚪 Successfully logged out!' 
+    logoutSuccess: {
+      fr: 'À bientôt !',
+      en: 'See you soon!'
     },
     loginSuccess: { 
       fr: 'Connexion réussie ! Bienvenue', 

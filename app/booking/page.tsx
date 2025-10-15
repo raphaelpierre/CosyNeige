@@ -136,12 +136,7 @@ export default function BookingPage() {
     loadSeasons();
   }, []);
 
-  // Navigation automatique étape 1 → 2
-  useEffect(() => {
-    if (currentStep === 1 && steps[0].completed) {
-      setTimeout(() => setCurrentStep(2), 300);
-    }
-  }, [steps[0].completed, currentStep]);
+  // Pas de navigation automatique - l'utilisateur contrôle le workflow
 
   const handleDateSelect = (checkInDate: Date | null, checkOutDate: Date | null) => {
     if (checkInDate) {
@@ -434,16 +429,31 @@ export default function BookingPage() {
                           </p>
                         </div>
                       ) : (
-                        <div className="bg-slate-50 border border-slate-300 rounded-xl p-4 text-center">
-                          <div className="flex items-center justify-center gap-2 mb-2">
-                            <span className="text-slate-600 text-xl">✅</span>
-                            <h4 className="text-slate-800 font-bold">
-                              {t({ en: 'Perfect selection!', fr: 'Parfait !' })}
-                            </h4>
+                        <div className="space-y-4">
+                          <div className="bg-slate-50 border border-slate-300 rounded-xl p-4 text-center">
+                            <div className="flex items-center justify-center gap-2 mb-2">
+                              <span className="text-slate-600 text-xl">✅</span>
+                              <h4 className="text-slate-800 font-bold">
+                                {t({ en: 'Perfect selection!', fr: 'Parfait !' })}
+                              </h4>
+                            </div>
+                            <p className="text-slate-700 text-sm">
+                              {t({ en: `${nights} nights • ${guests} guests`, fr: `${nights} nuits • ${guests} personnes` })}
+                            </p>
                           </div>
-                          <p className="text-slate-700 text-sm">
-                            {t({ en: `${nights} nights • ${guests} guests`, fr: `${nights} nuits • ${guests} personnes` })}
-                          </p>
+
+                          {/* Bouton Continuer (desktop) */}
+                          {priceCalculation && (
+                            <div className="hidden xl:flex justify-center pt-2">
+                              <button
+                                onClick={() => setCurrentStep(2)}
+                                className="px-8 py-4 bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-800 hover:to-slate-900 text-white rounded-lg font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center gap-3"
+                              >
+                                <span>{t({ en: 'Continue to Your Details', fr: 'Continuer vers Vos Informations' })}</span>
+                                <span>→</span>
+                              </button>
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>

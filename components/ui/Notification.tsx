@@ -24,23 +24,6 @@ export default function Notification({
     // Animation d'entrée
     const enterTimer = setTimeout(() => setIsAnimating(false), 100);
 
-    // Effet sonore et vibration pour les notifications importantes
-    if (type === 'success' && message.includes('Déconnexion')) {
-      // Vibration si supportée
-      if ('vibrate' in navigator) {
-        navigator.vibrate([200, 100, 200]);
-      }
-      
-      // Son de notification (discret)
-      try {
-        const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBjWS2fLMdSUELIHN8dx/OAgUZbvs56xWFApEn+DyvmgyBjiS2fLTeSYGKnjJ8d2DPAcYZbbp5q9YFgtBo+LudyQE');
-        audio.volume = 0.1;
-        audio.play().catch(() => {}); // Ignore les erreurs si le son ne peut pas être joué
-      } catch (e) {
-        // Ignore les erreurs de son
-      }
-    }
-
     // Barre de progression
     const progressInterval = setInterval(() => {
       setProgress(prev => {
@@ -68,63 +51,52 @@ export default function Notification({
   if (!isVisible) return null;
 
   const bgColor = {
-    success: 'bg-gradient-to-r from-green-500 to-emerald-600',
-    error: 'bg-gradient-to-r from-red-500 to-red-600',
-    info: 'bg-gradient-to-r from-blue-500 to-blue-600'
+    success: 'bg-gradient-to-r from-slate-700 to-slate-800',
+    error: 'bg-gradient-to-r from-red-600 to-red-700',
+    info: 'bg-gradient-to-r from-blue-600 to-blue-700'
   }[type];
 
   const borderColor = {
-    success: 'border-green-400/50',
-    error: 'border-red-400/50',
-    info: 'border-blue-400/50'
+    success: 'border-slate-500/30',
+    error: 'border-red-400/30',
+    info: 'border-blue-400/30'
   }[type];
 
   const glowColor = {
-    success: 'shadow-green-500/30',
-    error: 'shadow-red-500/30',
-    info: 'shadow-blue-500/30'
+    success: 'shadow-slate-500/20',
+    error: 'shadow-red-500/20',
+    info: 'shadow-blue-500/20'
   }[type];
 
   const icon = {
-    success: '✅',
-    error: '❌',
-    info: 'ℹ️'
+    success: '✓',
+    error: '✕',
+    info: 'ℹ'
   }[type];
 
   return (
-    <div className={`fixed top-4 sm:top-6 right-4 sm:right-6 left-4 sm:left-auto z-[9999] transform transition-all duration-500 ${
-      isAnimating ? 'translate-x-full opacity-0 scale-95' : 'translate-x-0 opacity-100 scale-100'
+    <div className={`fixed top-4 sm:top-6 right-4 sm:right-6 left-4 sm:left-auto z-[9999] transform transition-all duration-300 ${
+      isAnimating ? 'translate-x-full opacity-0' : 'translate-x-0 opacity-100'
     }`}>
-      {/* Effet de halo derrière avec animation plus prononcée pour le succès */}
-      <div className={`absolute inset-0 ${bgColor} rounded-2xl blur-xl opacity-40 ${
-        type === 'success' ? 'animate-pulse' : ''
-      }`}></div>
-      
-      {/* Ring d'effet pour les notifications importantes */}
-      {type === 'success' && (
-        <div className="absolute -inset-2 bg-green-400/20 rounded-3xl animate-ping"></div>
-      )}
-      
+      {/* Effet de halo derrière (subtil) */}
+      <div className={`absolute inset-0 ${bgColor} rounded-xl blur-lg opacity-20`}></div>
+
       {/* Notification principale */}
-      <div className={`relative ${bgColor} text-white px-4 sm:px-6 py-4 sm:py-5 rounded-2xl shadow-2xl ${borderColor} ${glowColor} border-2 flex items-center gap-3 sm:gap-4 w-full sm:min-w-[420px] sm:max-w-[500px] backdrop-blur-sm ${
-        type === 'success' ? 'animate-pulse' : ''
-      }`}
-           style={{ 
-             boxShadow: `0 25px 50px rgba(0,0,0,0.25), 0 0 40px var(--tw-shadow-color, rgba(0,0,0,0.1))`,
+      <div className={`relative ${bgColor} text-white px-4 sm:px-6 py-3 sm:py-4 rounded-xl shadow-lg ${borderColor} ${glowColor} border flex items-center gap-3 sm:gap-4 w-full sm:min-w-[380px] sm:max-w-[450px]`}
+           style={{
+             boxShadow: `0 10px 25px rgba(0,0,0,0.15)`,
            }}>
-        
-        {/* Icône avec animation plus prononcée */}
-        <div className={`text-2xl sm:text-3xl bg-white/20 rounded-full w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center shadow-lg flex-shrink-0 ${
-          type === 'success' ? 'animate-bounce' : ''
-        }`}>
+
+        {/* Icône simple */}
+        <div className="text-xl sm:text-2xl bg-white/15 rounded-lg w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center flex-shrink-0 font-bold">
           {icon}
         </div>
         
         {/* Message */}
         <div className="flex-1 min-w-0">
-          <p className="font-bold text-base sm:text-lg drop-shadow-lg leading-tight break-words">{message}</p>
+          <p className="font-semibold text-sm sm:text-base leading-tight break-words">{message}</p>
         </div>
-        
+
         {/* Bouton fermer */}
         <button
           onClick={() => {
@@ -134,15 +106,15 @@ export default function Notification({
               onClose?.();
             }, 300);
           }}
-          className="text-white/80 hover:text-white transition-all text-lg sm:text-xl font-bold hover:bg-white/20 rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center hover:scale-110 shadow-lg flex-shrink-0"
+          className="text-white/70 hover:text-white transition-colors text-lg sm:text-xl font-bold hover:bg-white/10 rounded-lg w-8 h-8 flex items-center justify-center flex-shrink-0"
         >
           ✕
         </button>
-        
+
         {/* Barre de progression */}
-        <div className="absolute bottom-0 left-0 h-1 bg-white/30 rounded-b-2xl overflow-hidden w-full">
-          <div 
-            className="h-full bg-white/60 transition-all duration-75 ease-linear"
+        <div className="absolute bottom-0 left-0 h-0.5 bg-white/20 rounded-b-xl overflow-hidden w-full">
+          <div
+            className="h-full bg-white/50 transition-all duration-75 ease-linear"
             style={{ width: `${progress}%` }}
           ></div>
         </div>
