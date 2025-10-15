@@ -3,9 +3,167 @@
 import Image from 'next/image';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import { chaletName, location } from '@/lib/data/chalet';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export default function GuidePage() {
   const { t } = useLanguage();
+
+  const generatePDF = async () => {
+    try {
+      // Créer un élément temporaire avec le contenu à imprimer
+      const printContent = document.createElement('div');
+      printContent.style.width = '210mm';
+      printContent.style.padding = '20mm';
+      printContent.style.fontFamily = 'Arial, sans-serif';
+      printContent.style.fontSize = '12px';
+      printContent.style.lineHeight = '1.4';
+      printContent.style.color = '#333';
+      printContent.style.backgroundColor = '#fff';
+
+      // Contenu du PDF
+      printContent.innerHTML = `
+        <div style="text-align: center; margin-bottom: 30px;">
+          <h1 style="color: #2d5843; font-size: 24px; margin-bottom: 10px;">${t({ en: 'Guest Guide', fr: 'Guide du Voyageur' })}</h1>
+          <h2 style="color: #2d5843; font-size: 18px; margin-bottom: 20px;">${chaletName}</h2>
+          <p style="font-size: 14px; color: #666;">${t({ en: 'Everything You Need to Know', fr: 'Tout ce que Vous Devez Savoir' })}</p>
+        </div>
+
+        <div style="margin-bottom: 25px;">
+          <h3 style="color: #2d5843; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #2d5843; padding-bottom: 5px;">🏠 ${t({ en: 'Welcome & Check-in', fr: 'Bienvenue & Arrivée' })}</h3>
+          <div style="margin-bottom: 15px;">
+            <strong>${t({ en: 'Check-in Time', fr: 'Heure d\'Arrivée' })}</strong><br>
+            ${t({ en: 'Saturday from 4:00 PM. Please contact us if you need to arrive earlier.', fr: 'Samedi à partir de 16h00. Contactez-nous si vous devez arriver plus tôt.' })}
+          </div>
+          <div style="margin-bottom: 15px;">
+            <strong>${t({ en: 'Key Collection', fr: 'Récupération des Clés' })}</strong><br>
+            ${t({ en: 'Keys will be provided upon arrival. We will meet you at the chalet to show you around.', fr: 'Les clés seront fournies à l\'arrivée. Nous vous accueillerons au chalet pour vous faire visiter.' })}
+          </div>
+          <div style="margin-bottom: 15px;">
+            <strong>${t({ en: 'WiFi Access', fr: 'Accès WiFi' })}</strong><br>
+            ${t({ en: 'Network: chalet-balmotte810 | Password: Alps2024!', fr: 'Réseau : chalet-balmotte810 | Mot de passe : Alps2024!' })}
+          </div>
+        </div>
+
+        <div style="margin-bottom: 25px;">
+          <h3 style="color: #2d5843; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #2d5843; padding-bottom: 5px;">🔧 ${t({ en: 'House Equipment', fr: 'Équipements de la Maison' })}</h3>
+          <div style="margin-bottom: 15px;">
+            <strong>${t({ en: 'Gourmet Kitchen', fr: 'Cuisine Gastronomique' })}</strong><br>
+            ${t({ en: 'Authentic Savoyard kitchen fully equipped: professional oven, traditional gas range, premium dishwasher, Nespresso machine, toaster, kettle, and grand dining table seating 10 guests. All cooking utensils, pots, pans, and dinnerware provided.', fr: 'Authentique cuisine savoyarde entièrement équipée : four professionnel, piano à gaz traditionnel, lave-vaisselle haut de gamme, machine Nespresso, grille-pain, bouilloire, et grande table conviviale pour 10 convives. Tous ustensiles, casseroles, poêles et vaisselle fournis.' })}
+          </div>
+          <div style="margin-bottom: 15px;">
+            <strong>${t({ en: 'Wellness & Relaxation', fr: 'Bien-être & Détente' })}</strong><br>
+            ${t({ en: 'Outdoor hot tub with breathtaking mountain views, authentic stone fireplace with complimentary firewood, and premium heated floors throughout for ultimate comfort.', fr: 'Jacuzzi extérieur avec vue montagne à couper le souffle, authentique cheminée en pierre avec bois gratuit, et sols chauffants haut de gamme partout pour un confort ultime.' })}
+          </div>
+          <div style="margin-bottom: 15px;">
+            <strong>${t({ en: 'Entertainment & Technology', fr: 'Divertissement & Technologie' })}</strong><br>
+            ${t({ en: '65" Smart TV with Netflix and Amazon Prime, high-speed WiFi throughout, Bluetooth speaker available. Board games and books in the living room cabinet for cozy evenings.', fr: 'Smart TV 65" avec Netflix et Amazon Prime, WiFi haut débit partout, enceinte Bluetooth disponible. Jeux de société et livres dans le meuble du salon pour les soirées cosy.' })}
+          </div>
+          <div style="margin-bottom: 15px;">
+            <strong>${t({ en: 'Practical Amenities', fr: 'Équipements Pratiques' })}</strong><br>
+            ${t({ en: 'Ski room with boot warmers, washing machine and dryer with detergent provided, iron and ironing board in utility room, 5 private parking spaces, and professional BBQ station on the terrace.', fr: 'Local à skis avec chauffe-chaussures, lave-linge et sèche-linge avec lessive fournie, fer et planche à repasser dans la buanderie, 5 places de parking privé, et station BBQ professionnelle sur la terrasse.' })}
+          </div>
+        </div>
+
+        <div style="margin-bottom: 25px;">
+          <h3 style="color: #2d5843; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #2d5843; padding-bottom: 5px;">📋 ${t({ en: 'House Rules', fr: 'Règlement Intérieur' })}</h3>
+          <div style="margin-bottom: 10px;">
+            <strong>${t({ en: 'Smoking', fr: 'Tabac' })}</strong><br>
+            ${t({ en: 'Non-smoking property. Smoking is permitted on the terrace only.', fr: 'Propriété non-fumeur. Fumer est autorisé sur la terrasse uniquement.' })}
+          </div>
+          <div style="margin-bottom: 10px;">
+            <strong>${t({ en: 'Pets', fr: 'Animaux' })}</strong><br>
+            ${t({ en: 'Pets are not allowed without prior authorization. Additional fee may apply.', fr: 'Animaux non autorisés sans accord préalable. Supplément possible.' })}
+          </div>
+          <div style="margin-bottom: 10px;">
+            <strong>${t({ en: 'Noise', fr: 'Bruit' })}</strong><br>
+            ${t({ en: 'Please respect quiet hours from 10:00 PM to 8:00 AM. Be considerate of neighbors.', fr: 'Merci de respecter les horaires de calme de 22h00 à 8h00. Soyez respectueux des voisins.' })}
+          </div>
+          <div style="margin-bottom: 10px;">
+            <strong>${t({ en: 'Maximum Capacity', fr: 'Capacité Maximale' })}</strong><br>
+            ${t({ en: 'Maximum 10 guests. No overnight visitors beyond the booked number.', fr: 'Maximum 10 personnes. Pas de visiteurs pour la nuit au-delà du nombre réservé.' })}
+          </div>
+        </div>
+
+        <div style="margin-bottom: 25px;">
+          <h3 style="color: #2d5843; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #2d5843; padding-bottom: 5px;">💡 ${t({ en: 'Practical Information', fr: 'Informations Pratiques' })}</h3>
+          <div style="margin-bottom: 10px;">
+            <strong>${t({ en: 'Parking', fr: 'Stationnement' })}</strong><br>
+            ${t({ en: '5 private parking spaces directly in front of the chalet (2 covered spaces + 3 outdoor spaces). Snow chains required in winter.', fr: '5 places de parking privé devant le chalet (2 places couvertes + 3 places extérieures). Chaînes à neige obligatoires en hiver.' })}
+          </div>
+          <div style="margin-bottom: 10px;">
+            <strong>${t({ en: 'Local Shops', fr: 'Commerces Locaux' })}</strong><br>
+            ${t({ en: 'Supermarket (Carrefour) 5 min drive in Cluses. Bakery 3 min away in village center. Pharmacy in Cluses.', fr: 'Supermarché (Carrefour) à 5 min en voiture à Cluses. Boulangerie à 3 min au centre du village. Pharmacie à Cluses.' })}
+          </div>
+        </div>
+
+        <div style="margin-bottom: 25px;">
+          <h3 style="color: #2d5843; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #2d5843; padding-bottom: 5px;">🚨 ${t({ en: 'Emergency Contacts', fr: 'Contacts d\'Urgence' })}</h3>
+          <div style="margin-bottom: 10px;">
+            <strong>${t({ en: 'Emergency Services', fr: 'Services d\'Urgence' })}</strong><br>
+            ${t({ en: 'Emergency (Police/Fire/Ambulance): 112 or 15 | Hospital Sallanches: +33 4 50 47 30 00', fr: 'Urgences (Police/Pompiers/SAMU) : 112 ou 15 | Hôpital Sallanches : +33 4 50 47 30 00' })}
+          </div>
+          <div style="margin-bottom: 10px;">
+            <strong>${t({ en: 'Property Owner', fr: 'Propriétaire' })}</strong><br>
+            ${t({ en: 'Available 24/7 for emergencies: +33 06 95 59 58 65', fr: 'Disponible 24h/24 pour urgences : +33 06 95 59 58 65' })}
+          </div>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center; border-top: 1px solid #ccc; padding-top: 20px;">
+          <p style="color: #666; font-size: 11px;">
+            ${chaletName} - ${t({ en: 'Guest Guide', fr: 'Guide du Voyageur' })}<br>
+            ${t({ en: 'Generated on', fr: 'Généré le' })} ${new Date().toLocaleDateString(t({ en: 'en-US', fr: 'fr-FR' }))}
+          </p>
+        </div>
+      `;
+
+      // Ajouter temporairement au DOM pour la capture
+      document.body.appendChild(printContent);
+
+      // Générer le canvas
+      const canvas = await html2canvas(printContent, {
+        useCORS: true,
+        allowTaint: true,
+        background: '#ffffff',
+        width: printContent.offsetWidth,
+        height: printContent.offsetHeight
+      });
+
+      // Supprimer l'élément temporaire
+      document.body.removeChild(printContent);
+
+      // Créer le PDF
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      
+      const imgWidth = 210;
+      const pageHeight = 295;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      // Télécharger le PDF
+      const fileName = `${chaletName}-Guide-${t({ en: 'En', fr: 'Fr' })}.pdf`;
+      pdf.save(fileName);
+
+    } catch (error) {
+      console.error('Erreur lors de la génération du PDF:', error);
+      alert(t({ 
+        en: 'Error generating PDF. Please try again.', 
+        fr: 'Erreur lors de la génération du PDF. Veuillez réessayer.' 
+      }));
+    }
+  };
 
   const sections = [
     {
@@ -84,7 +242,7 @@ export default function GuidePage() {
         },
         {
           subtitle: { en: 'Parking', fr: 'Stationnement' },
-          content: { en: '2 parking spaces directly in front of the chalet. Snow chains required in winter.', fr: '2 places de parking devant le chalet. Chaînes à neige obligatoires en hiver.' },
+          content: { en: '5 private parking spaces directly in front of the chalet (2 covered spaces + 3 outdoor spaces). Snow chains required in winter.', fr: '5 places de parking privé devant le chalet (2 places couvertes + 3 places extérieures). Chaînes à neige obligatoires en hiver.' },
         },
         {
           subtitle: { en: 'Local Shops', fr: 'Commerces Locaux' },
@@ -275,7 +433,7 @@ export default function GuidePage() {
             })}
           </p>
           <button
-            onClick={() => alert(t({ en: 'PDF download coming soon!', fr: 'Téléchargement PDF bientôt disponible !' }))}
+            onClick={generatePDF}
             className="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors border-2 border-slate-700 hover:border-slate-800"
           >
             <span>📄</span>
