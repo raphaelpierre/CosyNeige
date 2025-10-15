@@ -933,82 +933,51 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Sidebar Desktop */}
-      <aside className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col z-50">
-        <div className="flex flex-col flex-grow bg-gradient-to-b from-slate-900 to-slate-800 overflow-y-auto shadow-2xl">
-          {/* Logo/Header */}
-          <div className="flex items-center flex-shrink-0 px-6 py-6 border-b border-slate-700/50">
+      {/* Top Header - Unified for desktop and mobile */}
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+        <div className="px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo & Title */}
             <div className="flex items-center gap-3">
-              <div className="text-3xl">🏔️</div>
+              <div className="text-2xl">🏔️</div>
               <div>
-                <h1 className="text-lg font-bold text-white">Admin Panel</h1>
-                <p className="text-xs text-slate-400">Chalet-Balmotte810</p>
+                <h1 className="text-lg font-bold text-slate-900">{t({ en: 'Admin Panel', fr: 'Panneau Admin' })}</h1>
+                <p className="text-xs text-gray-500 hidden sm:block">Chalet-Balmotte810</p>
               </div>
             </div>
-          </div>
 
-          {/* Navigation */}
-          <nav className="flex-1 px-3 py-6 space-y-1">
-            {tabs.map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-all duration-300 group ${
-                  activeTab === tab.id
-                    ? 'bg-white text-slate-900 shadow-lg shadow-slate-900/20'
-                    : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
-                }`}
-              >
-                <span className={`text-xl transition-transform duration-300 ${
-                  activeTab === tab.id ? 'scale-110' : 'group-hover:scale-110'
-                }`}>
-                  {tab.icon}
-                </span>
-                <span>{t(tab.label)}</span>
-                {activeTab === tab.id && (
-                  <span className="ml-auto w-1.5 h-1.5 bg-slate-900 rounded-full"></span>
-                )}
-              </button>
-            ))}
-          </nav>
+            {/* Navigation Desktop - Horizontal */}
+            <nav className="hidden md:flex items-center gap-1">
+              {tabs.map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                    activeTab === tab.id
+                      ? 'bg-slate-900 text-white shadow-sm'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  <span className="text-base">{tab.icon}</span>
+                  <span className="hidden lg:inline">{t(tab.label)}</span>
+                </button>
+              ))}
+            </nav>
 
-          {/* User section */}
-          <div className="flex-shrink-0 border-t border-slate-700/50 p-4">
+            {/* Logout */}
             <button
               onClick={logout}
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-700/50 hover:bg-red-600 text-slate-300 hover:text-white transition-all duration-300 group"
-            >
-              <span className="text-xl group-hover:scale-110 transition-transform">🚪</span>
-              <span className="font-medium text-sm">{t({ en: 'Logout', fr: 'Déconnexion' })}</span>
-            </button>
-          </div>
-        </div>
-      </aside>
-
-      {/* Mobile Header */}
-      <header className="lg:hidden bg-white shadow-sm border-b sticky top-0 z-40">
-        <div className="px-4 py-3">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">🏔️</span>
-              <div>
-                <h1 className="text-base font-bold text-slate-900">Admin Panel</h1>
-                <p className="text-xs text-gray-600">Chalet-Balmotte810</p>
-              </div>
-            </div>
-            <button
-              onClick={logout}
-              className="flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors"
+              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
             >
               <span>🚪</span>
+              <span className="hidden sm:inline">{t({ en: 'Logout', fr: 'Déconnexion' })}</span>
             </button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <div className="lg:pl-64">
-        <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 max-w-7xl mx-auto pb-24 lg:pb-8">
+      <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-7xl mx-auto pb-24 md:pb-8">
           {/* Stats Cards - Mobile Responsive */}
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
           <button
