@@ -14,10 +14,11 @@ function BankTransferContent() {
   const deposit = parseFloat(searchParams.get('deposit') || '0');
 
   const bankDetails = {
-    bankName: 'Crédit Agricole',
-    iban: 'FR76 1234 5678 9012 3456 7890 123',
-    bic: 'AGRIFRPP',
+    bankName: 'BANQUE POPULAIRE RIVES DE PARIS',
+    iban: 'FR76 4061 8802 7000 0401 2783 208',
+    bic: 'BOUSFRPPXXX',
     accountName: 'Chalet Les Sires SARL',
+    domiciliation: '44 rue Traversière, CS 80134, 92772 BOULOGNE-BILLANCOURT',
     reference: `CHALET-${bookingId}`,
   };
 
@@ -268,6 +269,21 @@ function BankTransferContent() {
                     </button>
                   </div>
                   <div className="font-mono text-gray-900">{bankDetails.accountName}</div>
+                </div>
+
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      {t({ en: 'Domiciliation', fr: 'Domiciliation' })}
+                    </label>
+                    <button
+                      onClick={() => copyToClipboard(bankDetails.domiciliation, 'domiciliation')}
+                      className="text-blue-600 hover:text-blue-800 text-sm"
+                    >
+                      {copied === 'domiciliation' ? '✅' : '📋'}
+                    </button>
+                  </div>
+                  <div className="text-sm text-gray-900 leading-relaxed">{bankDetails.domiciliation}</div>
                 </div>
 
                 <div className="bg-blue-50 rounded-lg p-4 border-2 border-blue-200">
