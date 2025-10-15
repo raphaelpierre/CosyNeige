@@ -1,13 +1,9 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-interface EmailTemplate {
-  to: string;
-  subject: string;
-  html: string;
-  text?: string;
-}
+// Initialize Resend only if API key is available
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 // Email de confirmation de réservation pour le client
 export async function sendBookingConfirmation({
@@ -124,6 +120,11 @@ L'équipe Chalet-Balmotte810
   `;
 
   try {
+    if (!resend) {
+      console.warn('Resend is not configured. Email sending is disabled.');
+      return { success: false, error: 'Email service not configured' };
+    }
+
     const { data, error } = await resend.emails.send({
       from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.fr>',
       to,
@@ -241,6 +242,11 @@ export async function sendAdminNotification({
   `;
 
   try {
+    if (!resend) {
+      console.warn('Resend is not configured. Email sending is disabled.');
+      return { success: false, error: 'Email service not configured' };
+    }
+
     const { data, error } = await resend.emails.send({
       from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.fr>',
       to: process.env.ADMIN_EMAIL || 'admin@chalet-balmotte810.fr',
@@ -320,6 +326,11 @@ export async function sendContactEmail({
   `;
 
   try {
+    if (!resend) {
+      console.warn('Resend is not configured. Email sending is disabled.');
+      return { success: false, error: 'Email service not configured' };
+    }
+
     const { data, error } = await resend.emails.send({
       from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.fr>',
       to: process.env.ADMIN_EMAIL || 'admin@chalet-balmotte810.fr',

@@ -48,7 +48,7 @@ export default function LocationPage() {
       <section className="relative h-[400px] flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/Terrasse1.jpg"
+            src="/images/Terrasse1.webp"
             alt={t({ en: 'Mountain landscape', fr: 'Paysage montagnard' })}
             fill
             className="object-cover brightness-75"

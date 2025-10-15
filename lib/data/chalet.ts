@@ -162,36 +162,36 @@ export const faqs: FAQ[] = [
 
 export const galleryImages: GalleryImage[] = [
   // Exterior
-  { url: "/images/ChaletPAnoramiqueVueHaut.jpg", category: "exterior", alt: { en: "Chalet panoramic view from above", fr: "Vue panoramique du chalet d'en haut" } },
-  { url: "/images/chalet_neige_devant.jpeg", category: "exterior", alt: { en: "Chalet in winter with snow", fr: "Chalet en hiver avec neige" } },
-  { url: "/images/ExteriieurJacuzi.jpg", category: "wellness", alt: { en: "Outdoor hot tub with mountain views", fr: "Jacuzzi extérieur avec vue montagne" } },
-  { url: "/images/VueEnsemble.jpg", category: "exterior", alt: { en: "Chalet overall view", fr: "Vue d'ensemble du chalet" } },
-  { url: "/images/Exterieur3.jpg", category: "exterior", alt: { en: "Chalet exterior view 3", fr: "Extérieur du chalet vue 3" } },
-  { url: "/images/Exterieur2.jpg", category: "exterior", alt: { en: "Chalet exterior view 2", fr: "Extérieur du chalet vue 2" } },
-  { url: "/images/ExterieurBalcon.jpg", category: "exterior", alt: { en: "Exterior balcony", fr: "Balcon extérieur" } },
-  { url: "/images/Terrasse1.jpg", category: "exterior", alt: { en: "Terrace with mountain views", fr: "Terrasse avec vue montagne" } },
+  { url: "/images/ChaletPAnoramiqueVueHaut.webp", category: "exterior", alt: { en: "Chalet panoramic view from above", fr: "Vue panoramique du chalet d'en haut" } },
+  { url: "/images/chalet_neige_devant.webp", category: "exterior", alt: { en: "Chalet in winter with snow", fr: "Chalet en hiver avec neige" } },
+  { url: "/images/ExteriieurJacuzi.webp", category: "wellness", alt: { en: "Outdoor hot tub with mountain views", fr: "Jacuzzi extérieur avec vue montagne" } },
+  { url: "/images/VueEnsemble.webp", category: "exterior", alt: { en: "Chalet overall view", fr: "Vue d'ensemble du chalet" } },
+  { url: "/images/Exterieur3.webp", category: "exterior", alt: { en: "Chalet exterior view 3", fr: "Extérieur du chalet vue 3" } },
+  { url: "/images/Exterieur2.webp", category: "exterior", alt: { en: "Chalet exterior view 2", fr: "Extérieur du chalet vue 2" } },
+  { url: "/images/ExterieurBalcon.webp", category: "exterior", alt: { en: "Exterior balcony", fr: "Balcon extérieur" } },
+  { url: "/images/Terrasse1.webp", category: "exterior", alt: { en: "Terrace with mountain views", fr: "Terrasse avec vue montagne" } },
 
   // Living Room
-  { url: "/images/Salon.jpg", category: "living", alt: { en: "Main living room", fr: "Salon principal" } },
-  { url: "/images/Salon1.jpg", category: "living", alt: { en: "Living room view 1", fr: "Salon vue 1" } },
-  { url: "/images/Salon2.jpg", category: "living", alt: { en: "Living room view 2", fr: "Salon vue 2" } },
-  { url: "/images/Fauteuil.jpg", category: "living", alt: { en: "Cozy armchair corner", fr: "Coin fauteuil confortable" } },
-  { url: "/images/CouloirSalon.jpg", category: "living", alt: { en: "Hallway to living room", fr: "Couloir vers le salon" } },
-  { url: "/images/Hall_Etage.jpg", category: "living", alt: { en: "Upstairs hallway", fr: "Hall d'étage" } },
-  { url: "/images/hallEtage2.jpg", category: "living", alt: { en: "Upstairs landing", fr: "Palier de l'étage" } },
+  { url: "/images/Salon.webp", category: "living", alt: { en: "Main living room", fr: "Salon principal" } },
+  { url: "/images/Salon1.webp", category: "living", alt: { en: "Living room view 1", fr: "Salon vue 1" } },
+  { url: "/images/Salon2.webp", category: "living", alt: { en: "Living room view 2", fr: "Salon vue 2" } },
+  { url: "/images/Fauteuil.webp", category: "living", alt: { en: "Cozy armchair corner", fr: "Coin fauteuil confortable" } },
+  { url: "/images/CouloirSalon.webp", category: "living", alt: { en: "Hallway to living room", fr: "Couloir vers le salon" } },
+  { url: "/images/Hall_Etage.webp", category: "living", alt: { en: "Upstairs hallway", fr: "Hall d'étage" } },
+  { url: "/images/hallEtage2.webp", category: "living", alt: { en: "Upstairs landing", fr: "Palier de l'étage" } },
 
   // Kitchen
-  { url: "/images/Cuisine.jpg", category: "kitchen", alt: { en: "Fully equipped kitchen", fr: "Cuisine entièrement équipée" } },
-  { url: "/images/Cuisine1.jpg", category: "kitchen", alt: { en: "Kitchen dining area", fr: "Coin repas de la cuisine" } },
-  { url: "/images/Cuisine2.jpg", category: "kitchen", alt: { en: "Modern kitchen", fr: "Cuisine moderne" } },
+  { url: "/images/Cuisine.webp", category: "kitchen", alt: { en: "Fully equipped kitchen", fr: "Cuisine entièrement équipée" } },
+  { url: "/images/Cuisine1.webp", category: "kitchen", alt: { en: "Kitchen dining area", fr: "Coin repas de la cuisine" } },
+  { url: "/images/Cuisine2.webp", category: "kitchen", alt: { en: "Modern kitchen", fr: "Cuisine moderne" } },
 
   // Bedrooms
-  { url: "/images/Chambre3.jpg", category: "bedroom", alt: { en: "Bedroom 3", fr: "Chambre 3" } },
-  { url: "/images/Chambre4.jpg", category: "bedroom", alt: { en: "Bedroom 4", fr: "Chambre 4" } },
-  { url: "/images/ChambreDortoir.jpg", category: "bedroom", alt: { en: "Bunk bed room", fr: "Chambre avec lits superposés" } },
-  { url: "/images/ChambreDortoir2.jpg", category: "bedroom", alt: { en: "Bunk bed room view 2", fr: "Chambre lits superposés vue 2" } },
+  { url: "/images/Chambre3.webp", category: "bedroom", alt: { en: "Bedroom 3", fr: "Chambre 3" } },
+  { url: "/images/Chambre4.webp", category: "bedroom", alt: { en: "Bedroom 4", fr: "Chambre 4" } },
+  { url: "/images/ChambreDortoir.webp", category: "bedroom", alt: { en: "Bunk bed room", fr: "Chambre avec lits superposés" } },
+  { url: "/images/ChambreDortoir2.webp", category: "bedroom", alt: { en: "Bunk bed room view 2", fr: "Chambre lits superposés vue 2" } },
 
   // Bathrooms
-  { url: "/images/SalledeBain1.jpg", category: "bathroom", alt: { en: "Bathroom 1", fr: "Salle de bain 1" } },
-  { url: "/images/Salledebain2.jpg", category: "bathroom", alt: { en: "Bathroom 2", fr: "Salle de bain 2" } }
+  { url: "/images/SalledeBain1.webp", category: "bathroom", alt: { en: "Bathroom 1", fr: "Salle de bain 1" } },
+  { url: "/images/Salledebain2.webp", category: "bathroom", alt: { en: "Bathroom 2", fr: "Salle de bain 2" } }
 ];

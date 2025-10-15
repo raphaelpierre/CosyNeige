@@ -74,7 +74,7 @@ export default function ContactPage() {
       <section className="relative h-[400px] flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/VueEnsemble.jpg"
+            src="/images/VueEnsemble.webp"
             alt={t({ en: 'Contact us', fr: 'Contactez-nous' })}
             fill
             className="object-cover brightness-75"

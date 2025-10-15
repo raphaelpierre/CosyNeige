@@ -10,8 +10,8 @@ const nextConfig: NextConfig = {
     ],
   },
   eslint: {
-    // Ignore ESLint errors during production builds
-    ignoreDuringBuilds: true,
+    // Run ESLint during builds to catch errors
+    ignoreDuringBuilds: false,
   },
   typescript: {
     // Ignore TypeScript errors during production builds (optional)

@@ -306,7 +306,7 @@ export default function GuidePage() {
       <section className="relative h-[400px] flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/Salon.jpg"
+            src="/images/Salon.webp"
             alt={t({ en: 'Welcome guide', fr: 'Guide de bienvenue' })}
             fill
             className="object-cover brightness-75"
