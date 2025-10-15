@@ -2095,35 +2095,38 @@ export default function AdminPage() {
                       <form onSubmit={handleCreateUser} className="space-y-3 sm:space-y-4">
                         <div>
                           <label className="block text-sm font-medium mb-1">
-                            {t({ en: 'First Name', fr: 'Prénom' })}
+                            {t({ en: 'First Name', fr: 'Prénom' })} *
                           </label>
                           <input
                             type="text"
                             value={newUser.firstName}
                             onChange={(e) => setNewUser({...newUser, firstName: e.target.value})}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            placeholder={t({ en: 'John', fr: 'Jean' })}
                             required
                           />
                         </div>
                         <div>
                           <label className="block text-sm font-medium mb-1">
-                            {t({ en: 'Last Name', fr: 'Nom' })}
+                            {t({ en: 'Last Name', fr: 'Nom' })} *
                           </label>
                           <input
                             type="text"
                             value={newUser.lastName}
                             onChange={(e) => setNewUser({...newUser, lastName: e.target.value})}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            placeholder={t({ en: 'Doe', fr: 'Dupont' })}
                             required
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium mb-1">Email</label>
+                          <label className="block text-sm font-medium mb-1">Email *</label>
                           <input
                             type="email"
                             value={newUser.email}
                             onChange={(e) => setNewUser({...newUser, email: e.target.value})}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            placeholder="user@example.com"
                             required
                           />
                         </div>
@@ -2136,18 +2139,21 @@ export default function AdminPage() {
                             value={newUser.phone}
                             onChange={(e) => setNewUser({...newUser, phone: e.target.value})}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            placeholder="+33 6 12 34 56 78"
                           />
                         </div>
                         <div>
                           <label className="block text-sm font-medium mb-1">
-                            {t({ en: 'Password', fr: 'Mot de passe' })}
+                            {t({ en: 'Password', fr: 'Mot de passe' })} *
                           </label>
                           <input
                             type="password"
                             value={newUser.password}
                             onChange={(e) => setNewUser({...newUser, password: e.target.value})}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            placeholder="••••••••"
                             required
+                            minLength={8}
                           />
                         </div>
                         <div>
@@ -3074,10 +3080,36 @@ export default function AdminPage() {
             <h3 className="text-lg font-semibold mb-4">
               {t({ en: 'Create New User', fr: 'Créer un Nouvel Utilisateur' })}
             </h3>
-            <div className="space-y-4">
+            <form onSubmit={handleCreateUser} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t({ en: 'Email', fr: 'Email' })}
+                  {t({ en: 'First Name', fr: 'Prénom' })} *
+                </label>
+                <input
+                  type="text"
+                  value={newUser.firstName}
+                  onChange={(e) => setNewUser({...newUser, firstName: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-500"
+                  placeholder={t({ en: 'John', fr: 'Jean' })}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t({ en: 'Last Name', fr: 'Nom' })} *
+                </label>
+                <input
+                  type="text"
+                  value={newUser.lastName}
+                  onChange={(e) => setNewUser({...newUser, lastName: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-500"
+                  placeholder={t({ en: 'Doe', fr: 'Dupont' })}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t({ en: 'Email', fr: 'Email' })} *
                 </label>
                 <input
                   type="email"
@@ -3085,11 +3117,24 @@ export default function AdminPage() {
                   onChange={(e) => setNewUser({...newUser, email: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-500"
                   placeholder="user@example.com"
+                  required
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t({ en: 'Password', fr: 'Mot de passe' })}
+                  {t({ en: 'Phone', fr: 'Téléphone' })}
+                </label>
+                <input
+                  type="tel"
+                  value={newUser.phone}
+                  onChange={(e) => setNewUser({...newUser, phone: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-500"
+                  placeholder="+33 6 12 34 56 78"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t({ en: 'Password', fr: 'Mot de passe' })} *
                 </label>
                 <input
                   type="password"
@@ -3097,6 +3142,8 @@ export default function AdminPage() {
                   onChange={(e) => setNewUser({...newUser, password: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-500"
                   placeholder="••••••••"
+                  required
+                  minLength={8}
                 />
               </div>
               <div>
@@ -3112,24 +3159,25 @@ export default function AdminPage() {
                   <option value="admin">{t({ en: 'Admin', fr: 'Admin' })}</option>
                 </select>
               </div>
-            </div>
-            <div className="flex gap-2 justify-end mt-6">
-              <button
-                onClick={() => {
-                  setShowUserModal(false);
-                  setNewUser({ email: '', firstName: '', lastName: '', phone: '', password: '', role: 'client' });
-                }}
-                className="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-              >
-                {t({ en: 'Cancel', fr: 'Annuler' })}
-              </button>
-              <button
-                onClick={handleCreateUser}
-                className="px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg transition-colors"
-              >
-                {t({ en: 'Create User', fr: 'Créer' })}
-              </button>
-            </div>
+              <div className="flex gap-2 justify-end mt-6">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowUserModal(false);
+                    setNewUser({ email: '', firstName: '', lastName: '', phone: '', password: '', role: 'client' });
+                  }}
+                  className="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                >
+                  {t({ en: 'Cancel', fr: 'Annuler' })}
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg transition-colors"
+                >
+                  {t({ en: 'Create User', fr: 'Créer' })}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

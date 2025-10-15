@@ -119,7 +119,7 @@ export default function HomePage() {
             {/* Feature 1 - Location */}
             <div className="group relative bg-gradient-to-br from-forest-50 to-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
               <div className="grid md:grid-cols-2 gap-0 items-center">
-                <div className="relative h-80 md:h-96 overflow-hidden">
+                <Link href="/gallery" className="relative h-80 md:h-96 overflow-hidden cursor-pointer block">
                   <Image
                     src="/images/chaletneigedehors.webp"
                     alt="Chalet in winter - Between two valleys"
@@ -128,7 +128,12 @@ export default function HomePage() {
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent to-forest-50/30" />
-                </div>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
+                    <span className="text-white text-lg font-semibold bg-forest-700/90 px-4 py-2 rounded-full">
+                      {t({ en: 'View Gallery', fr: 'Voir la Galerie' })}
+                    </span>
+                  </div>
+                </Link>
                 <div className="p-8 md:p-12">
                   <div className="text-5xl mb-4">🏔️</div>
                   <h3 className="text-2xl md:text-3xl font-bold text-forest-900 mb-4">
@@ -178,7 +183,7 @@ export default function HomePage() {
                     </div>
                   </div>
                 </div>
-                <div className="relative h-80 md:h-96 overflow-hidden order-1 md:order-2">
+                <Link href="/gallery" className="relative h-80 md:h-96 overflow-hidden order-1 md:order-2 cursor-pointer block">
                   <Image
                     src="/images/jacusi.webp"
                     alt="Hot tub with mountain view"
@@ -187,14 +192,19 @@ export default function HomePage() {
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-l from-transparent to-forest-50/30" />
-                </div>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
+                    <span className="text-white text-lg font-semibold bg-forest-700/90 px-4 py-2 rounded-full">
+                      {t({ en: 'View Gallery', fr: 'Voir la Galerie' })}
+                    </span>
+                  </div>
+                </Link>
               </div>
             </div>
 
             {/* Feature 3 - Perfect for Groups */}
             <div className="group relative bg-gradient-to-br from-forest-50 to-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
               <div className="grid md:grid-cols-2 gap-0 items-center">
-                <div className="relative h-80 md:h-96 overflow-hidden">
+                <Link href="/gallery" className="relative h-80 md:h-96 overflow-hidden cursor-pointer block">
                   <Image
                     src="/images/hallEtage2.webp"
                     alt="Spacious interior living space"
@@ -203,7 +213,12 @@ export default function HomePage() {
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent to-forest-50/30" />
-                </div>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
+                    <span className="text-white text-lg font-semibold bg-forest-700/90 px-4 py-2 rounded-full">
+                      {t({ en: 'View Gallery', fr: 'Voir la Galerie' })}
+                    </span>
+                  </div>
+                </Link>
                 <div className="p-8 md:p-12">
                   <div className="text-5xl mb-4">👨‍👩‍👧‍👦</div>
                   <h3 className="text-2xl md:text-3xl font-bold text-forest-900 mb-4">
@@ -290,9 +305,10 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {amenities.map((amenity, index) => (
-              <div
+              <Link
                 key={index}
-                className="group relative flex flex-col items-center text-center p-6 bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden"
+                href="/gallery"
+                className="group relative flex flex-col items-center text-center p-6 bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden cursor-pointer"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-forest-200/20 to-transparent rounded-bl-full transform translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform duration-500" />
@@ -300,7 +316,7 @@ export default function HomePage() {
                   <div className="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300">{amenity.icon}</div>
                   <div className="text-sm font-medium text-gray-800 group-hover:text-forest-700 transition-colors">{t(amenity.label)}</div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

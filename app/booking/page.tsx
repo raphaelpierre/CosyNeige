@@ -479,11 +479,11 @@ export default function BookingPage() {
                                   </div>
                                 </div>
 
-                                {/* Bouton Continuer visible sur tous les écrans */}
-                                <div className="flex-shrink-0 w-full sm:w-auto">
+                                {/* Bouton Continuer - DESKTOP seulement, Mobile utilise le bottom sheet */}
+                                <div className="hidden xl:flex flex-shrink-0">
                                   <button
                                     onClick={() => setCurrentStep(2)}
-                                    className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-bold text-base sm:text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 touch-manipulation active:scale-98 border-2 border-green-700"
+                                    className="px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 active:scale-98 border-2 border-green-700"
                                   >
                                     <span>{t({ en: 'Continue', fr: 'Continuer' })}</span>
                                     <span className="text-xl">→</span>

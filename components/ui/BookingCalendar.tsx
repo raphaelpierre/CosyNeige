@@ -94,13 +94,28 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
     // Créer une copie de la date pour éviter les problèmes de fuseau horaire
     const localDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-    if (!selectedCheckIn || (selectedCheckIn && selectedCheckOut)) {
-      // Nouvelle sélection
+    // Si on clique sur la date de check-in déjà sélectionnée, tout effacer
+    if (selectedCheckIn && localDate.getTime() === selectedCheckIn.getTime()) {
+      setSelectedCheckIn(null);
+      setSelectedCheckOut(null);
+      onDateSelect?.(null, null);
+      return;
+    }
+
+    // Si on clique sur la date de check-out déjà sélectionnée, l'effacer seulement
+    if (selectedCheckOut && localDate.getTime() === selectedCheckOut.getTime()) {
+      setSelectedCheckOut(null);
+      onDateSelect?.(selectedCheckIn, null);
+      return;
+    }
+
+    if (!selectedCheckIn) {
+      // Première sélection : check-in
       setSelectedCheckIn(localDate);
       setSelectedCheckOut(null);
       onDateSelect?.(localDate, null);
-    } else {
-      // Sélection de la date de fin
+    } else if (!selectedCheckOut) {
+      // Deuxième sélection : check-out
       if (localDate < selectedCheckIn) {
         // Si la date est avant le check-in, inverser
         setSelectedCheckOut(selectedCheckIn);
@@ -110,6 +125,11 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
         setSelectedCheckOut(localDate);
         onDateSelect?.(selectedCheckIn, localDate);
       }
+    } else {
+      // Les deux dates sont déjà sélectionnées, recommencer avec cette date comme check-in
+      setSelectedCheckIn(localDate);
+      setSelectedCheckOut(null);
+      onDateSelect?.(localDate, null);
     }
   };
 
