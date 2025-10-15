@@ -10,74 +10,81 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* Hero Section */}
-      <section className="relative h-[600px] md:h-[700px] flex items-center justify-center overflow-hidden">
+      {/* Hero Section - REPENSÉ pour maximiser l'effet WAHOU de l'image */}
+      <section className="relative h-[85vh] md:h-[90vh] flex items-end overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/chalet_neige_devant.webp"
             alt="Chalet-Balmotte810 - Chalet de luxe à Châtillon-sur-Cluses"
             fill
-            className="object-cover brightness-75 scale-105 animate-[scale_20s_ease-in-out_infinite_alternate]"
+            className="object-cover scale-105 animate-[scale_20s_ease-in-out_infinite_alternate]"
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50" />
-          <div className="absolute inset-0 bg-gradient-to-r from-forest-900/30 via-transparent to-forest-900/30" />
+          {/* Gradient subtil en bas uniquement pour lire le texte */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center">
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 drop-shadow-2xl">
-              {chaletName}
-            </h1>
-            <p className="text-xl md:text-3xl text-white/95 mb-2 font-light tracking-wide">
-              {t(tagline)}
-            </p>
-            <p className="text-lg md:text-xl text-white/90 mb-8 flex items-center justify-center gap-2">
-              <span className="inline-block animate-pulse">📍</span>
-              Châtillon-sur-Cluses • {t({ en: 'French Alps', fr: 'Alpes Françaises' })}
-            </p>
-          </div>
+        {/* Contenu en bas de l'écran pour laisser l'image respirer */}
+        <div className="relative z-10 w-full pb-12 md:pb-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-3 md:mb-4 drop-shadow-2xl">
+                {chaletName}
+              </h1>
+              <p className="text-lg md:text-2xl lg:text-3xl text-white/95 mb-2 font-light tracking-wide">
+                {t(tagline)}
+              </p>
+              <p className="text-base md:text-lg text-white/90 mb-6 flex items-center gap-2">
+                <span className="inline-block animate-pulse">📍</span>
+                Châtillon-sur-Cluses • {t({ en: 'French Alps', fr: 'Alpes Françaises' })}
+              </p>
+            </div>
 
-          <div className="flex flex-wrap justify-center gap-4 mb-12 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
-            <div className="bg-white/10 backdrop-blur-xl border border-white/20 px-6 py-3 rounded-2xl hover:bg-white/20 transition-all duration-300  hover:shadow-2xl group">
-              <div className="text-2xl font-bold text-white group-hover:scale-110 transition-transform">{specs.capacity}</div>
-              <div className="text-sm text-white/80">{t({ en: 'Guests', fr: 'Personnes' })}</div>
+            {/* Badges compacts en ligne - sans masquer l'image */}
+            <div className="flex flex-wrap gap-3 mb-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+              <div className="bg-white/15 backdrop-blur-md border border-white/30 px-4 py-2 rounded-full hover:bg-white/25 transition-all duration-300 shadow-lg">
+                <span className="text-white font-semibold text-sm md:text-base">{specs.capacity} {t({ en: 'Guests', fr: 'Personnes' })}</span>
+              </div>
+              <div className="bg-white/15 backdrop-blur-md border border-white/30 px-4 py-2 rounded-full hover:bg-white/25 transition-all duration-300 shadow-lg">
+                <span className="text-white font-semibold text-sm md:text-base">{specs.bedrooms} {t({ en: 'Bedrooms', fr: 'Chambres' })}</span>
+              </div>
+              <div className="bg-white/15 backdrop-blur-md border border-white/30 px-4 py-2 rounded-full hover:bg-white/25 transition-all duration-300 shadow-lg">
+                <span className="text-white font-semibold text-sm md:text-base">{specs.bathrooms} {t({ en: 'Bathrooms', fr: 'SDB' })}</span>
+              </div>
+              <div className="bg-white/15 backdrop-blur-md border border-white/30 px-4 py-2 rounded-full hover:bg-white/25 transition-all duration-300 shadow-lg">
+                <span className="text-white font-semibold text-sm md:text-base">{specs.surface}m²</span>
+              </div>
             </div>
-            <div className="bg-white/10 backdrop-blur-xl border border-white/20 px-6 py-3 rounded-2xl hover:bg-white/20 transition-all duration-300  hover:shadow-2xl group">
-              <div className="text-2xl font-bold text-white group-hover:scale-110 transition-transform">{specs.bedrooms}</div>
-              <div className="text-sm text-white/80">{t({ en: 'Bedrooms', fr: 'Chambres' })}</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-xl border border-white/20 px-6 py-3 rounded-2xl hover:bg-white/20 transition-all duration-300  hover:shadow-2xl group">
-              <div className="text-2xl font-bold text-white group-hover:scale-110 transition-transform">{specs.bathrooms}</div>
-              <div className="text-sm text-white/80">{t({ en: 'Bathrooms', fr: 'Salles de bain' })}</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-xl border border-white/20 px-6 py-3 rounded-2xl hover:bg-white/20 transition-all duration-300  hover:shadow-2xl group">
-              <div className="text-2xl font-bold text-white group-hover:scale-110 transition-transform">{specs.surface}m²</div>
-              <div className="text-sm text-white/80">{t({ en: 'Surface', fr: 'Surface' })}</div>
-            </div>
-          </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
-                          <Link
+            {/* CTA buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-400">
+              <Link
                 href="/booking"
-                className="group relative inline-block bg-slate-700 hover:bg-slate-800 text-white px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl border-2 border-slate-700 hover:border-slate-800"
+                className="group relative inline-flex items-center justify-center bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300 shadow-2xl hover:shadow-slate-900/50 border-2 border-slate-700 hover:border-slate-800 hover:scale-105"
               >
-                <span className="relative z-10">{t({ en: 'Check Availability', fr: 'Vérifier Disponibilités' })}</span>
+                <span className="relative z-10 flex items-center gap-2">
+                  <span>📅</span>
+                  {t({ en: 'Check Availability', fr: 'Vérifier Disponibilités' })}
+                </span>
               </Link>
-            <Link
-              href="/chalet"
-              className="group bg-white/10 hover:bg-white/20 backdrop-blur-xl border-2 border-white/30 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 inline-block shadow-xl hover:shadow-2xl "
-            >
-              {t({ en: 'Discover the Chalet', fr: 'Découvrir le Chalet' })}
-            </Link>
+              <Link
+                href="/chalet"
+                className="group bg-white/15 hover:bg-white/25 backdrop-blur-md border-2 border-white/40 text-white px-8 py-4 rounded-full font-semibold text-base md:text-lg transition-all duration-300 inline-flex items-center justify-center shadow-2xl hover:shadow-white/30 hover:scale-105"
+              >
+                <span className="flex items-center gap-2">
+                  {t({ en: 'Discover the Chalet', fr: 'Découvrir le Chalet' })}
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </span>
+              </Link>
+            </div>
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-            <div className="w-1.5 h-3 bg-white/50 rounded-full mt-2 animate-pulse" />
+        {/* Scroll indicator - discret */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+          <div className="w-5 h-8 border-2 border-white/40 rounded-full flex justify-center">
+            <div className="w-1 h-2 bg-white/60 rounded-full mt-1.5 animate-pulse" />
           </div>
         </div>
       </section>
