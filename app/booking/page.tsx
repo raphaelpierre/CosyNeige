@@ -170,19 +170,24 @@ export default function BookingPage() {
   // Pas de navigation automatique - l'utilisateur contrôle le workflow
 
   const handleDateSelect = (checkInDate: Date | null, checkOutDate: Date | null) => {
+    // Toujours mettre à jour checkIn (même si null pour réinitialiser)
     if (checkInDate) {
-      // Format local date without timezone offset
       const year = checkInDate.getFullYear();
       const month = String(checkInDate.getMonth() + 1).padStart(2, '0');
       const day = String(checkInDate.getDate()).padStart(2, '0');
       setCheckIn(`${year}-${month}-${day}`);
+    } else {
+      setCheckIn('');
     }
+
+    // Toujours mettre à jour checkOut (même si null pour réinitialiser)
     if (checkOutDate) {
-      // Format local date without timezone offset
       const year = checkOutDate.getFullYear();
       const month = String(checkOutDate.getMonth() + 1).padStart(2, '0');
       const day = String(checkOutDate.getDate()).padStart(2, '0');
       setCheckOut(`${year}-${month}-${day}`);
+    } else {
+      setCheckOut('');
     }
   };
 
