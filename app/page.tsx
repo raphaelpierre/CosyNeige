@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '@/lib/hooks/useLanguage';
-import { chaletName, tagline, specs, description, amenities, nearbyResorts, testimonials, galleryImages } from '@/lib/data/chalet';
+import { chaletName, tagline, specs, description, amenities, nearbyResorts, testimonials } from '@/lib/data/chalet';
 
 export default function HomePage() {
   const { t } = useLanguage();
@@ -94,42 +94,176 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Gallery Preview */}
-      <section className="py-12 bg-white">
+      {/* Visual Features - What Makes This Chalet Special */}
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
-              {t({ en: 'Photo Gallery', fr: 'Galerie Photos' })}
+              {t({ en: 'Experience the Alpine Lifestyle', fr: 'Vivez l\'Expérience Alpine' })}
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-forest-600 to-forest-800 mx-auto rounded-full" />
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-            {galleryImages.slice(0, 6).map((img, index) => (
-              <div
-                key={index}
-                className="relative h-64 rounded-2xl overflow-hidden group shadow-lg hover:shadow-2xl transition-all duration-300"
-              >
-                <Image
-                  src={img.url}
-                  alt={t(img.alt)}
-                  fill
-                  className="object-cover group-hover:scale-110 group-hover:rotate-1 transition-all duration-500"
-                  sizes="(max-width: 768px) 50vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute inset-0 flex items-end justify-center p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                  <p className="text-white font-medium text-sm text-center">{t(img.alt)}</p>
+
+          <div className="space-y-8">
+            {/* Feature 1 - Location */}
+            <div className="group relative bg-gradient-to-br from-forest-50 to-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+              <div className="grid md:grid-cols-2 gap-0 items-center">
+                <div className="relative h-80 md:h-96 overflow-hidden">
+                  <Image
+                    src="/images/chalet_neige_devant.webp"
+                    alt="Chalet exterior view"
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-forest-50/30" />
+                </div>
+                <div className="p-8 md:p-12">
+                  <div className="text-5xl mb-4">🏔️</div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-forest-900 mb-4">
+                    {t({ en: 'Between Two Valleys', fr: 'Entre Deux Vallées' })}
+                  </h3>
+                  <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                    {t({
+                      en: 'Unique strategic location between the Arve and Giffre valleys. Access to 5 major ski resorts within 30 minutes. Explore a different mountain every day.',
+                      fr: 'Position stratégique unique entre les vallées de l\'Arve et du Giffre. Accès à 5 grandes stations en 30 minutes. Explorez une montagne différente chaque jour.'
+                    })}
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <div className="bg-white px-4 py-2 rounded-full shadow-md">
+                      <span className="text-forest-700 font-semibold">⛷️ 5 {t({ en: 'Resorts', fr: 'Stations' })}</span>
+                    </div>
+                    <div className="bg-white px-4 py-2 rounded-full shadow-md">
+                      <span className="text-forest-700 font-semibold">🚗 &lt; 30 min</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Feature 2 - Premium Relaxation */}
+            <div className="group relative bg-gradient-to-br from-forest-50 to-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+              <div className="grid md:grid-cols-2 gap-0 items-center">
+                <div className="p-8 md:p-12 order-2 md:order-1">
+                  <div className="text-5xl mb-4">🛁</div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-forest-900 mb-4">
+                    {t({ en: 'Premium Relaxation', fr: 'Détente Premium' })}
+                  </h3>
+                  <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                    {t({
+                      en: 'After a day on the slopes, unwind in your private sauna, soak in the outdoor hot tub with mountain views, or cozy up by the wood-burning fireplace.',
+                      fr: 'Après une journée sur les pistes, détendez-vous dans votre sauna privatif, plongez dans le jacuzzi extérieur avec vue montagne, ou installez-vous près de la cheminée.'
+                    })}
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <div className="bg-white px-4 py-2 rounded-full shadow-md">
+                      <span className="text-forest-700 font-semibold">🧖 {t({ en: 'Private Sauna', fr: 'Sauna Privatif' })}</span>
+                    </div>
+                    <div className="bg-white px-4 py-2 rounded-full shadow-md">
+                      <span className="text-forest-700 font-semibold">💆 {t({ en: 'Hot Tub', fr: 'Jacuzzi' })}</span>
+                    </div>
+                    <div className="bg-white px-4 py-2 rounded-full shadow-md">
+                      <span className="text-forest-700 font-semibold">🔥 {t({ en: 'Fireplace', fr: 'Cheminée' })}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="relative h-80 md:h-96 overflow-hidden order-1 md:order-2">
+                  <Image
+                    src="/images/jacusi.webp"
+                    alt="Hot tub with mountain view"
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-l from-transparent to-forest-50/30" />
+                </div>
+              </div>
+            </div>
+
+            {/* Feature 3 - Perfect for Groups */}
+            <div className="group relative bg-gradient-to-br from-forest-50 to-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+              <div className="grid md:grid-cols-2 gap-0 items-center">
+                <div className="relative h-80 md:h-96 overflow-hidden">
+                  <Image
+                    src="/images/hallEtage2.webp"
+                    alt="Spacious interior living space"
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-forest-50/30" />
+                </div>
+                <div className="p-8 md:p-12">
+                  <div className="text-5xl mb-4">👨‍👩‍👧‍👦</div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-forest-900 mb-4">
+                    {t({ en: 'Perfect for Groups & Families', fr: 'Parfait pour Groupes & Familles' })}
+                  </h3>
+                  <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                    {t({
+                      en: 'Spacious 180m² chalet accommodating up to 10 guests. 4 comfortable bedrooms, 3 modern bathrooms, and generous living spaces for memorable gatherings.',
+                      fr: 'Spacieux chalet de 180m² accueillant jusqu\'à 10 personnes. 4 chambres confortables, 3 salles de bains modernes, et espaces de vie généreux pour des moments inoubliables.'
+                    })}
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <div className="bg-white px-4 py-2 rounded-full shadow-md">
+                      <span className="text-forest-700 font-semibold">🏠 180m²</span>
+                    </div>
+                    <div className="bg-white px-4 py-2 rounded-full shadow-md">
+                      <span className="text-forest-700 font-semibold">🛏️ 4 {t({ en: 'Bedrooms', fr: 'Chambres' })}</span>
+                    </div>
+                    <div className="bg-white px-4 py-2 rounded-full shadow-md">
+                      <span className="text-forest-700 font-semibold">👥 10 {t({ en: 'Guests', fr: 'Personnes' })}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="text-center">
+
+          {/* CTA to Gallery */}
+          <div className="text-center mt-12">
+            <p className="text-gray-600 mb-4">
+              {t({ en: 'Discover more photos of the chalet', fr: 'Découvrez plus de photos du chalet' })}
+            </p>
             <Link
               href="/gallery"
-              className="group relative inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-3 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl border-2 border-slate-700 hover:border-slate-800"
+              className="group inline-flex items-center gap-2 text-forest-700 hover:text-forest-900 font-semibold text-lg transition-colors duration-300"
             >
-              <span className="relative z-10">{t({ en: 'View Full Gallery', fr: 'Voir Toute la Galerie' })}</span>
+              <span>{t({ en: 'View Photo Gallery', fr: 'Voir la Galerie Photos' })}</span>
+              <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Key Stats */}
+      <section className="py-12 bg-gradient-to-b from-white to-forest-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="text-4xl md:text-5xl font-bold text-forest-700 mb-2">5</div>
+              <div className="text-sm md:text-base text-gray-600">
+                {t({ en: 'Ski Resorts Nearby', fr: 'Stations de Ski' })}
+              </div>
+            </div>
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="text-4xl md:text-5xl font-bold text-forest-700 mb-2">10</div>
+              <div className="text-sm md:text-base text-gray-600">
+                {t({ en: 'Guests Capacity', fr: 'Personnes Max' })}
+              </div>
+            </div>
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="text-4xl md:text-5xl font-bold text-forest-700 mb-2">180</div>
+              <div className="text-sm md:text-base text-gray-600">
+                {t({ en: 'Square Meters', fr: 'Mètres Carrés' })}
+              </div>
+            </div>
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="text-4xl md:text-5xl font-bold text-forest-700 mb-2">4+</div>
+              <div className="text-sm md:text-base text-gray-600">
+                {t({ en: 'Premium Amenities', fr: 'Équipements Premium' })}
+              </div>
+            </div>
           </div>
         </div>
       </section>
