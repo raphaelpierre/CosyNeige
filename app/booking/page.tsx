@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/lib/hooks/useLanguage';
+import { useAuth } from '@/lib/context/AuthContext';
 import { formatEuro } from '@/lib/utils';
 import {
   fetchSeasons,
@@ -25,6 +26,7 @@ interface BookingStep {
 export default function BookingPage() {
   const { t } = useLanguage();
   const router = useRouter();
+  const { user, isAuthenticated } = useAuth();
 
   // États principaux
   const [currentStep, setCurrentStep] = useState(1);
@@ -146,6 +148,24 @@ export default function BookingPage() {
 
     loadSeasons();
   }, []);
+
+  // Scroll to top when step changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentStep]);
+
+  // Pre-fill form data if user is authenticated
+  useEffect(() => {
+    if (isAuthenticated && user && currentStep === 2) {
+      setFormData(prev => ({
+        ...prev,
+        firstName: user.firstName || prev.firstName,
+        lastName: user.lastName || prev.lastName,
+        email: user.email || prev.email,
+        phone: user.phone || prev.phone,
+      }));
+    }
+  }, [isAuthenticated, user, currentStep]);
 
   // Pas de navigation automatique - l'utilisateur contrôle le workflow
 
@@ -512,6 +532,85 @@ export default function BookingPage() {
                     </div>
                   </div>
 
+                  {/* Invitation à se connecter - Seulement si NON connecté */}
+                  {!isAuthenticated && (
+                    <div className="bg-gradient-to-br from-slate-50 to-slate-100 border-2 border-slate-300 rounded-xl p-4 sm:p-6 shadow-md">
+                      <div className="flex flex-col sm:flex-row items-center gap-4">
+                        <div className="flex-shrink-0">
+                          <div className="w-16 h-16 bg-slate-200 rounded-full flex items-center justify-center text-3xl">
+                            🔐
+                          </div>
+                        </div>
+                        <div className="flex-1 text-center sm:text-left">
+                          <h4 className="text-lg font-bold text-slate-900 mb-2">
+                            {t({
+                              en: 'Already have an account?',
+                              fr: 'Vous avez déjà un compte ?'
+                            })}
+                          </h4>
+                          <p className="text-slate-700 text-sm mb-3">
+                            {t({
+                              en: 'Sign in to automatically fill your information and track your booking!',
+                              fr: 'Connectez-vous pour remplir automatiquement vos informations et suivre votre réservation !'
+                            })}
+                          </p>
+                          <div className="flex flex-col sm:flex-row gap-2">
+                            <button
+                              onClick={() => {
+                                // Sauvegarder les données actuelles dans localStorage pour les restaurer après connexion
+                                localStorage.setItem('booking-temp', JSON.stringify({
+                                  checkIn,
+                                  checkOut,
+                                  guests,
+                                  returnTo: '/booking'
+                                }));
+                                router.push('/client/login?returnTo=/booking');
+                              }}
+                              className="px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg font-semibold text-sm transition-colors"
+                            >
+                              {t({ en: '🔑 Sign In', fr: '🔑 Se Connecter' })}
+                            </button>
+                            <button
+                              onClick={() => {
+                                // Sauvegarder les données actuelles dans localStorage
+                                localStorage.setItem('booking-temp', JSON.stringify({
+                                  checkIn,
+                                  checkOut,
+                                  guests,
+                                  returnTo: '/booking'
+                                }));
+                                router.push('/client/login?action=register&returnTo=/booking');
+                              }}
+                              className="px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-300 rounded-lg font-semibold text-sm transition-colors"
+                            >
+                              {t({ en: '✨ Create Account', fr: '✨ Créer un Compte' })}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Message de bienvenue si connecté */}
+                  {isAuthenticated && user && (
+                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-4 shadow-md">
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">👋</span>
+                        <div>
+                          <p className="font-bold text-green-900">
+                            {t({ en: `Welcome back, ${user.firstName}!`, fr: `Bon retour, ${user.firstName} !` })}
+                          </p>
+                          <p className="text-sm text-green-700">
+                            {t({
+                              en: 'Your information has been pre-filled.',
+                              fr: 'Vos informations ont été pré-remplies.'
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Formulaire */}
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -666,33 +765,6 @@ export default function BookingPage() {
                         </div>
                       </div>
                     )}
-                  </div>
-
-                  {/* Suggestion compte */}
-                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-                    <div className="flex items-start gap-3">
-                      <div className="text-blue-600 text-xl flex-shrink-0">💡</div>
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-blue-900 mb-2">
-                          {t({
-                            en: 'Want faster bookings next time?',
-                            fr: 'Envie de réserver plus vite la prochaine fois ?'
-                          })}
-                        </h4>
-                        <p className="text-blue-800 text-sm mb-3">
-                          {t({
-                            en: 'Create an account to save your info and track bookings!',
-                            fr: 'Créez un compte pour sauvegarder vos infos et suivre vos réservations !'
-                          })}
-                        </p>
-                        <button
-                          onClick={() => router.push('/client/login?action=register')}
-                          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-sm transition-colors"
-                        >
-                          {t({ en: 'Create Account', fr: 'Créer un Compte' })}
-                        </button>
-                      </div>
-                    </div>
                   </div>
 
                   {/* Navigation */}

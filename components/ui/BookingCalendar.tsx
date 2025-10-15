@@ -126,10 +126,21 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
         onDateSelect?.(selectedCheckIn, localDate);
       }
     } else {
-      // Les deux dates sont déjà sélectionnées, recommencer avec cette date comme check-in
-      setSelectedCheckIn(localDate);
-      setSelectedCheckOut(null);
-      onDateSelect?.(localDate, null);
+      // Les deux dates sont déjà sélectionnées, étendre ou ajuster la période
+      if (localDate < selectedCheckIn) {
+        // Cliquer avant le check-in : ajuster le check-in
+        setSelectedCheckIn(localDate);
+        onDateSelect?.(localDate, selectedCheckOut);
+      } else if (localDate > selectedCheckOut) {
+        // Cliquer après le check-out : étendre le check-out
+        setSelectedCheckOut(localDate);
+        onDateSelect?.(selectedCheckIn, localDate);
+      } else {
+        // Cliquer entre les deux dates : recommencer avec cette date comme check-in
+        setSelectedCheckIn(localDate);
+        setSelectedCheckOut(null);
+        onDateSelect?.(localDate, null);
+      }
     }
   };
 
