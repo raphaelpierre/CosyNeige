@@ -91,21 +91,24 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
   const handleDateClick = (date: Date) => {
     if (isPastDate(date) || isDateBooked(date)) return;
 
+    // Créer une copie de la date pour éviter les problèmes de fuseau horaire
+    const localDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
     if (!selectedCheckIn || (selectedCheckIn && selectedCheckOut)) {
       // Nouvelle sélection
-      setSelectedCheckIn(date);
+      setSelectedCheckIn(localDate);
       setSelectedCheckOut(null);
-      onDateSelect?.(date, null);
+      onDateSelect?.(localDate, null);
     } else {
       // Sélection de la date de fin
-      if (date < selectedCheckIn) {
+      if (localDate < selectedCheckIn) {
         // Si la date est avant le check-in, inverser
         setSelectedCheckOut(selectedCheckIn);
-        setSelectedCheckIn(date);
-        onDateSelect?.(date, selectedCheckIn);
+        setSelectedCheckIn(localDate);
+        onDateSelect?.(localDate, selectedCheckIn);
       } else {
-        setSelectedCheckOut(date);
-        onDateSelect?.(selectedCheckIn, date);
+        setSelectedCheckOut(localDate);
+        onDateSelect?.(selectedCheckIn, localDate);
       }
     }
   };

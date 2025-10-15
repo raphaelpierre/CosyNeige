@@ -41,39 +41,43 @@ export function getSeason(date: Date | string): 'high' | 'mid' | 'low' | 'summer
   return 'low';
 }
 
-// Calculate total price for a booking based on dates - Updated pricing
+// Calculate total price for a booking based on dates - Updated pricing with night-by-night calculation
 export function calculatePrice(checkIn: Date | string, checkOut: Date | string): {
   nights: number;
   basePrice: number;
   cleaningFee: number;
   depositAmount: number;
   total: number;
+  breakdown: Array<{ date: string; season: string; price: number }>; // Détail nuit par nuit
 } {
   const nights = calculateNights(checkIn, checkOut);
   const checkInDate = typeof checkIn === 'string' ? new Date(checkIn) : checkIn;
-  const season = getSeason(checkInDate);
+  const checkOutDate = typeof checkOut === 'string' ? new Date(checkOut) : checkOut;
 
-  // Get price per night based on season
-  let pricePerNight: number;
-  switch (season) {
-    case 'high':
-      pricePerNight = 410; // 410€ par nuit en haute saison
-      break;
-    case 'mid':
-    case 'low':
-    case 'summer':
-    default:
-      pricePerNight = 310; // 310€ par nuit en basse saison (le reste)
-      break;
+  // Calculate price night by night to handle cross-season bookings
+  let basePrice = 0;
+  const breakdown: Array<{ date: string; season: string; price: number }> = [];
+
+  for (let i = 0; i < nights; i++) {
+    const currentNight = new Date(checkInDate);
+    currentNight.setDate(checkInDate.getDate() + i);
+
+    const season = getSeason(currentNight);
+    const pricePerNight = season === 'high' ? 410 : 310;
+
+    basePrice += pricePerNight;
+    breakdown.push({
+      date: currentNight.toISOString().split('T')[0],
+      season: season,
+      price: pricePerNight
+    });
   }
 
-  // Calculate base price (per night)
-  const basePrice = pricePerNight * nights;
   const cleaningFee = pricing.cleaningFee;
   const depositAmount = pricing.depositAmount || 1500;
   const total = basePrice + cleaningFee;
 
-  return { nights, basePrice, cleaningFee, depositAmount, total };
+  return { nights, basePrice, cleaningFee, depositAmount, total, breakdown };
 }
 
 // Format date for display
@@ -83,6 +87,77 @@ export function formatDate(date: Date, locale: 'en' | 'fr' = 'fr'): string {
     month: 'long',
     year: 'numeric',
   }).format(date);
+}
+
+// Check if a date is Sunday (0 = Sunday)
+export function isSunday(date: Date | string): boolean {
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  return dateObj.getDay() === 0;
+}
+
+// Check if a booking period contains any high season days
+export function containsHighSeasonDays(checkIn: Date | string, checkOut: Date | string): boolean {
+  const nights = calculateNights(checkIn, checkOut);
+  const checkInDate = typeof checkIn === 'string' ? new Date(checkIn) : checkIn;
+
+  for (let i = 0; i < nights; i++) {
+    const currentNight = new Date(checkInDate);
+    currentNight.setDate(checkInDate.getDate() + i);
+
+    if (getSeason(currentNight) === 'high') {
+      return true;
+    }
+  }
+  return false;
+}
+
+// Validate booking dates according to high season rules
+export function validateBookingDates(
+  checkIn: Date | string,
+  checkOut: Date | string
+): {
+  isValid: boolean;
+  error?: string;
+  errorFr?: string;
+} {
+  const nights = calculateNights(checkIn, checkOut);
+  const checkInDate = typeof checkIn === 'string' ? new Date(checkIn) : checkIn;
+  const checkOutDate = typeof checkOut === 'string' ? new Date(checkOut) : checkOut;
+  const hasHighSeasonDays = containsHighSeasonDays(checkIn, checkOut);
+
+  // Rule 1: If booking contains high season days, minimum 7 nights
+  if (hasHighSeasonDays && nights < 7) {
+    return {
+      isValid: false,
+      error: 'Bookings during holiday periods require a minimum of 7 nights',
+      errorFr: 'Les réservations pendant les périodes de vacances nécessitent un minimum de 7 nuits'
+    };
+  }
+
+  // Rule 2: If booking contains high season days, must be Sunday to Sunday
+  if (hasHighSeasonDays) {
+    const checkInIsSunday = isSunday(checkInDate);
+    const checkOutIsSunday = isSunday(checkOutDate);
+
+    if (!checkInIsSunday || !checkOutIsSunday) {
+      return {
+        isValid: false,
+        error: 'Holiday period bookings must run from Sunday to Sunday',
+        errorFr: 'Les réservations pendant les vacances doivent se faire du dimanche au dimanche'
+      };
+    }
+  }
+
+  // Rule 3: Low season minimum 3 nights
+  if (!hasHighSeasonDays && nights < 3) {
+    return {
+      isValid: false,
+      error: 'Minimum stay of 3 nights required',
+      errorFr: 'Séjour minimum de 3 nuits requis'
+    };
+  }
+
+  return { isValid: true };
 }
 
 // Class name utility

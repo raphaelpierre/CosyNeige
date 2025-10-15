@@ -33,7 +33,7 @@ export default function GuidePage() {
           <h3 style="color: #2d5843; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #2d5843; padding-bottom: 5px;">🏠 ${t({ en: 'Welcome & Check-in', fr: 'Bienvenue & Arrivée' })}</h3>
           <div style="margin-bottom: 15px;">
             <strong>${t({ en: 'Check-in Time', fr: 'Heure d\'Arrivée' })}</strong><br>
-            ${t({ en: 'Saturday from 4:00 PM. Please contact us if you need to arrive earlier.', fr: 'Samedi à partir de 16h00. Contactez-nous si vous devez arriver plus tôt.' })}
+            ${t({ en: 'Sunday from 4:00 PM. Please contact us if you need to arrive earlier.', fr: 'Dimanche à partir de 16h00. Contactez-nous si vous devez arriver plus tôt.' })}
           </div>
           <div style="margin-bottom: 15px;">
             <strong>${t({ en: 'Key Collection', fr: 'Récupération des Clés' })}</strong><br>
@@ -41,7 +41,7 @@ export default function GuidePage() {
           </div>
           <div style="margin-bottom: 15px;">
             <strong>${t({ en: 'WiFi Access', fr: 'Accès WiFi' })}</strong><br>
-            ${t({ en: 'Network: chalet-balmotte810 | Password: Alps2024!', fr: 'Réseau : chalet-balmotte810 | Mot de passe : Alps2024!' })}
+            ${t({ en: 'WiFi credentials will be provided upon arrival.', fr: 'Les identifiants WiFi vous seront communiqués à votre arrivée.' })}
           </div>
         </div>
 
@@ -172,7 +172,7 @@ export default function GuidePage() {
       items: [
         {
           subtitle: { en: 'Check-in Time', fr: 'Heure d\'Arrivée' },
-          content: { en: 'Saturday from 4:00 PM. Please contact us if you need to arrive earlier.', fr: 'Samedi à partir de 16h00. Contactez-nous si vous devez arriver plus tôt.' },
+          content: { en: 'Sunday from 4:00 PM. Please contact us if you need to arrive earlier.', fr: 'Dimanche à partir de 16h00. Contactez-nous si vous devez arriver plus tôt.' },
         },
         {
           subtitle: { en: 'Key Collection', fr: 'Récupération des Clés' },
@@ -180,7 +180,7 @@ export default function GuidePage() {
         },
         {
           subtitle: { en: 'WiFi Access', fr: 'Accès WiFi' },
-          content: { en: 'Network: chalet-balmotte810 | Password: Alps2024!', fr: 'Réseau : chalet-balmotte810 | Mot de passe : Alps2024!' },
+          content: { en: 'WiFi credentials will be provided upon arrival.', fr: 'Les identifiants WiFi vous seront communiqués à votre arrivée.' },
         },
       ],
     },
@@ -268,11 +268,11 @@ export default function GuidePage() {
         },
         {
           subtitle: { en: 'Local Doctor', fr: 'Médecin Local' },
-          content: { en: 'Dr Cecile NEUVILLERS, Cluses: +33 06 65 05 95 13', fr: 'Dr Cecile NEUVILLERS, Cluses : +33 4 50 98 XX XX' },
+          content: { en: 'Dr Cecile NEUVILLERS, Cluses: +33 6 65 05 95 13', fr: 'Dr Cecile NEUVILLERS, Cluses : +33 6 65 05 95 13' },
         },
         {
           subtitle: { en: 'Plumber/Electrician', fr: 'Plombier/Électricien' },
-          content: { en: 'For non-emergency repairs, contact us first. Emergency plumber: +33 06 01 61 67 49', fr: 'Pour réparations non urgentes, contactez-nous d\'abord. Plombier urgence : +33 6 XX XX XX XX' },
+          content: { en: 'For non-emergency repairs, contact us first. Emergency plumber: +33 6 01 61 67 49', fr: 'Pour réparations non urgentes, contactez-nous d\'abord. Plombier urgence : +33 6 01 61 67 49' },
         },
       ],
     },
@@ -282,7 +282,7 @@ export default function GuidePage() {
       items: [
         {
           subtitle: { en: 'Check-out Time', fr: 'Heure de Départ' },
-          content: { en: 'Saturday by 10:00 AM. Late check-out may be available upon request (additional fee).', fr: 'Samedi avant 10h00. Départ tardif possible sur demande (supplément).' },
+          content: { en: 'Sunday by 10:00 AM. Late check-out may be available upon request (additional fee).', fr: 'Dimanche avant 10h00. Départ tardif possible sur demande (supplément).' },
         },
         {
           subtitle: { en: 'Before You Leave', fr: 'Avant de Partir' },

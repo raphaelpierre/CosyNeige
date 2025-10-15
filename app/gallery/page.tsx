@@ -206,9 +206,9 @@ export default function GalleryPage() {
             ›
           </button>
 
-          {/* Image */}
+          {/* Image - Optimisé pour mobile paysage */}
           <div
-            className="relative w-full h-full max-w-7xl max-h-[85vh] m-8"
+            className="relative w-full h-full max-w-7xl max-h-[90vh] sm:max-h-[85vh] m-2 sm:m-8"
             onClick={(e) => e.stopPropagation()}
           >
             <Image
@@ -221,20 +221,20 @@ export default function GalleryPage() {
             />
           </div>
 
-          {/* Caption */}
-          <div className="absolute bottom-6 left-0 right-0 text-center px-4">
-            <div className="bg-black/80 backdrop-blur-md inline-block px-6 py-4 rounded-2xl border border-white/10">
-              <p className="text-white text-base sm:text-lg font-medium mb-1">
+          {/* Caption - Compacte sur mobile */}
+          <div className="absolute bottom-2 sm:bottom-6 left-0 right-0 text-center px-2 sm:px-4">
+            <div className="bg-black/70 sm:bg-black/80 backdrop-blur-md inline-block px-3 py-2 sm:px-6 sm:py-4 rounded-lg sm:rounded-2xl border border-white/10">
+              <p className="text-white text-xs sm:text-base md:text-lg font-medium mb-0.5 sm:mb-1 line-clamp-1 sm:line-clamp-2">
                 {t(filteredImages[selectedImage].alt)}
               </p>
-              <div className="flex items-center justify-center gap-3 text-gray-300 text-sm">
+              <div className="flex items-center justify-center gap-2 sm:gap-3 text-gray-300 text-xs sm:text-sm">
                 <span className="flex items-center gap-1">
                   <span className="text-white font-bold">{selectedImage + 1}</span>
                   <span>/</span>
                   <span>{filteredImages.length}</span>
                 </span>
-                <span className="text-gray-500">•</span>
-                <span className="flex items-center gap-1">
+                <span className="text-gray-500 hidden sm:inline">•</span>
+                <span className="items-center gap-1 hidden sm:flex">
                   {categories.find(c => c.value === filteredImages[selectedImage].category)?.icon}
                   <span className="capitalize">{t(categories.find(c => c.value === filteredImages[selectedImage].category)?.label || { en: '', fr: '' })}</span>
                 </span>
@@ -248,8 +248,8 @@ export default function GalleryPage() {
             <p className="sm:hidden">{t({ en: 'Tap to close', fr: 'Appuyer pour fermer' })}</p>
           </div>
 
-          {/* Thumbnail strip */}
-          <div className="absolute bottom-24 left-0 right-0 px-4 hidden lg:block">
+          {/* Thumbnail strip - Desktop uniquement pour ne pas encombrer mobile */}
+          <div className="absolute bottom-20 sm:bottom-24 left-0 right-0 px-4 hidden xl:block">
             <div className="max-w-4xl mx-auto flex gap-2 justify-center overflow-x-auto py-2">
               {filteredImages.slice(Math.max(0, selectedImage - 4), Math.min(filteredImages.length, selectedImage + 5)).map((img, idx) => {
                 const actualIndex = Math.max(0, selectedImage - 4) + idx;

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/lib/hooks/useLanguage';
-import { calculateNights, calculatePrice, formatEuro, getSeason } from '@/lib/utils';
+import { calculateNights, calculatePrice, formatEuro, getSeason, validateBookingDates } from '@/lib/utils';
 import BookingCalendar from '@/components/ui/BookingCalendar';
 import StripeProvider from '@/components/payment/StripeProvider';
 import PaymentForm from '@/components/payment/PaymentForm';
@@ -42,8 +42,8 @@ export default function BookingPage() {
   const nights = checkIn && checkOut ? calculateNights(checkIn, checkOut) : 0;
   const season = checkIn ? getSeason(new Date(checkIn)) : null;
   const priceCalculation = checkIn && checkOut ? calculatePrice(checkIn, checkOut) : null;
-  const minimumNights = season === 'high' ? 7 : 3;
-  const isValidStay = nights >= minimumNights;
+  const validation = checkIn && checkOut ? validateBookingDates(checkIn, checkOut) : { isValid: false };
+  const isValidStay = validation.isValid;
 
   // Définition des étapes (3 au lieu de 4)
   const steps: BookingStep[] = [
@@ -107,10 +107,18 @@ export default function BookingPage() {
 
   const handleDateSelect = (checkInDate: Date | null, checkOutDate: Date | null) => {
     if (checkInDate) {
-      setCheckIn(checkInDate.toISOString().split('T')[0]);
+      // Format local date without timezone offset
+      const year = checkInDate.getFullYear();
+      const month = String(checkInDate.getMonth() + 1).padStart(2, '0');
+      const day = String(checkInDate.getDate()).padStart(2, '0');
+      setCheckIn(`${year}-${month}-${day}`);
     }
     if (checkOutDate) {
-      setCheckOut(checkOutDate.toISOString().split('T')[0]);
+      // Format local date without timezone offset
+      const year = checkOutDate.getFullYear();
+      const month = String(checkOutDate.getMonth() + 1).padStart(2, '0');
+      const day = String(checkOutDate.getDate()).padStart(2, '0');
+      setCheckOut(`${year}-${month}-${day}`);
     }
   };
 
@@ -233,6 +241,66 @@ export default function BookingPage() {
                     </div>
                   </div>
 
+                  {/* Section Tarifs et Conditions */}
+                  <div className="bg-gradient-to-br from-blue-50 to-white border-2 border-blue-200 rounded-xl p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-2xl">💰</span>
+                      <h4 className="text-lg font-bold text-gray-900">
+                        {t({ en: 'Rates & Conditions', fr: 'Tarifs & Conditions' })}
+                      </h4>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <div className="bg-white rounded-lg p-4 border border-blue-100">
+                        <div className="text-sm text-gray-600 mb-1">
+                          {t({ en: 'Holiday periods', fr: 'Périodes de vacances' })}
+                        </div>
+                        <div className="text-2xl font-bold text-blue-900 mb-2">410€ / {t({ en: 'night', fr: 'nuit' })}</div>
+                        <div className="text-xs text-gray-600 space-y-1">
+                          <div>• {t({ en: 'Christmas (Dec 20 - Jan 7)', fr: 'Noël (20 déc - 7 jan)' })}</div>
+                          <div>• {t({ en: 'February (all month)', fr: 'Février (tout le mois)' })}</div>
+                          <div>• {t({ en: 'Easter (Mar 24 - Apr 14)', fr: 'Pâques (24 mars - 14 avr)' })}</div>
+                        </div>
+                      </div>
+
+                      <div className="bg-white rounded-lg p-4 border border-green-100">
+                        <div className="text-sm text-gray-600 mb-1">
+                          {t({ en: 'Other periods', fr: 'Autres périodes' })}
+                        </div>
+                        <div className="text-2xl font-bold text-green-900 mb-2">310€ / {t({ en: 'night', fr: 'nuit' })}</div>
+                        <div className="text-xs text-gray-600">
+                          {t({ en: 'All other dates throughout the year', fr: 'Toutes les autres dates de l\'année' })}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+                      <div className="text-sm font-semibold text-yellow-900 mb-2">
+                        📋 {t({ en: 'Booking Conditions', fr: 'Conditions de Réservation' })}
+                      </div>
+                      <div className="text-sm text-yellow-800 space-y-1">
+                        <div>
+                          ✓ {t({
+                            en: 'Holiday periods: Sunday to Sunday, minimum 7 nights',
+                            fr: 'Périodes vacances : Dimanche au dimanche, minimum 7 nuits'
+                          })}
+                        </div>
+                        <div>
+                          ✓ {t({
+                            en: 'Other periods: Minimum 3 nights',
+                            fr: 'Autres périodes : Minimum 3 nuits'
+                          })}
+                        </div>
+                        <div>
+                          ✓ {t({ en: 'Cleaning fee: 450€', fr: 'Frais de ménage : 450€' })}
+                        </div>
+                        <div>
+                          ✓ {t({ en: 'Security deposit: 1,500€', fr: 'Caution : 1 500€' })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
                     {/* Sélecteur personnes */}
                     <div className="lg:col-span-2">
@@ -295,14 +363,14 @@ export default function BookingPage() {
                           <div className="flex items-center justify-center gap-2 mb-2">
                             <span className="text-red-500 text-xl">⚠️</span>
                             <h4 className="text-red-800 font-bold">
-                              {t({ en: 'Minimum stay required', fr: 'Séjour minimum requis' })}
+                              {t({ en: 'Invalid booking period', fr: 'Période de réservation invalide' })}
                             </h4>
                           </div>
                           <p className="text-red-700 text-sm">
-                            {season === 'high'
-                              ? t({ en: `Need 7+ nights (selected: ${nights})`, fr: `Minimum 7 nuits (sélectionné : ${nights})` })
-                              : t({ en: `Need 3+ nights (selected: ${nights})`, fr: `Minimum 3 nuits (sélectionné : ${nights})` })
-                            }
+                            {t({
+                              en: validation.error || 'Invalid dates',
+                              fr: validation.errorFr || 'Dates invalides'
+                            })}
                           </p>
                         </div>
                       ) : (
