@@ -1,671 +1,352 @@
-# 🏔️ Chalet Balmotte 810 - Système de Réservation Alpine
+# 🏔️ Chalet Balmotte 810
 
-**Chalet Balmotte 810** est une plateforme de réservation pour un magnifique chalet alpin dans les Alpes françaises. Construit avec des technologies web modernes, il offre une expérience de réservation complète avec une interface utilisateur rationalisée, un support multilingue et une gestion complète des réservations.
+Une plateforme de réservation moderne pour un chalet alpin premium dans les Alpes françaises.
 
-🌐 **Site Web:** https://www.chalet-balmotte810.com
+**🌐 Site Web:** https://www.chalet-balmotte810.com
 
-## ✨ Key Features
+---
 
-### 🏠 **Luxury Chalet Experience**
-- **Premium mountain retreat** with stunning alpine views
-- **Complete amenities showcase** with detailed descriptions
-- **High-quality photo gallery** with categorized images
-- **Interactive location mapping** and area information
+## ✨ Fonctionnalités Principales
 
-### 🚀 **Enhanced Booking System**
-- **Unified booking interface** with consolidated calendar and pricing calculator
-- **Lightning-fast account creation** with incentive-driven registration flow
-- **Real-time availability checking** and instant booking confirmation
-- **Comprehensive payment options** (Stripe online payments + bank transfers)
-- **Professional invoice generation** with PDF export functionality
+### 🏠 Chalet de Luxe
+- **Capacité 10 personnes** - 4 chambres, 3 salles de bains (180m²)
+- **Équipements premium** - Sauna privatif, jacuzzi extérieur, cheminée, local à ski
+- **Localisation stratégique** - Entre vallées de l'Arve et du Giffre
+- **Accès à 5 stations de ski** en moins de 30 minutes
 
-### 👥 **User Management**
-- **Secure authentication system** with JWT tokens and bcrypt hashing
-- **Client dashboard** with booking history and profile management
-- **Admin panel** with complete reservation and user management
-- **Message center** for seamless host-guest communication
+### 📱 Système de Réservation
+- **Calendrier interactif** avec vérification temps réel des disponibilités
+- **Calculateur de prix automatique** avec tarifs saisonniers
+- **Paiements sécurisés** (Stripe + virement bancaire)
+- **Génération de factures PDF** professionnelles
+- **Confirmation instantanée** par email
 
-### 🌍 **Internationalization**
-- **Full bilingual support** (French/English)
-- **Context-aware translations** with custom language hooks
-- **SEO-optimized multilingual content**
+### 👥 Gestion Utilisateurs
+- **Authentification sécurisée** (JWT + bcrypt)
+- **Dashboard client** - Historique réservations, profil, messages
+- **Panel admin** - Gestion complète réservations, utilisateurs, messages
+- **Système de messagerie** intégré
 
-## 🛠️ Tech Stack
+### 🌍 Interface Multilingue
+- **Support bilingue** complet (Français/English)
+- **Traductions contextuelles** avec hook personnalisé
+- **SEO optimisé** pour les deux langues
 
-### **Frontend**
-- **Next.js 15.5.4** with App Router
-- **React 19.1.0** with TypeScript
-- **Tailwind CSS 4.0** for modern styling
-- **jsPDF + html2canvas** for PDF generation
-- **React DatePicker** for calendar functionality
+---
 
-### **Backend & Database**
-- **Prisma ORM** with Neon PostgreSQL
-- **NextAuth.js** for authentication
-- **JWT tokens** for secure session management
-- **bcryptjs** for password security
+## 🛠️ Stack Technique
 
-### **Payment & Communication**
-- **Stripe integration** for secure online payments
-- **Resend** for email notifications
-- **Bank transfer support** with manual processing
+### Frontend
+- **Next.js 15.5.4** (App Router)
+- **React 19.1.0** avec TypeScript
+- **Tailwind CSS 4.0**
+- **jsPDF + html2canvas** pour génération PDF
+- **React DatePicker** pour calendrier
 
-### **Development & Deployment**
-- **TypeScript** for type safety
-- **ESLint** for code quality
-- **Vercel** for production deployment
-- **Git** version control with GitHub
+### Backend & Base de Données
+- **Prisma ORM** avec PostgreSQL (Neon)
+- **NextAuth.js** pour authentification
+- **JWT tokens** pour sessions
+- **bcryptjs** pour sécurité mots de passe
 
-## 📊 Database Schema
+### Paiements & Communication
+- **Stripe** pour paiements en ligne
+- **Resend** pour notifications email
+- **Support virement bancaire**
+
+### Déploiement
+- **Vercel** (production)
+- **Vercel Analytics** & **Speed Insights**
+- **GitHub** pour versioning
+
+---
+
+## 📊 Architecture Base de Données
 
 ```prisma
-model User {
-  id           String        @id @default(cuid())
-  email        String        @unique
-  firstName    String
-  lastName     String
-  phone        String?
-  role         String        @default("client")
-  password     String
-  reservations Reservation[]
-  messages     Message[]
-  createdAt    DateTime      @default(now())
-}
+User           # Comptes utilisateurs (clients + admin)
+├─ id, email, password, role
+├─ firstName, lastName, phone
+└─ reservations[], messages[]
 
-model Reservation {
-  id           String   @id @default(cuid())
-  checkIn      DateTime
-  checkOut     DateTime
-  guests       Int
-  totalPrice   Float
-  status       String   @default("pending")
-  message      String?
-  userId       String?
-  guestEmail   String
-  guestName    String
-  guestPhone   String?
-  user         User?    @relation(fields: [userId], references: [id])
-  createdAt    DateTime @default(now())
-}
+Reservation    # Système de réservation
+├─ guestName, firstName, lastName
+├─ checkIn, checkOut, guests
+├─ totalPrice, status, paymentStatus
+└─ userId (relation User)
 
-model Message {
-  id         String   @id @default(cuid())
-  subject    String
-  content    String
-  userId     String?
-  guestEmail String?
-  guestName  String?
-  isFromAdmin Boolean @default(false)
-  read       Boolean  @default(false)
-  replyTo    String?
-  user       User?    @relation(fields: [userId], references: [id])
-  createdAt  DateTime @default(now())
-}
+Message        # Messagerie interne
+├─ subject, content
+├─ fromUserId, fromEmail, fromName
+├─ isFromAdmin, read, replyTo
+└─ fromUser (relation User)
 
-model ContactMessage {
-  id        String   @id @default(cuid())
-  name      String
-  email     String
-  subject   String
-  message   String
-  createdAt DateTime @default(now())
-}
+ContactMessage # Formulaire contact public
+├─ name, email, subject
+└─ message, read
 
-model BookedPeriod {
-  id        String   @id @default(cuid())
-  startDate DateTime
-  endDate   DateTime
-  reason    String?
-  createdAt DateTime @default(now())
-}
+BookedPeriod   # Gestion disponibilités
+└─ startDate, endDate
 ```
 
-## 🚀 Getting Started
+---
 
-### **Prerequisites**
-- Node.js 18+ 
+## 🚀 Installation & Démarrage
+
+### Prérequis
+- Node.js 18+
+- PostgreSQL (recommandé: Neon.tech)
 - npm/yarn/pnpm
-- PostgreSQL database (recommended: Neon.tech)
 
-### **Installation**
+### Installation
 
-1. **Clone the repository**
 ```bash
+# 1. Cloner le repository
 git clone https://github.com/raphaelpierre/CosyNeige.git
-cd chalet-balmotte810
-```
+cd CosyNeige
 
-2. **Install dependencies**
-```bash
+# 2. Installer les dépendances
 npm install
-```
 
-3. **Set up environment variables**
-```bash
-# Create .env.local file
-DATABASE_URL="postgresql://username:password@host:port/database"
-NEXTAUTH_SECRET="your-super-secret-nextauth-key-32-chars-min"
-NEXTAUTH_URL="http://localhost:3000"
-JWT_SECRET="your-super-secret-jwt-key-32-chars-min"
+# 3. Configurer les variables d'environnement
+cp .env.example .env.local
 
-# Optional: Email configuration
-RESEND_API_KEY="your-resend-api-key"
+# Éditer .env.local avec vos valeurs :
+# DATABASE_URL="postgresql://..."
+# NEXTAUTH_SECRET="..." (min 32 caractères)
+# NEXTAUTH_URL="http://localhost:3000"
+# JWT_SECRET="..." (min 32 caractères)
+# RESEND_API_KEY="..." (optionnel)
+# NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="..." (optionnel)
+# STRIPE_SECRET_KEY="..." (optionnel)
 
-# Optional: Stripe configuration
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."
-STRIPE_SECRET_KEY="sk_test_..."
-```
-
-4. **Initialize database**
-```bash
+# 4. Initialiser la base de données
 npx prisma generate
 npx prisma db push
-```
 
-5. **Run development server**
-```bash
+# 5. Lancer le serveur de développement
 npm run dev
+
+# 6. Ouvrir http://localhost:3000
 ```
 
-6. **Open application**
-Navigate to [http://localhost:3000](http://localhost:3000)
+---
 
-## 📁 Project Structure
+## 📁 Structure du Projet
 
 ```
-chalet-balmotte810/
-├── app/                          # Next.js App Router
-│   ├── api/                     # API routes
-│   │   ├── auth/               # Authentication endpoints
-│   │   ├── reservations/       # Booking management
-│   │   ├── messages/           # Communication system
-│   │   └── admin/              # Admin-only endpoints
-│   ├── booking/                # Booking flow
-│   │   ├── page.tsx           # Main booking page with unified interface
-│   │   └── confirmation/       # Booking confirmation
-│   ├── client/                 # Client area
-│   │   ├── login/             # User authentication
-│   │   └── dashboard/          # User dashboard with Suspense
-│   ├── admin/                  # Admin panel
-│   │   └── page.tsx           # Complete admin interface
-│   ├── chalet/                 # Property showcase
-│   ├── gallery/                # Photo gallery
-│   ├── location/               # Area information
-│   └── contact/                # Contact form
-├── components/                  # Reusable components
-│   ├── booking/               # Booking-specific components
-│   ├── invoice/               # PDF generation components
-│   │   ├── AdminInvoiceGeneratorFixed.tsx  # Fixed PDF generator
-│   │   └── InvoiceGenerator.tsx            # Client invoice component
-│   ├── layout/                # Navigation and footer
-│   └── ui/                    # Generic UI components
-├── lib/                        # Utilities and configurations
-│   ├── data/                  # Static chalet data
-│   ├── hooks/                 # Custom React hooks
-│   ├── context/               # React context providers
-│   └── utils/                 # Helper functions
-├── prisma/                     # Database configuration
-│   ├── schema.prisma          # Database schema
-│   └── migrations/            # Database migrations
-└── public/                     # Static assets
+CosyNeige/
+├── app/                     # Next.js App Router
+│   ├── api/                # Routes API
+│   │   ├── auth/          # Authentification
+│   │   ├── reservations/  # Gestion réservations
+│   │   ├── messages/      # Messagerie
+│   │   ├── payments/      # Paiements Stripe
+│   │   └── admin/         # Endpoints admin
+│   ├── booking/           # Flux de réservation
+│   ├── client/            # Espace client
+│   ├── admin/             # Panel admin
+│   ├── gallery/           # Galerie photos
+│   ├── location/          # Informations localisation
+│   ├── contact/           # Formulaire contact
+│   └── guide/             # Guide voyageur
+├── components/            # Composants réutilisables
+│   ├── booking/          # Composants réservation
+│   ├── invoice/          # Génération PDF factures
+│   ├── layout/           # Navigation, Footer
+│   ├── payment/          # Composants paiement
+│   └── ui/               # Composants UI génériques
+├── lib/                  # Utilitaires
+│   ├── data/            # Données statiques chalet
+│   ├── hooks/           # Hooks React personnalisés
+│   ├── context/         # Providers contexte
+│   ├── translations/    # Support i18n
+│   └── utils/           # Fonctions helpers
+├── prisma/              # Configuration BDD
+│   └── schema.prisma    # Schéma Prisma
+└── public/              # Assets statiques
+    └── images/          # Images chalet
 ```
 
-## 🎯 Enhanced Features
+---
 
-### **Optimized Booking Experience**
-- **Single-page booking flow** with unified calendar and calculator
-- **Account creation incentives** with clear benefits (auto-fill, history, exclusive offers)
-- **Improved button accessibility** with enhanced contrast
-- **Payment transparency** with detailed Stripe and bank transfer information
+## 🎯 API Routes
 
-### **Professional PDF Generation**
-- **CSS-compatible invoice generator** using inline styles
-- **Professional invoice templates** with chalet branding
-- **Cross-browser PDF generation** support
-- **Automatic invoice numbering** and date formatting
-
-### **Modern User Interface**
-- **Responsive design** optimized for all devices
-- **Smooth animations** and hover effects
-- **Accessibility-first** approach with proper ARIA labels
-- **Loading states** and error handling throughout
-
-### **Advanced Admin Features**
-- **Complete reservation management** with status updates
-- **User management** with role-based access
-- **Message center** with real-time communication
-- **Invoice generation** and export functionality
-
-## 🏗️ API Reference
-
-### **Authentication**
-```typescript
-POST /api/auth/register    // User registration
-POST /api/auth/login       // User authentication
-POST /api/auth/logout      // Session termination
-GET  /api/auth/me          // Current user information
+### Authentification
+```
+POST   /api/auth/register     # Inscription utilisateur
+POST   /api/auth/login        # Connexion
+POST   /api/auth/logout       # Déconnexion
+GET    /api/auth/me           # Info utilisateur actuel
 ```
 
-### **Reservations**
-```typescript
-GET    /api/reservations      // List reservations (user-specific or admin)
-POST   /api/reservations      // Create new reservation
-PUT    /api/reservations/[id] // Update reservation details
-DELETE /api/reservations/[id] // Cancel reservation
+### Réservations
+```
+GET    /api/reservations      # Liste réservations (user/admin)
+POST   /api/reservations      # Créer réservation
+PUT    /api/reservations/[id] # Modifier réservation
+DELETE /api/reservations/[id] # Annuler réservation
 ```
 
-### **Communication**
-```typescript
-GET  /api/messages           // Retrieve user messages
-POST /api/messages           // Send new message
-POST /api/contact            // Submit contact form
+### Disponibilités
+```
+GET    /api/booked-periods    # Périodes réservées
+POST   /api/booked-periods    # Bloquer période (admin)
 ```
 
-### **Admin Endpoints**
-```typescript
-GET    /api/admin/reservations // All reservations management
-GET    /api/admin/users        // User management
-GET    /api/admin/messages     // Message management
-DELETE /api/admin/messages/[id] // Delete messages
+### Communication
 ```
+GET    /api/messages          # Récupérer messages
+POST   /api/messages          # Envoyer message
+POST   /api/contact           # Soumettre formulaire contact
+```
+
+### Administration
+```
+GET    /api/admin/reservations # Toutes réservations
+GET    /api/admin/users        # Gestion utilisateurs
+GET    /api/admin/messages     # Tous messages
+DELETE /api/admin/messages/[id] # Supprimer message
+POST   /api/admin/invoices     # Générer facture
+```
+
+### Paiements
+```
+POST   /api/payments/create-payment-intent # Intent Stripe
+```
+
+---
 
 ## 🎨 Design System
 
-### **Color Palette**
-- **Primary:** Forest Green (#1a5b3c)
-- **Secondary:** Warm Gold (#d4af37)
-- **Accent:** Mountain Blue (#2563eb)
-- **Neutral:** Warm Grays (#64748b, #94a3b8, #e2e8f0)
+### Palette de Couleurs
+- **Primary:** Forest Green `#1a5b3c`
+- **Secondary:** Warm Gold `#d4af37`
+- **Accent:** Mountain Blue `#2563eb`
+- **Neutral:** Warm Grays `#64748b`, `#94a3b8`, `#e2e8f0`
 
-### **Typography**
-- **Headings:** Bold, modern sans-serif
-- **Body:** Clean, readable typography
-- **Buttons:** Clear, actionable text with icons
+### Composants
+- **Cards** - Coins arrondis avec ombres subtiles
+- **Buttons** - Gradients avec effets hover
+- **Forms** - Labels clairs avec états validation
+- **Modals** - Overlays centrés avec backdrop blur
 
-### **Components**
-- **Cards:** Rounded corners with subtle shadows
-- **Buttons:** Gradient backgrounds with hover effects
-- **Forms:** Clear labels with validation states
-- **Modals:** Centered overlays with backdrop blur
+---
 
-## 🔐 Security Features
+## 🔐 Sécurité
 
-- **Password hashing** with bcryptjs (12 rounds)
-- **JWT session management** with secure secrets
-- **Input validation** and XSS protection
-- **CSRF protection** via NextAuth.js
-- **Role-based access control** (client/admin)
-- **Protected API routes** with authentication middleware
+- **Hashing mots de passe** - bcryptjs (12 rounds)
+- **Gestion sessions JWT** avec secrets sécurisés
+- **Protection XSS** via validation entrées
+- **Protection CSRF** via NextAuth.js
+- **Contrôle accès par rôles** (client/admin)
+- **Routes API protégées** avec middleware authentification
 
-## 📈 Performance Optimizations
+---
 
-- **Next.js App Router** with automatic code splitting
-- **Static page generation** for public content
-- **Image optimization** with Next.js Image component
-- **Lazy loading** for photo galleries
-- **Database query optimization** with Prisma
-- **Vercel Edge Functions** for API routes
+## 📈 Optimisations Performance
 
-## 🚀 Deployment
+- **Code splitting automatique** (Next.js App Router)
+- **Génération statique** pour contenu public
+- **Optimisation images** (Next.js Image)
+- **Lazy loading** galeries photos
+- **Optimisation requêtes DB** (Prisma)
+- **Edge Functions** (Vercel)
 
-### **Vercel Deployment** (Current)
+---
+
+## 🚀 Déploiement Production
+
+### Déploiement Vercel
+
 ```bash
+# Via CLI
 npx vercel --prod
+
+# Ou push sur main (déploiement auto)
+git push origin main
 ```
 
-**Production URL:** https://www.chalet-balmotte810.com
+### Variables d'Environnement Vercel
 
-### **Environment Configuration**
-Ensure these variables are set in Vercel dashboard:
+Configurer dans Dashboard Vercel > Settings > Environment Variables :
+
 ```bash
 DATABASE_URL=postgresql://...
-NEXTAUTH_SECRET=your-secret
-NEXTAUTH_URL=https://your-domain.vercel.app
-JWT_SECRET=your-jwt-secret
+NEXTAUTH_SECRET=your-secret-32-chars-min
+NEXTAUTH_URL=https://your-domain.com
+JWT_SECRET=your-jwt-secret-32-chars-min
+RESEND_API_KEY=re_...
+ADMIN_EMAIL=admin@your-domain.com
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_...
+STRIPE_SECRET_KEY=sk_...
 ```
 
-### **Database Setup**
-1. Create PostgreSQL database (Neon.tech recommended)
-2. Run migrations: `npx prisma migrate deploy`
-3. Generate Prisma client: `npx prisma generate`
-
-## 🛣️ Roadmap
-
-### **Phase 1: Enhanced Features** ✅
-- [x] Unified booking interface
-- [x] Account creation incentives
-- [x] PDF generation fixes
-- [x] Payment information enhancement
-- [x] Vercel deployment
-
-### **Phase 2: Payment Integration** 🚧
-- [ ] Complete Stripe payment flow
-- [ ] Automated invoice generation
-- [ ] Payment confirmation emails
-- [ ] Refund management system
-
-### **Phase 3: Advanced Features** 📋
-- [ ] Calendar synchronization (Airbnb, Booking.com)
-- [ ] Automated email workflows
-- [ ] Review and rating system
-- [ ] Dynamic pricing algorithm
-- [ ] Mobile app (React Native)
-- [ ] Advanced analytics dashboard
-
-### **Phase 4: Business Features** 🎯
-- [ ] Multi-property support
-- [ ] Property management tools
-- [ ] Revenue analytics
-- [ ] Guest communication automation
-- [ ] Maintenance scheduling
-- [ ] Insurance integration
-
-## 🤝 Contributing
-
-1. **Fork the repository**
-2. **Create feature branch** (`git checkout -b feature/amazing-feature`)
-3. **Make changes** with proper TypeScript types
-4. **Test thoroughly** (build, functionality, responsiveness)
-5. **Commit changes** (`git commit -m 'Add amazing feature'`)
-6. **Push to branch** (`git push origin feature/amazing-feature`)
-7. **Open Pull Request** with detailed description
-
-### **Development Guidelines**
-- Follow TypeScript best practices
-- Use Tailwind CSS for styling
-- Implement proper error handling
-- Add JSDoc comments for functions
-- Ensure mobile responsiveness
-- Test with both French and English content
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Contact & Support
-
-**Developer:** Raphaël Pierre  
-**GitHub:** [@raphaelpierre](https://github.com/raphaelpierre)  
-**Project Repository:** [Chalet Balmotte 810](https://github.com/raphaelpierre/CosyNeige)  
-**Live Application:** [Chalet Balmotte 810](https://www.chalet-balmotte810.com)
+Voir [DEPLOYMENT.md](DEPLOYMENT.md) pour instructions détaillées.
 
 ---
 
-## 🏔️ À propos du Chalet Balmotte 810
+## 🛣️ Roadmap
 
-*Le Chalet Balmotte 810 représente la fusion parfaite entre la technologie moderne et l'hospitalité alpine. Notre plateforme transforme l'expérience traditionnelle de location de chalet avec des réservations simplifiées, une tarification transparente et une expérience utilisateur exceptionnelle - tout en préservant le charme authentique des retraites de montagne.*
+### ✅ Phase 1 - Complétée
+- Interface réservation unifiée
+- Génération factures PDF
+- Système paiement multiple
+- Déploiement Vercel
 
-**Découvrez la magie des Alpes françaises avec le Chalet Balmotte 810 - où la technologie rencontre la sérénité montagnarde.** ✨
+### 🚧 Phase 2 - En cours
+- Flux Stripe complet
+- Emails automatiques confirmations
+- Système remboursements
+
+### 📋 Phase 3 - Planifiée
+- Synchronisation calendriers externes (Airbnb, Booking.com)
+- Système avis clients
+- Tarification dynamique
+- Analytics avancés
+- Application mobile React Native
 
 ---
 
-*Built with ❤️ for the mountains | Deployed on Vercel | Powered by Next.js*
+## 🤝 Contribution
 
-## ✨ Features
+1. Fork le repository
+2. Créer une branche feature (`git checkout -b feature/nouvelle-fonctionnalite`)
+3. Commit les changements (`git commit -m 'Ajout nouvelle fonctionnalité'`)
+4. Push vers la branche (`git push origin feature/nouvelle-fonctionnalite`)
+5. Ouvrir une Pull Request
 
-### 🏠 **Chalet Showcase**
+### Guidelines Développement
+- Suivre les best practices TypeScript
+- Utiliser Tailwind CSS pour styling
+- Implémenter gestion erreurs appropriée
+- Ajouter commentaires JSDoc
+- Assurer responsiveness mobile
+- Tester avec les deux langues (FR/EN)
 
-- **10-person capacity** luxury chalet with 4 bedrooms, 3 bathrooms (180m²)
-- **Premium amenities**: Private sauna, outdoor hot tub, wood fireplace, ski room
-- **Strategic location** between Arve and Giffre valleys
-- **Access to 5 major ski resorts** within 30 minutes
+---
 
-### 📱 **User Experience**
+## 📄 Licence
 
-- **Responsive design** optimized for all devices
-- **Bilingual support** (English/French) with context-aware translation
-- **Interactive booking calendar** with real-time availability
-- **Photo gallery** with categorized images
-- **Guest testimonials** and detailed amenities showcase
+Ce projet est sous licence MIT. Voir [LICENSE](LICENSE) pour détails.
 
-### 🔧 **Technical Features**
-
-- **Real-time booking system** with calendar integration
-- **User authentication** with NextAuth.js
-- **Admin dashboard** for reservation management
-- **Contact messaging system**
-- **Automated availability tracking**
-
-## 🛠️ Tech Stack
-
-### **Frontend**
-
-- **Next.js 15.5.4** (App Router)
-- **React 19.1.0** with TypeScript
-- **Tailwind CSS 4** for styling
-- **Custom language hook** for i18n
-
-### **Backend & Database**
-
-- **Prisma ORM** with SQLite database
-- **NextAuth.js** for authentication
-- **bcryptjs** for password hashing
-- **JWT tokens** for session management
-
-### **APIs & Integration**
-
-- **REST API routes** for all CRUD operations
-- **Unsplash integration** for high-quality imagery
-- **Responsive image optimization**
-
-## 📊 Database Schema
-
-```sql
-User           - User accounts with authentication
-Reservation    - Booking management with guest details
-Message        - Internal messaging system
-ContactMessage - Public contact form submissions
-BookedPeriod   - Availability tracking
-```
-
-## 🚀 Getting Started
-
-### **Prerequisites**
-
-- Node.js 18+
-- npm, yarn, or pnpm
-
-### **Installation**
-
-1. **Clone the repository**
-
-```bash
-git clone https://github.com/raphaelpierre/Chalet-Balmotte810.git
-cd Chalet-Balmotte810
-```
-
-2. **Install dependencies**
-
-```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
-```
-
-3. **Set up environment variables**
-
-```bash
-# Create .env.local file
-DATABASE_URL="file:./dev.db"
-NEXTAUTH_SECRET="your-secret-key"
-NEXTAUTH_URL="http://localhost:3000"
-```
-
-4. **Initialize database**
-
-```bash
-npx prisma generate
-npx prisma db push
-```
-
-5. **Run development server**
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-6. **Open application**
-
-Navigate to [http://localhost:3000](http://localhost:3000)
-
-## 📁 Project Structure
-
-```text
-Chalet-Balmotte810/
-├── app/                    # Next.js App Router
-│   ├── api/               # API routes (auth, reservations, messages)
-│   ├── booking/           # Booking flow pages
-│   ├── client/            # Client dashboard
-│   ├── admin/             # Admin panel
-│   └── [pages]/           # Public pages
-├── components/            # Reusable UI components
-│   ├── booking/          # Booking-specific components
-│   ├── layout/           # Layout components (Nav, Footer)
-│   └── ui/               # Generic UI components
-├── lib/                  # Utilities and configurations
-│   ├── data/             # Static data (chalet info, pricing)
-│   ├── hooks/            # Custom React hooks
-│   └── utils/            # Helper functions
-├── prisma/               # Database schema and migrations
-├── public/               # Static assets
-└── types/                # TypeScript type definitions
-```
-
-## 🎯 Key Pages & Features
-
-### **Public Pages**
-
-- **Homepage** (`/`) - Hero showcase with chalet overview
-- **Chalet Details** (`/chalet`) - Detailed property information
-- **Gallery** (`/gallery`) - Photo gallery with categories
-- **Booking** (`/booking`) - Interactive booking calendar
-- **Location** (`/location`) - Area information and activities
-- **Contact** (`/contact`) - Contact form and information
-
-### **User Features**
-
-- **Client Dashboard** (`/client/dashboard`) - Booking management
-- **Booking Confirmation** (`/booking/confirmation`) - Post-booking details
-
-### **Admin Features**
-
-- **Admin Panel** (`/admin`) - Comprehensive management dashboard
-- **Reservation Management** - View, confirm, cancel bookings
-- **Message Center** - Handle customer inquiries
-- **Availability Control** - Manage blocked periods
-
-## 🌍 Internationalization
-
-The platform supports **English** and **French** with:
-
-- Context-aware translations using custom `useLanguage` hook
-- Seamless language switching
-- Localized content for all user-facing text
-- SEO-friendly multilingual URLs
-
-## 🏗️ API Endpoints
-
-### **Authentication**
-
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `POST /api/auth/logout` - User logout
-- `GET /api/auth/me` - Current user info
-
-### **Reservations**
-
-- `GET /api/reservations` - List all reservations
-- `POST /api/reservations` - Create new reservation
-- `PUT /api/reservations/[id]` - Update reservation
-- `DELETE /api/reservations/[id]` - Cancel reservation
-
-### **Availability**
-
-- `GET /api/booked-periods` - Get unavailable dates
-- `POST /api/booked-periods` - Block periods
-
-### **Communication**
-
-- `GET /api/messages` - Retrieve messages
-- `POST /api/messages` - Send new message
-
-## 🎨 Design System
-
-- **Forest Green** primary color scheme
-- **Gold accents** for premium feel
-- **Responsive grid layouts**
-- **Smooth animations** and transitions
-- **Mountain photography** integration
-- **Accessibility-first** approach
-
-## 🔐 Security Features
-
-- **Password hashing** with bcryptjs
-- **JWT session management**
-- **Input validation** and sanitization
-- **Protected API routes**
-- **CSRF protection** with NextAuth.js
-
-## 📈 Performance Optimizations
-
-- **Next.js Image optimization**
-- **Lazy loading** for gallery images
-- **Code splitting** with App Router
-- **Static generation** for public pages
-- **Database query optimization**
-
-## 🚀 Deployment
-
-The application is optimized for deployment on:
-
-### **Vercel (Recommended)**
-
-```bash
-vercel --prod
-```
-
-### **Alternative Platforms**
-
-- Railway
-- Netlify
-- DigitalOcean App Platform
-- Traditional VPS with Docker
-
-## 🛣️ Roadmap
-
-- [ ] **Payment integration** (Stripe/PayPal)
-- [ ] **Calendar synchronization** with external platforms
-- [ ] **Email notifications** for bookings
-- [ ] **Mobile app** (React Native)
-- [ ] **Advanced analytics** dashboard
-- [ ] **Multi-property support**
-- [ ] **Guest review system**
-- [ ] **Automated pricing** based on demand
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+---
 
 ## 📞 Contact
 
-**Raphaël Pierre** - [@raphaelpierre](https://github.com/raphaelpierre)
-
-Project Link: [https://github.com/raphaelpierre/Chalet-Balmotte810](https://github.com/raphaelpierre/Chalet-Balmotte810)
+**Développeur:** Raphaël Pierre
+**GitHub:** [@raphaelpierre](https://github.com/raphaelpierre)
+**Repository:** [CosyNeige](https://github.com/raphaelpierre/CosyNeige)
+**Site Web:** [chalet-balmotte810.com](https://www.chalet-balmotte810.com)
 
 ---
 
-*Experience the magic of the French Alps with Chalet-Balmotte810 - where luxury meets authentic mountain charm.* 🏔️✨
+## 📚 Documentation Complémentaire
+
+- [Guide de Déploiement](DEPLOYMENT.md) - Instructions déploiement détaillées
+- [Configuration Email](EMAIL_SETUP.md) - Setup emails avec Resend
+- [Accès Admin](ADMIN_LOGIN_GUIDE.md) - Guide connexion administrateur
+
+---
+
+*Construit avec ❤️ pour les montagnes | Déployé sur Vercel | Propulsé par Next.js*
