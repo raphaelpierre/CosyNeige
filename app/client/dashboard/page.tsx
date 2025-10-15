@@ -24,6 +24,7 @@ interface Message {
   fromName: string;
   isFromAdmin: boolean;
   read: boolean;
+  archived: boolean;
   replyTo?: string;
   createdAt: string;
 }
@@ -42,6 +43,18 @@ function ClientDashboardContent() {
   const [showMessageForm, setShowMessageForm] = useState(false);
   const [messageForm, setMessageForm] = useState({ subject: '', content: '', replyTo: '' });
   const [sendingMessage, setSendingMessage] = useState(false);
+
+  // Message editing state
+  const [editingMessage, setEditingMessage] = useState<string | null>(null);
+  const [editMessageForm, setEditMessageForm] = useState({ subject: '', content: '' });
+  const [isUpdatingMessage, setIsUpdatingMessage] = useState(false);
+
+  // Message deletion state
+  const [deletingMessage, setDeletingMessage] = useState<string | null>(null);
+  const [isDeletingMessage, setIsDeletingMessage] = useState(false);
+
+  // Archive filter
+  const [showArchivedMessages, setShowArchivedMessages] = useState(false);
 
   // Reservation editing state
   const [editingReservation, setEditingReservation] = useState<string | null>(null);
@@ -125,6 +138,101 @@ function ClientDashboardContent() {
       alert(t({ en: 'Error sending message', fr: 'Erreur lors de l\'envoi du message' }));
     } finally {
       setSendingMessage(false);
+    }
+  };
+
+  const startEditMessage = (message: Message) => {
+    setEditingMessage(message.id);
+    setEditMessageForm({
+      subject: message.subject,
+      content: message.content
+    });
+  };
+
+  const cancelEditMessage = () => {
+    setEditingMessage(null);
+    setEditMessageForm({ subject: '', content: '' });
+  };
+
+  const handleUpdateMessage = async (messageId: string) => {
+    setIsUpdatingMessage(true);
+
+    try {
+      const response = await fetch(`/api/messages/${messageId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editMessageForm),
+      });
+
+      if (response.ok) {
+        alert(t({
+          en: 'Message updated successfully!',
+          fr: 'Message modifié avec succès !'
+        }));
+        setEditingMessage(null);
+        fetchUserData(); // Recharger les messages
+      } else {
+        throw new Error('Failed to update message');
+      }
+    } catch (error) {
+      console.error('Error updating message:', error);
+      alert(t({
+        en: 'Error updating message. Please try again.',
+        fr: 'Erreur lors de la modification. Veuillez réessayer.'
+      }));
+    } finally {
+      setIsUpdatingMessage(false);
+    }
+  };
+
+  const handleArchiveMessage = async (messageId: string, archived: boolean) => {
+    try {
+      const response = await fetch(`/api/messages/${messageId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ archived }),
+      });
+
+      if (response.ok) {
+        fetchUserData(); // Recharger les messages
+      } else {
+        throw new Error('Failed to archive message');
+      }
+    } catch (error) {
+      console.error('Error archiving message:', error);
+      alert(t({
+        en: 'Error archiving message. Please try again.',
+        fr: 'Erreur lors de l\'archivage. Veuillez réessayer.'
+      }));
+    }
+  };
+
+  const handleDeleteMessage = async (messageId: string) => {
+    setIsDeletingMessage(true);
+
+    try {
+      const response = await fetch(`/api/messages/${messageId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        alert(t({
+          en: 'Message deleted successfully!',
+          fr: 'Message supprimé avec succès !'
+        }));
+        setDeletingMessage(null);
+        fetchUserData(); // Recharger les messages
+      } else {
+        throw new Error('Failed to delete message');
+      }
+    } catch (error) {
+      console.error('Error deleting message:', error);
+      alert(t({
+        en: 'Error deleting message. Please try again.',
+        fr: 'Erreur lors de la suppression. Veuillez réessayer.'
+      }));
+    } finally {
+      setIsDeletingMessage(false);
     }
   };
 
@@ -761,19 +869,29 @@ function ClientDashboardContent() {
               <h2 className="text-2xl font-bold text-forest-900">
                 {t({ en: 'Messages', fr: 'Messages' })}
               </h2>
-              <button
-                onClick={() => {
-                  setShowMessageForm(!showMessageForm);
-                  if (!showMessageForm) {
-                    setMessageForm({ subject: '', content: '', replyTo: '' });
-                  }
-                }}
-                className="bg-slate-700 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-              >
-                {showMessageForm
-                  ? t({ en: 'Cancel', fr: 'Annuler' })
-                  : `+ ${t({ en: 'New Message', fr: 'Nouveau Message' })}`}
-              </button>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowArchivedMessages(!showArchivedMessages)}
+                  className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
+                >
+                  {showArchivedMessages
+                    ? t({ en: 'Hide Archived', fr: 'Masquer Archivés' })
+                    : t({ en: 'Show Archived', fr: 'Afficher Archivés' })}
+                </button>
+                <button
+                  onClick={() => {
+                    setShowMessageForm(!showMessageForm);
+                    if (!showMessageForm) {
+                      setMessageForm({ subject: '', content: '', replyTo: '' });
+                    }
+                  }}
+                  className="bg-slate-700 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                >
+                  {showMessageForm
+                    ? t({ en: 'Cancel', fr: 'Annuler' })
+                    : `+ ${t({ en: 'New Message', fr: 'Nouveau Message' })}`}
+                </button>
+              </div>
             </div>
 
             {showMessageForm && (
@@ -834,57 +952,189 @@ function ClientDashboardContent() {
               </div>
             ) : (
               <div className="space-y-4">
-                {messages.map((message) => (
+                {messages
+                  .filter(msg => showArchivedMessages ? true : !msg.archived)
+                  .map((message) => (
                   <div
                     key={message.id}
                     className={`border-2 rounded-xl p-6 ${
-                      !message.read && message.isFromAdmin
+                      editingMessage === message.id
+                        ? 'border-gold-300 bg-gold-50 shadow-xl'
+                        : !message.read && message.isFromAdmin
                         ? 'border-blue-300 bg-blue-50'
+                        : message.archived
+                        ? 'border-gray-300 bg-gray-100 opacity-75'
                         : 'border-gray-200 bg-white'
                     }`}
                   >
-                    <div className="flex items-start gap-4">
-                      <div className="text-4xl">
-                        {message.isFromAdmin ? '🏔️' : '👤'}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-3">
-                            <span className="font-bold text-forest-900 text-lg">
-                              {message.isFromAdmin ? 'Chalet-Balmotte810' : message.fromName}
-                            </span>
-                            {!message.read && message.isFromAdmin && (
-                              <span className="px-3 py-1 bg-blue-500 text-white text-xs rounded-full font-semibold">
-                                {t({ en: 'NEW', fr: 'NOUVEAU' })}
-                              </span>
-                            )}
-                          </div>
-                          <span className="text-sm text-gray-500">
-                            {new Date(message.createdAt).toLocaleString('fr-FR')}
-                          </span>
-                        </div>
-                        <h3 className="font-bold text-gray-900 mb-3">{message.subject}</h3>
-                        <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
-                          {message.content}
-                        </p>
-                        {!message.isFromAdmin && (
+                    {editingMessage === message.id ? (
+                      // Mode édition
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between mb-4">
+                          <h3 className="text-lg font-bold text-gold-800">
+                            ✏️ {t({ en: 'Edit Message', fr: 'Modifier le Message' })}
+                          </h3>
                           <button
-                            onClick={() => {
-                              setMessageForm({
-                                subject: `Re: ${message.subject}`,
-                                content: '',
-                                replyTo: message.id
-                              });
-                              setShowMessageForm(true);
-                              window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }}
-                            className="mt-4 text-forest-700 hover:text-forest-900 font-semibold text-sm"
+                            onClick={cancelEditMessage}
+                            className="text-gray-500 hover:text-gray-700 text-xl"
                           >
-                            ↩️ {t({ en: 'Reply', fr: 'Répondre' })}
+                            ✕
                           </button>
-                        )}
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            {t({ en: 'Subject', fr: 'Sujet' })}
+                          </label>
+                          <input
+                            type="text"
+                            value={editMessageForm.subject}
+                            onChange={(e) => setEditMessageForm({ ...editMessageForm, subject: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold-500"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            {t({ en: 'Content', fr: 'Contenu' })}
+                          </label>
+                          <textarea
+                            rows={6}
+                            value={editMessageForm.content}
+                            onChange={(e) => setEditMessageForm({ ...editMessageForm, content: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold-500"
+                          />
+                        </div>
+
+                        <div className="flex gap-3">
+                          <button
+                            onClick={() => handleUpdateMessage(message.id)}
+                            disabled={isUpdatingMessage}
+                            className="flex-1 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white px-6 py-3 rounded-lg font-semibold transition-all disabled:opacity-50"
+                          >
+                            {isUpdatingMessage
+                              ? t({ en: 'Updating...', fr: 'Modification...' })
+                              : t({ en: '✅ Save Changes', fr: '✅ Sauvegarder' })
+                            }
+                          </button>
+                          <button
+                            onClick={cancelEditMessage}
+                            className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                          >
+                            {t({ en: 'Cancel', fr: 'Annuler' })}
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      // Mode affichage
+                      <div className="flex items-start gap-4">
+                        <div className="text-4xl">
+                          {message.isFromAdmin ? '🏔️' : '👤'}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-3">
+                              <span className="font-bold text-forest-900 text-lg">
+                                {message.isFromAdmin ? 'Chalet-Balmotte810' : message.fromName}
+                              </span>
+                              {!message.read && message.isFromAdmin && (
+                                <span className="px-3 py-1 bg-blue-500 text-white text-xs rounded-full font-semibold">
+                                  {t({ en: 'NEW', fr: 'NOUVEAU' })}
+                                </span>
+                              )}
+                              {message.archived && (
+                                <span className="px-3 py-1 bg-gray-400 text-white text-xs rounded-full font-semibold">
+                                  {t({ en: 'ARCHIVED', fr: 'ARCHIVÉ' })}
+                                </span>
+                              )}
+                            </div>
+                            <span className="text-sm text-gray-500">
+                              {new Date(message.createdAt).toLocaleString('fr-FR')}
+                            </span>
+                          </div>
+                          <h3 className="font-bold text-gray-900 mb-3">{message.subject}</h3>
+                          <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
+                            {message.content}
+                          </p>
+
+                          {/* Action buttons for user's own messages */}
+                          {!message.isFromAdmin && (
+                            <div className="mt-4 flex flex-wrap gap-2">
+                              <button
+                                onClick={() => {
+                                  setMessageForm({
+                                    subject: `Re: ${message.subject}`,
+                                    content: '',
+                                    replyTo: message.id
+                                  });
+                                  setShowMessageForm(true);
+                                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                                }}
+                                className="text-forest-700 hover:text-forest-900 font-semibold text-sm px-3 py-1 rounded border border-forest-700 hover:bg-forest-50 transition-colors"
+                              >
+                                ↩️ {t({ en: 'Reply', fr: 'Répondre' })}
+                              </button>
+                              <button
+                                onClick={() => startEditMessage(message)}
+                                className="text-gold-700 hover:text-gold-900 font-semibold text-sm px-3 py-1 rounded border border-gold-700 hover:bg-gold-50 transition-colors"
+                              >
+                                ✏️ {t({ en: 'Edit', fr: 'Modifier' })}
+                              </button>
+                              <button
+                                onClick={() => handleArchiveMessage(message.id, !message.archived)}
+                                className="text-gray-700 hover:text-gray-900 font-semibold text-sm px-3 py-1 rounded border border-gray-700 hover:bg-gray-50 transition-colors"
+                              >
+                                {message.archived
+                                  ? `📂 ${t({ en: 'Unarchive', fr: 'Désarchiver' })}`
+                                  : `📦 ${t({ en: 'Archive', fr: 'Archiver' })}`
+                                }
+                              </button>
+                              <button
+                                onClick={() => setDeletingMessage(message.id)}
+                                className="text-red-700 hover:text-red-900 font-semibold text-sm px-3 py-1 rounded border border-red-700 hover:bg-red-50 transition-colors"
+                              >
+                                🗑️ {t({ en: 'Delete', fr: 'Supprimer' })}
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Delete confirmation modal */}
+                    {deletingMessage === message.id && (
+                      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-xl p-6 max-w-md w-full shadow-2xl">
+                          <h3 className="text-xl font-bold text-gray-900 mb-4">
+                            {t({ en: 'Delete Message?', fr: 'Supprimer le Message ?' })}
+                          </h3>
+                          <p className="text-gray-600 mb-6">
+                            {t({
+                              en: 'Are you sure you want to delete this message? This action cannot be undone.',
+                              fr: 'Êtes-vous sûr de vouloir supprimer ce message ? Cette action est irréversible.'
+                            })}
+                          </p>
+                          <div className="flex gap-3">
+                            <button
+                              onClick={() => handleDeleteMessage(message.id)}
+                              disabled={isDeletingMessage}
+                              className="flex-1 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors disabled:opacity-50"
+                            >
+                              {isDeletingMessage
+                                ? t({ en: 'Deleting...', fr: 'Suppression...' })
+                                : t({ en: 'Delete', fr: 'Supprimer' })
+                              }
+                            </button>
+                            <button
+                              onClick={() => setDeletingMessage(null)}
+                              className="flex-1 border-2 border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                            >
+                              {t({ en: 'Cancel', fr: 'Annuler' })}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
