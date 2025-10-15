@@ -176,7 +176,7 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
     const isPast = isPastDate(date);
     const isSelected = isDateSelected(date);
 
-    let className = "aspect-square flex items-center justify-center rounded-lg text-sm md:text-sm lg:text-base font-medium transition-colors touch-manipulation min-h-[44px] md:min-h-[36px] lg:min-h-0 ";
+    let className = "aspect-square flex items-center justify-center rounded-lg text-sm md:text-xs lg:text-sm font-medium transition-colors touch-manipulation min-h-[44px] md:min-h-[32px] lg:min-h-[36px] ";
 
     if (isPast) {
       className += "text-gray-300 cursor-not-allowed";
@@ -211,62 +211,62 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 md:p-4 lg:p-5">
+    <div className="bg-white rounded-lg shadow-lg p-4 md:p-3 lg:p-4">
       {/* En-tête avec navigation */}
-      <div className="flex items-center justify-between mb-4 md:mb-3 lg:mb-4">
+      <div className="flex items-center justify-between mb-4 md:mb-2 lg:mb-3">
         <button
           onClick={goToPreviousMonth}
-          className="p-3 md:p-2 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation active:scale-95"
+          className="p-3 md:p-1.5 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation active:scale-95"
           aria-label={t({ en: 'Previous month', fr: 'Mois précédent' })}
         >
-          <svg className="w-6 h-6 md:w-5 md:h-5 text-forest-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 md:w-4 md:h-4 lg:w-5 lg:h-5 text-forest-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <h3 className="text-lg md:text-base lg:text-lg font-bold text-forest-900 capitalize">{monthName}</h3>
+        <h3 className="text-lg md:text-sm lg:text-base font-bold text-forest-900 capitalize">{monthName}</h3>
         <button
           onClick={goToNextMonth}
-          className="p-3 md:p-2 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation active:scale-95"
+          className="p-3 md:p-1.5 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation active:scale-95"
           aria-label={t({ en: 'Next month', fr: 'Mois suivant' })}
         >
-          <svg className="w-6 h-6 md:w-5 md:h-5 text-forest-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 md:w-4 md:h-4 lg:w-5 lg:h-5 text-forest-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>
 
       {/* Jours de la semaine */}
-      <div className="grid grid-cols-7 gap-1 md:gap-1.5 lg:gap-2 mb-2">
+      <div className="grid grid-cols-7 gap-1 md:gap-1 lg:gap-1.5 mb-1 md:mb-1 lg:mb-1.5">
         {weekDays.map((day, index) => (
-          <div key={index} className="text-center text-xs md:text-[11px] lg:text-sm font-semibold text-gray-600">
+          <div key={index} className="text-center text-xs md:text-[10px] lg:text-xs font-semibold text-gray-600">
             {day}
           </div>
         ))}
       </div>
 
       {/* Grille du calendrier */}
-      <div className="grid grid-cols-7 gap-1 md:gap-1.5 lg:gap-2">
+      <div className="grid grid-cols-7 gap-1 md:gap-1 lg:gap-1.5">
         {days}
       </div>
 
       {/* Légende */}
-      <div className="mt-6 md:mt-4 lg:mt-5 pt-6 md:pt-4 lg:pt-5 border-t border-gray-200 flex flex-wrap gap-3 md:gap-2 lg:gap-3 justify-center text-sm md:text-xs lg:text-sm">
-        <div className="flex items-center gap-2 md:gap-1.5">
-          <div className="w-4 h-4 md:w-3 md:h-3 lg:w-4 lg:h-4 bg-green-50 border border-green-200 rounded" />
+      <div className="mt-6 md:mt-3 lg:mt-4 pt-6 md:pt-3 lg:pt-4 border-t border-gray-200 flex flex-wrap gap-3 md:gap-1.5 lg:gap-2 justify-center text-sm md:text-[10px] lg:text-xs">
+        <div className="flex items-center gap-2 md:gap-1">
+          <div className="w-4 h-4 md:w-2.5 md:h-2.5 lg:w-3 lg:h-3 bg-green-50 border border-green-200 rounded" />
           <span className="text-gray-700">{t({ en: 'Available', fr: 'Disponible' })}</span>
         </div>
-        <div className="flex items-center gap-2 md:gap-1.5">
-          <div className="w-4 h-4 md:w-3 md:h-3 lg:w-4 lg:h-4 bg-blue-500 border-2 border-blue-600 rounded shadow-sm relative">
-            <span className="absolute inset-0 flex items-center justify-center text-[8px] md:text-[7px] text-white font-bold">✓</span>
+        <div className="flex items-center gap-2 md:gap-1">
+          <div className="w-4 h-4 md:w-2.5 md:h-2.5 lg:w-3 lg:h-3 bg-blue-500 border-2 border-blue-600 rounded shadow-sm relative">
+            <span className="absolute inset-0 flex items-center justify-center text-[8px] md:text-[6px] lg:text-[7px] text-white font-bold">✓</span>
           </div>
           <span className="text-gray-700 font-semibold">{t({ en: 'Selected', fr: 'Sélectionné' })}</span>
         </div>
-        <div className="flex items-center gap-2 md:gap-1.5">
-          <div className="w-4 h-4 md:w-3 md:h-3 lg:w-4 lg:h-4 bg-red-100 border border-red-200 rounded" />
+        <div className="flex items-center gap-2 md:gap-1">
+          <div className="w-4 h-4 md:w-2.5 md:h-2.5 lg:w-3 lg:h-3 bg-red-100 border border-red-200 rounded" />
           <span className="text-gray-700">{t({ en: 'Booked', fr: 'Réservé' })}</span>
         </div>
-        <div className="flex items-center gap-2 md:gap-1.5">
-          <div className="w-4 h-4 md:w-3 md:h-3 lg:w-4 lg:h-4 bg-gray-100 border border-gray-200 rounded" />
+        <div className="flex items-center gap-2 md:gap-1">
+          <div className="w-4 h-4 md:w-2.5 md:h-2.5 lg:w-3 lg:h-3 bg-gray-100 border border-gray-200 rounded" />
           <span className="text-gray-700">{t({ en: 'Past', fr: 'Passé' })}</span>
         </div>
       </div>

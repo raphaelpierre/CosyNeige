@@ -815,10 +815,44 @@ export default function AdminPage() {
       });
 
       if (response.ok) {
+        // Si la réservation est confirmée, créer automatiquement une facture d'acompte
+        if (newStatus === 'confirmed') {
+          const reservation = reservations.find(r => r.id === id);
+          if (reservation) {
+            try {
+              // Créer la facture d'acompte automatiquement
+              const invoiceResponse = await fetch('/api/admin/invoices', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({
+                  reservationId: reservation.id,
+                  type: 'deposit',
+                  amount: reservation.depositAmount || Math.round(reservation.totalPrice * 0.3),
+                  clientName: reservation.guestName || `${reservation.firstName} ${reservation.lastName}`,
+                  clientEmail: reservation.email,
+                  status: 'draft'
+                })
+              });
+
+              if (invoiceResponse.ok) {
+                console.log('Facture d\'acompte créée automatiquement');
+                await fetchInvoices(); // Recharger les factures
+              }
+            } catch (invoiceError) {
+              console.error('Erreur lors de la création automatique de la facture:', invoiceError);
+            }
+          }
+        }
+
         await fetchReservations(); // Recharger les données
         alert(t({
-          en: 'Status updated successfully!',
-          fr: 'Statut mis à jour avec succès !'
+          en: newStatus === 'confirmed'
+            ? 'Reservation confirmed and deposit invoice created!'
+            : 'Status updated successfully!',
+          fr: newStatus === 'confirmed'
+            ? 'Réservation confirmée et facture d\'acompte créée !'
+            : 'Statut mis à jour avec succès !'
         }));
       }
     } catch (error) {
@@ -921,7 +955,11 @@ export default function AdminPage() {
       <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 max-w-7xl mx-auto">
         {/* Stats Cards - Mobile Responsive */}
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
-          <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6">
+          <button
+            onClick={() => setActiveTab('reservations')}
+            className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
+            title={t({ en: 'View all reservations', fr: 'Voir toutes les réservations' })}
+          >
             <div className="text-center sm:flex sm:items-center sm:justify-between">
               <div className="sm:text-left">
                 <p className="text-xs sm:text-sm text-gray-600">{t({ en: 'Total', fr: 'Total' })}</p>
@@ -929,9 +967,16 @@ export default function AdminPage() {
               </div>
               <div className="text-2xl sm:text-3xl lg:text-4xl mt-2 sm:mt-0">📊</div>
             </div>
-          </div>
+          </button>
 
-          <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6">
+          <button
+            onClick={() => {
+              setActiveTab('reservations');
+              setStatusFilter('pending');
+            }}
+            className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
+            title={t({ en: 'View pending reservations', fr: 'Voir les réservations en attente' })}
+          >
             <div className="text-center sm:flex sm:items-center sm:justify-between">
               <div className="sm:text-left">
                 <p className="text-xs sm:text-sm text-gray-600">{t({ en: 'Pending', fr: 'En Attente' })}</p>
@@ -941,9 +986,16 @@ export default function AdminPage() {
               </div>
               <div className="text-2xl sm:text-3xl lg:text-4xl mt-2 sm:mt-0">⏳</div>
             </div>
-          </div>
+          </button>
 
-          <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6">
+          <button
+            onClick={() => {
+              setActiveTab('reservations');
+              setStatusFilter('confirmed');
+            }}
+            className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
+            title={t({ en: 'View confirmed reservations', fr: 'Voir les réservations confirmées' })}
+          >
             <div className="text-center sm:flex sm:items-center sm:justify-between">
               <div className="sm:text-left">
                 <p className="text-xs sm:text-sm text-gray-600">{t({ en: 'Confirmed', fr: 'Confirmées' })}</p>
@@ -953,9 +1005,13 @@ export default function AdminPage() {
               </div>
               <div className="text-2xl sm:text-3xl lg:text-4xl mt-2 sm:mt-0">✅</div>
             </div>
-          </div>
+          </button>
 
-          <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6">
+          <button
+            onClick={() => setActiveTab('messages')}
+            className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
+            title={t({ en: 'View unread messages', fr: 'Voir les messages non lus' })}
+          >
             <div className="text-center sm:flex sm:items-center sm:justify-between">
               <div className="sm:text-left">
                 <p className="text-xs sm:text-sm text-gray-600">{t({ en: 'Messages', fr: 'Messages' })}</p>
@@ -965,7 +1021,7 @@ export default function AdminPage() {
               </div>
               <div className="text-2xl sm:text-3xl lg:text-4xl mt-2 sm:mt-0">📧</div>
             </div>
-          </div>
+          </button>
         </div>
 
         {/* Mobile Navigation - Horizontal Scroll Style */}
@@ -1330,12 +1386,14 @@ export default function AdminPage() {
                             setShowCreateInvoiceModal(true);
                           }}
                           className="bg-purple-100 text-purple-700 px-3 py-1 rounded text-sm font-medium"
+                          title={t({ en: 'Create Invoice', fr: 'Créer Facture' })}
                         >
                           📄 Facture
                         </button>
                         <button
                           onClick={() => setEditingReservation(reservation)}
                           className="bg-blue-100 text-blue-700 px-3 py-1 rounded text-sm font-medium"
+                          title={t({ en: 'Edit reservation details', fr: 'Modifier les détails de la réservation' })}
                         >
                           ✏️ Modifier
                         </button>
@@ -1343,6 +1401,7 @@ export default function AdminPage() {
                           <button
                             onClick={() => handleStatusChange(reservation.id, 'confirmed')}
                             className="bg-green-100 text-green-700 px-3 py-1 rounded text-sm font-medium"
+                            title={t({ en: 'Confirm this reservation', fr: 'Confirmer cette réservation' })}
                           >
                             ✅ Confirmer
                           </button>
@@ -1351,6 +1410,7 @@ export default function AdminPage() {
                           <button
                             onClick={() => handleStatusChange(reservation.id, 'cancelled')}
                             className="bg-orange-100 text-orange-700 px-3 py-1 rounded text-sm font-medium"
+                            title={t({ en: 'Cancel this reservation', fr: 'Annuler cette réservation' })}
                           >
                             ⚠️ Annuler
                           </button>
@@ -1358,6 +1418,7 @@ export default function AdminPage() {
                         <button
                           onClick={() => handleDeleteReservation(reservation.id)}
                           className="bg-red-100 text-red-700 px-3 py-1 rounded text-sm font-medium"
+                          title={t({ en: 'Permanently delete this reservation', fr: 'Supprimer définitivement cette réservation' })}
                         >
                           🗑️ Supprimer
                         </button>
@@ -2058,12 +2119,14 @@ export default function AdminPage() {
                         <button
                           onClick={() => setEditingUser(user)}
                           className="bg-blue-100 text-blue-700 px-3 py-1 rounded text-sm font-medium"
+                          title={t({ en: 'Edit user information', fr: 'Modifier les informations utilisateur' })}
                         >
                           ✏️ Modifier
                         </button>
                         <button
                           onClick={() => handleDeleteUser(user.id)}
                           className="bg-red-100 text-red-700 px-3 py-1 rounded text-sm font-medium"
+                          title={t({ en: 'Permanently delete this user', fr: 'Supprimer définitivement cet utilisateur' })}
                         >
                           🗑️ Supprimer
                         </button>
@@ -2110,12 +2173,14 @@ export default function AdminPage() {
                               <button
                                 onClick={() => setEditingUser(user)}
                                 className="text-blue-600 hover:text-blue-800"
+                                title={t({ en: 'Edit user information', fr: 'Modifier les informations utilisateur' })}
                               >
                                 ✏️
                               </button>
                               <button
                                 onClick={() => handleDeleteUser(user.id)}
                                 className="text-red-600 hover:text-red-800"
+                                title={t({ en: 'Permanently delete this user', fr: 'Supprimer définitivement cet utilisateur' })}
                               >
                                 🗑️
                               </button>
@@ -2241,35 +2306,38 @@ export default function AdminPage() {
                       <form onSubmit={handleUpdateUser} className="space-y-3 sm:space-y-4">
                         <div>
                           <label className="block text-sm font-medium mb-1">
-                            {t({ en: 'First Name', fr: 'Prénom' })}
+                            {t({ en: 'First Name', fr: 'Prénom' })} <span className="text-red-500">*</span>
                           </label>
                           <input
                             type="text"
                             value={editingUser.firstName}
                             onChange={(e) => setEditingUser({...editingUser, firstName: e.target.value})}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            placeholder={t({ en: 'John', fr: 'Jean' })}
                             required
                           />
                         </div>
                         <div>
                           <label className="block text-sm font-medium mb-1">
-                            {t({ en: 'Last Name', fr: 'Nom' })}
+                            {t({ en: 'Last Name', fr: 'Nom' })} <span className="text-red-500">*</span>
                           </label>
                           <input
                             type="text"
                             value={editingUser.lastName}
                             onChange={(e) => setEditingUser({...editingUser, lastName: e.target.value})}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            placeholder={t({ en: 'Doe', fr: 'Dupont' })}
                             required
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium mb-1">Email</label>
+                          <label className="block text-sm font-medium mb-1">Email <span className="text-red-500">*</span></label>
                           <input
                             type="email"
                             value={editingUser.email}
                             onChange={(e) => setEditingUser({...editingUser, email: e.target.value})}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            placeholder="user@example.com"
                             required
                           />
                         </div>
@@ -2294,11 +2362,12 @@ export default function AdminPage() {
                             onChange={(e) => setEditingUser({...editingUser, password: e.target.value})}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
                             placeholder={t({ en: 'Leave blank to keep current', fr: 'Laisser vide pour conserver' })}
+                            minLength={6}
                           />
                         </div>
                         <div>
                           <label className="block text-sm font-medium mb-1">
-                            {t({ en: 'Role', fr: 'Rôle' })}
+                            {t({ en: 'Role', fr: 'Rôle' })} <span className="text-red-500">*</span>
                           </label>
                           <select
                             value={editingUser.role}
@@ -2312,7 +2381,7 @@ export default function AdminPage() {
                         <div className="flex flex-col sm:flex-row gap-2 pt-3 sm:pt-4">
                           <button
                             type="submit"
-                            className="w-full sm:flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 text-sm sm:text-base"
+                            className="w-full sm:flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 text-sm sm:text-base"
                           >
                             {t({ en: 'Save Changes', fr: 'Enregistrer' })}
                           </button>
@@ -2373,39 +2442,49 @@ export default function AdminPage() {
                       {/* Mobile Actions - Stacked */}
                       <div className="sm:hidden flex flex-col gap-2">
                         <div className="flex gap-2">
-                          <button 
+                          <button
                             onClick={() => setSelectedMessage(message)}
                             className="flex-1 text-sm bg-slate-700 hover:bg-slate-800 text-white px-3 py-2 rounded transition-colors"
+                            title={t({ en: 'Reply to this message', fr: 'Répondre à ce message' })}
                           >
                             💬 {t({ en: 'Reply', fr: 'Répondre' })}
                           </button>
-                          <button 
+                          <button
                             onClick={() => handleDeleteMessage(message.id, 'internal')}
                             className="flex-1 text-sm bg-red-100 hover:bg-red-200 text-red-700 px-3 py-2 rounded transition-colors"
+                            title={t({ en: 'Delete this message', fr: 'Supprimer ce message' })}
                           >
                             🗑️ {t({ en: 'Delete', fr: 'Supprimer' })}
                           </button>
                         </div>
-                        <button className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded transition-colors">
+                        <button
+                          className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded transition-colors"
+                          title={t({ en: 'Mark this message as read', fr: 'Marquer ce message comme lu' })}
+                        >
                           ✓ {t({ en: 'Mark as read', fr: 'Marquer comme lu' })}
                         </button>
                       </div>
 
                       {/* Desktop Actions - Inline */}
                       <div className="hidden sm:flex gap-2">
-                        <button 
+                        <button
                           onClick={() => setSelectedMessage(message)}
                           className="text-sm bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded transition-colors"
+                          title={t({ en: 'Reply to this message', fr: 'Répondre à ce message' })}
                         >
                           {t({ en: 'Reply', fr: 'Répondre' })}
                         </button>
-                        <button 
+                        <button
                           onClick={() => handleDeleteMessage(message.id, 'internal')}
                           className="text-sm bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded transition-colors"
+                          title={t({ en: 'Delete this message', fr: 'Supprimer ce message' })}
                         >
                           {t({ en: 'Delete', fr: 'Supprimer' })}
                         </button>
-                        <button className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded transition-colors">
+                        <button
+                          className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded transition-colors"
+                          title={t({ en: 'Mark this message as read', fr: 'Marquer ce message comme lu' })}
+                        >
                           {t({ en: 'Mark as read', fr: 'Marquer comme lu' })}
                         </button>
                       </div>
@@ -2588,21 +2667,24 @@ export default function AdminPage() {
                       </div>
 
                       <div className="flex gap-2 text-sm">
-                        <button 
+                        <button
                           onClick={() => handleViewInvoice(invoice)}
                           className="flex-1 bg-slate-100 text-slate-700 px-3 py-2 rounded font-medium"
+                          title={t({ en: 'View invoice details', fr: 'Voir les détails de la facture' })}
                         >
                           👁️ Voir
                         </button>
-                        <button 
+                        <button
                           onClick={() => handleViewInvoice(invoice)}
                           className="flex-1 bg-forest-100 text-forest-700 px-3 py-2 rounded font-medium"
+                          title={t({ en: 'Edit invoice', fr: 'Modifier la facture' })}
                         >
                           ✏️ Modifier
                         </button>
-                        <button 
+                        <button
                           onClick={() => handleDownloadPDF(invoice)}
                           className="flex-1 bg-blue-100 text-blue-700 px-3 py-2 rounded font-medium"
+                          title={t({ en: 'Download PDF', fr: 'Télécharger le PDF' })}
                         >
                           📄 PDF
                         </button>
@@ -2892,12 +2974,14 @@ export default function AdminPage() {
                                     setShowSeasonModal(true);
                                   }}
                                   className="text-blue-600 hover:text-blue-800 text-sm"
+                                  title={t({ en: 'Edit season', fr: 'Modifier la saison' })}
                                 >
                                   ✏️
                                 </button>
                                 <button
                                   onClick={() => handleDeleteSeason(season.id)}
                                   className="text-red-600 hover:text-red-800 text-sm"
+                                  title={t({ en: 'Delete season', fr: 'Supprimer la saison' })}
                                 >
                                   🗑️
                                 </button>

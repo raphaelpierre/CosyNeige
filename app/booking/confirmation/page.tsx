@@ -261,7 +261,7 @@ function BookingConfirmationContent() {
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
           <Link
             href="/"
-            className="group inline-flex items-center gap-3 bg-gradient-to-r from-forest-600 to-forest-700 hover:from-forest-700 hover:to-forest-800 text-white px-10 py-5 rounded-xl font-bold text-xl transition-all duration-300 shadow-2xl hover:shadow-forest-700/50 border-2 border-forest-800 hover:scale-105"
+            className="group inline-flex items-center gap-3 bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white px-10 py-5 rounded-xl font-bold text-xl transition-all duration-300 shadow-2xl hover:shadow-slate-700/50 border-2 border-slate-800 hover:scale-105"
           >
             <span className="text-2xl">🏠</span>
             <span>{t({ en: 'Back to Home', fr: 'Retour Accueil' })}</span>

@@ -13,13 +13,19 @@ interface PaymentFormProps {
   onSuccess: () => void;
   onError: (error: string) => void;
   clientSecret: string;
+  billingDetails?: {
+    name: string;
+    email: string;
+    phone: string;
+  };
 }
 
-export default function PaymentForm({ 
-  amount, 
-  onSuccess, 
-  onError, 
-  clientSecret 
+export default function PaymentForm({
+  amount,
+  onSuccess,
+  onError,
+  clientSecret,
+  billingDetails
 }: PaymentFormProps) {
   const stripe = useStripe();
   const elements = useElements();
@@ -93,10 +99,17 @@ export default function PaymentForm({
           {t({ en: 'Payment Information', fr: 'Informations de Paiement' })}
         </h3>
         
-        <PaymentElement 
+        <PaymentElement
           options={{
             layout: 'tabs',
             paymentMethodOrder: ['card', 'paypal'],
+            defaultValues: billingDetails ? {
+              billingDetails: {
+                name: billingDetails.name,
+                email: billingDetails.email,
+                phone: billingDetails.phone,
+              }
+            } : undefined,
           }}
         />
       </div>
