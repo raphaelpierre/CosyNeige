@@ -291,58 +291,48 @@ export default function BookingPage() {
                     </p>
                   </div>
 
-                  {/* NOUVEAU: Calendrier + Personnes EN PREMIER */}
-                  <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-                    {/* Sélecteur personnes */}
-                    <div className="lg:col-span-2">
-                      <div className="bg-forest-50 rounded-xl p-4 border border-forest-200 h-fit">
-                        <div className="text-center mb-3">
-                          <div className="flex items-center justify-center gap-2 mb-2">
-                            <span className="text-lg">👥</span>
-                            <label className="font-bold text-gray-800">
-                              {t({ en: 'Guests', fr: 'Personnes' })}
-                            </label>
-                          </div>
-                        </div>
+                  {/* Calendrier EN PREMIER */}
+                  <div>
+                    <BookingCalendar onDateSelect={handleDateSelect} />
+                  </div>
 
-                        <div className="flex items-center justify-center gap-3">
-                          <button
-                            onClick={() => setGuests(Math.max(1, guests - 1))}
-                            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow border border-gray-200 hover:border-forest-400 flex items-center justify-center font-bold text-lg sm:text-xl text-gray-600 hover:text-forest-600 transition-all active:scale-95"
-                            aria-label="Decrease guests"
-                          >
-                            −
-                          </button>
-
-                          <div className="bg-white rounded-lg px-4 py-3 shadow-sm border border-forest-300 min-w-[80px] sm:min-w-[90px]">
-                            <div className="text-center">
-                              <div className="font-bold text-lg sm:text-xl text-forest-700">{guests}</div>
-                              <div className="text-xs text-gray-600">
-                                {t({ en: guests === 1 ? 'guest' : 'guests', fr: guests === 1 ? 'pers.' : 'pers.' })}
-                              </div>
-                            </div>
-                          </div>
-
-                          <button
-                            onClick={() => setGuests(Math.min(10, guests + 1))}
-                            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow border border-gray-200 hover:border-forest-400 flex items-center justify-center font-bold text-lg sm:text-xl text-gray-600 hover:text-forest-600 transition-all active:scale-95"
-                            aria-label="Increase guests"
-                          >
-                            +
-                          </button>
-                        </div>
-
-                        <div className="mt-2 text-center">
-                          <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">
-                            {t({ en: 'Max 10', fr: 'Max 10' })}
-                          </span>
-                        </div>
+                  {/* Sélecteur personnes - COMPACT et sous le calendrier sur mobile */}
+                  <div className="bg-forest-50 rounded-xl p-3 sm:p-4 border border-forest-200">
+                    <div className="flex flex-row items-center justify-between gap-4">
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg">👥</span>
+                        <label className="font-bold text-gray-800 text-sm sm:text-base">
+                          {t({ en: 'Guests', fr: 'Personnes' })}
+                        </label>
                       </div>
-                    </div>
 
-                    {/* Calendrier */}
-                    <div className="lg:col-span-3">
-                      <BookingCalendar onDateSelect={handleDateSelect} />
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <button
+                          onClick={() => setGuests(Math.max(1, guests - 1))}
+                          className="w-10 h-10 rounded-full bg-white shadow border border-gray-200 hover:border-forest-400 flex items-center justify-center font-bold text-lg text-gray-600 hover:text-forest-600 transition-all active:scale-95 touch-manipulation"
+                          aria-label="Decrease guests"
+                        >
+                          −
+                        </button>
+
+                        <div className="bg-white rounded-lg px-3 py-2 shadow-sm border border-forest-300 min-w-[60px] sm:min-w-[70px]">
+                          <div className="text-center">
+                            <div className="font-bold text-base sm:text-lg text-forest-700">{guests}</div>
+                          </div>
+                        </div>
+
+                        <button
+                          onClick={() => setGuests(Math.min(10, guests + 1))}
+                          className="w-10 h-10 rounded-full bg-white shadow border border-gray-200 hover:border-forest-400 flex items-center justify-center font-bold text-lg text-gray-600 hover:text-forest-600 transition-all active:scale-95 touch-manipulation"
+                          aria-label="Increase guests"
+                        >
+                          +
+                        </button>
+
+                        <span className="text-xs text-gray-500 ml-1">
+                          {t({ en: '(max 10)', fr: '(max 10)' })}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
@@ -449,18 +439,18 @@ export default function BookingPage() {
                     </div>
                   )}
 
-                  {/* Feedback messages */}
+                  {/* Feedback messages - DYNAMIQUES avec animations */}
                   {checkIn && checkOut && nights > 0 && (
-                    <div>
+                    <div className="animate-in fade-in slide-in-from-top-2 duration-300">
                       {!isValidStay ? (
-                        <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-center">
+                        <div className="bg-red-50 border-2 border-red-300 rounded-xl p-4 text-center animate-in fade-in zoom-in-95 duration-200 shadow-md">
                           <div className="flex items-center justify-center gap-2 mb-2">
-                            <span className="text-red-500 text-xl">⚠️</span>
-                            <h4 className="text-red-800 font-bold">
+                            <span className="text-red-500 text-2xl animate-pulse">⚠️</span>
+                            <h4 className="text-red-800 font-bold text-base sm:text-lg">
                               {t({ en: 'Invalid booking period', fr: 'Période de réservation invalide' })}
                             </h4>
                           </div>
-                          <p className="text-red-700 text-sm">
+                          <p className="text-red-700 text-sm font-medium">
                             {t({
                               en: validation.error || 'Invalid dates',
                               fr: validation.errorFr || 'Dates invalides'
@@ -471,21 +461,21 @@ export default function BookingPage() {
                         <div className="space-y-4">
                           {/* Message de succès avec prix */}
                           {priceCalculation && (
-                            <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-6 shadow-lg">
+                            <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-4 sm:p-6 shadow-lg animate-in fade-in zoom-in-95 duration-300">
                               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                                 <div className="text-center sm:text-left">
                                   <div className="flex items-center justify-center sm:justify-start gap-2 mb-2">
-                                    <span className="text-green-600 text-2xl">✅</span>
-                                    <h4 className="text-green-900 font-bold text-lg">
+                                    <span className="text-green-600 text-2xl animate-bounce">✅</span>
+                                    <h4 className="text-green-900 font-bold text-base sm:text-lg">
                                       {t({ en: 'Dates available!', fr: 'Dates disponibles !' })}
                                     </h4>
                                   </div>
-                                  <p className="text-green-800 text-sm font-semibold">
+                                  <p className="text-green-800 text-xs sm:text-sm font-semibold">
                                     {t({ en: `${nights} nights • ${guests} ${guests === 1 ? 'guest' : 'guests'}`, fr: `${nights} nuits • ${guests} ${guests === 1 ? 'personne' : 'personnes'}` })}
                                   </p>
                                   <div className="mt-2 flex items-center justify-center sm:justify-start gap-2">
-                                    <span className="text-2xl font-black text-green-900">{formatEuro(priceCalculation.total)}</span>
-                                    <span className="text-sm text-green-700">{t({ en: 'total', fr: 'au total' })}</span>
+                                    <span className="text-xl sm:text-2xl font-black text-green-900">{formatEuro(priceCalculation.total)}</span>
+                                    <span className="text-xs sm:text-sm text-green-700">{t({ en: 'total', fr: 'au total' })}</span>
                                   </div>
                                 </div>
 
@@ -493,7 +483,7 @@ export default function BookingPage() {
                                 <div className="flex-shrink-0 w-full sm:w-auto">
                                   <button
                                     onClick={() => setCurrentStep(2)}
-                                    className="w-full sm:w-auto px-6 sm:px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-bold text-base sm:text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 touch-manipulation active:scale-98 border-2 border-green-700"
+                                    className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-bold text-base sm:text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 touch-manipulation active:scale-98 border-2 border-green-700"
                                   >
                                     <span>{t({ en: 'Continue', fr: 'Continuer' })}</span>
                                     <span className="text-xl">→</span>
