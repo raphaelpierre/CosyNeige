@@ -96,8 +96,8 @@ export default function ContactPage() {
             <div className="text-center bg-cream rounded-lg p-8 hover:shadow-lg transition-shadow">
               <div className="text-5xl mb-4">📧</div>
               <h3 className="text-xl font-bold text-forest-800 mb-3">{t({ en: 'Email', fr: 'Email' })}</h3>
-              <a href="mailto:info@chalet-balmotte810.com" className="text-forest-900 hover:text-forest-800 transition-colors font-semibold">
-                info@chalet-balmotte810.com
+              <a href="mailto:contact@chalet-balmotte810.com" className="text-forest-900 hover:text-forest-800 transition-colors font-semibold">
+                contact@chalet-balmotte810.com
               </a>
               <p className="text-sm text-gray-600 mt-2">
                 {t({ en: 'Response within 24 hours', fr: 'Réponse sous 24 heures' })}
@@ -120,6 +120,7 @@ export default function ContactPage() {
               <h3 className="text-xl font-bold text-forest-800 mb-3">{t({ en: 'Address', fr: 'Adresse' })}</h3>
               <p className="text-forest-900 font-medium">
                 {chaletName}<br />
+                {location.street && <>{location.street}<br /></>}
                 {location.village}<br />
                 {location.region} ({location.postalCode})
               </p>

@@ -16,6 +16,7 @@ export const specs: ChaletSpecs = {
 };
 
 export const location: Location = {
+  street: "810 route de Balmotte",
   village: "Châtillon-sur-Cluses",
   region: "Haute-Savoie",
   department: "Haute-Savoie",

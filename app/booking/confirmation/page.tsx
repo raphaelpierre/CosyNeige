@@ -291,7 +291,7 @@ function BookingConfirmationContent() {
                 {t({ en: 'Getting There', fr: 'Comment Venir' })}
               </h4>
               <ul className="space-y-2 text-sm text-white/90">
-                <li>• {t({ en: 'Address: Châtillon-sur-Cluses, 74300', fr: 'Adresse : Châtillon-sur-Cluses, 74300' })}</li>
+                <li>• {t({ en: 'Address: 810 route de Balmotte, Châtillon-sur-Cluses, 74300', fr: 'Adresse : 810 route de Balmotte, Châtillon-sur-Cluses, 74300' })}</li>
                 <li>• {t({ en: '1h from Geneva Airport', fr: '1h de l\'Aéroport de Genève' })}</li>
                 <li>• {t({ en: '5 parking spaces available', fr: '5 places de parking disponibles' })}</li>
               </ul>
@@ -325,19 +325,19 @@ function BookingConfirmationContent() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a
-              href="mailto:info@chalet-balmotte810.com"
+              href="mailto:contact@chalet-balmotte810.com"
               className="flex items-center gap-2 text-forest-700 hover:text-forest-900 font-semibold transition-colors"
             >
               <span>📧</span>
-              <span>info@chalet-balmotte810.com</span>
+              <span>contact@chalet-balmotte810.com</span>
             </a>
             <span className="hidden sm:inline text-gray-300">|</span>
             <a
-              href="tel:+33612345678"
+              href="tel:+33685858491"
               className="flex items-center gap-2 text-forest-700 hover:text-forest-900 font-semibold transition-colors"
             >
               <span>📞</span>
-              <span>+33 6 12 34 56 78</span>
+              <span>+33 6 85 85 84 91</span>
             </a>
           </div>
         </div>

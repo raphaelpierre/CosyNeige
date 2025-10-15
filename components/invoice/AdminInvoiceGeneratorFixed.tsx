@@ -229,10 +229,11 @@ export default function AdminInvoiceGeneratorFixed({ invoice, onClose }: AdminIn
                 }}>
                   Chalet-Balmotte810
                 </p>
+                <p style={{ margin: '2px 0' }}>810 route de Balmotte</p>
                 <p style={{ margin: '2px 0' }}>Châtillon-sur-Cluses, 74300</p>
                 <p style={{ margin: '2px 0' }}>Haute-Savoie, France</p>
                 <p style={{ margin: '8px 0 2px 0' }}>📧 contact@chalet-balmotte810.com</p>
-                <p style={{ margin: '2px 0' }}>📞 +33 4 50 XX XX XX</p>
+                <p style={{ margin: '2px 0' }}>📞 +33 6 85 85 84 91</p>
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
@@ -480,10 +481,10 @@ export default function AdminInvoiceGeneratorFixed({ invoice, onClose }: AdminIn
             color: '#6b7280'
           }}>
             <p style={{ margin: '0 0 4px 0' }}>
-              Chalet-Balmotte810 - Châtillon-sur-Cluses, 74300 Haute-Savoie, France
+              Chalet-Balmotte810 - 810 route de Balmotte, Châtillon-sur-Cluses, 74300 Haute-Savoie, France
             </p>
             <p style={{ margin: '0 0 4px 0' }}>
-              Email: contact@chalet-balmotte810.com | Tél: +33 4 50 XX XX XX
+              Email: contact@chalet-balmotte810.com | Tél: +33 6 85 85 84 91
             </p>
             <p style={{ margin: '0', fontStyle: 'italic' }}>
               Merci de votre confiance et excellent séjour !

@@ -16,6 +16,7 @@ export interface ChaletSpecs {
 }
 
 export interface Location {
+  street?: string;
   village: string;
   region: string;
   department?: string;

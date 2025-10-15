@@ -89,7 +89,10 @@ export default function LocationPage() {
                   <div className="text-3xl">📍</div>
                   <div>
                     <div className="font-semibold text-forest-800">{t({ en: 'Address', fr: 'Adresse' })}</div>
-                    <div className="text-gray-700">{location.village}, {location.department} ({location.postalCode})</div>
+                    <div className="text-gray-700">
+                      {location.street && <>{location.street}, </>}
+                      {location.village}, {location.department} ({location.postalCode})
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">

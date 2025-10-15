@@ -140,10 +140,11 @@ export default function InvoiceGenerator({ reservation, onClose }: InvoiceGenera
             <div>
               <h1 className="text-3xl font-bold text-slate-800 mb-2">🏔️ Chalet Balmotte810</h1>
               <div className="text-gray-600">
-                <p>Les Sires, 73440 Valloire</p>
-                <p>Savoie, France</p>
-                <p>Tél: +33 (0)4 79 59 XX XX</p>
-                <p>Email: info@chalet-balmotte810.com</p>
+                <p>810 route de Balmotte</p>
+                <p>Châtillon-sur-Cluses</p>
+                <p>Haute-Savoie, 74300, France</p>
+                <p>Tél: +33 6 85 85 84 91</p>
+                <p>Email: contact@chalet-balmotte810.com</p>
                 <p>SIRET: 123 456 789 00012</p>
               </div>
             </div>

@@ -43,6 +43,7 @@ export default function Footer() {
             </p>
             <div className="text-gray-700 text-sm">
               <p className="font-bold text-gray-700 mb-1">{t({ en: 'Location', fr: 'Localisation' })}</p>
+              {location.street && <p className="font-medium text-gray-700">{location.street}</p>}
               <p className="font-medium text-gray-700">{location.village}</p>
               <p className="font-medium text-gray-700">{location.region}, {location.postalCode}</p>
             </div>
@@ -88,7 +89,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li>
                 <a
-                  href="mailto:info@chalet-balmotte810.com"
+                  href="mailto:contact@chalet-balmotte810.com"
                   className="text-gray-700 hover:text-forest-700 transition-colors flex items-center gap-2 font-medium"
                 >
                   <span>📧</span>
