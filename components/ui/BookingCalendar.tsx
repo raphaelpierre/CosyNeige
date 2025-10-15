@@ -176,7 +176,7 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
     const isPast = isPastDate(date);
     const isSelected = isDateSelected(date);
 
-    let className = "aspect-square flex items-center justify-center rounded-lg text-sm sm:text-base font-medium transition-colors touch-manipulation min-h-[44px] sm:min-h-0 ";
+    let className = "aspect-square flex items-center justify-center rounded-lg text-sm md:text-sm lg:text-base font-medium transition-colors touch-manipulation min-h-[44px] md:min-h-[36px] lg:min-h-0 ";
 
     if (isPast) {
       className += "text-gray-300 cursor-not-allowed";
@@ -211,62 +211,62 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
+    <div className="bg-white rounded-lg shadow-lg p-4 md:p-4 lg:p-5">
       {/* En-tête avec navigation */}
-      <div className="flex items-center justify-between mb-4 sm:mb-6">
+      <div className="flex items-center justify-between mb-4 md:mb-3 lg:mb-4">
         <button
           onClick={goToPreviousMonth}
-          className="p-3 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation active:scale-95"
+          className="p-3 md:p-2 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation active:scale-95"
           aria-label={t({ en: 'Previous month', fr: 'Mois précédent' })}
         >
-          <svg className="w-6 h-6 sm:w-6 sm:h-6 text-forest-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 md:w-5 md:h-5 text-forest-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <h3 className="text-lg sm:text-xl font-bold text-forest-900 capitalize">{monthName}</h3>
+        <h3 className="text-lg md:text-base lg:text-lg font-bold text-forest-900 capitalize">{monthName}</h3>
         <button
           onClick={goToNextMonth}
-          className="p-3 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation active:scale-95"
+          className="p-3 md:p-2 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation active:scale-95"
           aria-label={t({ en: 'Next month', fr: 'Mois suivant' })}
         >
-          <svg className="w-6 h-6 sm:w-6 sm:h-6 text-forest-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 md:w-5 md:h-5 text-forest-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>
 
       {/* Jours de la semaine */}
-      <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-2">
+      <div className="grid grid-cols-7 gap-1 md:gap-1.5 lg:gap-2 mb-2">
         {weekDays.map((day, index) => (
-          <div key={index} className="text-center text-xs sm:text-sm font-semibold text-gray-600">
+          <div key={index} className="text-center text-xs md:text-[11px] lg:text-sm font-semibold text-gray-600">
             {day}
           </div>
         ))}
       </div>
 
       {/* Grille du calendrier */}
-      <div className="grid grid-cols-7 gap-1 sm:gap-2">
+      <div className="grid grid-cols-7 gap-1 md:gap-1.5 lg:gap-2">
         {days}
       </div>
 
       {/* Légende */}
-      <div className="mt-6 pt-6 border-t border-gray-200 flex flex-wrap gap-4 justify-center text-sm">
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-green-50 border border-green-200 rounded" />
+      <div className="mt-6 md:mt-4 lg:mt-5 pt-6 md:pt-4 lg:pt-5 border-t border-gray-200 flex flex-wrap gap-3 md:gap-2 lg:gap-3 justify-center text-sm md:text-xs lg:text-sm">
+        <div className="flex items-center gap-2 md:gap-1.5">
+          <div className="w-4 h-4 md:w-3 md:h-3 lg:w-4 lg:h-4 bg-green-50 border border-green-200 rounded" />
           <span className="text-gray-700">{t({ en: 'Available', fr: 'Disponible' })}</span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-blue-500 border-2 border-blue-600 rounded shadow-sm relative">
-            <span className="absolute inset-0 flex items-center justify-center text-[8px] text-white font-bold">✓</span>
+        <div className="flex items-center gap-2 md:gap-1.5">
+          <div className="w-4 h-4 md:w-3 md:h-3 lg:w-4 lg:h-4 bg-blue-500 border-2 border-blue-600 rounded shadow-sm relative">
+            <span className="absolute inset-0 flex items-center justify-center text-[8px] md:text-[7px] text-white font-bold">✓</span>
           </div>
           <span className="text-gray-700 font-semibold">{t({ en: 'Selected', fr: 'Sélectionné' })}</span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-red-100 border border-red-200 rounded" />
+        <div className="flex items-center gap-2 md:gap-1.5">
+          <div className="w-4 h-4 md:w-3 md:h-3 lg:w-4 lg:h-4 bg-red-100 border border-red-200 rounded" />
           <span className="text-gray-700">{t({ en: 'Booked', fr: 'Réservé' })}</span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-gray-100 border border-gray-200 rounded" />
+        <div className="flex items-center gap-2 md:gap-1.5">
+          <div className="w-4 h-4 md:w-3 md:h-3 lg:w-4 lg:h-4 bg-gray-100 border border-gray-200 rounded" />
           <span className="text-gray-700">{t({ en: 'Past', fr: 'Passé' })}</span>
         </div>
       </div>

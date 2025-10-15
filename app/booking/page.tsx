@@ -57,6 +57,16 @@ export default function BookingPage() {
     ? calculatePriceWithSeasons(checkIn, checkOut, seasons, pricingSettings)
     : null;
 
+  // Debug logs
+  console.log('💰 Pricing state:', { checkIn, checkOut, nights, priceCalculation: !!priceCalculation });
+
+  // Assurer que si checkIn OU checkOut est vide, on ne calcule pas de prix
+  useEffect(() => {
+    if (!checkIn || !checkOut) {
+      console.log('🚫 Une ou les deux dates sont vides, reset du prix');
+    }
+  }, [checkIn, checkOut]);
+
   // Calculer les jours avant l'arrivée
   const daysUntilCheckIn = checkIn
     ? Math.ceil((new Date(checkIn).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
@@ -170,25 +180,22 @@ export default function BookingPage() {
   // Pas de navigation automatique - l'utilisateur contrôle le workflow
 
   const handleDateSelect = (checkInDate: Date | null, checkOutDate: Date | null) => {
-    // Toujours mettre à jour checkIn (même si null pour réinitialiser)
-    if (checkInDate) {
-      const year = checkInDate.getFullYear();
-      const month = String(checkInDate.getMonth() + 1).padStart(2, '0');
-      const day = String(checkInDate.getDate()).padStart(2, '0');
-      setCheckIn(`${year}-${month}-${day}`);
-    } else {
-      setCheckIn('');
-    }
+    console.log('📅 handleDateSelect called:', { checkInDate, checkOutDate });
 
-    // Toujours mettre à jour checkOut (même si null pour réinitialiser)
-    if (checkOutDate) {
-      const year = checkOutDate.getFullYear();
-      const month = String(checkOutDate.getMonth() + 1).padStart(2, '0');
-      const day = String(checkOutDate.getDate()).padStart(2, '0');
-      setCheckOut(`${year}-${month}-${day}`);
-    } else {
-      setCheckOut('');
-    }
+    // Formater ou réinitialiser les dates
+    const formattedCheckIn = checkInDate
+      ? `${checkInDate.getFullYear()}-${String(checkInDate.getMonth() + 1).padStart(2, '0')}-${String(checkInDate.getDate()).padStart(2, '0')}`
+      : '';
+
+    const formattedCheckOut = checkOutDate
+      ? `${checkOutDate.getFullYear()}-${String(checkOutDate.getMonth() + 1).padStart(2, '0')}-${String(checkOutDate.getDate()).padStart(2, '0')}`
+      : '';
+
+    console.log('📅 Formatted dates:', { formattedCheckIn, formattedCheckOut });
+
+    // Mettre à jour les deux dates ensemble
+    setCheckIn(formattedCheckIn);
+    setCheckOut(formattedCheckOut);
   };
 
   const handleCreateReservationAndPayment = async () => {
