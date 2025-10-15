@@ -323,114 +323,100 @@ function ClientDashboardContent() {
   const unreadMessages = messages.filter(m => !m.read && m.isFromAdmin);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-cream to-white py-4 sm:py-6 lg:py-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-6 sm:py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header avec contraste maximum */}
-        <div className="bg-white rounded-2xl lg:rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 mb-6 lg:mb-8 border-2 lg:border-4 border-gray-300">
-          {/* Barre d'accent simple */}
-          <div className="w-full h-1 bg-slate-600 rounded-full mb-4 lg:mb-6"></div>
-          
-          <div className="flex flex-col gap-4 sm:gap-6">
-            <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
-              {/* Avatar simple et contrasté */}
-              <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-slate-700 rounded-xl lg:rounded-2xl flex items-center justify-center text-sm sm:text-lg lg:text-2xl font-bold text-white shadow-xl flex-shrink-0">
+        {/* Header épuré et élégant */}
+        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-2xl p-6 sm:p-8 mb-6 text-white">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              {/* Avatar */}
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-xl sm:text-2xl font-bold shadow-lg border-2 border-white/30">
                 {user.firstName.charAt(0).toUpperCase()}{user.lastName.charAt(0).toUpperCase()}
               </div>
-              
-              <div className="min-w-0 flex-1">
-                <h1 className="text-xl sm:text-2xl lg:text-4xl font-black mb-1 sm:mb-2 text-black">
-                  {t({ en: 'Welcome back,', fr: 'Bon retour,' })} <span className="text-slate-700">{user.firstName}</span>!
+
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold mb-1">
+                  {t({ en: 'Welcome back,', fr: 'Bon retour,' })} {user.firstName}
                 </h1>
-                <p className="text-sm sm:text-lg lg:text-xl text-gray-800 font-bold">
-                  {t({ en: 'Manage your alpine retreat', fr: 'Gérez votre séjour alpin' })}
+                <p className="text-slate-300 text-sm sm:text-base">
+                  {t({ en: 'Manage your stays at Chalet-Balmotte810', fr: 'Gérez vos séjours au Chalet-Balmotte810' })}
                 </p>
-                <div className="flex items-center gap-2 mt-2 lg:mt-3 text-gray-700 text-xs sm:text-sm lg:text-base font-semibold">
-                  <span>🏔️</span>
-                  <span className="truncate">{t({ en: 'Chalet-Balmotte810 Guest Portal', fr: 'Portail Client Chalet-Balmotte810' })}</span>
-                </div>
               </div>
             </div>
-            
-            <div className="flex w-full">
-              <Link
-                href="/booking"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 sm:gap-3 bg-slate-700 hover:bg-slate-800 text-white px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-lg lg:rounded-xl font-bold transition-all duration-200 shadow-lg border-2 border-slate-600 text-sm sm:text-base lg:text-lg"
-              >
-                <span className="text-lg sm:text-xl lg:text-2xl">➕</span>
-                <span>{t({ en: 'New Booking', fr: 'Nouvelle Réservation' })}</span>
-              </Link>
-            </div>
+
+            <Link
+              href="/booking"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-100 text-slate-900 px-6 py-3 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl hover:scale-105"
+            >
+              <span className="text-xl">📅</span>
+              <span>{t({ en: 'New Booking', fr: 'Nouvelle Réservation' })}</span>
+            </Link>
           </div>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mb-6 lg:mb-8">
-          <div className="bg-white rounded-lg lg:rounded-xl shadow-lg p-4 lg:p-6 border-l-4 border-slate-700">
-            <div className="flex items-center gap-3 lg:gap-4">
-              <div className="text-2xl sm:text-3xl lg:text-4xl">📅</div>
-              <div className="min-w-0">
-                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-forest-900">{upcomingReservations.length}</div>
-                <div className="text-xs sm:text-sm lg:text-base text-gray-600 truncate">{t({ en: 'Upcoming Bookings', fr: 'Réservations à Venir' })}</div>
-              </div>
-            </div>
-          </div>
+        <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-6">
+          <button
+            onClick={() => setActiveTab('reservations')}
+            className="bg-white rounded-xl shadow p-4 hover:shadow-lg transition-all text-center group cursor-pointer"
+          >
+            <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">📅</div>
+            <div className="text-2xl font-bold text-slate-900 mb-1">{upcomingReservations.length}</div>
+            <div className="text-xs text-gray-600">{t({ en: 'Upcoming', fr: 'À Venir' })}</div>
+          </button>
 
-          <div className="bg-white rounded-lg lg:rounded-xl shadow-lg p-4 lg:p-6 border-l-4 border-blue-500">
-            <div className="flex items-center gap-3 lg:gap-4">
-              <div className="text-2xl sm:text-3xl lg:text-4xl">✉️</div>
-              <div className="min-w-0">
-                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-700">{unreadMessages.length}</div>
-                <div className="text-xs sm:text-sm lg:text-base text-gray-600 truncate">{t({ en: 'Unread Messages', fr: 'Messages Non Lus' })}</div>
-              </div>
-            </div>
-          </div>
+          <button
+            onClick={() => setActiveTab('messages')}
+            className="bg-white rounded-xl shadow p-4 hover:shadow-lg transition-all text-center group cursor-pointer relative"
+          >
+            <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">✉️</div>
+            <div className="text-2xl font-bold text-slate-900 mb-1">{unreadMessages.length}</div>
+            <div className="text-xs text-gray-600">{t({ en: 'Unread', fr: 'Non Lus' })}</div>
+            {unreadMessages.length > 0 && (
+              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+            )}
+          </button>
 
-          <div className="bg-white rounded-lg lg:rounded-xl shadow-lg p-4 lg:p-6 border-l-4 border-gold-500">
-            <div className="flex items-center gap-3 lg:gap-4">
-              <div className="text-2xl sm:text-3xl lg:text-4xl">📊</div>
-              <div className="min-w-0">
-                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-700">{reservations.length}</div>
-                <div className="text-xs sm:text-sm lg:text-base text-gray-600 truncate">{t({ en: 'Total Bookings', fr: 'Total Réservations' })}</div>
-              </div>
-            </div>
+          <div className="bg-white rounded-xl shadow p-4 text-center">
+            <div className="text-3xl mb-2">📊</div>
+            <div className="text-2xl font-bold text-slate-900 mb-1">{reservations.length}</div>
+            <div className="text-xs text-gray-600">{t({ en: 'Total', fr: 'Total' })}</div>
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="bg-white rounded-lg lg:rounded-xl shadow-lg p-1 sm:p-2 mb-6 lg:mb-8 flex gap-1 sm:gap-2 overflow-x-auto">
+        <div className="bg-white rounded-xl shadow p-2 mb-6 flex gap-2">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`flex-shrink-0 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
+            className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all text-sm ${
               activeTab === 'overview'
-                ? 'bg-slate-700 text-white shadow-lg'
-                : 'text-gray-700 hover:bg-gray-100'
+                ? 'bg-slate-900 text-white'
+                : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
             {t({ en: 'Overview', fr: 'Aperçu' })}
           </button>
           <button
             onClick={() => setActiveTab('reservations')}
-            className={`flex-shrink-0 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
+            className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all text-sm ${
               activeTab === 'reservations'
-                ? 'bg-slate-700 text-white shadow-lg'
-                : 'text-gray-700 hover:bg-gray-100'
+                ? 'bg-slate-900 text-white'
+                : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
-            <span className="hidden sm:inline">{t({ en: 'Reservations', fr: 'Réservations' })} </span>
-            <span className="sm:hidden">{t({ en: 'Bookings', fr: 'Réserv.' })} </span>
-            ({reservations.length})
+            {t({ en: 'Bookings', fr: 'Réservations' })}
           </button>
           <button
             onClick={() => setActiveTab('messages')}
-            className={`flex-shrink-0 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-all relative text-sm sm:text-base ${
+            className={`relative flex-1 px-4 py-3 rounded-lg font-semibold transition-all text-sm ${
               activeTab === 'messages'
-                ? 'bg-slate-700 text-white shadow-lg'
-                : 'text-gray-700 hover:bg-gray-100'
+                ? 'bg-slate-900 text-white'
+                : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
-            {t({ en: 'Messages', fr: 'Messages' })} ({messages.length})
+            {t({ en: 'Messages', fr: 'Messages' })}
             {unreadMessages.length > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                 {unreadMessages.length}
               </span>
             )}
@@ -447,65 +433,45 @@ function ClientDashboardContent() {
               </h2>
               {upcomingReservations.length === 0 ? (
                 <div className="text-center py-12">
-                  <div className="text-6xl mb-4">📅</div>
-                  <p className="text-gray-600 mb-6">
+                  <div className="text-6xl mb-4 opacity-50">📅</div>
+                  <p className="text-gray-500 text-sm">
                     {t({ en: 'No upcoming reservations', fr: 'Aucune réservation à venir' })}
                   </p>
-                  <Link
-                    href="/booking"
-                    className="inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
-                  >
-                    {t({ en: 'Book Now', fr: 'Réserver Maintenant' })}
-                  </Link>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {upcomingReservations.slice(0, 3).map((reservation) => (
                     <div
                       key={reservation.id}
-                      className="border-2 border-gray-200 rounded-lg p-6 hover:border-slate-700 hover:shadow-md transition-all"
+                      className="bg-gradient-to-r from-white to-slate-50 border border-gray-200 rounded-xl p-4 hover:shadow-lg hover:border-slate-300 transition-all"
                     >
-                      <div className="flex flex-col md:flex-row justify-between gap-4">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-3">
-                            <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                              reservation.status === 'confirmed'
-                                ? 'bg-green-100 text-forest-700'
-                                : reservation.status === 'pending'
-                                  ? 'bg-yellow-100 text-yellow-800'
-                                  : 'bg-gray-100 text-gray-800'
-                            }`}>
-                              {reservation.status.toUpperCase()}
-                            </span>
-                          </div>
-                          <div className="grid grid-cols-2 gap-4 text-sm">
-                            <div>
-                              <span className="text-gray-600">{t({ en: 'Check-in:', fr: 'Arrivée :' })}</span>
-                              <div className="font-semibold text-forest-900">
-                                {new Date(reservation.checkIn).toLocaleDateString('fr-FR', {
-                                  day: 'numeric',
-                                  month: 'long',
-                                  year: 'numeric'
-                                })}
-                              </div>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        <div className="flex items-center gap-3 flex-1">
+                          <div className="text-3xl">🏔️</div>
+                          <div>
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
+                                reservation.status === 'confirmed'
+                                  ? 'bg-green-100 text-green-700'
+                                  : 'bg-yellow-100 text-yellow-700'
+                              }`}>
+                                {reservation.status === 'confirmed' ? '✓' : '⏳'} {reservation.status.toUpperCase()}
+                              </span>
                             </div>
-                            <div>
-                              <span className="text-gray-600">{t({ en: 'Check-out:', fr: 'Départ :' })}</span>
-                              <div className="font-semibold text-forest-900">
-                                {new Date(reservation.checkOut).toLocaleDateString('fr-FR', {
-                                  day: 'numeric',
-                                  month: 'long',
-                                  year: 'numeric'
-                                })}
-                              </div>
+                            <div className="text-sm text-gray-600">
+                              {new Date(reservation.checkIn).toLocaleDateString('fr-FR', {
+                                day: 'numeric',
+                                month: 'short'
+                              })} → {new Date(reservation.checkOut).toLocaleDateString('fr-FR', {
+                                day: 'numeric',
+                                month: 'short',
+                                year: 'numeric'
+                              })} • {reservation.guests} {t({ en: 'guests', fr: 'pers.' })}
                             </div>
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-sm text-gray-600 mb-1">
-                            {reservation.guests} {t({ en: 'guests', fr: 'personnes' })}
-                          </div>
-                          <div className="text-2xl font-bold text-forest-900">
+                          <div className="text-xl font-bold text-slate-900">
                             {formatEuro(reservation.totalPrice)}
                           </div>
                         </div>
@@ -579,30 +545,19 @@ function ClientDashboardContent() {
 
         {activeTab === 'reservations' && (
           <div className="bg-white rounded-xl shadow-lg p-8">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-forest-900">
-                {t({ en: 'All Reservations', fr: 'Toutes les Réservations' })}
-              </h2>
-              <Link
-                href="/booking"
-                className="bg-slate-700 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-              >
-                + {t({ en: 'New Booking', fr: 'Nouvelle Réservation' })}
-              </Link>
-            </div>
+            <h2 className="text-2xl font-bold text-forest-900 mb-6">
+              {t({ en: 'All Reservations', fr: 'Toutes les Réservations' })}
+            </h2>
 
             {reservations.length === 0 ? (
               <div className="text-center py-16">
-                <div className="text-6xl mb-4">📅</div>
-                <p className="text-gray-600 text-lg mb-6">
+                <div className="text-6xl mb-4 opacity-50">📅</div>
+                <p className="text-gray-500 mb-2">
                   {t({ en: 'No reservations yet', fr: 'Aucune réservation pour le moment' })}
                 </p>
-                <Link
-                  href="/booking"
-                  className="inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
-                >
-                  {t({ en: 'Book Now', fr: 'Réserver Maintenant' })}
-                </Link>
+                <p className="text-gray-400 text-sm">
+                  {t({ en: 'Use the button above to make your first booking', fr: 'Utilisez le bouton ci-dessus pour faire votre première réservation' })}
+                </p>
               </div>
             ) : (
               <div className="space-y-4">
