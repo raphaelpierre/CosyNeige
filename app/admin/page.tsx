@@ -952,7 +952,7 @@ export default function AdminPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all focus:outline-none ${
                     activeTab === tab.id
                       ? 'bg-slate-900 text-white shadow-sm'
                       : 'text-gray-600 hover:bg-gray-100'
@@ -967,7 +967,7 @@ export default function AdminPage() {
             {/* Logout */}
             <button
               onClick={logout}
-              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors focus:outline-none"
             >
               <span>🚪</span>
               <span className="hidden sm:inline">{t({ en: 'Logout', fr: 'Déconnexion' })}</span>
@@ -3373,7 +3373,6 @@ export default function AdminPage() {
             )}
           </div>
         </div>
-      </div>
 
       {/* Modal pour répondre aux messages - Mobile Optimized */}
       {selectedMessage && (
