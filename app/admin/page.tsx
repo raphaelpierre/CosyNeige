@@ -52,13 +52,13 @@ interface Message {
   message?: string; // Pour compatibilité avec l'affichage
 }
 
-type TabType = 'reservations' | 'users' | 'messages' | 'invoices' | 'calendar' | 'settings';
+type TabType = 'dashboard' | 'reservations' | 'users' | 'messages' | 'invoices' | 'calendar' | 'settings';
 
 export default function AdminPage() {
   const { t } = useLanguage();
   const { user, isAuthenticated, loading, logout } = useAuth();
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<TabType>('reservations');
+  const [activeTab, setActiveTab] = useState<TabType>('dashboard');
   const [currentCalendarDate, setCurrentCalendarDate] = useState(new Date());
 
   // Données depuis l'API
@@ -87,6 +87,21 @@ export default function AdminPage() {
   const [invoiceStatusFilter, setInvoiceStatusFilter] = useState<'all' | 'draft' | 'sent' | 'paid' | 'cancelled'>('all');
   const [invoiceTypeFilter, setInvoiceTypeFilter] = useState<'all' | 'deposit' | 'balance' | 'full'>('all');
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'confirmed' | 'cancelled'>('all');
+  const [showReservationModal, setShowReservationModal] = useState(false);
+  const [newReservation, setNewReservation] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    checkIn: '',
+    checkOut: '',
+    guests: 2,
+    totalPrice: 0,
+    depositAmount: 0,
+    status: 'pending',
+    paymentStatus: 'pending',
+    message: ''
+  });
   const [newUser, setNewUser] = useState({
     email: '',
     firstName: '',
@@ -228,6 +243,48 @@ export default function AdminPage() {
       }
     } catch (error) {
       console.error('Error fetching pricing settings:', error);
+    }
+  };
+
+  // Fonction pour créer une réservation
+  const handleCreateReservation = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/admin/reservations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          ...newReservation,
+          guestName: `${newReservation.firstName} ${newReservation.lastName}`
+        })
+      });
+
+      if (response.ok) {
+        setShowReservationModal(false);
+        setNewReservation({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          checkIn: '',
+          checkOut: '',
+          guests: 2,
+          totalPrice: 0,
+          depositAmount: 0,
+          status: 'pending',
+          paymentStatus: 'pending',
+          message: ''
+        });
+        fetchReservations();
+        alert(t({ en: 'Reservation created successfully', fr: 'Réservation créée avec succès' }));
+      } else {
+        const error = await response.json();
+        alert(`Erreur: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error creating reservation:', error);
+      alert(t({ en: 'Error creating reservation', fr: 'Erreur lors de la création' }));
     }
   };
 
@@ -811,6 +868,7 @@ export default function AdminPage() {
 
 
   const tabs = [
+    { id: 'dashboard' as TabType, icon: '📊', label: { en: 'Dashboard', fr: 'Tableau de Bord' } },
     { id: 'reservations' as TabType, icon: '📅', label: { en: 'Reservations', fr: 'Réservations' } },
     { id: 'users' as TabType, icon: '�', label: { en: 'Users', fr: 'Utilisateurs' } },
     { id: 'messages' as TabType, icon: '💬', label: { en: 'Messages', fr: 'Messages' } },
@@ -965,6 +1023,198 @@ export default function AdminPage() {
 
           {/* Tab Content - Mobile Optimized */}
           <div className="p-3 sm:p-4 lg:p-6">
+            {activeTab === 'dashboard' && (
+              <div>
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">
+                  {t({ en: 'Dashboard Overview', fr: 'Vue d\'ensemble' })}
+                </h2>
+
+                {/* Stats Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
+                  {/* Réservations card */}
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-lg p-6 border border-blue-200">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-3 bg-blue-200 rounded-full">
+                        <span className="text-3xl">📅</span>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-blue-700 font-medium">{t({ en: 'Total Reservations', fr: 'Réservations Totales' })}</p>
+                        <p className="text-3xl font-bold text-blue-900">{reservations.length}</p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 text-center text-xs">
+                      <div>
+                        <div className="bg-yellow-200 rounded-lg py-2">
+                          <p className="font-bold text-yellow-800">{reservations.filter(r => r.status === 'pending').length}</p>
+                          <p className="text-yellow-700">{t({ en: 'Pending', fr: 'En Attente' })}</p>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="bg-green-200 rounded-lg py-2">
+                          <p className="font-bold text-green-800">{reservations.filter(r => r.status === 'confirmed').length}</p>
+                          <p className="text-green-700">{t({ en: 'Confirmed', fr: 'Confirmées' })}</p>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="bg-red-200 rounded-lg py-2">
+                          <p className="font-bold text-red-800">{reservations.filter(r => r.status === 'cancelled').length}</p>
+                          <p className="text-red-700">{t({ en: 'Cancelled', fr: 'Annulées' })}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Users card */}
+                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl shadow-lg p-6 border border-purple-200">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-3 bg-purple-200 rounded-full">
+                        <span className="text-3xl">👥</span>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-purple-700 font-medium">{t({ en: 'Total Users', fr: 'Utilisateurs Totaux' })}</p>
+                        <p className="text-3xl font-bold text-purple-900">{users.length}</p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-center text-xs">
+                      <div className="bg-purple-200 rounded-lg py-2">
+                        <p className="font-bold text-purple-800">{users.filter(u => u.role === 'client').length}</p>
+                        <p className="text-purple-700">{t({ en: 'Clients', fr: 'Clients' })}</p>
+                      </div>
+                      <div className="bg-purple-200 rounded-lg py-2">
+                        <p className="font-bold text-purple-800">{users.filter(u => u.role === 'admin').length}</p>
+                        <p className="text-purple-700">{t({ en: 'Admins', fr: 'Admins' })}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Messages card */}
+                  <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-lg p-6 border border-green-200">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-3 bg-green-200 rounded-full">
+                        <span className="text-3xl">💬</span>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-green-700 font-medium">{t({ en: 'Messages', fr: 'Messages' })}</p>
+                        <p className="text-3xl font-bold text-green-900">{messages.length}</p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-center text-xs">
+                      <div className="bg-yellow-200 rounded-lg py-2">
+                        <p className="font-bold text-yellow-800">{messages.filter(m => !m.read).length}</p>
+                        <p className="text-yellow-700">{t({ en: 'Unread', fr: 'Non lus' })}</p>
+                      </div>
+                      <div className="bg-green-200 rounded-lg py-2">
+                        <p className="font-bold text-green-800">{messages.filter(m => m.read).length}</p>
+                        <p className="text-green-700">{t({ en: 'Read', fr: 'Lus' })}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Invoices card */}
+                  <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl shadow-lg p-6 border border-orange-200">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-3 bg-orange-200 rounded-full">
+                        <span className="text-3xl">🧾</span>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-orange-700 font-medium">{t({ en: 'Invoices', fr: 'Factures' })}</p>
+                        <p className="text-3xl font-bold text-orange-900">{invoices.length}</p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-center text-xs">
+                      <div className="bg-orange-200 rounded-lg py-2">
+                        <p className="font-bold text-orange-800">{invoices.filter(i => i.status === 'paid').length}</p>
+                        <p className="text-orange-700">{t({ en: 'Paid', fr: 'Payées' })}</p>
+                      </div>
+                      <div className="bg-red-200 rounded-lg py-2">
+                        <p className="font-bold text-red-800">{invoices.filter(i => i.status !== 'paid').length}</p>
+                        <p className="text-red-700">{t({ en: 'Pending', fr: 'En Attente' })}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Revenue card */}
+                  <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl shadow-lg p-6 border border-emerald-200">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-3 bg-emerald-200 rounded-full">
+                        <span className="text-3xl">💰</span>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-emerald-700 font-medium">{t({ en: 'Total Revenue', fr: 'Revenu Total' })}</p>
+                        <p className="text-3xl font-bold text-emerald-900">
+                          {formatEuro(reservations.filter(r => r.status === 'confirmed').reduce((sum, r) => sum + (r.totalPrice || 0), 0))}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="bg-emerald-200 rounded-lg py-2 text-center text-xs">
+                      <p className="text-emerald-700">{t({ en: 'From confirmed bookings', fr: 'Des réservations confirmées' })}</p>
+                    </div>
+                  </div>
+
+                  {/* Quick Actions card */}
+                  <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl shadow-lg p-6 border border-slate-200">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-3 bg-slate-200 rounded-full">
+                        <span className="text-3xl">⚡</span>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-slate-700 font-medium">{t({ en: 'Quick Actions', fr: 'Actions Rapides' })}</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <button
+                        onClick={() => setActiveTab('reservations')}
+                        className="w-full bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
+                      >
+                        📅 {t({ en: 'View Reservations', fr: 'Voir Réservations' })}
+                      </button>
+                      <button
+                        onClick={() => setActiveTab('messages')}
+                        className="w-full bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
+                      >
+                        💬 {t({ en: 'Check Messages', fr: 'Voir Messages' })}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Recent Activity */}
+                <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+                  <h3 className="text-lg font-bold text-gray-900 mb-4">
+                    {t({ en: 'Recent Reservations', fr: 'Réservations Récentes' })}
+                  </h3>
+                  <div className="space-y-3">
+                    {reservations.slice(0, 5).map(reservation => (
+                      <div key={reservation.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div className="flex-1">
+                          <p className="font-medium text-gray-900">{reservation.guestName}</p>
+                          <p className="text-sm text-gray-600">
+                            {new Date(reservation.checkIn).toLocaleDateString()} - {new Date(reservation.checkOut).toLocaleDateString()}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(reservation.status)}`}>
+                            {reservation.status}
+                          </span>
+                          <button
+                            onClick={() => setActiveTab('reservations')}
+                            className="text-slate-700 hover:text-slate-900 font-medium text-sm"
+                          >
+                            →
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    {reservations.length === 0 && (
+                      <p className="text-center text-gray-500 py-4">
+                        {t({ en: 'No reservations yet', fr: 'Aucune réservation pour le moment' })}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
             {activeTab === 'reservations' && (
               <div>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3">
@@ -988,7 +1238,10 @@ export default function AdminPage() {
                       <option value="confirmed">{t({ en: '✅ Confirmed', fr: '✅ Confirmées' })}</option>
                       <option value="cancelled">{t({ en: '❌ Cancelled', fr: '❌ Annulées' })}</option>
                     </select>
-                    <button className="bg-slate-700 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800 font-bold text-sm">
+                    <button
+                      onClick={() => setShowReservationModal(true)}
+                      className="bg-slate-700 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800 font-bold text-sm"
+                    >
                       {t({ en: '+ Add', fr: '+ Ajouter' })}
                     </button>
                   </div>
@@ -1345,6 +1598,204 @@ export default function AdminPage() {
                           <button
                             type="button"
                             onClick={() => setEditingReservation(null)}
+                            className="w-full sm:flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 text-sm sm:text-base"
+                          >
+                            {t({ en: 'Cancel', fr: 'Annuler' })}
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                )}
+
+                {/* Modal de création de réservation */}
+                {showReservationModal && (
+                  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-2xl mx-auto max-h-[90vh] overflow-y-auto">
+                      <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4">
+                        {t({ en: 'Add New Reservation', fr: 'Ajouter une Réservation' })}
+                      </h3>
+                      <form onSubmit={handleCreateReservation} className="space-y-3 sm:space-y-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'First Name', fr: 'Prénom' })} *
+                            </label>
+                            <input
+                              type="text"
+                              value={newReservation.firstName}
+                              onChange={(e) => setNewReservation({...newReservation, firstName: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                              required
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Last Name', fr: 'Nom' })} *
+                            </label>
+                            <input
+                              type="text"
+                              value={newReservation.lastName}
+                              onChange={(e) => setNewReservation({...newReservation, lastName: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Email *</label>
+                          <input
+                            type="email"
+                            value={newReservation.email}
+                            onChange={(e) => setNewReservation({...newReservation, email: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            required
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium mb-1">
+                            {t({ en: 'Phone', fr: 'Téléphone' })} *
+                          </label>
+                          <input
+                            type="tel"
+                            value={newReservation.phone}
+                            onChange={(e) => setNewReservation({...newReservation, phone: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            required
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Check-in', fr: 'Arrivée' })} *
+                            </label>
+                            <input
+                              type="date"
+                              value={newReservation.checkIn}
+                              onChange={(e) => setNewReservation({...newReservation, checkIn: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                              required
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Check-out', fr: 'Départ' })} *
+                            </label>
+                            <input
+                              type="date"
+                              value={newReservation.checkOut}
+                              onChange={(e) => setNewReservation({...newReservation, checkOut: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Guests', fr: 'Personnes' })} *
+                            </label>
+                            <input
+                              type="number"
+                              min="1"
+                              max="10"
+                              value={newReservation.guests}
+                              onChange={(e) => setNewReservation({...newReservation, guests: parseInt(e.target.value)})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                              required
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Total Price', fr: 'Prix Total' })} *
+                            </label>
+                            <input
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              value={newReservation.totalPrice}
+                              onChange={(e) => setNewReservation({...newReservation, totalPrice: parseFloat(e.target.value)})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                              required
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Deposit', fr: 'Acompte' })}
+                            </label>
+                            <input
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              value={newReservation.depositAmount}
+                              onChange={(e) => setNewReservation({...newReservation, depositAmount: parseFloat(e.target.value)})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Status', fr: 'Statut' })}
+                            </label>
+                            <select
+                              value={newReservation.status}
+                              onChange={(e) => setNewReservation({...newReservation, status: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            >
+                              <option value="pending">{t({ en: 'Pending', fr: 'En Attente' })}</option>
+                              <option value="confirmed">{t({ en: 'Confirmed', fr: 'Confirmée' })}</option>
+                              <option value="cancelled">{t({ en: 'Cancelled', fr: 'Annulée' })}</option>
+                            </select>
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Payment Status', fr: 'Statut Paiement' })}
+                            </label>
+                            <select
+                              value={newReservation.paymentStatus}
+                              onChange={(e) => setNewReservation({...newReservation, paymentStatus: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            >
+                              <option value="pending">{t({ en: 'Pending', fr: 'En Attente' })}</option>
+                              <option value="partial">{t({ en: 'Partial', fr: 'Partiel' })}</option>
+                              <option value="completed">{t({ en: 'Completed', fr: 'Complété' })}</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium mb-1">
+                            {t({ en: 'Message / Notes', fr: 'Message / Notes' })}
+                          </label>
+                          <textarea
+                            value={newReservation.message}
+                            onChange={(e) => setNewReservation({...newReservation, message: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            rows={3}
+                          />
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row gap-2 pt-3 sm:pt-4">
+                          <button
+                            type="submit"
+                            className="w-full sm:flex-1 bg-slate-700 hover:bg-slate-800 text-white py-2 rounded-lg transition-colors text-sm sm:text-base font-bold"
+                          >
+                            {t({ en: '✓ Create Reservation', fr: '✓ Créer la Réservation' })}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setShowReservationModal(false)}
                             className="w-full sm:flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 text-sm sm:text-base"
                           >
                             {t({ en: 'Cancel', fr: 'Annuler' })}
