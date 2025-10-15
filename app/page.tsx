@@ -130,7 +130,7 @@ export default function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent to-forest-50/30" />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
                     <span className="text-white text-lg font-semibold bg-forest-700/90 px-4 py-2 rounded-full">
-                      {t({ en: 'View Gallery', fr: 'Voir la Galerie' })}
+                      {t({ en: 'Discover the Chalet', fr: 'Découvrir le Chalet' })}
                     </span>
                   </div>
                 </Link>
@@ -194,7 +194,7 @@ export default function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-l from-transparent to-forest-50/30" />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
                     <span className="text-white text-lg font-semibold bg-forest-700/90 px-4 py-2 rounded-full">
-                      {t({ en: 'View Gallery', fr: 'Voir la Galerie' })}
+                      {t({ en: 'Discover the Chalet', fr: 'Découvrir le Chalet' })}
                     </span>
                   </div>
                 </Link>
@@ -215,7 +215,7 @@ export default function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent to-forest-50/30" />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
                     <span className="text-white text-lg font-semibold bg-forest-700/90 px-4 py-2 rounded-full">
-                      {t({ en: 'View Gallery', fr: 'Voir la Galerie' })}
+                      {t({ en: 'Discover the Chalet', fr: 'Découvrir le Chalet' })}
                     </span>
                   </div>
                 </Link>
