@@ -2819,7 +2819,7 @@ export default function AdminPage() {
                         )}
                         {invoiceSearchTerm && (
                           <span className="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
-                            "{invoiceSearchTerm}"
+                            &quot;{invoiceSearchTerm}&quot;
                             <button
                               onClick={() => setInvoiceSearchTerm('')}
                               className="hover:text-purple-900"
