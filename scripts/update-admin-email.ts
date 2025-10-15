@@ -8,7 +8,7 @@ async function updateAdminEmail() {
     const existingAdmin = await prisma.user.findFirst({
       where: { 
         OR: [
-          { email: 'admin@cosyneige.fr' },
+          { email: 'admin@chalet-balmotte810.com' },
           { role: 'admin' }
         ]
       }

@@ -21,8 +21,8 @@ export const translations = {
   // Notifications
   notifications: {
     logoutSuccess: { 
-      fr: 'Vous avez été déconnecté avec succès', 
-      en: 'Successfully logged out' 
+      fr: '🚪 Déconnexion réussie !', 
+      en: '🚪 Successfully logged out!' 
     },
     loginSuccess: { 
       fr: 'Connexion réussie ! Bienvenue', 

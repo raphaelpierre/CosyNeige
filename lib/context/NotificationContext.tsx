@@ -57,7 +57,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const handleLogout = () => {
       const message = getTranslation('notifications', 'logoutSuccess', language);
-      showSuccess(message);
+      showSuccess(message, 7000); // Durée plus longue pour le message de déconnexion
     };
 
     window.addEventListener('userLoggedOut', handleLogout);

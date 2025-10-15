@@ -1,4 +1,4 @@
-# Corrections Version Mobile - CosyNeige
+# Corrections Version Mobile - Chalet Balmotte 810
 
 ## Problèmes identifiés et corrigés
 

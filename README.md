@@ -1,8 +1,8 @@
-# 🏔️ CosyNeige - Premium Alpine Chalet Rental Platform
+# 🏔️ Chalet Balmotte 810 - Système de Réservation Alpine
 
-**CosyNeige** is a luxury alpine chalet rental platform showcasing a beautiful mountain retreat in the French Alps. Built with modern web technologies, it provides a complete booking experience with streamlined user interface, multilingual support, and comprehensive reservation management.
+**Chalet Balmotte 810** est une plateforme de réservation pour un magnifique chalet alpin dans les Alpes françaises. Construit avec des technologies web modernes, il offre une expérience de réservation complète avec une interface utilisateur rationalisée, un support multilingue et une gestion complète des réservations.
 
-🌐 **Live Demo:** https://cosy-neige-2zazkomq2-ras-projects-8da82c27.vercel.app
+🌐 **Site Web:** https://www.chalet-balmotte810.com
 
 ## ✨ Key Features
 
@@ -132,7 +132,7 @@ model BookedPeriod {
 1. **Clone the repository**
 ```bash
 git clone https://github.com/raphaelpierre/CosyNeige.git
-cd CosyNeige
+cd chalet-balmotte810
 ```
 
 2. **Install dependencies**
@@ -173,7 +173,7 @@ Navigate to [http://localhost:3000](http://localhost:3000)
 ## 📁 Project Structure
 
 ```
-CosyNeige/
+chalet-balmotte810/
 ├── app/                          # Next.js App Router
 │   ├── api/                     # API routes
 │   │   ├── auth/               # Authentication endpoints
@@ -313,7 +313,7 @@ DELETE /api/admin/messages/[id] // Delete messages
 npx vercel --prod
 ```
 
-**Production URL:** https://cosy-neige-2zazkomq2-ras-projects-8da82c27.vercel.app
+**Production URL:** https://www.chalet-balmotte810.com
 
 ### **Environment Configuration**
 Ensure these variables are set in Vercel dashboard:
@@ -386,16 +386,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Developer:** Raphaël Pierre  
 **GitHub:** [@raphaelpierre](https://github.com/raphaelpierre)  
-**Project Repository:** [CosyNeige](https://github.com/raphaelpierre/CosyNeige)  
-**Live Application:** [CosyNeige Platform](https://cosy-neige-2zazkomq2-ras-projects-8da82c27.vercel.app)
+**Project Repository:** [Chalet Balmotte 810](https://github.com/raphaelpierre/CosyNeige)  
+**Live Application:** [Chalet Balmotte 810](https://www.chalet-balmotte810.com)
 
 ---
 
-## 🏔️ About CosyNeige
+## 🏔️ À propos du Chalet Balmotte 810
 
-*CosyNeige represents the perfect fusion of modern technology and alpine hospitality. Our platform transforms the traditional chalet rental experience with streamlined booking, transparent pricing, and exceptional user experience - all while preserving the authentic charm of mountain retreats.*
+*Le Chalet Balmotte 810 représente la fusion parfaite entre la technologie moderne et l'hospitalité alpine. Notre plateforme transforme l'expérience traditionnelle de location de chalet avec des réservations simplifiées, une tarification transparente et une expérience utilisateur exceptionnelle - tout en préservant le charme authentique des retraites de montagne.*
 
-**Experience the magic of the French Alps with CosyNeige - where technology meets mountain serenity.** ✨
+**Découvrez la magie des Alpes françaises avec le Chalet Balmotte 810 - où la technologie rencontre la sérénité montagnarde.** ✨
 
 ---
 
