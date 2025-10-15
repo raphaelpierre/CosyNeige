@@ -932,31 +932,85 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header Mobile-First */}
-      <header className="bg-white shadow-sm border-b sticky top-0 z-40">
-        <div className="px-4 sm:px-6 lg:px-8 py-3">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      {/* Sidebar Desktop */}
+      <aside className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col z-50">
+        <div className="flex flex-col flex-grow bg-gradient-to-b from-slate-900 to-slate-800 overflow-y-auto shadow-2xl">
+          {/* Logo/Header */}
+          <div className="flex items-center flex-shrink-0 px-6 py-6 border-b border-slate-700/50">
+            <div className="flex items-center gap-3">
+              <div className="text-3xl">🏔️</div>
+              <div>
+                <h1 className="text-lg font-bold text-white">Admin Panel</h1>
+                <p className="text-xs text-slate-400">Chalet-Balmotte810</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex-1 px-3 py-6 space-y-1">
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-all duration-300 group ${
+                  activeTab === tab.id
+                    ? 'bg-white text-slate-900 shadow-lg shadow-slate-900/20'
+                    : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
+                }`}
+              >
+                <span className={`text-xl transition-transform duration-300 ${
+                  activeTab === tab.id ? 'scale-110' : 'group-hover:scale-110'
+                }`}>
+                  {tab.icon}
+                </span>
+                <span>{t(tab.label)}</span>
+                {activeTab === tab.id && (
+                  <span className="ml-auto w-1.5 h-1.5 bg-slate-900 rounded-full"></span>
+                )}
+              </button>
+            ))}
+          </nav>
+
+          {/* User section */}
+          <div className="flex-shrink-0 border-t border-slate-700/50 p-4">
+            <button
+              onClick={logout}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-700/50 hover:bg-red-600 text-slate-300 hover:text-white transition-all duration-300 group"
+            >
+              <span className="text-xl group-hover:scale-110 transition-transform">🚪</span>
+              <span className="font-medium text-sm">{t({ en: 'Logout', fr: 'Déconnexion' })}</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      {/* Mobile Header */}
+      <header className="lg:hidden bg-white shadow-sm border-b sticky top-0 z-40">
+        <div className="px-4 py-3">
           <div className="flex justify-between items-center">
-            <div className="flex-1 min-w-0">
-              <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-forest-900 truncate">
-                {t({ en: 'Admin Dashboard', fr: 'Panneau Admin' })}
-              </h1>
-              <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">Chalet-Balmotte810</p>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">🏔️</span>
+              <div>
+                <h1 className="text-base font-bold text-slate-900">Admin Panel</h1>
+                <p className="text-xs text-gray-600">Chalet-Balmotte810</p>
+              </div>
             </div>
             <button
               onClick={logout}
-              className="flex items-center gap-1 px-2 sm:px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors ml-2"
+              className="flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors"
             >
               <span>🚪</span>
-              <span className="font-medium text-xs sm:text-sm hidden sm:inline">{t({ en: 'Logout', fr: 'Déconnexion' })}</span>
             </button>
           </div>
         </div>
       </header>
 
-      <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 max-w-7xl mx-auto">
-        {/* Stats Cards - Mobile Responsive */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
+      {/* Main Content */}
+      <div className="lg:pl-64">
+        <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 max-w-7xl mx-auto pb-24 lg:pb-8">
+          {/* Stats Cards - Mobile Responsive */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
           <button
             onClick={() => setActiveTab('reservations')}
             className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
@@ -1026,61 +1080,8 @@ export default function AdminPage() {
           </button>
         </div>
 
-        {/* Mobile Navigation - Horizontal Scroll Style */}
-        <div className="bg-white rounded-lg shadow mb-6">
-          {/* Mobile Tab Selector - Horizontal Scroll */}
-          <div className="sm:hidden overflow-x-auto hide-scrollbar">
-            <div className="flex gap-2 p-3 min-w-max">
-              {tabs.map(tab => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-3 rounded-xl font-medium text-sm whitespace-nowrap transition-all duration-300 ${
-                    activeTab === tab.id
-                      ? 'bg-gradient-to-r from-slate-600 to-slate-700 text-white shadow-lg scale-105'
-                      : 'bg-gray-100 text-gray-600 hover:bg-slate-100 hover:text-slate-700 hover:scale-105 active:scale-95'
-                  }`}
-                >
-                  <span className={`text-xl transition-transform duration-300 ${
-                    activeTab === tab.id ? 'animate-bounce-subtle' : ''
-                  }`}>
-                    {tab.icon}
-                  </span>
-                  <span>{t(tab.label)}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Desktop Tabs - Hidden on Mobile */}
-          <div className="hidden sm:block border-b border-gray-200">
-            <nav className="flex -mb-px overflow-x-auto">
-              {tabs.map(tab => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`group relative flex items-center gap-2 px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b-2 font-medium text-sm whitespace-nowrap transition-all duration-300 ${
-                    activeTab === tab.id
-                      ? 'border-slate-700 text-slate-800 bg-slate-50 shadow-sm'
-                      : 'border-transparent text-gray-500 hover:text-slate-700 hover:border-slate-300 hover:bg-slate-50/50'
-                  }`}
-                >
-                  <span className={`text-lg sm:text-xl transition-transform duration-300 ${
-                    activeTab === tab.id ? 'scale-110' : 'group-hover:scale-110'
-                  }`}>
-                    {tab.icon}
-                  </span>
-                  <span className="hidden lg:inline">{t(tab.label)}</span>
-                  {activeTab === tab.id && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-slate-700 to-transparent"></span>
-                  )}
-                </button>
-              ))}
-            </nav>
-          </div>
-
-          {/* Tab Content - Mobile Optimized */}
-          <div className="p-3 sm:p-4 lg:p-6">
+          {/* Content Container */}
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 lg:p-8">
             {activeTab === 'dashboard' && (
               <div>
                 {/* Header with date and quick stats */}
@@ -3739,6 +3740,41 @@ export default function AdminPage() {
           }}
         />
       )}
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-2xl z-50">
+        <div className="grid grid-cols-4 gap-1 px-2 py-2">
+          {tabs.slice(0, 8).map(tab => {
+            const hasNotification =
+              (tab.id === 'messages' && messages.filter(m => !m.read).length > 0) ||
+              (tab.id === 'reservations' && reservations.filter(r => r.status === 'pending').length > 0);
+
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`relative flex flex-col items-center justify-center py-2 px-1 rounded-lg transition-all duration-300 ${
+                  activeTab === tab.id
+                    ? 'bg-slate-900 text-white scale-105'
+                    : 'text-gray-600 hover:bg-gray-100 active:scale-95'
+                }`}
+              >
+                <span className={`text-xl mb-0.5 transition-transform ${
+                  activeTab === tab.id ? 'scale-110' : ''
+                }`}>
+                  {tab.icon}
+                </span>
+                <span className="text-[10px] font-medium truncate w-full text-center">
+                  {t(tab.label)}
+                </span>
+                {hasNotification && (
+                  <span className="absolute top-1 right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </nav>
     </div>
   );
 }
