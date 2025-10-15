@@ -81,6 +81,7 @@ export default function AdminPage() {
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
   const [showInvoicePDF, setShowInvoicePDF] = useState(false);
   const [invoiceForPDF, setInvoiceForPDF] = useState<any | null>(null);
+  const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'confirmed' | 'cancelled'>('all');
   const [newUser, setNewUser] = useState({
     email: '',
     firstName: '',
@@ -726,6 +727,9 @@ export default function AdminPage() {
     const dateStr = date.toISOString().split('T')[0];
     return bookings
       .filter(booking => {
+        // Exclure les réservations annulées du calendrier
+        if (booking.status === 'cancelled') return false;
+
         const checkIn = booking.checkIn;
         const checkOut = booking.checkOut;
         return dateStr >= checkIn && dateStr <= checkOut;
@@ -959,17 +963,35 @@ export default function AdminPage() {
             {activeTab === 'reservations' && (
               <div>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3">
-                  <h2 className="text-lg sm:text-xl font-bold text-gray-900">
-                    {t({ en: 'Reservations', fr: 'Réservations' })}
-                  </h2>
-                  <button className="bg-slate-700 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800 font-bold text-sm">
-                    {t({ en: '+ Add', fr: '+ Ajouter' })}
-                  </button>
+                  <div>
+                    <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+                      {t({ en: 'Reservations', fr: 'Réservations' })}
+                    </h2>
+                    <p className="text-sm text-gray-600 mt-1">
+                      {reservations.filter(r => statusFilter === 'all' || r.status === statusFilter).length} {t({ en: 'reservation(s)', fr: 'réservation(s)' })}
+                    </p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    {/* Filtre par statut */}
+                    <select
+                      value={statusFilter}
+                      onChange={(e) => setStatusFilter(e.target.value as any)}
+                      className="px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white"
+                    >
+                      <option value="all">{t({ en: '📋 All', fr: '📋 Toutes' })}</option>
+                      <option value="pending">{t({ en: '⏳ Pending', fr: '⏳ En Attente' })}</option>
+                      <option value="confirmed">{t({ en: '✅ Confirmed', fr: '✅ Confirmées' })}</option>
+                      <option value="cancelled">{t({ en: '❌ Cancelled', fr: '❌ Annulées' })}</option>
+                    </select>
+                    <button className="bg-slate-700 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800 font-bold text-sm">
+                      {t({ en: '+ Add', fr: '+ Ajouter' })}
+                    </button>
+                  </div>
                 </div>
 
                 {/* Mobile Card View */}
                 <div className="sm:hidden space-y-4">
-                  {reservations.map(reservation => (
+                  {reservations.filter(r => statusFilter === 'all' || r.status === statusFilter).map(reservation => (
                     <div key={reservation.id} className="bg-white border rounded-lg p-4 shadow-sm">
                       <div className="flex justify-between items-start mb-3">
                         <div>
@@ -1050,7 +1072,7 @@ export default function AdminPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {reservations.map(reservation => (
+                      {reservations.filter(r => statusFilter === 'all' || r.status === statusFilter).map(reservation => (
                         <tr key={reservation.id} className="border-b hover:bg-gray-50">
                           <td className="py-3 px-4">
                             <div className="font-medium text-gray-900">{reservation.guestName}</div>
@@ -1785,9 +1807,27 @@ export default function AdminPage() {
                       </h3>
                       <form onSubmit={handleSendMessage} className="space-y-3 sm:space-y-4">
                         <div>
-                          <label className="block text-sm font-medium mb-2">
-                            {t({ en: 'Recipients', fr: 'Destinataires' })}
-                          </label>
+                          <div className="flex justify-between items-center mb-2">
+                            <label className="block text-sm font-medium">
+                              {t({ en: 'Recipients', fr: 'Destinataires' })}
+                            </label>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (selectedUserIds.length === users.length) {
+                                  setSelectedUserIds([]);
+                                } else {
+                                  setSelectedUserIds(users.map(u => u.id));
+                                }
+                              }}
+                              className="text-xs sm:text-sm text-blue-600 hover:text-blue-800 font-medium"
+                            >
+                              {selectedUserIds.length === users.length
+                                ? t({ en: '✓ Unselect All', fr: '✓ Désélectionner tout' })
+                                : t({ en: 'Select All', fr: 'Sélectionner tout' })
+                              }
+                            </button>
+                          </div>
                           <div className="border border-gray-300 rounded-lg p-3 max-h-48 overflow-y-auto space-y-2">
                             {users.map(user => (
                               <label key={user.id} className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
@@ -1809,8 +1849,15 @@ export default function AdminPage() {
                               </label>
                             ))}
                           </div>
-                          <div className="mt-2 text-sm text-gray-600">
-                            {selectedUserIds.length} {t({ en: 'recipient(s) selected', fr: 'destinataire(s) sélectionné(s)' })}
+                          <div className="mt-2 flex items-center justify-between">
+                            <span className="text-sm text-gray-600">
+                              {selectedUserIds.length} {t({ en: 'recipient(s) selected', fr: 'destinataire(s) sélectionné(s)' })}
+                            </span>
+                            {selectedUserIds.length === users.length && (
+                              <span className="text-xs sm:text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded font-medium">
+                                📢 {t({ en: 'All users', fr: 'Tous les utilisateurs' })}
+                              </span>
+                            )}
                           </div>
                         </div>
 
@@ -1871,9 +1918,17 @@ export default function AdminPage() {
 
             {activeTab === 'messages' && (
               <div>
-                <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">
-                  {t({ en: 'Messages', fr: 'Messages' })}
-                </h2>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3">
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+                    {t({ en: 'Messages', fr: 'Messages' })}
+                  </h2>
+                  <button
+                    onClick={() => setShowSendMessageModal(true)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors font-bold text-sm"
+                  >
+                    💬 {t({ en: 'Send Message', fr: 'Envoyer Message' })}
+                  </button>
+                </div>
                 <div className="space-y-3 sm:space-y-4">
                   {messages.map(message => (
                     <div key={message.id} className={`border rounded-lg p-3 sm:p-4 ${!message.read ? 'bg-blue-50 border-blue-200' : 'bg-white'}`}>
