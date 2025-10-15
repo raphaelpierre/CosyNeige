@@ -6,6 +6,7 @@ import { useLanguage } from '@/lib/hooks/useLanguage';
 import { useAuth } from '@/lib/context/AuthContext';
 import { formatEuro } from '@/lib/utils';
 import AdminInvoiceGeneratorFixed from '@/components/invoice/AdminInvoiceGeneratorFixed';
+import InvoiceModal from '@/components/invoice/InvoiceModal';
 
 interface User {
   id: string;
@@ -81,6 +82,10 @@ export default function AdminPage() {
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
   const [showInvoicePDF, setShowInvoicePDF] = useState(false);
   const [invoiceForPDF, setInvoiceForPDF] = useState<any | null>(null);
+  const [selectedReservationForInvoice, setSelectedReservationForInvoice] = useState<Reservation | null>(null);
+  const [showCreateInvoiceModal, setShowCreateInvoiceModal] = useState(false);
+  const [invoiceStatusFilter, setInvoiceStatusFilter] = useState<'all' | 'draft' | 'sent' | 'paid' | 'cancelled'>('all');
+  const [invoiceTypeFilter, setInvoiceTypeFilter] = useState<'all' | 'deposit' | 'balance' | 'full'>('all');
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'confirmed' | 'cancelled'>('all');
   const [newUser, setNewUser] = useState({
     email: '',
@@ -1025,6 +1030,15 @@ export default function AdminPage() {
 
                       <div className="flex justify-end gap-2">
                         <button
+                          onClick={() => {
+                            setSelectedReservationForInvoice(reservation);
+                            setShowCreateInvoiceModal(true);
+                          }}
+                          className="bg-purple-100 text-purple-700 px-3 py-1 rounded text-sm font-medium"
+                        >
+                          📄 Facture
+                        </button>
+                        <button
                           onClick={() => setEditingReservation(reservation)}
                           className="bg-blue-100 text-blue-700 px-3 py-1 rounded text-sm font-medium"
                         >
@@ -1098,6 +1112,16 @@ export default function AdminPage() {
                           </td>
                           <td className="py-3 px-4">
                             <div className="flex gap-2 items-center">
+                              <button
+                                onClick={() => {
+                                  setSelectedReservationForInvoice(reservation);
+                                  setShowCreateInvoiceModal(true);
+                                }}
+                                className="text-purple-600 hover:text-purple-800 text-lg"
+                                title={t({ en: 'Create Invoice', fr: 'Créer Facture' })}
+                              >
+                                📄
+                              </button>
                               <button
                                 onClick={() => setEditingReservation(reservation)}
                                 className="text-blue-600 hover:text-blue-800 text-lg"
@@ -1329,6 +1353,22 @@ export default function AdminPage() {
                       </form>
                     </div>
                   </div>
+                )}
+
+                {/* Modal de création de facture */}
+                {showCreateInvoiceModal && selectedReservationForInvoice && (
+                  <InvoiceModal
+                    reservation={selectedReservationForInvoice}
+                    onClose={() => {
+                      setShowCreateInvoiceModal(false);
+                      setSelectedReservationForInvoice(null);
+                    }}
+                    onSuccess={() => {
+                      loadInvoices();
+                      setShowCreateInvoiceModal(false);
+                      setSelectedReservationForInvoice(null);
+                    }}
+                  />
                 )}
               </div>
             )}
@@ -2018,17 +2058,25 @@ export default function AdminPage() {
                           <p className="text-sm text-gray-600">{invoice.clientEmail}</p>
                         </div>
                         <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                          invoice.paymentStatus === 'paid' 
+                          invoice.status === 'paid'
                             ? 'bg-green-100 text-green-800'
-                            : invoice.paymentStatus === 'partial'
-                            ? 'bg-yellow-100 text-yellow-800'  
-                            : 'bg-red-100 text-red-800'
+                            : invoice.status === 'sent'
+                            ? 'bg-blue-100 text-blue-800'
+                            : invoice.status === 'partial'
+                            ? 'bg-yellow-100 text-yellow-800'
+                            : invoice.status === 'cancelled'
+                            ? 'bg-red-100 text-red-800'
+                            : 'bg-gray-100 text-gray-800'
                         }`}>
-                          {invoice.paymentStatus === 'paid' 
+                          {invoice.status === 'paid'
                             ? t({ en: 'Paid', fr: 'Payée' })
-                            : invoice.paymentStatus === 'partial'
+                            : invoice.status === 'sent'
+                            ? t({ en: 'Sent', fr: 'Envoyée' })
+                            : invoice.status === 'partial'
                             ? t({ en: 'Partial', fr: 'Partielle' })
-                            : t({ en: 'Unpaid', fr: 'Impayée' })
+                            : invoice.status === 'cancelled'
+                            ? t({ en: 'Cancelled', fr: 'Annulée' })
+                            : t({ en: 'Draft', fr: 'Brouillon' })
                           }
                         </span>
                       </div>
@@ -2120,17 +2168,25 @@ export default function AdminPage() {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                                invoice.paymentStatus === 'paid' 
+                                invoice.status === 'paid'
                                   ? 'bg-green-100 text-green-800'
-                                  : invoice.paymentStatus === 'partial'
-                                  ? 'bg-yellow-100 text-yellow-800'  
-                                  : 'bg-red-100 text-red-800'
+                                  : invoice.status === 'sent'
+                                  ? 'bg-blue-100 text-blue-800'
+                                  : invoice.status === 'partial'
+                                  ? 'bg-yellow-100 text-yellow-800'
+                                  : invoice.status === 'cancelled'
+                                  ? 'bg-red-100 text-red-800'
+                                  : 'bg-gray-100 text-gray-800'
                               }`}>
-                                {invoice.paymentStatus === 'paid' 
+                                {invoice.status === 'paid'
                                   ? t({ en: 'Paid', fr: 'Payée' })
-                                  : invoice.paymentStatus === 'partial'
+                                  : invoice.status === 'sent'
+                                  ? t({ en: 'Sent', fr: 'Envoyée' })
+                                  : invoice.status === 'partial'
                                   ? t({ en: 'Partial', fr: 'Partielle' })
-                                  : t({ en: 'Unpaid', fr: 'Impayée' })
+                                  : invoice.status === 'cancelled'
+                                  ? t({ en: 'Cancelled', fr: 'Annulée' })
+                                  : t({ en: 'Draft', fr: 'Brouillon' })
                                 }
                               </span>
                             </td>
