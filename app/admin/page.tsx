@@ -1791,6 +1791,99 @@ export default function AdminPage() {
                 )}
 
                 {/* Modal d'envoi de message */}
+              </div>
+            )}
+
+            {activeTab === 'messages' && (
+              <div>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3">
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+                    {t({ en: 'Messages', fr: 'Messages' })}
+                  </h2>
+                  <button
+                    onClick={() => setShowSendMessageModal(true)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors font-bold text-sm"
+                  >
+                    💬 {t({ en: 'Send Message', fr: 'Envoyer Message' })}
+                  </button>
+                </div>
+                <div className="space-y-3 sm:space-y-4">
+                  {messages.map(message => (
+                    <div key={message.id} className={`border rounded-lg p-3 sm:p-4 ${!message.read ? 'bg-blue-50 border-blue-200' : 'bg-white'}`}>
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3 gap-2">
+                        <div className="flex-1">
+                          <div className="font-semibold text-gray-900">{message.name}</div>
+                          <div className="text-sm text-gray-600">{message.email}</div>
+                        </div>
+                        <div className="flex items-center gap-2 sm:gap-3 text-sm">
+                          <span className="text-gray-500">{message.date ? new Date(message.date).toLocaleDateString('fr-FR') : ''}</span>
+                          {!message.read && (
+                            <span className="bg-slate-700 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                              {t({ en: 'New', fr: 'Nouveau' })}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      
+                      <div className="mb-2">
+                        <span className="font-medium text-gray-800 text-sm sm:text-base">{message.subject}</span>
+                      </div>
+                      
+                      <p className="text-gray-700 text-sm mb-3 line-clamp-3">{message.message}</p>
+                      
+                      {/* Mobile Actions - Stacked */}
+                      <div className="sm:hidden flex flex-col gap-2">
+                        <div className="flex gap-2">
+                          <button 
+                            onClick={() => setSelectedMessage(message)}
+                            className="flex-1 text-sm bg-slate-700 hover:bg-slate-800 text-white px-3 py-2 rounded transition-colors"
+                          >
+                            💬 {t({ en: 'Reply', fr: 'Répondre' })}
+                          </button>
+                          <button 
+                            onClick={() => handleDeleteMessage(message.id, 'internal')}
+                            className="flex-1 text-sm bg-red-100 hover:bg-red-200 text-red-700 px-3 py-2 rounded transition-colors"
+                          >
+                            🗑️ {t({ en: 'Delete', fr: 'Supprimer' })}
+                          </button>
+                        </div>
+                        <button className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded transition-colors">
+                          ✓ {t({ en: 'Mark as read', fr: 'Marquer comme lu' })}
+                        </button>
+                      </div>
+
+                      {/* Desktop Actions - Inline */}
+                      <div className="hidden sm:flex gap-2">
+                        <button 
+                          onClick={() => setSelectedMessage(message)}
+                          className="text-sm bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded transition-colors"
+                        >
+                          {t({ en: 'Reply', fr: 'Répondre' })}
+                        </button>
+                        <button 
+                          onClick={() => handleDeleteMessage(message.id, 'internal')}
+                          className="text-sm bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded transition-colors"
+                        >
+                          {t({ en: 'Delete', fr: 'Supprimer' })}
+                        </button>
+                        <button className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded transition-colors">
+                          {t({ en: 'Mark as read', fr: 'Marquer comme lu' })}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {messages.length === 0 && (
+                    <div className="text-center py-8 sm:py-12">
+                      <div className="text-gray-500 text-3xl sm:text-4xl mb-4">📧</div>
+                      <p className="text-gray-500">
+                        {t({ en: 'No messages found', fr: 'Aucun message trouvé' })}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Modal d'envoi de message */}
                 {showSendMessageModal && (
                   <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
                     <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-2xl mx-auto max-h-[90vh] overflow-y-auto">
@@ -1905,97 +1998,6 @@ export default function AdminPage() {
                     </div>
                   </div>
                 )}
-              </div>
-            )}
-
-            {activeTab === 'messages' && (
-              <div>
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3">
-                  <h2 className="text-lg sm:text-xl font-bold text-gray-900">
-                    {t({ en: 'Messages', fr: 'Messages' })}
-                  </h2>
-                  <button
-                    onClick={() => setShowSendMessageModal(true)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors font-bold text-sm"
-                  >
-                    💬 {t({ en: 'Send Message', fr: 'Envoyer Message' })}
-                  </button>
-                </div>
-                <div className="space-y-3 sm:space-y-4">
-                  {messages.map(message => (
-                    <div key={message.id} className={`border rounded-lg p-3 sm:p-4 ${!message.read ? 'bg-blue-50 border-blue-200' : 'bg-white'}`}>
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3 gap-2">
-                        <div className="flex-1">
-                          <div className="font-semibold text-gray-900">{message.name}</div>
-                          <div className="text-sm text-gray-600">{message.email}</div>
-                        </div>
-                        <div className="flex items-center gap-2 sm:gap-3 text-sm">
-                          <span className="text-gray-500">{message.date ? new Date(message.date).toLocaleDateString('fr-FR') : ''}</span>
-                          {!message.read && (
-                            <span className="bg-slate-700 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                              {t({ en: 'New', fr: 'Nouveau' })}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      
-                      <div className="mb-2">
-                        <span className="font-medium text-gray-800 text-sm sm:text-base">{message.subject}</span>
-                      </div>
-                      
-                      <p className="text-gray-700 text-sm mb-3 line-clamp-3">{message.message}</p>
-                      
-                      {/* Mobile Actions - Stacked */}
-                      <div className="sm:hidden flex flex-col gap-2">
-                        <div className="flex gap-2">
-                          <button 
-                            onClick={() => setSelectedMessage(message)}
-                            className="flex-1 text-sm bg-slate-700 hover:bg-slate-800 text-white px-3 py-2 rounded transition-colors"
-                          >
-                            💬 {t({ en: 'Reply', fr: 'Répondre' })}
-                          </button>
-                          <button 
-                            onClick={() => handleDeleteMessage(message.id, 'internal')}
-                            className="flex-1 text-sm bg-red-100 hover:bg-red-200 text-red-700 px-3 py-2 rounded transition-colors"
-                          >
-                            🗑️ {t({ en: 'Delete', fr: 'Supprimer' })}
-                          </button>
-                        </div>
-                        <button className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded transition-colors">
-                          ✓ {t({ en: 'Mark as read', fr: 'Marquer comme lu' })}
-                        </button>
-                      </div>
-
-                      {/* Desktop Actions - Inline */}
-                      <div className="hidden sm:flex gap-2">
-                        <button 
-                          onClick={() => setSelectedMessage(message)}
-                          className="text-sm bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded transition-colors"
-                        >
-                          {t({ en: 'Reply', fr: 'Répondre' })}
-                        </button>
-                        <button 
-                          onClick={() => handleDeleteMessage(message.id, 'internal')}
-                          className="text-sm bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded transition-colors"
-                        >
-                          {t({ en: 'Delete', fr: 'Supprimer' })}
-                        </button>
-                        <button className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded transition-colors">
-                          {t({ en: 'Mark as read', fr: 'Marquer comme lu' })}
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                  
-                  {messages.length === 0 && (
-                    <div className="text-center py-8 sm:py-12">
-                      <div className="text-gray-500 text-3xl sm:text-4xl mb-4">📧</div>
-                      <p className="text-gray-500">
-                        {t({ en: 'No messages found', fr: 'Aucun message trouvé' })}
-                      </p>
-                    </div>
-                  )}
-                </div>
               </div>
             )}
 

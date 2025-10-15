@@ -270,11 +270,13 @@ export async function sendAdminNotification({
 export async function sendContactEmail({
   name,
   email,
+  phone,
   subject,
   message
 }: {
   name: string;
   email: string;
+  phone?: string;
   subject: string;
   message: string;
 }) {
@@ -290,7 +292,7 @@ export async function sendContactEmail({
         <div style="text-align: center; margin-bottom: 30px;">
           <h1 style="color: #2d5016;">💬 Nouveau message de contact</h1>
         </div>
-        
+
         <div style="background-color: #fff; border: 2px solid #2d5016; border-radius: 8px; padding: 20px;">
           <h2 style="color: #2d5016; margin-top: 0;">Détails du message</h2>
           <table style="width: 100%; border-collapse: collapse;">
@@ -302,6 +304,12 @@ export async function sendContactEmail({
               <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Email :</strong></td>
               <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${email}</td>
             </tr>
+            ${phone ? `
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Téléphone :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${phone}</td>
+            </tr>
+            ` : ''}
             <tr>
               <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Sujet :</strong></td>
               <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${subject}</td>

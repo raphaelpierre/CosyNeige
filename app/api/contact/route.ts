@@ -3,7 +3,7 @@ import { sendContactEmail } from '@/lib/email';
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, subject, message } = await request.json();
+    const { name, email, phone, subject, message } = await request.json();
 
     // Validation
     if (!name || !email || !subject || !message) {
@@ -22,10 +22,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validation du téléphone (optionnel, mais doit être valide s'il est fourni)
+    if (phone && phone.trim()) {
+      const phoneRegex = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
+      if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+        return NextResponse.json(
+          { error: 'Invalid phone format' },
+          { status: 400 }
+        );
+      }
+    }
+
     // Envoyer l'email
     const result = await sendContactEmail({
       name,
       email,
+      phone,
       subject,
       message
     });

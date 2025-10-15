@@ -55,6 +55,17 @@ export default function BookingPage() {
     ? calculatePriceWithSeasons(checkIn, checkOut, seasons, pricingSettings)
     : null;
 
+  // Calculer les jours avant l'arrivée
+  const daysUntilCheckIn = checkIn
+    ? Math.ceil((new Date(checkIn).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
+    : 0;
+
+  // Déterminer le montant à payer maintenant
+  const requiresFullPayment = daysUntilCheckIn < 30;
+  const depositAmount = priceCalculation
+    ? (requiresFullPayment ? priceCalculation.total : Math.round(priceCalculation.total * 0.3))
+    : 0;
+
   // Validation: si les saisons ne sont pas encore chargées, on considère comme valide temporairement
   // pour ne pas bloquer l'utilisateur pendant le chargement
   const validation = checkIn && checkOut
@@ -169,7 +180,7 @@ export default function BookingPage() {
           checkOut,
           guests,
           totalPrice: priceCalculation?.total || 0,
-          depositAmount: Math.round((priceCalculation?.total || 0) * 0.3),
+          depositAmount: depositAmount,
         }),
       });
 
@@ -184,7 +195,7 @@ export default function BookingPage() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             bookingId: newBookingId,
-            amount: Math.round((priceCalculation?.total || 0) * 0.3) * 100,
+            amount: depositAmount * 100,
             currency: 'eur',
           }),
         });
@@ -618,8 +629,11 @@ export default function BookingPage() {
                           </div>
                           <div className="bg-yellow-50 rounded p-2 text-xs">
                             <div className="flex justify-between">
-                              <span className="text-yellow-800">{t({ en: 'Deposit (30%)', fr: 'Acompte (30%)' })}</span>
-                              <span className="font-bold text-yellow-900">{formatEuro(priceCalculation.total * 0.3)}</span>
+                              <span className="text-yellow-800">{t({
+                                en: requiresFullPayment ? 'Full payment' : 'Deposit (30%)',
+                                fr: requiresFullPayment ? 'Paiement complet' : 'Acompte (30%)'
+                              })}</span>
+                              <span className="font-bold text-yellow-900">{formatEuro(depositAmount)}</span>
                             </div>
                           </div>
                         </div>
@@ -700,8 +714,8 @@ export default function BookingPage() {
                     </div>
                     <p className="text-gray-600">
                       {t({
-                        en: 'Pay your 30% deposit securely',
-                        fr: 'Payez votre acompte de 30% en toute sécurité'
+                        en: requiresFullPayment ? 'Pay the full amount securely' : 'Pay your 30% deposit securely',
+                        fr: requiresFullPayment ? 'Payez le montant complet en toute sécurité' : 'Payez votre acompte de 30% en toute sécurité'
                       })}
                     </p>
                   </div>
@@ -723,22 +737,31 @@ export default function BookingPage() {
                         <strong>{t({ en: 'Total stay:', fr: 'Total séjour :' })}</strong> {formatEuro(priceCalculation?.total || 0)}
                       </div>
                       <div className="text-lg font-bold text-blue-900">
-                        <strong>{t({ en: 'Deposit now:', fr: 'Acompte maintenant :' })}</strong> {formatEuro(Math.round((priceCalculation?.total || 0) * 0.3))}
+                        <strong>{t({
+                          en: requiresFullPayment ? 'Full payment now:' : 'Deposit now:',
+                          fr: requiresFullPayment ? 'Paiement complet maintenant :' : 'Acompte maintenant :'
+                        })}</strong> {formatEuro(depositAmount)}
                       </div>
                     </div>
 
                     <div className="p-3 bg-blue-100 rounded-lg text-sm text-blue-800">
-                      ℹ️ {t({
-                        en: 'Remaining balance due 30 days before arrival.',
-                        fr: 'Solde restant dû 30 jours avant l\'arrivée.'
-                      })}
+                      ℹ️ {requiresFullPayment
+                        ? t({
+                            en: `Arrival in ${daysUntilCheckIn} days: full payment required now.`,
+                            fr: `Arrivée dans ${daysUntilCheckIn} jours : paiement complet requis maintenant.`
+                          })
+                        : t({
+                            en: 'Remaining balance due 30 days before arrival.',
+                            fr: 'Solde restant dû 30 jours avant l\'arrivée.'
+                          })
+                      }
                     </div>
                   </div>
 
                   {/* Formulaire Stripe */}
                   <StripeProvider clientSecret={clientSecret}>
                     <PaymentForm
-                      amount={Math.round((priceCalculation?.total || 0) * 0.3)}
+                      amount={depositAmount}
                       clientSecret={clientSecret}
                       onSuccess={() => {
                         router.push(`/booking/confirmation?bookingId=${bookingId}`);
@@ -762,7 +785,7 @@ export default function BookingPage() {
                       })}
                     </p>
                     <button
-                      onClick={() => router.push(`/booking/payment/bank-transfer?bookingId=${bookingId}&deposit=${Math.round((priceCalculation?.total || 0) * 0.3)}`)}
+                      onClick={() => router.push(`/booking/payment/bank-transfer?bookingId=${bookingId}&deposit=${depositAmount}`)}
                       className="px-6 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
                     >
                       <span>🏦</span>
@@ -892,9 +915,12 @@ export default function BookingPage() {
               </div>
             </div>
             <div className="text-right">
-              <div className="text-xs text-gray-600">{t({ en: 'Deposit', fr: 'Acompte' })}</div>
+              <div className="text-xs text-gray-600">{t({
+                en: requiresFullPayment ? 'Payment' : 'Deposit',
+                fr: requiresFullPayment ? 'Paiement' : 'Acompte'
+              })}</div>
               <div className="text-lg font-bold text-yellow-700">
-                {formatEuro(priceCalculation.total * 0.3)}
+                {formatEuro(depositAmount)}
               </div>
             </div>
           </div>

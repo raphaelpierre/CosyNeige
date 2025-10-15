@@ -15,11 +15,32 @@ export default function ContactPage() {
     message: '',
   });
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const [phoneError, setPhoneError] = useState('');
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Validation du format de téléphone
+  const validatePhone = (phone: string): boolean => {
+    if (!phone.trim()) return true; // Le téléphone est optionnel
+
+    // Accepter les formats internationaux et français
+    // Exemples valides: +33612345678, 0612345678, +33 6 12 34 56 78, 06 12 34 56 78
+    const phoneRegex = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
+    return phoneRegex.test(phone.replace(/\s/g, ''));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Valider le téléphone avant soumission
+    if (formData.phone && !validatePhone(formData.phone)) {
+      setPhoneError(t({
+        en: 'Please enter a valid phone number (e.g., +33 6 12 34 56 78 or 06 12 34 56 78)',
+        fr: 'Veuillez entrer un numéro de téléphone valide (ex: +33 6 12 34 56 78 ou 06 12 34 56 78)'
+      }));
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -179,10 +200,18 @@ export default function ContactPage() {
                 <input
                   type="tel"
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent"
-                  placeholder="+33 X XX XX XX XX"
+                  onChange={(e) => {
+                    setFormData({ ...formData, phone: e.target.value });
+                    setPhoneError(''); // Effacer l'erreur lors de la modification
+                  }}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent ${
+                    phoneError ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  placeholder="+33 6 12 34 56 78"
                 />
+                {phoneError && (
+                  <p className="mt-2 text-sm text-red-600">{phoneError}</p>
+                )}
               </div>
             </div>
 
