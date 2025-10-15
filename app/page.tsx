@@ -211,8 +211,8 @@ export default function HomePage() {
                   </h3>
                   <p className="text-lg text-gray-700 mb-6 leading-relaxed">
                     {t({
-                      en: 'Spacious 180m² chalet accommodating up to 10 guests. 4 comfortable bedrooms, 3 modern bathrooms, and generous living spaces for memorable gatherings.',
-                      fr: 'Spacieux chalet de 180m² accueillant jusqu\'à 10 personnes. 4 chambres confortables, 3 salles de bains modernes, et espaces de vie généreux pour des moments inoubliables.'
+                      en: 'Spacious 180m² chalet accommodating up to 10 guests. 4 comfortable bedrooms, 2 modern bathrooms, and generous living spaces for memorable gatherings.',
+                      fr: 'Spacieux chalet de 180m² accueillant jusqu\'à 10 personnes. 4 chambres confortables, 2 salles de bains modernes, et espaces de vie généreux pour des moments inoubliables.'
                     })}
                   </p>
                   <div className="flex flex-wrap gap-3">
