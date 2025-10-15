@@ -145,16 +145,16 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
     const isPast = isPastDate(date);
     const isSelected = isDateSelected(date);
 
-    let className = "aspect-square flex items-center justify-center rounded-lg text-sm font-medium transition-colors ";
+    let className = "aspect-square flex items-center justify-center rounded-lg text-sm sm:text-base font-medium transition-colors touch-manipulation min-h-[44px] sm:min-h-0 ";
 
     if (isPast) {
       className += "text-gray-300 cursor-not-allowed";
     } else if (isBooked) {
       className += "bg-red-100 text-red-800 cursor-not-allowed";
     } else if (isSelected) {
-      className += "bg-forest-700 text-white font-bold cursor-pointer";
+      className += "bg-forest-700 text-white font-bold cursor-pointer active:scale-95";
     } else {
-      className += "bg-green-50 text-green-800 hover:bg-green-100 cursor-pointer";
+      className += "bg-green-50 text-green-800 hover:bg-green-100 cursor-pointer active:bg-green-200 active:scale-95";
     }
 
     days.push(
@@ -180,41 +180,41 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
+    <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
       {/* En-tête avec navigation */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
         <button
           onClick={goToPreviousMonth}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-3 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation active:scale-95"
           aria-label={t({ en: 'Previous month', fr: 'Mois précédent' })}
         >
-          <svg className="w-6 h-6 text-forest-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 sm:w-6 sm:h-6 text-forest-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <h3 className="text-xl font-bold text-forest-900 capitalize">{monthName}</h3>
+        <h3 className="text-lg sm:text-xl font-bold text-forest-900 capitalize">{monthName}</h3>
         <button
           onClick={goToNextMonth}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-3 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation active:scale-95"
           aria-label={t({ en: 'Next month', fr: 'Mois suivant' })}
         >
-          <svg className="w-6 h-6 text-forest-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 sm:w-6 sm:h-6 text-forest-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>
 
       {/* Jours de la semaine */}
-      <div className="grid grid-cols-7 gap-2 mb-2">
+      <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-2">
         {weekDays.map((day, index) => (
-          <div key={index} className="text-center text-sm font-semibold text-gray-600">
+          <div key={index} className="text-center text-xs sm:text-sm font-semibold text-gray-600">
             {day}
           </div>
         ))}
       </div>
 
       {/* Grille du calendrier */}
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid grid-cols-7 gap-1 sm:gap-2">
         {days}
       </div>
 

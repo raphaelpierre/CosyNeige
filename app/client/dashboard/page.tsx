@@ -773,7 +773,7 @@ function ClientDashboardContent() {
                             {canEditReservation(reservation) && (
                               <button
                                 onClick={() => startEditReservation(reservation)}
-                                className="w-full lg:w-auto bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white px-6 py-2 rounded-lg font-semibold transition-all text-sm mb-2"
+                                className="w-full lg:w-auto bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white px-6 py-3 rounded-lg font-semibold transition-all text-sm sm:text-base mb-2 touch-manipulation active:scale-98"
                               >
                                 📝 {t({ en: 'Edit', fr: 'Modifier' })}
                               </button>
@@ -781,7 +781,7 @@ function ClientDashboardContent() {
                             {canGenerateInvoice(reservation) && (
                               <button
                                 onClick={() => handleGenerateInvoice(reservation)}
-                                className="w-full lg:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-all text-sm mb-2"
+                                className="w-full lg:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all text-sm sm:text-base mb-2 touch-manipulation active:scale-98"
                               >
                                 📄 {t({ en: 'Generate Invoice', fr: 'Générer Facture' })}
                               </button>
@@ -796,7 +796,7 @@ function ClientDashboardContent() {
                                 setShowMessageForm(true);
                                 setActiveTab('messages');
                               }}
-                              className="w-full lg:w-auto bg-slate-700 hover:bg-slate-800 text-white px-6 py-2 rounded-lg font-semibold transition-colors text-sm"
+                              className="w-full lg:w-auto bg-slate-700 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors text-sm sm:text-base touch-manipulation active:scale-98"
                             >
                               {t({ en: 'Contact Us', fr: 'Nous Contacter' })}
                             </button>
@@ -1070,19 +1070,19 @@ function ClientDashboardContent() {
                                   setShowMessageForm(true);
                                   window.scrollTo({ top: 0, behavior: 'smooth' });
                                 }}
-                                className="text-forest-700 hover:text-forest-900 font-semibold text-sm px-3 py-1 rounded border border-forest-700 hover:bg-forest-50 transition-colors"
+                                className="text-forest-700 hover:text-forest-900 font-semibold text-sm px-4 py-2.5 rounded-lg border-2 border-forest-700 hover:bg-forest-50 transition-colors touch-manipulation active:scale-95"
                               >
                                 ↩️ {t({ en: 'Reply', fr: 'Répondre' })}
                               </button>
                               <button
                                 onClick={() => startEditMessage(message)}
-                                className="text-gold-700 hover:text-gold-900 font-semibold text-sm px-3 py-1 rounded border border-gold-700 hover:bg-gold-50 transition-colors"
+                                className="text-gold-700 hover:text-gold-900 font-semibold text-sm px-4 py-2.5 rounded-lg border-2 border-gold-700 hover:bg-gold-50 transition-colors touch-manipulation active:scale-95"
                               >
                                 ✏️ {t({ en: 'Edit', fr: 'Modifier' })}
                               </button>
                               <button
                                 onClick={() => handleArchiveMessage(message.id, !message.archived)}
-                                className="text-gray-700 hover:text-gray-900 font-semibold text-sm px-3 py-1 rounded border border-gray-700 hover:bg-gray-50 transition-colors"
+                                className="text-gray-700 hover:text-gray-900 font-semibold text-sm px-4 py-2.5 rounded-lg border-2 border-gray-700 hover:bg-gray-50 transition-colors touch-manipulation active:scale-95"
                               >
                                 {message.archived
                                   ? `📂 ${t({ en: 'Unarchive', fr: 'Désarchiver' })}`
@@ -1091,7 +1091,7 @@ function ClientDashboardContent() {
                               </button>
                               <button
                                 onClick={() => setDeletingMessage(message.id)}
-                                className="text-red-700 hover:text-red-900 font-semibold text-sm px-3 py-1 rounded border border-red-700 hover:bg-red-50 transition-colors"
+                                className="text-red-700 hover:text-red-900 font-semibold text-sm px-4 py-2.5 rounded-lg border-2 border-red-700 hover:bg-red-50 transition-colors touch-manipulation active:scale-95"
                               >
                                 🗑️ {t({ en: 'Delete', fr: 'Supprimer' })}
                               </button>

@@ -279,94 +279,19 @@ export default function BookingPage() {
                   <div className="text-center">
                     <div className="flex items-center justify-center gap-3 mb-3">
                       <span className="text-3xl">🗓️</span>
-                      <h3 className="text-xl font-bold text-gray-900">
+                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                         {t({ en: 'Choose Your Dates', fr: 'Choisissez Vos Dates' })}
                       </h3>
                     </div>
+                    <p className="text-gray-600 text-sm">
+                      {t({
+                        en: 'Select your arrival and departure dates to check availability',
+                        fr: 'Sélectionnez vos dates d\'arrivée et de départ pour voir les disponibilités'
+                      })}
+                    </p>
                   </div>
 
-                  {/* Section Tarifs et Conditions */}
-                  <div className="bg-gradient-to-br from-blue-50 to-white border-2 border-blue-200 rounded-xl p-6">
-                    <div className="flex items-center gap-3 mb-4">
-                      <span className="text-2xl">💵</span>
-                      <h4 className="text-lg font-bold text-gray-900">
-                        {t({ en: 'Rates & Conditions', fr: 'Tarifs & Conditions' })}
-                      </h4>
-                    </div>
-
-                    {pricingSettings && !isLoadingSeasons ? (
-                      <>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                          <div className="bg-white rounded-lg p-4 border border-blue-100">
-                            <div className="text-sm text-gray-600 mb-1">
-                              {t({ en: 'Holiday periods', fr: 'Périodes de vacances' })}
-                            </div>
-                            <div className="text-2xl font-bold text-blue-900 mb-2">
-                              {formatEuro(pricingSettings.defaultHighSeasonPrice)} / {t({ en: 'night', fr: 'nuit' })}
-                            </div>
-                            <div className="text-xs text-gray-600 space-y-1">
-                              {seasons
-                                .filter(s => s.seasonType === 'high' && s.isActive)
-                                .slice(0, 3)
-                                .map((season, index) => {
-                                  const start = new Date(season.startDate);
-                                  const end = new Date(season.endDate);
-                                  return (
-                                    <div key={index}>
-                                      • {season.name} ({start.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} - {end.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })})
-                                    </div>
-                                  );
-                                })}
-                            </div>
-                          </div>
-
-                          <div className="bg-white rounded-lg p-4 border border-green-100">
-                            <div className="text-sm text-gray-600 mb-1">
-                              {t({ en: 'Other periods', fr: 'Autres périodes' })}
-                            </div>
-                            <div className="text-2xl font-bold text-green-900 mb-2">
-                              {formatEuro(pricingSettings.defaultLowSeasonPrice)} / {t({ en: 'night', fr: 'nuit' })}
-                            </div>
-                            <div className="text-xs text-gray-600">
-                              {t({ en: 'All other dates throughout the year', fr: 'Toutes les autres dates de l\'année' })}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
-                          <div className="text-sm font-semibold text-yellow-900 mb-2">
-                            📋 {t({ en: 'Booking Conditions', fr: 'Conditions de Réservation' })}
-                          </div>
-                          <div className="text-sm text-yellow-800 space-y-1">
-                            <div>
-                              ✓ {t({
-                                en: 'Holiday periods: Sunday to Sunday booking may be required',
-                                fr: 'Périodes vacances : Réservation dimanche au dimanche possible'
-                              })}
-                            </div>
-                            <div>
-                              ✓ {t({
-                                en: `Minimum stay: ${pricingSettings.defaultMinimumStay} nights (varies by period)`,
-                                fr: `Séjour minimum : ${pricingSettings.defaultMinimumStay} nuits (varie selon période)`
-                              })}
-                            </div>
-                            <div>
-                              ✓ {t({ en: `Cleaning fee: ${formatEuro(pricingSettings.cleaningFee)}`, fr: `Frais de ménage : ${formatEuro(pricingSettings.cleaningFee)}` })}
-                            </div>
-                            <div>
-                              ✓ {t({ en: `Security deposit: ${formatEuro(pricingSettings.depositAmount)}`, fr: `Caution : ${formatEuro(pricingSettings.depositAmount)}` })}
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <div className="text-center py-8">
-                        <div className="animate-spin text-3xl mb-2">⏳</div>
-                        <p className="text-gray-600">{t({ en: 'Loading rates...', fr: 'Chargement des tarifs...' })}</p>
-                      </div>
-                    )}
-                  </div>
-
+                  {/* NOUVEAU: Calendrier + Personnes EN PREMIER */}
                   <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
                     {/* Sélecteur personnes */}
                     <div className="lg:col-span-2">
@@ -383,15 +308,15 @@ export default function BookingPage() {
                         <div className="flex items-center justify-center gap-3">
                           <button
                             onClick={() => setGuests(Math.max(1, guests - 1))}
-                            className="w-8 h-8 rounded-full bg-white shadow border border-gray-200 hover:border-forest-400 flex items-center justify-center font-bold text-gray-600 hover:text-forest-600 transition-all active:scale-95"
+                            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow border border-gray-200 hover:border-forest-400 flex items-center justify-center font-bold text-lg sm:text-xl text-gray-600 hover:text-forest-600 transition-all active:scale-95"
                             aria-label="Decrease guests"
                           >
                             −
                           </button>
 
-                          <div className="bg-white rounded-lg px-3 py-2 shadow-sm border border-forest-300 min-w-[70px]">
+                          <div className="bg-white rounded-lg px-4 py-3 shadow-sm border border-forest-300 min-w-[80px] sm:min-w-[90px]">
                             <div className="text-center">
-                              <div className="font-bold text-forest-700">{guests}</div>
+                              <div className="font-bold text-lg sm:text-xl text-forest-700">{guests}</div>
                               <div className="text-xs text-gray-600">
                                 {t({ en: guests === 1 ? 'guest' : 'guests', fr: guests === 1 ? 'pers.' : 'pers.' })}
                               </div>
@@ -400,7 +325,7 @@ export default function BookingPage() {
 
                           <button
                             onClick={() => setGuests(Math.min(10, guests + 1))}
-                            className="w-8 h-8 rounded-full bg-white shadow border border-gray-200 hover:border-forest-400 flex items-center justify-center font-bold text-gray-600 hover:text-forest-600 transition-all active:scale-95"
+                            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow border border-gray-200 hover:border-forest-400 flex items-center justify-center font-bold text-lg sm:text-xl text-gray-600 hover:text-forest-600 transition-all active:scale-95"
                             aria-label="Increase guests"
                           >
                             +
@@ -420,6 +345,109 @@ export default function BookingPage() {
                       <BookingCalendar onDateSelect={handleDateSelect} />
                     </div>
                   </div>
+
+                  {/* Section Tarifs et Conditions - TOUJOURS VISIBLE - DESIGN COMPACT */}
+                  {pricingSettings && !isLoadingSeasons ? (
+                    <div className="bg-gradient-to-br from-blue-50 via-white to-blue-50 border-2 border-blue-300 rounded-xl p-4 sm:p-6 shadow-md">
+                      <div className="flex items-center gap-3 mb-4">
+                        <span className="text-2xl">💵</span>
+                        <h4 className="text-lg sm:text-xl font-bold text-gray-900">
+                          {t({ en: 'Rates & Booking Conditions', fr: 'Tarifs & Conditions de Réservation' })}
+                        </h4>
+                      </div>
+
+                      {/* Tarifs en ligne compacte */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                        <div className="bg-white rounded-lg p-4 border-l-4 border-blue-600 shadow-sm">
+                          <div className="flex items-baseline gap-2 mb-1">
+                            <span className="text-xl sm:text-2xl font-black text-blue-900">
+                              {formatEuro(pricingSettings.defaultHighSeasonPrice)}
+                            </span>
+                            <span className="text-sm text-gray-600">/ {t({ en: 'night', fr: 'nuit' })}</span>
+                          </div>
+                          <div className="text-sm font-semibold text-blue-800 mb-2">
+                            {t({ en: 'Holiday Periods', fr: 'Périodes de Vacances' })}
+                          </div>
+                          <div className="text-xs text-gray-600">
+                            {seasons
+                              .filter(s => s.seasonType === 'high' && s.isActive)
+                              .slice(0, 2)
+                              .map((season, index) => (
+                                <div key={index}>• {season.name}</div>
+                              ))}
+                          </div>
+                        </div>
+
+                        <div className="bg-white rounded-lg p-4 border-l-4 border-green-600 shadow-sm">
+                          <div className="flex items-baseline gap-2 mb-1">
+                            <span className="text-xl sm:text-2xl font-black text-green-900">
+                              {formatEuro(pricingSettings.defaultLowSeasonPrice)}
+                            </span>
+                            <span className="text-sm text-gray-600">/ {t({ en: 'night', fr: 'nuit' })}</span>
+                          </div>
+                          <div className="text-sm font-semibold text-green-800 mb-2">
+                            {t({ en: 'Other Periods', fr: 'Autres Périodes' })}
+                          </div>
+                          <div className="text-xs text-gray-600">
+                            {t({ en: 'All other dates', fr: 'Toutes autres dates' })}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Conditions importantes - plus compact */}
+                      <div className="bg-white rounded-lg p-4 border border-gray-200">
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className="text-lg">📋</span>
+                          <div className="text-sm font-bold text-gray-900">
+                            {t({ en: 'Important Information', fr: 'Informations Importantes' })}
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-xs sm:text-sm text-gray-700">
+                          <div className="flex items-start gap-2">
+                            <span className="text-green-600 flex-shrink-0">✓</span>
+                            <span>
+                              {t({
+                                en: `Min. ${pricingSettings.defaultMinimumStay} nights`,
+                                fr: `Min. ${pricingSettings.defaultMinimumStay} nuits`
+                              })}
+                            </span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <span className="text-green-600 flex-shrink-0">✓</span>
+                            <span>
+                              {t({
+                                en: `Cleaning: ${formatEuro(pricingSettings.cleaningFee)}`,
+                                fr: `Ménage: ${formatEuro(pricingSettings.cleaningFee)}`
+                              })}
+                            </span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <span className="text-green-600 flex-shrink-0">✓</span>
+                            <span>
+                              {t({
+                                en: `Deposit: ${formatEuro(pricingSettings.depositAmount)}`,
+                                fr: `Caution: ${formatEuro(pricingSettings.depositAmount)}`
+                              })}
+                            </span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <span className="text-green-600 flex-shrink-0">✓</span>
+                            <span>
+                              {t({
+                                en: '30% deposit required',
+                                fr: 'Acompte 30% requis'
+                              })}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 text-center">
+                      <div className="animate-spin text-3xl mb-2">⏳</div>
+                      <p className="text-gray-600">{t({ en: 'Loading rates...', fr: 'Chargement des tarifs...' })}</p>
+                    </div>
+                  )}
 
                   {/* Feedback messages */}
                   {checkIn && checkOut && nights > 0 && (
@@ -441,28 +469,37 @@ export default function BookingPage() {
                         </div>
                       ) : (
                         <div className="space-y-4">
-                          <div className="bg-slate-50 border border-slate-300 rounded-xl p-4 text-center">
-                            <div className="flex items-center justify-center gap-2 mb-2">
-                              <span className="text-slate-600 text-xl">✅</span>
-                              <h4 className="text-slate-800 font-bold">
-                                {t({ en: 'Perfect selection!', fr: 'Parfait !' })}
-                              </h4>
-                            </div>
-                            <p className="text-slate-700 text-sm">
-                              {t({ en: `${nights} nights • ${guests} guests`, fr: `${nights} nuits • ${guests} personnes` })}
-                            </p>
-                          </div>
-
-                          {/* Bouton Continuer (desktop) */}
+                          {/* Message de succès avec prix */}
                           {priceCalculation && (
-                            <div className="hidden xl:flex justify-center pt-2">
-                              <button
-                                onClick={() => setCurrentStep(2)}
-                                className="px-8 py-4 bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-800 hover:to-slate-900 text-white rounded-lg font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center gap-3"
-                              >
-                                <span>{t({ en: 'Continue to Your Details', fr: 'Continuer vers Vos Informations' })}</span>
-                                <span>→</span>
-                              </button>
+                            <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-6 shadow-lg">
+                              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                                <div className="text-center sm:text-left">
+                                  <div className="flex items-center justify-center sm:justify-start gap-2 mb-2">
+                                    <span className="text-green-600 text-2xl">✅</span>
+                                    <h4 className="text-green-900 font-bold text-lg">
+                                      {t({ en: 'Dates available!', fr: 'Dates disponibles !' })}
+                                    </h4>
+                                  </div>
+                                  <p className="text-green-800 text-sm font-semibold">
+                                    {t({ en: `${nights} nights • ${guests} ${guests === 1 ? 'guest' : 'guests'}`, fr: `${nights} nuits • ${guests} ${guests === 1 ? 'personne' : 'personnes'}` })}
+                                  </p>
+                                  <div className="mt-2 flex items-center justify-center sm:justify-start gap-2">
+                                    <span className="text-2xl font-black text-green-900">{formatEuro(priceCalculation.total)}</span>
+                                    <span className="text-sm text-green-700">{t({ en: 'total', fr: 'au total' })}</span>
+                                  </div>
+                                </div>
+
+                                {/* Bouton Continuer visible sur tous les écrans */}
+                                <div className="flex-shrink-0 w-full sm:w-auto">
+                                  <button
+                                    onClick={() => setCurrentStep(2)}
+                                    className="w-full sm:w-auto px-6 sm:px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-bold text-base sm:text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 touch-manipulation active:scale-98 border-2 border-green-700"
+                                  >
+                                    <span>{t({ en: 'Continue', fr: 'Continuer' })}</span>
+                                    <span className="text-xl">→</span>
+                                  </button>
+                                </div>
+                              </div>
                             </div>
                           )}
                         </div>
@@ -669,17 +706,17 @@ export default function BookingPage() {
                   </div>
 
                   {/* Navigation */}
-                  <div className="flex gap-3 pt-4">
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
                     <button
                       onClick={() => setCurrentStep(1)}
-                      className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                      className="w-full sm:flex-1 px-6 py-4 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors text-base"
                     >
                       ← {t({ en: 'Back', fr: 'Retour' })}
                     </button>
                     <button
                       onClick={handleCreateReservationAndPayment}
                       disabled={!steps[1].completed || isSubmitting}
-                      className={`flex-1 px-6 py-4 rounded-lg font-bold text-lg transition-all ${
+                      className={`w-full sm:flex-1 px-6 py-4 rounded-lg font-bold text-base sm:text-lg transition-all ${
                         steps[1].completed && !isSubmitting
                           ? 'bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-800 hover:to-slate-900 text-white shadow-lg hover:shadow-xl'
                           : 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -693,7 +730,8 @@ export default function BookingPage() {
                       ) : (
                         <span className="flex items-center justify-center gap-2">
                           <span>💳</span>
-                          {t({ en: 'Continue to Payment', fr: 'Continuer vers le Paiement' })}
+                          <span className="hidden sm:inline">{t({ en: 'Continue to Payment', fr: 'Continuer vers le Paiement' })}</span>
+                          <span className="sm:hidden">{t({ en: 'Payment', fr: 'Paiement' })}</span>
                           <span>→</span>
                         </span>
                       )}
@@ -797,7 +835,7 @@ export default function BookingPage() {
                   <div className="flex justify-start">
                     <button
                       onClick={() => setCurrentStep(2)}
-                      className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                      className="w-full sm:w-auto px-6 py-4 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors text-base"
                     >
                       ← {t({ en: 'Back', fr: 'Retour' })}
                     </button>
@@ -904,7 +942,7 @@ export default function BookingPage() {
 
       {/* Bottom Sheet Prix (Mobile) */}
       {checkIn && checkOut && isValidStay && priceCalculation && (
-        <div className="xl:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-forest-200 shadow-2xl z-30 p-4">
+        <div className="xl:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-forest-200 shadow-2xl z-30 p-4 pb-6 safe-area-bottom">
           <div className="flex items-center justify-between mb-3">
             <div>
               <div className="text-xs text-gray-600">
@@ -927,7 +965,7 @@ export default function BookingPage() {
           {currentStep === 1 && steps[0].completed && (
             <button
               onClick={() => setCurrentStep(2)}
-              className="w-full bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-lg font-bold transition-colors"
+              className="w-full bg-slate-700 hover:bg-slate-800 text-white py-4 rounded-lg font-bold transition-colors text-base active:scale-98 touch-manipulation"
             >
               {t({ en: 'Continue', fr: 'Continuer' })} →
             </button>
