@@ -40,17 +40,6 @@ export interface Activity {
   icon?: string;
 }
 
-export interface Pricing {
-  highSeason: { min: number; max: number };
-  midSeason: { min: number; max: number };
-  lowSeason: { min: number; max: number };
-  summerSeason: { min: number; max: number };
-  cleaningFee: number;
-  linenPerPerson: number;
-  depositAmount?: number;
-  minimumStay: { highSeason: number; other: number };
-}
-
 export interface GalleryImage {
   url: string;
   category: 'exterior' | 'living' | 'bedroom' | 'bathroom' | 'kitchen' | 'wellness' | 'terrace' | 'winter' | 'summer' | 'local';

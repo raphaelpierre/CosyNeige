@@ -9,7 +9,10 @@ export async function POST(request: NextRequest) {
     // Validation
     if (!email || !password || !firstName || !lastName) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        {
+          error: 'Tous les champs obligatoires doivent être remplis',
+          errorEn: 'All required fields must be filled'
+        },
         { status: 400 }
       );
     }
@@ -21,7 +24,10 @@ export async function POST(request: NextRequest) {
 
     if (existingUser) {
       return NextResponse.json(
-        { error: 'User already exists' },
+        {
+          error: 'Un compte existe déjà avec cet email',
+          errorEn: 'An account with this email already exists'
+        },
         { status: 400 }
       );
     }
@@ -47,7 +53,10 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error creating user:', error);
     return NextResponse.json(
-      { error: 'Failed to create user' },
+      {
+        error: 'Erreur lors de la création du compte. Veuillez réessayer.',
+        errorEn: 'Error creating account. Please try again.'
+      },
       { status: 500 }
     );
   }

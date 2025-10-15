@@ -110,6 +110,29 @@ html {
   display: none;  /* Safari and Chrome */
 }
 
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
+/* Subtle bounce animation for admin tabs */
+@keyframes bounce-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 1s ease-in-out;
+}
+
 /* French date input localization */
 input[type="date"]:lang(fr),
 input[type="date"][data-locale="fr-FR"],

@@ -73,3 +73,30 @@ model BookedPeriod {
   endDate   DateTime
   createdAt DateTime @default(now())
 }
+
+model SeasonPeriod {
+  id              String   @id @default(cuid())
+  name            String   // ex: "Vacances de Noël 2024", "Février 2025"
+  startDate       DateTime
+  endDate         DateTime
+  seasonType      String   // "high" ou "low"
+  pricePerNight   Float    // Prix par nuit pour cette période
+  minimumStay     Int      // Nombre de nuits minimum
+  sundayToSunday  Boolean  @default(false) // Si vrai, uniquement dimanche à dimanche
+  year            Int      // Année pour faciliter les requêtes
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model PricingSettings {
+  id              String   @id @default(cuid())
+  cleaningFee     Float    @default(450)
+  linenPerPerson  Float    @default(25)
+  depositAmount   Float    @default(1500)
+  defaultHighSeasonPrice Float @default(410)
+  defaultLowSeasonPrice  Float @default(310)
+  defaultMinimumStay     Int   @default(3)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

@@ -45,7 +45,21 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: 'Accès non autorisé' }, { status: 403 });
     }
 
-    const { reservationId, status, paymentStatus } = await req.json();
+    const {
+      reservationId,
+      status,
+      paymentStatus,
+      firstName,
+      lastName,
+      email,
+      phone,
+      checkIn,
+      checkOut,
+      guests,
+      totalPrice,
+      depositAmount,
+      message
+    } = await req.json();
 
     if (!reservationId) {
       return NextResponse.json(
@@ -54,9 +68,30 @@ export async function PUT(req: NextRequest) {
       );
     }
 
+    // Construire l'objet de mise à jour
     const updateData: any = {};
     if (status) updateData.status = status;
     if (paymentStatus) updateData.paymentStatus = paymentStatus;
+    if (firstName) updateData.firstName = firstName;
+    if (lastName) updateData.lastName = lastName;
+    if (email) updateData.email = email;
+    if (phone) updateData.phone = phone;
+    if (checkIn) updateData.checkIn = new Date(checkIn);
+    if (checkOut) updateData.checkOut = new Date(checkOut);
+    if (guests !== undefined) updateData.guests = guests;
+    if (totalPrice !== undefined) updateData.totalPrice = totalPrice;
+    if (depositAmount !== undefined) updateData.depositAmount = depositAmount;
+    if (message !== undefined) updateData.message = message;
+
+    // Mettre à jour guestName si firstName ou lastName sont fournis
+    if (firstName || lastName) {
+      const reservation = await prisma.reservation.findUnique({
+        where: { id: reservationId }
+      });
+      const newFirstName = firstName || reservation?.firstName || '';
+      const newLastName = lastName || reservation?.lastName || '';
+      updateData.guestName = `${newFirstName} ${newLastName}`.trim();
+    }
 
     const updatedReservation = await prisma.reservation.update({
       where: { id: reservationId },

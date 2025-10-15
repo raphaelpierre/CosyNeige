@@ -1,4 +1,4 @@
-import { ChaletSpecs, Location, SkiResort, Activity, Pricing, GalleryImage, Testimonial, FAQ, Translation } from '@/types';
+import { ChaletSpecs, Location, SkiResort, Activity, GalleryImage, Testimonial, FAQ, Translation } from '@/types';
 
 export const chaletName = "Chalet-Balmotte810";
 
@@ -95,17 +95,6 @@ export const activities: Activity[] = [
     image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800"
   }
 ];
-
-export const pricing: Pricing = {
-  highSeason: { min: 2870, max: 2870 }, // 410€ x 7 nuits
-  midSeason: { min: 1600, max: 2000 }, // Conservé pour compatibilité
-  lowSeason: { min: 930, max: 930 }, // 310€ x 3 nuits
-  summerSeason: { min: 930, max: 930 }, // 310€ x 3 nuits (basse saison)
-  cleaningFee: 450,
-  linenPerPerson: 25,
-  depositAmount: 1500, // Nouvelle caution
-  minimumStay: { highSeason: 7, other: 3 }
-};
 
 export const testimonials: Testimonial[] = [
   {

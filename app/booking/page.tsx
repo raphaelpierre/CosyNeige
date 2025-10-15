@@ -3,7 +3,15 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/lib/hooks/useLanguage';
-import { calculateNights, calculatePrice, formatEuro, getSeason, validateBookingDates } from '@/lib/utils';
+import { formatEuro } from '@/lib/utils';
+import {
+  fetchSeasons,
+  calculatePriceWithSeasons,
+  validateBookingDatesWithSeasons,
+  calculateNights,
+  type SeasonPeriod,
+  type PricingSettings
+} from '@/lib/utils/pricing';
 import BookingCalendar from '@/components/ui/BookingCalendar';
 import StripeProvider from '@/components/payment/StripeProvider';
 import PaymentForm from '@/components/payment/PaymentForm';
@@ -37,12 +45,18 @@ export default function BookingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingId, setBookingId] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [seasons, setSeasons] = useState<SeasonPeriod[]>([]);
+  const [pricingSettings, setPricingSettings] = useState<PricingSettings | null>(null);
+  const [isLoadingSeasons, setIsLoadingSeasons] = useState(true);
 
   // Calculs automatiques
   const nights = checkIn && checkOut ? calculateNights(checkIn, checkOut) : 0;
-  const season = checkIn ? getSeason(new Date(checkIn)) : null;
-  const priceCalculation = checkIn && checkOut ? calculatePrice(checkIn, checkOut) : null;
-  const validation = checkIn && checkOut ? validateBookingDates(checkIn, checkOut) : { isValid: false };
+  const priceCalculation = checkIn && checkOut && seasons.length > 0 && pricingSettings
+    ? calculatePriceWithSeasons(checkIn, checkOut, seasons, pricingSettings)
+    : null;
+  const validation = checkIn && checkOut && seasons.length > 0 && pricingSettings
+    ? validateBookingDatesWithSeasons(checkIn, checkOut, seasons, pricingSettings)
+    : { isValid: false };
   const isValidStay = validation.isValid;
 
   // Définition des étapes (3 au lieu de 4)
@@ -97,6 +111,24 @@ export default function BookingPage() {
       setFormErrors(prev => ({ ...prev, phone: '' }));
     }
   };
+
+  // Charger les saisons au montage du composant
+  useEffect(() => {
+    const loadSeasons = async () => {
+      try {
+        setIsLoadingSeasons(true);
+        const { seasons: loadedSeasons, pricingSettings: loadedPricingSettings } = await fetchSeasons();
+        setSeasons(loadedSeasons);
+        setPricingSettings(loadedPricingSettings);
+      } catch (error) {
+        console.error('Error loading seasons:', error);
+      } finally {
+        setIsLoadingSeasons(false);
+      }
+    };
+
+    loadSeasons();
+  }, []);
 
   // Navigation automatique étape 1 → 2
   useEffect(() => {
@@ -250,55 +282,77 @@ export default function BookingPage() {
                       </h4>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                      <div className="bg-white rounded-lg p-4 border border-blue-100">
-                        <div className="text-sm text-gray-600 mb-1">
-                          {t({ en: 'Holiday periods', fr: 'Périodes de vacances' })}
-                        </div>
-                        <div className="text-2xl font-bold text-blue-900 mb-2">410€ / {t({ en: 'night', fr: 'nuit' })}</div>
-                        <div className="text-xs text-gray-600 space-y-1">
-                          <div>• {t({ en: 'Christmas (Dec 20 - Jan 7)', fr: 'Noël (20 déc - 7 jan)' })}</div>
-                          <div>• {t({ en: 'February (all month)', fr: 'Février (tout le mois)' })}</div>
-                          <div>• {t({ en: 'Easter (Mar 24 - Apr 14)', fr: 'Pâques (24 mars - 14 avr)' })}</div>
-                        </div>
-                      </div>
+                    {pricingSettings && !isLoadingSeasons ? (
+                      <>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                          <div className="bg-white rounded-lg p-4 border border-blue-100">
+                            <div className="text-sm text-gray-600 mb-1">
+                              {t({ en: 'Holiday periods', fr: 'Périodes de vacances' })}
+                            </div>
+                            <div className="text-2xl font-bold text-blue-900 mb-2">
+                              {formatEuro(pricingSettings.defaultHighSeasonPrice)} / {t({ en: 'night', fr: 'nuit' })}
+                            </div>
+                            <div className="text-xs text-gray-600 space-y-1">
+                              {seasons
+                                .filter(s => s.seasonType === 'high' && s.isActive)
+                                .slice(0, 3)
+                                .map((season, index) => {
+                                  const start = new Date(season.startDate);
+                                  const end = new Date(season.endDate);
+                                  return (
+                                    <div key={index}>
+                                      • {season.name} ({start.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} - {end.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })})
+                                    </div>
+                                  );
+                                })}
+                            </div>
+                          </div>
 
-                      <div className="bg-white rounded-lg p-4 border border-green-100">
-                        <div className="text-sm text-gray-600 mb-1">
-                          {t({ en: 'Other periods', fr: 'Autres périodes' })}
+                          <div className="bg-white rounded-lg p-4 border border-green-100">
+                            <div className="text-sm text-gray-600 mb-1">
+                              {t({ en: 'Other periods', fr: 'Autres périodes' })}
+                            </div>
+                            <div className="text-2xl font-bold text-green-900 mb-2">
+                              {formatEuro(pricingSettings.defaultLowSeasonPrice)} / {t({ en: 'night', fr: 'nuit' })}
+                            </div>
+                            <div className="text-xs text-gray-600">
+                              {t({ en: 'All other dates throughout the year', fr: 'Toutes les autres dates de l\'année' })}
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-2xl font-bold text-green-900 mb-2">310€ / {t({ en: 'night', fr: 'nuit' })}</div>
-                        <div className="text-xs text-gray-600">
-                          {t({ en: 'All other dates throughout the year', fr: 'Toutes les autres dates de l\'année' })}
-                        </div>
-                      </div>
-                    </div>
 
-                    <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
-                      <div className="text-sm font-semibold text-yellow-900 mb-2">
-                        📋 {t({ en: 'Booking Conditions', fr: 'Conditions de Réservation' })}
+                        <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+                          <div className="text-sm font-semibold text-yellow-900 mb-2">
+                            📋 {t({ en: 'Booking Conditions', fr: 'Conditions de Réservation' })}
+                          </div>
+                          <div className="text-sm text-yellow-800 space-y-1">
+                            <div>
+                              ✓ {t({
+                                en: 'Holiday periods: Sunday to Sunday booking may be required',
+                                fr: 'Périodes vacances : Réservation dimanche au dimanche possible'
+                              })}
+                            </div>
+                            <div>
+                              ✓ {t({
+                                en: `Minimum stay: ${pricingSettings.defaultMinimumStay} nights (varies by period)`,
+                                fr: `Séjour minimum : ${pricingSettings.defaultMinimumStay} nuits (varie selon période)`
+                              })}
+                            </div>
+                            <div>
+                              ✓ {t({ en: `Cleaning fee: ${formatEuro(pricingSettings.cleaningFee)}`, fr: `Frais de ménage : ${formatEuro(pricingSettings.cleaningFee)}` })}
+                            </div>
+                            <div>
+                              ✓ {t({ en: `Security deposit: ${formatEuro(pricingSettings.depositAmount)}`, fr: `Caution : ${formatEuro(pricingSettings.depositAmount)}` })}
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-center py-8">
+                        <div className="animate-spin text-3xl mb-2">⏳</div>
+                        <p className="text-gray-600">{t({ en: 'Loading rates...', fr: 'Chargement des tarifs...' })}</p>
                       </div>
-                      <div className="text-sm text-yellow-800 space-y-1">
-                        <div>
-                          ✓ {t({
-                            en: 'Holiday periods: Sunday to Sunday, minimum 7 nights',
-                            fr: 'Périodes vacances : Dimanche au dimanche, minimum 7 nuits'
-                          })}
-                        </div>
-                        <div>
-                          ✓ {t({
-                            en: 'Other periods: Minimum 3 nights',
-                            fr: 'Autres périodes : Minimum 3 nuits'
-                          })}
-                        </div>
-                        <div>
-                          ✓ {t({ en: 'Cleaning fee: 450€', fr: 'Frais de ménage : 450€' })}
-                        </div>
-                        <div>
-                          ✓ {t({ en: 'Security deposit: 1,500€', fr: 'Caution : 1 500€' })}
-                        </div>
-                      </div>
-                    </div>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">

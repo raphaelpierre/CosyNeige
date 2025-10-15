@@ -63,7 +63,12 @@ function LoginPageContent() {
 
       if (!response.ok) {
         console.error('❌ Erreur de connexion:', data.error);
-        throw new Error(data.error || 'An error occurred');
+        // Utiliser le message d'erreur en français par défaut, ou en anglais si disponible
+        const errorMessage = data.error || data.errorEn || t({
+          en: 'An error occurred during authentication',
+          fr: 'Une erreur est survenue lors de l\'authentification'
+        });
+        throw new Error(errorMessage);
       }
 
       console.log('✅ Connexion réussie, mise à jour du contexte...');
@@ -83,7 +88,11 @@ function LoginPageContent() {
       }
     } catch (err: unknown) {
       console.error('❌ Erreur dans handleSubmit:', err);
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      const errorMessage = err instanceof Error ? err.message : t({
+        en: 'An unexpected error occurred',
+        fr: 'Une erreur inattendue est survenue'
+      });
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

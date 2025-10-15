@@ -113,24 +113,41 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: 'Accès non autorisé' }, { status: 403 });
     }
 
-    const { userId, role } = await req.json();
+    const { userId, email, firstName, lastName, phone, role, password } = await req.json();
 
-    if (!userId || !role || !['client', 'admin'].includes(role)) {
+    if (!userId) {
       return NextResponse.json(
-        { error: 'Données invalides' },
+        { error: 'ID utilisateur requis' },
         { status: 400 }
       );
     }
 
+    // Construire l'objet de mise à jour
+    const updateData: any = {};
+
+    if (email) updateData.email = email;
+    if (firstName) updateData.firstName = firstName;
+    if (lastName) updateData.lastName = lastName;
+    if (phone !== undefined) updateData.phone = phone || null;
+    if (role && ['client', 'admin'].includes(role)) updateData.role = role;
+
+    // Si un nouveau mot de passe est fourni, le hacher
+    if (password && password.trim().length > 0) {
+      const bcrypt = await import('bcryptjs');
+      updateData.password = await bcrypt.hash(password, 12);
+    }
+
     const updatedUser = await prisma.user.update({
       where: { id: userId },
-      data: { role },
+      data: updateData,
       select: {
         id: true,
         email: true,
         firstName: true,
         lastName: true,
-        role: true
+        phone: true,
+        role: true,
+        createdAt: true
       }
     });
 

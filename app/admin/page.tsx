@@ -68,7 +68,15 @@ export default function AdminPage() {
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const [replyContent, setReplyContent] = useState('');
   const [showUserModal, setShowUserModal] = useState(false);
-  const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [editingUser, setEditingUser] = useState<(User & { password?: string }) | null>(null);
+  const [editingReservation, setEditingReservation] = useState<Reservation | null>(null);
+  const [showSendMessageModal, setShowSendMessageModal] = useState(false);
+  const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
+  const [messageForm, setMessageForm] = useState({ subject: '', content: '' });
+  const [seasons, setSeasons] = useState<any[]>([]);
+  const [pricingSettings, setPricingSettings] = useState<any>(null);
+  const [editingSeason, setEditingSeason] = useState<any | null>(null);
+  const [showSeasonModal, setShowSeasonModal] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<any | null>(null);
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
   const [showInvoicePDF, setShowInvoicePDF] = useState(false);
@@ -102,6 +110,14 @@ export default function AdminPage() {
     fetchUsers();
     fetchInvoices();
   }, [loading, isAuthenticated, user, router]);
+
+  // Charger les saisons et paramètres quand on ouvre l'onglet settings
+  useEffect(() => {
+    if (activeTab === 'settings' && isAuthenticated && user?.role === 'admin') {
+      fetchSeasons();
+      fetchPricingSettings();
+    }
+  }, [activeTab, isAuthenticated, user]);
 
   // Afficher un loader pendant la vérification
   if (loading) {
@@ -181,6 +197,34 @@ export default function AdminPage() {
     }
   };
 
+  const fetchSeasons = async () => {
+    try {
+      const response = await fetch('/api/admin/seasons', {
+        credentials: 'include'
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setSeasons(data);
+      }
+    } catch (error) {
+      console.error('Error fetching seasons:', error);
+    }
+  };
+
+  const fetchPricingSettings = async () => {
+    try {
+      const response = await fetch('/api/admin/pricing-settings', {
+        credentials: 'include'
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setPricingSettings(data);
+      }
+    } catch (error) {
+      console.error('Error fetching pricing settings:', error);
+    }
+  };
+
   // Fonction pour créer un utilisateur
   const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -206,14 +250,218 @@ export default function AdminPage() {
     }
   };
 
+  // Fonction pour mettre à jour un utilisateur
+  const handleUpdateUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingUser) return;
+
+    try {
+      const response = await fetch('/api/admin/users', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          userId: editingUser.id,
+          email: editingUser.email,
+          firstName: editingUser.firstName,
+          lastName: editingUser.lastName,
+          phone: editingUser.phone,
+          role: editingUser.role
+        })
+      });
+
+      if (response.ok) {
+        setEditingUser(null);
+        fetchUsers();
+        alert(t({ en: 'User updated successfully', fr: 'Utilisateur mis à jour avec succès' }));
+      } else {
+        const error = await response.json();
+        alert(`Erreur: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error updating user:', error);
+      alert('Erreur lors de la mise à jour');
+    }
+  };
+
+  // Fonction pour mettre à jour une réservation
+  const handleUpdateReservation = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingReservation) return;
+
+    try {
+      const response = await fetch('/api/admin/reservations', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          reservationId: editingReservation.id,
+          firstName: editingReservation.firstName,
+          lastName: editingReservation.lastName,
+          email: editingReservation.email,
+          phone: editingReservation.phone,
+          checkIn: editingReservation.checkIn,
+          checkOut: editingReservation.checkOut,
+          guests: editingReservation.guests,
+          totalPrice: editingReservation.totalPrice,
+          depositAmount: editingReservation.depositAmount,
+          status: editingReservation.status,
+          paymentStatus: editingReservation.paymentStatus,
+          message: editingReservation.message
+        })
+      });
+
+      if (response.ok) {
+        setEditingReservation(null);
+        fetchReservations();
+        alert(t({ en: 'Reservation updated successfully', fr: 'Réservation mise à jour avec succès' }));
+      } else {
+        const error = await response.json();
+        alert(`Erreur: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error updating reservation:', error);
+      alert('Erreur lors de la mise à jour');
+    }
+  };
+
+  // Fonction pour envoyer un message à un ou plusieurs utilisateurs
+  const handleSendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (selectedUserIds.length === 0) {
+      alert(t({ en: 'Please select at least one recipient', fr: 'Veuillez sélectionner au moins un destinataire' }));
+      return;
+    }
+
+    if (!messageForm.subject || !messageForm.content) {
+      alert(t({ en: 'Please fill in subject and message', fr: 'Veuillez remplir le sujet et le message' }));
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/admin/send-message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          userIds: selectedUserIds,
+          subject: messageForm.subject,
+          content: messageForm.content
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert(t({
+          en: `Message sent successfully to ${data.messagesSent} recipient(s)`,
+          fr: `Message envoyé avec succès à ${data.messagesSent} destinataire(s)`
+        }));
+        setShowSendMessageModal(false);
+        setSelectedUserIds([]);
+        setMessageForm({ subject: '', content: '' });
+      } else {
+        const error = await response.json();
+        alert(`Erreur: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('Erreur lors de l\'envoi du message');
+    }
+  };
+
+  // Fonctions pour gérer les saisons
+  const handleCreateOrUpdateSeason = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingSeason) return;
+
+    const isUpdate = !!editingSeason.id;
+    const url = '/api/admin/seasons';
+    const method = isUpdate ? 'PUT' : 'POST';
+
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(isUpdate ? { seasonId: editingSeason.id, ...editingSeason } : editingSeason)
+      });
+
+      if (response.ok) {
+        setShowSeasonModal(false);
+        setEditingSeason(null);
+        fetchSeasons();
+        alert(t({
+          en: isUpdate ? 'Season updated successfully' : 'Season created successfully',
+          fr: isUpdate ? 'Saison mise à jour avec succès' : 'Saison créée avec succès'
+        }));
+      } else {
+        const error = await response.json();
+        alert(`Erreur: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error saving season:', error);
+      alert('Erreur lors de l\'enregistrement');
+    }
+  };
+
+  const handleDeleteSeason = async (seasonId: string) => {
+    if (!confirm(t({ en: 'Are you sure you want to delete this season?', fr: 'Êtes-vous sûr de vouloir supprimer cette saison ?' }))) return;
+
+    try {
+      const response = await fetch('/api/admin/seasons', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ seasonId })
+      });
+
+      if (response.ok) {
+        fetchSeasons();
+        alert(t({ en: 'Season deleted successfully', fr: 'Saison supprimée avec succès' }));
+      } else {
+        const error = await response.json();
+        alert(`Erreur: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error deleting season:', error);
+      alert('Erreur lors de la suppression');
+    }
+  };
+
+  const handleUpdatePricingSettings = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!pricingSettings) return;
+
+    try {
+      const response = await fetch('/api/admin/pricing-settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(pricingSettings)
+      });
+
+      if (response.ok) {
+        alert(t({ en: 'Settings saved successfully', fr: 'Paramètres enregistrés avec succès' }));
+        fetchPricingSettings();
+      } else {
+        const error = await response.json();
+        alert(`Erreur: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error updating settings:', error);
+      alert('Erreur lors de la mise à jour');
+    }
+  };
+
   // Fonction pour supprimer un utilisateur
   const handleDeleteUser = async (userId: string) => {
     if (!confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) return;
-    
+
     try {
       const response = await fetch('/api/admin/users', {
         method: 'DELETE',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json'
         },
         credentials: 'include', // Pour inclure les cookies
@@ -374,6 +622,13 @@ export default function AdminPage() {
       loadInvoices(),
       loadMessages()
     ]);
+    // Charger aussi les saisons et paramètres pour l'onglet settings
+    if (activeTab === 'settings') {
+      await Promise.all([
+        fetchSeasons(),
+        fetchPricingSettings()
+      ]);
+    }
   };
 
   const handleViewInvoice = (invoice: any) => {
@@ -646,21 +901,30 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Mobile Navigation - Dropdown Style */}
+        {/* Mobile Navigation - Horizontal Scroll Style */}
         <div className="bg-white rounded-lg shadow mb-6">
-          {/* Mobile Tab Selector */}
-          <div className="sm:hidden">
-            <select
-              value={activeTab}
-              onChange={(e) => setActiveTab(e.target.value as TabType)}
-              className="w-full p-4 text-base font-medium bg-white border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
-            >
+          {/* Mobile Tab Selector - Horizontal Scroll */}
+          <div className="sm:hidden overflow-x-auto hide-scrollbar">
+            <div className="flex gap-2 p-3 min-w-max">
               {tabs.map(tab => (
-                <option key={tab.id} value={tab.id}>
-                  {tab.icon} {t(tab.label)}
-                </option>
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center gap-2 px-4 py-3 rounded-xl font-medium text-sm whitespace-nowrap transition-all duration-300 ${
+                    activeTab === tab.id
+                      ? 'bg-gradient-to-r from-slate-600 to-slate-700 text-white shadow-lg scale-105'
+                      : 'bg-gray-100 text-gray-600 hover:bg-slate-100 hover:text-slate-700 hover:scale-105 active:scale-95'
+                  }`}
+                >
+                  <span className={`text-xl transition-transform duration-300 ${
+                    activeTab === tab.id ? 'animate-bounce-subtle' : ''
+                  }`}>
+                    {tab.icon}
+                  </span>
+                  <span>{t(tab.label)}</span>
+                </button>
               ))}
-            </select>
+            </div>
           </div>
 
           {/* Desktop Tabs - Hidden on Mobile */}
@@ -670,14 +934,21 @@ export default function AdminPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
+                  className={`group relative flex items-center gap-2 px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b-2 font-medium text-sm whitespace-nowrap transition-all duration-300 ${
                     activeTab === tab.id
-                      ? 'border-slate-700 text-forest-700'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      ? 'border-slate-700 text-slate-800 bg-slate-50 shadow-sm'
+                      : 'border-transparent text-gray-500 hover:text-slate-700 hover:border-slate-300 hover:bg-slate-50/50'
                   }`}
                 >
-                  <span className="text-lg sm:text-xl">{tab.icon}</span>
+                  <span className={`text-lg sm:text-xl transition-transform duration-300 ${
+                    activeTab === tab.id ? 'scale-110' : 'group-hover:scale-110'
+                  }`}>
+                    {tab.icon}
+                  </span>
                   <span className="hidden lg:inline">{t(tab.label)}</span>
+                  {activeTab === tab.id && (
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-slate-700 to-transparent"></span>
+                  )}
                 </button>
               ))}
             </nav>
@@ -731,6 +1002,12 @@ export default function AdminPage() {
                       </div>
 
                       <div className="flex justify-end gap-2">
+                        <button
+                          onClick={() => setEditingReservation(reservation)}
+                          className="bg-blue-100 text-blue-700 px-3 py-1 rounded text-sm font-medium"
+                        >
+                          ✏️ Modifier
+                        </button>
                         {reservation.status === 'pending' && (
                           <button
                             onClick={() => handleStatusChange(reservation.id, 'confirmed')}
@@ -799,6 +1076,13 @@ export default function AdminPage() {
                           </td>
                           <td className="py-3 px-4">
                             <div className="flex gap-2 items-center">
+                              <button
+                                onClick={() => setEditingReservation(reservation)}
+                                className="text-blue-600 hover:text-blue-800 text-lg"
+                                title={t({ en: 'Edit', fr: 'Modifier' })}
+                              >
+                                ✏️
+                              </button>
                               {reservation.status === 'pending' && (
                                 <button
                                   onClick={() => handleStatusChange(reservation.id, 'confirmed')}
@@ -831,6 +1115,199 @@ export default function AdminPage() {
                     </tbody>
                   </table>
                 </div>
+
+                {/* Modal d'édition de réservation */}
+                {editingReservation && (
+                  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-2xl mx-auto max-h-[90vh] overflow-y-auto">
+                      <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4">
+                        {t({ en: 'Edit Reservation', fr: 'Modifier la Réservation' })}
+                      </h3>
+                      <form onSubmit={handleUpdateReservation} className="space-y-3 sm:space-y-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'First Name', fr: 'Prénom' })}
+                            </label>
+                            <input
+                              type="text"
+                              value={editingReservation.firstName}
+                              onChange={(e) => setEditingReservation({...editingReservation, firstName: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                              required
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Last Name', fr: 'Nom' })}
+                            </label>
+                            <input
+                              type="text"
+                              value={editingReservation.lastName}
+                              onChange={(e) => setEditingReservation({...editingReservation, lastName: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-1">Email</label>
+                            <input
+                              type="email"
+                              value={editingReservation.email}
+                              onChange={(e) => setEditingReservation({...editingReservation, email: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                              required
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Phone', fr: 'Téléphone' })}
+                            </label>
+                            <input
+                              type="tel"
+                              value={editingReservation.phone}
+                              onChange={(e) => setEditingReservation({...editingReservation, phone: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Check-in', fr: 'Arrivée' })}
+                            </label>
+                            <input
+                              type="date"
+                              value={editingReservation.checkIn.split('T')[0]}
+                              onChange={(e) => setEditingReservation({...editingReservation, checkIn: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                              required
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Check-out', fr: 'Départ' })}
+                            </label>
+                            <input
+                              type="date"
+                              value={editingReservation.checkOut.split('T')[0]}
+                              onChange={(e) => setEditingReservation({...editingReservation, checkOut: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Guests', fr: 'Personnes' })}
+                            </label>
+                            <input
+                              type="number"
+                              min="1"
+                              value={editingReservation.guests}
+                              onChange={(e) => setEditingReservation({...editingReservation, guests: parseInt(e.target.value)})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                              required
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Total Price', fr: 'Prix Total' })} (€)
+                            </label>
+                            <input
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              value={editingReservation.totalPrice}
+                              onChange={(e) => setEditingReservation({...editingReservation, totalPrice: parseFloat(e.target.value)})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                              required
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Deposit', fr: 'Acompte' })} (€)
+                            </label>
+                            <input
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              value={editingReservation.depositAmount || 0}
+                              onChange={(e) => setEditingReservation({...editingReservation, depositAmount: parseFloat(e.target.value)})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Status', fr: 'Statut' })}
+                            </label>
+                            <select
+                              value={editingReservation.status}
+                              onChange={(e) => setEditingReservation({...editingReservation, status: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            >
+                              <option value="pending">{t({ en: 'Pending', fr: 'En attente' })}</option>
+                              <option value="confirmed">{t({ en: 'Confirmed', fr: 'Confirmée' })}</option>
+                              <option value="cancelled">{t({ en: 'Cancelled', fr: 'Annulée' })}</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Payment Status', fr: 'Statut Paiement' })}
+                            </label>
+                            <select
+                              value={editingReservation.paymentStatus || 'pending'}
+                              onChange={(e) => setEditingReservation({...editingReservation, paymentStatus: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            >
+                              <option value="pending">{t({ en: 'Pending', fr: 'En attente' })}</option>
+                              <option value="partial">{t({ en: 'Partial', fr: 'Partiel' })}</option>
+                              <option value="paid">{t({ en: 'Paid', fr: 'Payé' })}</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium mb-1">
+                            {t({ en: 'Message', fr: 'Message' })}
+                          </label>
+                          <textarea
+                            value={editingReservation.message || ''}
+                            onChange={(e) => setEditingReservation({...editingReservation, message: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            rows={3}
+                          />
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row gap-2 pt-3 sm:pt-4">
+                          <button
+                            type="submit"
+                            className="w-full sm:flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 text-sm sm:text-base"
+                          >
+                            {t({ en: 'Save Changes', fr: 'Enregistrer' })}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setEditingReservation(null)}
+                            className="w-full sm:flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 text-sm sm:text-base"
+                          >
+                            {t({ en: 'Cancel', fr: 'Annuler' })}
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -991,12 +1468,20 @@ export default function AdminPage() {
                   <h2 className="text-lg sm:text-xl font-bold text-gray-900">
                     {t({ en: 'Users', fr: 'Utilisateurs' })}
                   </h2>
-                  <button 
-                    onClick={() => setShowUserModal(true)}
-                    className="bg-slate-700 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800 font-bold text-sm"
-                  >
-                    {t({ en: '+ Add User', fr: '+ Ajouter' })}
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setShowSendMessageModal(true)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors font-bold text-sm"
+                    >
+                      💬 {t({ en: 'Send Message', fr: 'Envoyer Message' })}
+                    </button>
+                    <button
+                      onClick={() => setShowUserModal(true)}
+                      className="bg-slate-700 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800 font-bold text-sm"
+                    >
+                      {t({ en: '+ Add User', fr: '+ Ajouter' })}
+                    </button>
+                  </div>
                 </div>
 
                 {/* Mobile Card View */}
@@ -1183,6 +1668,195 @@ export default function AdminPage() {
                           <button
                             type="button"
                             onClick={() => setShowUserModal(false)}
+                            className="w-full sm:flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 text-sm sm:text-base"
+                          >
+                            {t({ en: 'Cancel', fr: 'Annuler' })}
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                )}
+
+                {/* Modal d'édition d'utilisateur */}
+                {editingUser && (
+                  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md mx-auto max-h-[90vh] overflow-y-auto">
+                      <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4">
+                        {t({ en: 'Edit User', fr: 'Modifier l\'Utilisateur' })}
+                      </h3>
+                      <form onSubmit={handleUpdateUser} className="space-y-3 sm:space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium mb-1">
+                            {t({ en: 'First Name', fr: 'Prénom' })}
+                          </label>
+                          <input
+                            type="text"
+                            value={editingUser.firstName}
+                            onChange={(e) => setEditingUser({...editingUser, firstName: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-1">
+                            {t({ en: 'Last Name', fr: 'Nom' })}
+                          </label>
+                          <input
+                            type="text"
+                            value={editingUser.lastName}
+                            onChange={(e) => setEditingUser({...editingUser, lastName: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Email</label>
+                          <input
+                            type="email"
+                            value={editingUser.email}
+                            onChange={(e) => setEditingUser({...editingUser, email: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-1">
+                            {t({ en: 'Phone', fr: 'Téléphone' })}
+                          </label>
+                          <input
+                            type="tel"
+                            value={editingUser.phone || ''}
+                            onChange={(e) => setEditingUser({...editingUser, phone: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-1">
+                            {t({ en: 'New Password (optional)', fr: 'Nouveau mot de passe (optionnel)' })}
+                          </label>
+                          <input
+                            type="password"
+                            value={editingUser.password || ''}
+                            onChange={(e) => setEditingUser({...editingUser, password: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            placeholder={t({ en: 'Leave blank to keep current', fr: 'Laisser vide pour conserver' })}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-1">
+                            {t({ en: 'Role', fr: 'Rôle' })}
+                          </label>
+                          <select
+                            value={editingUser.role}
+                            onChange={(e) => setEditingUser({...editingUser, role: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                          >
+                            <option value="client">Client</option>
+                            <option value="admin">Admin</option>
+                          </select>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-2 pt-3 sm:pt-4">
+                          <button
+                            type="submit"
+                            className="w-full sm:flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 text-sm sm:text-base"
+                          >
+                            {t({ en: 'Save Changes', fr: 'Enregistrer' })}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setEditingUser(null)}
+                            className="w-full sm:flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 text-sm sm:text-base"
+                          >
+                            {t({ en: 'Cancel', fr: 'Annuler' })}
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                )}
+
+                {/* Modal d'envoi de message */}
+                {showSendMessageModal && (
+                  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-2xl mx-auto max-h-[90vh] overflow-y-auto">
+                      <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4">
+                        {t({ en: 'Send Message to Users', fr: 'Envoyer un Message aux Utilisateurs' })}
+                      </h3>
+                      <form onSubmit={handleSendMessage} className="space-y-3 sm:space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium mb-2">
+                            {t({ en: 'Recipients', fr: 'Destinataires' })}
+                          </label>
+                          <div className="border border-gray-300 rounded-lg p-3 max-h-48 overflow-y-auto space-y-2">
+                            {users.map(user => (
+                              <label key={user.id} className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                <input
+                                  type="checkbox"
+                                  checked={selectedUserIds.includes(user.id)}
+                                  onChange={(e) => {
+                                    if (e.target.checked) {
+                                      setSelectedUserIds([...selectedUserIds, user.id]);
+                                    } else {
+                                      setSelectedUserIds(selectedUserIds.filter(id => id !== user.id));
+                                    }
+                                  }}
+                                  className="w-4 h-4"
+                                />
+                                <span className="text-sm">
+                                  {user.firstName} {user.lastName} ({user.email})
+                                </span>
+                              </label>
+                            ))}
+                          </div>
+                          <div className="mt-2 text-sm text-gray-600">
+                            {selectedUserIds.length} {t({ en: 'recipient(s) selected', fr: 'destinataire(s) sélectionné(s)' })}
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium mb-1">
+                            {t({ en: 'Subject', fr: 'Sujet' })}
+                          </label>
+                          <input
+                            type="text"
+                            value={messageForm.subject}
+                            onChange={(e) => setMessageForm({...messageForm, subject: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            required
+                            placeholder={t({ en: 'Message subject', fr: 'Sujet du message' })}
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium mb-1">
+                            {t({ en: 'Message', fr: 'Message' })}
+                          </label>
+                          <textarea
+                            value={messageForm.content}
+                            onChange={(e) => setMessageForm({...messageForm, content: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm sm:text-base"
+                            rows={6}
+                            required
+                            placeholder={t({ en: 'Write your message here...', fr: 'Écrivez votre message ici...' })}
+                          />
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row gap-2 pt-3 sm:pt-4">
+                          <button
+                            type="submit"
+                            disabled={selectedUserIds.length === 0}
+                            className="w-full sm:flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {t({ en: 'Send Message', fr: 'Envoyer le Message' })}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setShowSendMessageModal(false);
+                              setSelectedUserIds([]);
+                              setMessageForm({ subject: '', content: '' });
+                            }}
                             className="w-full sm:flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 text-sm sm:text-base"
                           >
                             {t({ en: 'Cancel', fr: 'Annuler' })}
@@ -1459,71 +2133,324 @@ export default function AdminPage() {
                 <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">
                   {t({ en: 'Settings', fr: 'Paramètres' })}
                 </h2>
-                <div className="space-y-4 sm:space-y-6">
-                  <div className="bg-white border rounded-lg p-4 sm:p-6">
-                    <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">
-                      {t({ en: 'Pricing Configuration', fr: 'Configuration des Tarifs' })}
+
+                {/* Paramètres de tarification globaux */}
+                <div className="bg-white border rounded-lg p-4 sm:p-6 mb-6">
+                  <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">
+                    {t({ en: 'General Pricing Settings', fr: 'Paramètres de Tarification Généraux' })}
+                  </h3>
+                  {pricingSettings && (
+                    <form onSubmit={handleUpdatePricingSettings} className="space-y-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            {t({ en: 'Cleaning Fee (€)', fr: 'Frais de Ménage (€)' })}
+                          </label>
+                          <input
+                            type="number"
+                            step="0.01"
+                            value={pricingSettings.cleaningFee}
+                            onChange={(e) => setPricingSettings({...pricingSettings, cleaningFee: parseFloat(e.target.value)})}
+                            className="w-full px-3 py-2 border rounded-lg"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            {t({ en: 'Linen per Person (€)', fr: 'Linge par Personne (€)' })}
+                          </label>
+                          <input
+                            type="number"
+                            step="0.01"
+                            value={pricingSettings.linenPerPerson}
+                            onChange={(e) => setPricingSettings({...pricingSettings, linenPerPerson: parseFloat(e.target.value)})}
+                            className="w-full px-3 py-2 border rounded-lg"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            {t({ en: 'Deposit Amount (€)', fr: 'Caution (€)' })}
+                          </label>
+                          <input
+                            type="number"
+                            step="0.01"
+                            value={pricingSettings.depositAmount}
+                            onChange={(e) => setPricingSettings({...pricingSettings, depositAmount: parseFloat(e.target.value)})}
+                            className="w-full px-3 py-2 border rounded-lg"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            {t({ en: 'Default High Season (€/night)', fr: 'Haute Saison par Défaut (€/nuit)' })}
+                          </label>
+                          <input
+                            type="number"
+                            step="0.01"
+                            value={pricingSettings.defaultHighSeasonPrice}
+                            onChange={(e) => setPricingSettings({...pricingSettings, defaultHighSeasonPrice: parseFloat(e.target.value)})}
+                            className="w-full px-3 py-2 border rounded-lg"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            {t({ en: 'Default Low Season (€/night)', fr: 'Basse Saison par Défaut (€/nuit)' })}
+                          </label>
+                          <input
+                            type="number"
+                            step="0.01"
+                            value={pricingSettings.defaultLowSeasonPrice}
+                            onChange={(e) => setPricingSettings({...pricingSettings, defaultLowSeasonPrice: parseFloat(e.target.value)})}
+                            className="w-full px-3 py-2 border rounded-lg"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            {t({ en: 'Default Minimum Stay (nights)', fr: 'Séjour Minimum par Défaut (nuits)' })}
+                          </label>
+                          <input
+                            type="number"
+                            value={pricingSettings.defaultMinimumStay}
+                            onChange={(e) => setPricingSettings({...pricingSettings, defaultMinimumStay: parseInt(e.target.value)})}
+                            className="w-full px-3 py-2 border rounded-lg"
+                          />
+                        </div>
+                      </div>
+                      <button
+                        type="submit"
+                        className="w-full sm:w-auto bg-slate-700 hover:bg-slate-800 text-white px-4 sm:px-6 py-2 rounded-lg transition-colors"
+                      >
+                        {t({ en: 'Save Settings', fr: 'Enregistrer les Paramètres' })}
+                      </button>
+                    </form>
+                  )}
+                </div>
+
+                {/* Gestion des saisons */}
+                <div className="bg-white border rounded-lg p-4 sm:p-6">
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="font-semibold text-base sm:text-lg">
+                      {t({ en: 'Season Periods', fr: 'Périodes de Saison' })}
                     </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          {t({ en: 'High Season (€/week)', fr: 'Haute Saison (€/semaine)' })}
-                        </label>
-                        <input type="number" className="w-full px-3 sm:px-4 py-2 border rounded-lg text-sm sm:text-base" defaultValue="2200" />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          {t({ en: 'Mid Season (€/week)', fr: 'Moyenne Saison (€/semaine)' })}
-                        </label>
-                        <input type="number" className="w-full px-3 sm:px-4 py-2 border rounded-lg text-sm sm:text-base" defaultValue="1600" />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          {t({ en: 'Low Season (€/week)', fr: 'Basse Saison (€/semaine)' })}
-                        </label>
-                        <input type="number" className="w-full px-3 sm:px-4 py-2 border rounded-lg text-sm sm:text-base" defaultValue="1200" />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          {t({ en: 'Cleaning Fee (€)', fr: 'Frais de Ménage (€)' })}
-                        </label>
-                        <input type="number" className="w-full px-3 sm:px-4 py-2 border rounded-lg text-sm sm:text-base" defaultValue="200" />
-                      </div>
-                    </div>
-                    <button className="mt-4 w-full sm:w-auto bg-slate-700 hover:bg-slate-800 text-white px-4 sm:px-6 py-2 rounded-lg transition-colors text-sm sm:text-base">
-                      {t({ en: 'Save Changes', fr: 'Enregistrer' })}
+                    <button
+                      onClick={() => {
+                        setEditingSeason({
+                          name: '',
+                          startDate: '',
+                          endDate: '',
+                          seasonType: 'high',
+                          pricePerNight: pricingSettings?.defaultHighSeasonPrice || 410,
+                          minimumStay: 7,
+                          sundayToSunday: true,
+                          year: new Date().getFullYear(),
+                          isActive: true
+                        });
+                        setShowSeasonModal(true);
+                      }}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg text-sm"
+                    >
+                      + {t({ en: 'Add Season', fr: 'Ajouter Saison' })}
                     </button>
                   </div>
 
-                  <div className="bg-white border rounded-lg p-4 sm:p-6">
-                    <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">
-                      {t({ en: 'Notification Settings', fr: 'Paramètres de Notification' })}
-                    </h3>
-                    <div className="space-y-3 sm:space-y-4">
-                      <label className="flex items-start sm:items-center gap-3">
-                        <input type="checkbox" defaultChecked className="w-4 h-4 sm:w-5 sm:h-5 text-forest-700 rounded mt-0.5 sm:mt-0 flex-shrink-0" />
-                        <span className="text-sm sm:text-base">
-                          {t({ en: 'Email notifications for new bookings', fr: 'Notifications email pour nouvelles réservations' })}
-                        </span>
-                      </label>
-                      <label className="flex items-start sm:items-center gap-3">
-                        <input type="checkbox" defaultChecked className="w-4 h-4 sm:w-5 sm:h-5 text-forest-700 rounded mt-0.5 sm:mt-0 flex-shrink-0" />
-                        <span className="text-sm sm:text-base">
-                          {t({ en: 'Email notifications for new messages', fr: 'Notifications email pour nouveaux messages' })}
-                        </span>
-                      </label>
-                      <label className="flex items-start sm:items-center gap-3">
-                        <input type="checkbox" className="w-4 h-4 sm:w-5 sm:h-5 text-forest-700 rounded mt-0.5 sm:mt-0 flex-shrink-0" />
-                        <span className="text-sm sm:text-base">
-                          {t({ en: 'SMS notifications for urgent matters', fr: 'Notifications SMS pour urgences' })}
-                        </span>
-                      </label>
-                    </div>
-                    <button className="mt-4 w-full sm:w-auto bg-slate-700 hover:bg-slate-800 text-white px-4 sm:px-6 py-2 rounded-lg transition-colors text-sm sm:text-base">
-                      {t({ en: 'Save Changes', fr: 'Enregistrer' })}
-                    </button>
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left py-3 px-2 font-semibold text-sm">{t({ en: 'Name', fr: 'Nom' })}</th>
+                          <th className="text-left py-3 px-2 font-semibold text-sm">{t({ en: 'Dates', fr: 'Dates' })}</th>
+                          <th className="text-left py-3 px-2 font-semibold text-sm">{t({ en: 'Type', fr: 'Type' })}</th>
+                          <th className="text-left py-3 px-2 font-semibold text-sm">{t({ en: 'Price/Night', fr: 'Prix/Nuit' })}</th>
+                          <th className="text-left py-3 px-2 font-semibold text-sm">{t({ en: 'Min Stay', fr: 'Séjour Min' })}</th>
+                          <th className="text-left py-3 px-2 font-semibold text-sm">{t({ en: 'Actions', fr: 'Actions' })}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {seasons.map((season: any) => (
+                          <tr key={season.id} className="border-b hover:bg-gray-50">
+                            <td className="py-3 px-2 text-sm">{season.name}</td>
+                            <td className="py-3 px-2 text-sm">
+                              {new Date(season.startDate).toLocaleDateString('fr-FR')} - {new Date(season.endDate).toLocaleDateString('fr-FR')}
+                            </td>
+                            <td className="py-3 px-2">
+                              <span className={`px-2 py-1 rounded text-xs ${season.seasonType === 'high' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}`}>
+                                {season.seasonType === 'high' ? t({ en: 'High', fr: 'Haute' }) : t({ en: 'Low', fr: 'Basse' })}
+                              </span>
+                            </td>
+                            <td className="py-3 px-2 text-sm font-semibold">{season.pricePerNight}€</td>
+                            <td className="py-3 px-2 text-sm">
+                              {season.minimumStay} {t({ en: 'nights', fr: 'nuits' })}
+                              {season.sundayToSunday && ' (Dim-Dim)'}
+                            </td>
+                            <td className="py-3 px-2">
+                              <div className="flex gap-2">
+                                <button
+                                  onClick={() => {
+                                    setEditingSeason(season);
+                                    setShowSeasonModal(true);
+                                  }}
+                                  className="text-blue-600 hover:text-blue-800 text-sm"
+                                >
+                                  ✏️
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteSeason(season.id)}
+                                  className="text-red-600 hover:text-red-800 text-sm"
+                                >
+                                  🗑️
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
+
+                {/* Modal d'ajout/édition de saison */}
+                {showSeasonModal && editingSeason && (
+                  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-2xl mx-auto max-h-[90vh] overflow-y-auto">
+                      <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4">
+                        {editingSeason.id
+                          ? t({ en: 'Edit Season', fr: 'Modifier la Saison' })
+                          : t({ en: 'Add Season', fr: 'Ajouter une Saison' })}
+                      </h3>
+                      <form onSubmit={handleCreateOrUpdateSeason} className="space-y-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div className="sm:col-span-2">
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Season Name', fr: 'Nom de la Saison' })}
+                            </label>
+                            <input
+                              type="text"
+                              value={editingSeason.name}
+                              onChange={(e) => setEditingSeason({...editingSeason, name: e.target.value})}
+                              className="w-full px-3 py-2 border rounded-lg"
+                              required
+                              placeholder="Ex: Vacances de Noël 2025"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Start Date', fr: 'Date de Début' })}
+                            </label>
+                            <input
+                              type="date"
+                              value={editingSeason.startDate?.toString().split('T')[0] || ''}
+                              onChange={(e) => setEditingSeason({...editingSeason, startDate: e.target.value})}
+                              className="w-full px-3 py-2 border rounded-lg"
+                              required
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'End Date', fr: 'Date de Fin' })}
+                            </label>
+                            <input
+                              type="date"
+                              value={editingSeason.endDate?.toString().split('T')[0] || ''}
+                              onChange={(e) => setEditingSeason({...editingSeason, endDate: e.target.value})}
+                              className="w-full px-3 py-2 border rounded-lg"
+                              required
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Season Type', fr: 'Type de Saison' })}
+                            </label>
+                            <select
+                              value={editingSeason.seasonType}
+                              onChange={(e) => setEditingSeason({...editingSeason, seasonType: e.target.value})}
+                              className="w-full px-3 py-2 border rounded-lg"
+                            >
+                              <option value="high">{t({ en: 'High Season', fr: 'Haute Saison' })}</option>
+                              <option value="low">{t({ en: 'Low Season', fr: 'Basse Saison' })}</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Price per Night (€)', fr: 'Prix par Nuit (€)' })}
+                            </label>
+                            <input
+                              type="number"
+                              step="0.01"
+                              value={editingSeason.pricePerNight}
+                              onChange={(e) => setEditingSeason({...editingSeason, pricePerNight: parseFloat(e.target.value)})}
+                              className="w-full px-3 py-2 border rounded-lg"
+                              required
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Minimum Stay (nights)', fr: 'Séjour Minimum (nuits)' })}
+                            </label>
+                            <input
+                              type="number"
+                              value={editingSeason.minimumStay}
+                              onChange={(e) => setEditingSeason({...editingSeason, minimumStay: parseInt(e.target.value)})}
+                              className="w-full px-3 py-2 border rounded-lg"
+                              required
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              {t({ en: 'Year', fr: 'Année' })}
+                            </label>
+                            <input
+                              type="number"
+                              value={editingSeason.year}
+                              onChange={(e) => setEditingSeason({...editingSeason, year: parseInt(e.target.value)})}
+                              className="w-full px-3 py-2 border rounded-lg"
+                              required
+                            />
+                          </div>
+                          <div className="sm:col-span-2 space-y-2">
+                            <label className="flex items-center gap-2">
+                              <input
+                                type="checkbox"
+                                checked={editingSeason.sundayToSunday}
+                                onChange={(e) => setEditingSeason({...editingSeason, sundayToSunday: e.target.checked})}
+                                className="w-4 h-4"
+                              />
+                              <span className="text-sm">
+                                {t({ en: 'Sunday to Sunday only', fr: 'Dimanche à Dimanche uniquement' })}
+                              </span>
+                            </label>
+                            <label className="flex items-center gap-2">
+                              <input
+                                type="checkbox"
+                                checked={editingSeason.isActive}
+                                onChange={(e) => setEditingSeason({...editingSeason, isActive: e.target.checked})}
+                                className="w-4 h-4"
+                              />
+                              <span className="text-sm">
+                                {t({ en: 'Active', fr: 'Active' })}
+                              </span>
+                            </label>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 pt-3">
+                          <button
+                            type="submit"
+                            className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+                          >
+                            {editingSeason.id ? t({ en: 'Save', fr: 'Enregistrer' }) : t({ en: 'Create', fr: 'Créer' })}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setShowSeasonModal(false);
+                              setEditingSeason(null);
+                            }}
+                            className="flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600"
+                          >
+                            {t({ en: 'Cancel', fr: 'Annuler' })}
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

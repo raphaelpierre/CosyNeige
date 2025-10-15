@@ -12,7 +12,10 @@ export async function POST(request: NextRequest) {
     // Validation
     if (!email || !password) {
       return NextResponse.json(
-        { error: 'Missing email or password' },
+        {
+          error: 'Email et mot de passe requis',
+          errorEn: 'Email and password required'
+        },
         { status: 400 }
       );
     }
@@ -24,7 +27,10 @@ export async function POST(request: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { error: 'Invalid credentials' },
+        {
+          error: 'Email ou mot de passe incorrect',
+          errorEn: 'Invalid email or password'
+        },
         { status: 401 }
       );
     }
@@ -34,7 +40,10 @@ export async function POST(request: NextRequest) {
 
     if (!isPasswordValid) {
       return NextResponse.json(
-        { error: 'Invalid credentials' },
+        {
+          error: 'Email ou mot de passe incorrect',
+          errorEn: 'Invalid email or password'
+        },
         { status: 401 }
       );
     }
@@ -66,7 +75,10 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error logging in:', error);
     return NextResponse.json(
-      { error: 'Failed to log in' },
+      {
+        error: 'Erreur de connexion. Veuillez réessayer.',
+        errorEn: 'Connection error. Please try again.'
+      },
       { status: 500 }
     );
   }
