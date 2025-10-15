@@ -105,7 +105,7 @@ export default function GuidePage() {
           </div>
           <div style="margin-bottom: 10px;">
             <strong>${t({ en: 'Property Owner', fr: 'Propriétaire' })}</strong><br>
-            ${t({ en: 'Available 24/7 for emergencies: +33 06 95 59 58 65', fr: 'Disponible 24h/24 pour urgences : +33 06 95 59 58 65' })}
+            ${t({ en: 'Available 24/7 for emergencies: +33 6 85 85 84 91', fr: 'Disponible 24h/24 pour urgences : +33 6 85 85 84 91' })}
           </div>
         </div>
 
@@ -264,7 +264,7 @@ export default function GuidePage() {
         },
         {
           subtitle: { en: 'Property Owner', fr: 'Propriétaire' },
-          content: { en: 'Available 24/7 for emergencies: +33 06 95 59 58 65', fr: 'Disponible 24h/24 pour urgences : +33 06 95 59 58 65' },
+          content: { en: 'Available 24/7 for emergencies: +33 6 85 85 84 91', fr: 'Disponible 24h/24 pour urgences : +33 6 85 85 84 91' },
         },
         {
           subtitle: { en: 'Local Doctor', fr: 'Médecin Local' },
@@ -462,7 +462,7 @@ export default function GuidePage() {
               {t({ en: 'Contact Us', fr: 'Nous Contacter' })}
             </a>
             <a
-              href="tel:+33695595865"
+              href="tel:+33685858491"
               className="inline-block border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-forest-700 px-8 py-4 rounded-lg font-bold text-lg transition-colors"
             >
               {t({ en: 'Call Us', fr: 'Appelez-Nous' })}

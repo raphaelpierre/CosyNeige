@@ -151,7 +151,7 @@ export default function AdminInvoiceGenerator({ invoice, onClose }: AdminInvoice
                 <p style={{ margin: '2px 0' }}>Châtillon-sur-Cluses, 74300</p>
                 <p style={{ margin: '2px 0' }}>Haute-Savoie, France</p>
                 <p style={{ margin: '8px 0 2px 0' }}>📧 contact@chalet-balmotte810.com</p>
-                <p style={{ margin: '2px 0' }}>📞 +33 4 50 XX XX XX</p>
+                <p style={{ margin: '2px 0' }}>📞 +33 6 85 85 84 91</p>
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>

@@ -107,8 +107,8 @@ export default function ContactPage() {
             <div className="text-center bg-cream rounded-lg p-8 hover:shadow-lg transition-shadow">
               <div className="text-5xl mb-4">📞</div>
               <h3 className="text-xl font-bold text-forest-800 mb-3">{t({ en: 'Phone', fr: 'Téléphone' })}</h3>
-              <a href="tel:+33695595865" className="text-forest-900 hover:text-forest-800 transition-colors font-semibold">
-                +33 06 95 59 58 65
+              <a href="tel:+33685858491" className="text-forest-900 hover:text-forest-800 transition-colors font-semibold">
+                +33 6 85 85 84 91
               </a>
               <p className="text-sm text-gray-600 mt-2">
                 {t({ en: 'Mon-Sat: 9AM-7PM CET', fr: 'Lun-Sam : 9h-19h CET' })}
@@ -314,7 +314,7 @@ export default function ContactPage() {
               })}
             </p>
             <a
-              href="tel:+33695595865"
+              href="tel:+33685858491"
               className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-bold transition-colors border-2 border-red-600 hover:border-red-700"
             >
               📞 {t({ en: 'Emergency Contact', fr: 'Contact Urgence' })}

@@ -92,16 +92,16 @@ export default function Footer() {
                   className="text-gray-700 hover:text-forest-700 transition-colors flex items-center gap-2 font-medium"
                 >
                   <span>📧</span>
-                  <span>info@chalet-balmotte810.com</span>
+                  <span>contact@chalet-balmotte810.com</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="tel:+33695595865"
+                  href="tel:+33685858491"
                   className="text-gray-700 hover:text-forest-700 transition-colors flex items-center gap-2 font-medium"
                 >
                   <span>📞</span>
-                  <span>+33 06 95 59 58 65</span>
+                  <span>+33 6 85 85 84 91</span>
                 </a>
               </li>
               <li className="text-gray-700 text-xs pt-2 font-medium">
