@@ -293,15 +293,15 @@ export default function BookingPage() {
 
               {/* ÉTAPE 1: Dates & Invités */}
               {currentStep === 1 && (
-                <div className="space-y-6">
+                <div className="space-y-4">
                   <div className="text-center">
-                    <div className="flex items-center justify-center gap-3 mb-3">
-                      <span className="text-3xl">🗓️</span>
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                      <span className="text-2xl">🗓️</span>
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-900">
                         {t({ en: 'Choose Your Dates', fr: 'Choisissez Vos Dates' })}
                       </h3>
                     </div>
-                    <p className="text-gray-600 text-sm">
+                    <p className="text-gray-600 text-xs sm:text-sm">
                       {t({
                         en: 'Select your arrival and departure dates to check availability',
                         fr: 'Sélectionnez vos dates d\'arrivée et de départ pour voir les disponibilités'
@@ -315,39 +315,39 @@ export default function BookingPage() {
                   </div>
 
                   {/* Sélecteur personnes - COMPACT et sous le calendrier sur mobile */}
-                  <div className="bg-forest-50 rounded-xl p-3 sm:p-4 border border-forest-200">
-                    <div className="flex flex-row items-center justify-between gap-4">
+                  <div className="bg-forest-50 rounded-lg p-2 sm:p-3 border border-forest-200">
+                    <div className="flex flex-row items-center justify-between gap-3">
                       <div className="flex items-center gap-2">
-                        <span className="text-lg">👥</span>
-                        <label className="font-bold text-gray-800 text-sm sm:text-base">
+                        <span className="text-base">👥</span>
+                        <label className="font-bold text-gray-800 text-xs sm:text-sm">
                           {t({ en: 'Guests', fr: 'Personnes' })}
                         </label>
                       </div>
 
-                      <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="flex items-center gap-2">
                         <button
                           onClick={() => setGuests(Math.max(1, guests - 1))}
-                          className="w-10 h-10 rounded-full bg-white shadow border border-gray-200 hover:border-forest-400 flex items-center justify-center font-bold text-lg text-gray-600 hover:text-forest-600 transition-all active:scale-95 touch-manipulation"
+                          className="w-8 h-8 rounded-full bg-white shadow border border-gray-200 hover:border-forest-400 flex items-center justify-center font-bold text-base text-gray-600 hover:text-forest-600 transition-all active:scale-95 touch-manipulation"
                           aria-label="Decrease guests"
                         >
                           −
                         </button>
 
-                        <div className="bg-white rounded-lg px-3 py-2 shadow-sm border border-forest-300 min-w-[60px] sm:min-w-[70px]">
+                        <div className="bg-white rounded-lg px-2 py-1 shadow-sm border border-forest-300 min-w-[50px]">
                           <div className="text-center">
-                            <div className="font-bold text-base sm:text-lg text-forest-700">{guests}</div>
+                            <div className="font-bold text-sm text-forest-700">{guests}</div>
                           </div>
                         </div>
 
                         <button
                           onClick={() => setGuests(Math.min(10, guests + 1))}
-                          className="w-10 h-10 rounded-full bg-white shadow border border-gray-200 hover:border-forest-400 flex items-center justify-center font-bold text-lg text-gray-600 hover:text-forest-600 transition-all active:scale-95 touch-manipulation"
+                          className="w-8 h-8 rounded-full bg-white shadow border border-gray-200 hover:border-forest-400 flex items-center justify-center font-bold text-base text-gray-600 hover:text-forest-600 transition-all active:scale-95 touch-manipulation"
                           aria-label="Increase guests"
                         >
                           +
                         </button>
 
-                        <span className="text-xs text-gray-500 ml-1">
+                        <span className="text-[10px] text-gray-500 ml-1">
                           {t({ en: '(max 10)', fr: '(max 10)' })}
                         </span>
                       </div>
@@ -356,27 +356,27 @@ export default function BookingPage() {
 
                   {/* Section Tarifs et Conditions - TOUJOURS VISIBLE - DESIGN COMPACT */}
                   {pricingSettings && !isLoadingSeasons ? (
-                    <div className="bg-gradient-to-br from-blue-50 via-white to-blue-50 border-2 border-blue-300 rounded-xl p-4 sm:p-6 shadow-md">
-                      <div className="flex items-center gap-3 mb-4">
-                        <span className="text-2xl">💵</span>
-                        <h4 className="text-lg sm:text-xl font-bold text-gray-900">
+                    <div className="bg-gradient-to-br from-blue-50 via-white to-blue-50 border-2 border-blue-300 rounded-lg p-3 sm:p-4 shadow-md">
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="text-xl">💵</span>
+                        <h4 className="text-base sm:text-lg font-bold text-gray-900">
                           {t({ en: 'Rates & Booking Conditions', fr: 'Tarifs & Conditions de Réservation' })}
                         </h4>
                       </div>
 
                       {/* Tarifs en ligne compacte */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                        <div className="bg-white rounded-lg p-4 border-l-4 border-blue-600 shadow-sm">
-                          <div className="flex items-baseline gap-2 mb-1">
-                            <span className="text-xl sm:text-2xl font-black text-blue-900">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+                        <div className="bg-white rounded-lg p-3 border-l-4 border-blue-600 shadow-sm">
+                          <div className="flex items-baseline gap-1 mb-1">
+                            <span className="text-lg sm:text-xl font-black text-blue-900">
                               {formatEuro(pricingSettings.defaultHighSeasonPrice)}
                             </span>
-                            <span className="text-sm text-gray-600">/ {t({ en: 'night', fr: 'nuit' })}</span>
+                            <span className="text-xs text-gray-600">/ {t({ en: 'night', fr: 'nuit' })}</span>
                           </div>
-                          <div className="text-sm font-semibold text-blue-800 mb-2">
+                          <div className="text-xs font-semibold text-blue-800 mb-1">
                             {t({ en: 'Holiday Periods', fr: 'Périodes de Vacances' })}
                           </div>
-                          <div className="text-xs text-gray-600">
+                          <div className="text-[10px] text-gray-600">
                             {seasons
                               .filter(s => s.seasonType === 'high' && s.isActive)
                               .slice(0, 2)
@@ -386,31 +386,31 @@ export default function BookingPage() {
                           </div>
                         </div>
 
-                        <div className="bg-white rounded-lg p-4 border-l-4 border-green-600 shadow-sm">
-                          <div className="flex items-baseline gap-2 mb-1">
-                            <span className="text-xl sm:text-2xl font-black text-green-900">
+                        <div className="bg-white rounded-lg p-3 border-l-4 border-green-600 shadow-sm">
+                          <div className="flex items-baseline gap-1 mb-1">
+                            <span className="text-lg sm:text-xl font-black text-green-900">
                               {formatEuro(pricingSettings.defaultLowSeasonPrice)}
                             </span>
-                            <span className="text-sm text-gray-600">/ {t({ en: 'night', fr: 'nuit' })}</span>
+                            <span className="text-xs text-gray-600">/ {t({ en: 'night', fr: 'nuit' })}</span>
                           </div>
-                          <div className="text-sm font-semibold text-green-800 mb-2">
+                          <div className="text-xs font-semibold text-green-800 mb-1">
                             {t({ en: 'Other Periods', fr: 'Autres Périodes' })}
                           </div>
-                          <div className="text-xs text-gray-600">
+                          <div className="text-[10px] text-gray-600">
                             {t({ en: 'All other dates', fr: 'Toutes autres dates' })}
                           </div>
                         </div>
                       </div>
 
                       {/* Conditions importantes - plus compact */}
-                      <div className="bg-white rounded-lg p-4 border border-gray-200">
-                        <div className="flex items-center gap-2 mb-3">
-                          <span className="text-lg">📋</span>
-                          <div className="text-sm font-bold text-gray-900">
+                      <div className="bg-white rounded-lg p-3 border border-gray-200">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-base">📋</span>
+                          <div className="text-xs font-bold text-gray-900">
                             {t({ en: 'Important Information', fr: 'Informations Importantes' })}
                           </div>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-xs sm:text-sm text-gray-700">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1 text-[10px] sm:text-xs text-gray-700">
                           <div className="flex items-start gap-2">
                             <span className="text-green-600 flex-shrink-0">✓</span>
                             <span>
