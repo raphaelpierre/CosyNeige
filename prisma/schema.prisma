@@ -159,3 +159,43 @@ model Invoice {
   @@index([status])
   @@index([invoiceNumber])
 }
+
+// Modèle de transaction comptable
+model AccountingTransaction {
+  id              String   @id @default(cuid())
+
+  // Type de transaction
+  type            String   // "income" (recette) ou "expense" (dépense)
+  category        String   // "booking", "maintenance", "utilities", "taxes", "insurance", "supplies", "marketing", "other"
+
+  // Montant et détails
+  amount          Float
+  description     String
+  notes           String?  @db.Text
+
+  // Liens optionnels
+  reservationId   String?  // Lié à une réservation si applicable
+  invoiceId       String?  // Lié à une facture si applicable
+
+  // Informations de paiement
+  paymentMethod   String?  // "stripe", "bank_transfer", "cash", "check", "card"
+  paymentReference String? // Numéro de transaction, chèque, etc.
+
+  // Date de la transaction
+  transactionDate DateTime @default(now())
+
+  // Pièces jointes
+  attachmentUrl   String?  // URL vers un justificatif (facture, reçu)
+
+  // Métadonnées
+  createdBy       String?  // ID de l'admin qui a créé
+  validated       Boolean  @default(false) // Transaction validée par l'admin
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([type])
+  @@index([category])
+  @@index([transactionDate])
+  @@index([reservationId])
+}

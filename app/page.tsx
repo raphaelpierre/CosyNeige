@@ -119,7 +119,7 @@ export default function HomePage() {
             {/* Feature 1 - Location */}
             <div className="group relative bg-gradient-to-br from-forest-50 to-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
               <div className="grid md:grid-cols-2 gap-0 items-center">
-                <Link href="/gallery" className="relative h-80 md:h-96 overflow-hidden cursor-pointer block">
+                <Link href="/chalet" className="relative h-80 md:h-96 overflow-hidden cursor-pointer block">
                   <Image
                     src="/images/chaletneigedehors.webp"
                     alt="Chalet in winter - Between two valleys"
@@ -183,7 +183,7 @@ export default function HomePage() {
                     </div>
                   </div>
                 </div>
-                <Link href="/gallery" className="relative h-80 md:h-96 overflow-hidden order-1 md:order-2 cursor-pointer block">
+                <Link href="/chalet" className="relative h-80 md:h-96 overflow-hidden order-1 md:order-2 cursor-pointer block">
                   <Image
                     src="/images/jacusi.webp"
                     alt="Hot tub with mountain view"
@@ -204,7 +204,7 @@ export default function HomePage() {
             {/* Feature 3 - Perfect for Groups */}
             <div className="group relative bg-gradient-to-br from-forest-50 to-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
               <div className="grid md:grid-cols-2 gap-0 items-center">
-                <Link href="/gallery" className="relative h-80 md:h-96 overflow-hidden cursor-pointer block">
+                <Link href="/chalet" className="relative h-80 md:h-96 overflow-hidden cursor-pointer block">
                   <Image
                     src="/images/hallEtage2.webp"
                     alt="Spacious interior living space"
@@ -252,10 +252,10 @@ export default function HomePage() {
               {t({ en: 'Discover more photos of the chalet', fr: 'Découvrez plus de photos du chalet' })}
             </p>
             <Link
-              href="/gallery"
+              href="/chalet"
               className="group inline-flex items-center gap-2 text-forest-700 hover:text-forest-900 font-semibold text-lg transition-colors duration-300"
             >
-              <span>{t({ en: 'View Photo Gallery', fr: 'Voir la Galerie Photos' })}</span>
+              <span>{t({ en: 'Discover the Chalet', fr: 'Découvrir le Chalet' })}</span>
               <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
             </Link>
           </div>
@@ -307,7 +307,7 @@ export default function HomePage() {
             {amenities.map((amenity, index) => (
               <Link
                 key={index}
-                href="/gallery"
+                href="/chalet"
                 className="group relative flex flex-col items-center text-center p-6 bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden cursor-pointer"
                 style={{ animationDelay: `${index * 50}ms` }}
               >

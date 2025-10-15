@@ -141,7 +141,11 @@ export default function ChaletPage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {rooms.map((room, index) => (
-              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden">
+              <Link
+                key={index}
+                href="/gallery"
+                className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden cursor-pointer block"
+              >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-forest-200/20 to-transparent rounded-bl-full transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500" />
                 <div className="relative flex items-start gap-4">
                   <div className="text-4xl group-hover:scale-125 transition-transform duration-300">{room.icon}</div>
@@ -150,7 +154,12 @@ export default function ChaletPage() {
                     <p className="text-gray-700">{t(room.description)}</p>
                   </div>
                 </div>
-              </div>
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/5 rounded-2xl">
+                  <span className="text-forest-700 text-sm font-semibold bg-white/90 px-4 py-2 rounded-full shadow-lg">
+                    {t({ en: 'View Photos', fr: 'Voir les Photos' })}
+                  </span>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

@@ -52,7 +52,7 @@ interface Message {
   message?: string; // Pour compatibilité avec l'affichage
 }
 
-type TabType = 'dashboard' | 'reservations' | 'users' | 'messages' | 'invoices' | 'calendar' | 'settings';
+type TabType = 'dashboard' | 'reservations' | 'users' | 'messages' | 'invoices' | 'accounting' | 'calendar' | 'settings';
 
 export default function AdminPage() {
   const { t, language } = useLanguage();
@@ -84,8 +84,9 @@ export default function AdminPage() {
   const [invoiceForPDF, setInvoiceForPDF] = useState<any | null>(null);
   const [selectedReservationForInvoice, setSelectedReservationForInvoice] = useState<Reservation | null>(null);
   const [showCreateInvoiceModal, setShowCreateInvoiceModal] = useState(false);
-  const [invoiceStatusFilter, setInvoiceStatusFilter] = useState<'all' | 'draft' | 'sent' | 'paid' | 'cancelled'>('all');
+  const [invoiceStatusFilter, setInvoiceStatusFilter] = useState<'all' | 'draft' | 'sent' | 'paid' | 'partial' | 'cancelled'>('all');
   const [invoiceTypeFilter, setInvoiceTypeFilter] = useState<'all' | 'deposit' | 'balance' | 'full'>('all');
+  const [invoiceSearchTerm, setInvoiceSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'confirmed' | 'cancelled'>('all');
   const [showReservationModal, setShowReservationModal] = useState(false);
   const [newReservation, setNewReservation] = useState({
@@ -907,6 +908,7 @@ export default function AdminPage() {
     { id: 'users' as TabType, icon: '�', label: { en: 'Users', fr: 'Utilisateurs' } },
     { id: 'messages' as TabType, icon: '💬', label: { en: 'Messages', fr: 'Messages' } },
     { id: 'invoices' as TabType, icon: '🧾', label: { en: 'Invoices', fr: 'Factures' } },
+    { id: 'accounting' as TabType, icon: '💰', label: { en: 'Accounting', fr: 'Comptabilité' } },
     { id: 'calendar' as TabType, icon: '🗓️', label: { en: 'Calendar', fr: 'Calendrier' } },
     { id: 'settings' as TabType, icon: '⚙️', label: { en: 'Settings', fr: 'Paramètres' } }
   ];
@@ -1927,6 +1929,113 @@ export default function AdminPage() {
               </div>
             )}
 
+            {activeTab === 'accounting' && (
+              <div>
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">
+                  {t({ en: 'Accounting', fr: 'Comptabilité' })}
+                </h2>
+
+                {/* Statistiques financières */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                  {/* Total des recettes */}
+                  <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg shadow p-4 border-2 border-green-200">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-green-700 font-medium">{t({ en: 'Total Income', fr: 'Recettes Totales' })}</p>
+                        <p className="text-2xl font-bold text-green-900 mt-1">€0</p>
+                        <p className="text-xs text-green-600 mt-1">{t({ en: 'This year', fr: 'Cette année' })}</p>
+                      </div>
+                      <div className="text-3xl">💰</div>
+                    </div>
+                  </div>
+
+                  {/* Total des dépenses */}
+                  <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-lg shadow p-4 border-2 border-red-200">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-red-700 font-medium">{t({ en: 'Total Expenses', fr: 'Dépenses Totales' })}</p>
+                        <p className="text-2xl font-bold text-red-900 mt-1">€0</p>
+                        <p className="text-xs text-red-600 mt-1">{t({ en: 'This year', fr: 'Cette année' })}</p>
+                      </div>
+                      <div className="text-3xl">📤</div>
+                    </div>
+                  </div>
+
+                  {/* Bénéfice net */}
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg shadow p-4 border-2 border-blue-200">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-blue-700 font-medium">{t({ en: 'Net Profit', fr: 'Bénéfice Net' })}</p>
+                        <p className="text-2xl font-bold text-blue-900 mt-1">€0</p>
+                        <p className="text-xs text-blue-600 mt-1">{t({ en: 'This year', fr: 'Cette année' })}</p>
+                      </div>
+                      <div className="text-3xl">📊</div>
+                    </div>
+                  </div>
+
+                  {/* Taux d'occupation */}
+                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg shadow p-4 border-2 border-purple-200">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-purple-700 font-medium">{t({ en: 'Occupancy Rate', fr: 'Taux d\'Occupation' })}</p>
+                        <p className="text-2xl font-bold text-purple-900 mt-1">0%</p>
+                        <p className="text-xs text-purple-600 mt-1">{t({ en: 'This year', fr: 'Cette année' })}</p>
+                      </div>
+                      <div className="text-3xl">🏠</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Message informatif */}
+                <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <span className="text-2xl">💡</span>
+                    </div>
+                    <div className="ml-3">
+                      <h3 className="text-sm font-medium text-blue-800">
+                        {t({ en: 'Accounting Module', fr: 'Module de Comptabilité' })}
+                      </h3>
+                      <div className="mt-2 text-sm text-blue-700">
+                        <p>{t({
+                          en: 'This module will help you track all income and expenses related to your chalet. You can categorize transactions, link them to reservations, and generate financial reports.',
+                          fr: 'Ce module vous aidera à suivre toutes les recettes et dépenses liées à votre chalet. Vous pouvez catégoriser les transactions, les lier aux réservations et générer des rapports financiers.'
+                        })}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bouton d'ajout de transaction */}
+                <div className="flex justify-end mb-4">
+                  <button className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 flex items-center gap-2 font-medium shadow-lg hover:shadow-xl transition-all">
+                    <span className="text-xl">➕</span>
+                    <span>{t({ en: 'Add Transaction', fr: 'Ajouter une Transaction' })}</span>
+                  </button>
+                </div>
+
+                {/* Liste des transactions (vide pour le moment) */}
+                <div className="bg-white rounded-lg shadow overflow-hidden">
+                  <div className="p-8 text-center">
+                    <div className="text-6xl mb-4">💳</div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      {t({ en: 'No transactions yet', fr: 'Aucune transaction pour le moment' })}
+                    </h3>
+                    <p className="text-gray-600 mb-6">
+                      {t({
+                        en: 'Start tracking your finances by adding your first transaction.',
+                        fr: 'Commencez à suivre vos finances en ajoutant votre première transaction.'
+                      })}
+                    </p>
+                    <button className="bg-forest-600 text-white px-6 py-2 rounded-lg hover:bg-forest-700 inline-flex items-center gap-2">
+                      <span>➕</span>
+                      <span>{t({ en: 'Add Transaction', fr: 'Ajouter une Transaction' })}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {activeTab === 'calendar' && (
               <div>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3">
@@ -2625,9 +2734,137 @@ export default function AdminPage() {
                   {t({ en: 'Invoices', fr: 'Factures' })}
                 </h2>
 
+                {/* Filtres de recherche */}
+                <div className="bg-white rounded-lg shadow p-4 mb-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {/* Filtre par statut */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        {t({ en: 'Status', fr: 'Statut' })}
+                      </label>
+                      <select
+                        value={invoiceStatusFilter}
+                        onChange={(e) => setInvoiceStatusFilter(e.target.value as any)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                      >
+                        <option value="all">{t({ en: '📋 All', fr: '📋 Tous' })}</option>
+                        <option value="draft">{t({ en: '📝 Draft', fr: '📝 Brouillon' })}</option>
+                        <option value="sent">{t({ en: '📤 Sent', fr: '📤 Envoyée' })}</option>
+                        <option value="partial">{t({ en: '⏳ Partial', fr: '⏳ Partielle' })}</option>
+                        <option value="paid">{t({ en: '✅ Paid', fr: '✅ Payée' })}</option>
+                        <option value="cancelled">{t({ en: '❌ Cancelled', fr: '❌ Annulée' })}</option>
+                      </select>
+                    </div>
+
+                    {/* Filtre par type */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        {t({ en: 'Type', fr: 'Type' })}
+                      </label>
+                      <select
+                        value={invoiceTypeFilter}
+                        onChange={(e) => setInvoiceTypeFilter(e.target.value as any)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                      >
+                        <option value="all">{t({ en: '📋 All', fr: '📋 Tous' })}</option>
+                        <option value="deposit">{t({ en: '💰 Deposit', fr: '💰 Acompte' })}</option>
+                        <option value="balance">{t({ en: '💳 Balance', fr: '💳 Solde' })}</option>
+                        <option value="full">{t({ en: '💵 Full Payment', fr: '💵 Paiement complet' })}</option>
+                      </select>
+                    </div>
+
+                    {/* Recherche par client */}
+                    <div className="sm:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        {t({ en: 'Search by client', fr: 'Rechercher par client' })}
+                      </label>
+                      <input
+                        type="text"
+                        placeholder={t({ en: 'Client name or email...', fr: 'Nom ou email du client...' })}
+                        value={invoiceSearchTerm || ''}
+                        onChange={(e) => setInvoiceSearchTerm(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Résumé des filtres actifs */}
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    {(invoiceStatusFilter !== 'all' || invoiceTypeFilter !== 'all' || invoiceSearchTerm) && (
+                      <>
+                        <span className="text-sm text-gray-600">
+                          {t({ en: 'Active filters:', fr: 'Filtres actifs :' })}
+                        </span>
+                        {invoiceStatusFilter !== 'all' && (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                            {invoiceStatusFilter}
+                            <button
+                              onClick={() => setInvoiceStatusFilter('all')}
+                              className="hover:text-blue-900"
+                            >
+                              ×
+                            </button>
+                          </span>
+                        )}
+                        {invoiceTypeFilter !== 'all' && (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                            {invoiceTypeFilter}
+                            <button
+                              onClick={() => setInvoiceTypeFilter('all')}
+                              className="hover:text-green-900"
+                            >
+                              ×
+                            </button>
+                          </span>
+                        )}
+                        {invoiceSearchTerm && (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
+                            "{invoiceSearchTerm}"
+                            <button
+                              onClick={() => setInvoiceSearchTerm('')}
+                              className="hover:text-purple-900"
+                            >
+                              ×
+                            </button>
+                          </span>
+                        )}
+                        <button
+                          onClick={() => {
+                            setInvoiceStatusFilter('all');
+                            setInvoiceTypeFilter('all');
+                            setInvoiceSearchTerm('');
+                          }}
+                          className="text-xs text-gray-600 hover:text-gray-800 underline"
+                        >
+                          {t({ en: 'Clear all', fr: 'Tout effacer' })}
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+
                 {/* Mobile Card View */}
                 <div className="sm:hidden space-y-4">
-                  {invoices.map((invoice, index) => (
+                  {invoices
+                    .filter(invoice => {
+                      // Filtre par statut
+                      if (invoiceStatusFilter !== 'all' && invoice.status !== invoiceStatusFilter) {
+                        return false;
+                      }
+                      // Filtre par type
+                      if (invoiceTypeFilter !== 'all' && invoice.type !== invoiceTypeFilter) {
+                        return false;
+                      }
+                      // Filtre par recherche client
+                      if (invoiceSearchTerm) {
+                        const searchLower = invoiceSearchTerm.toLowerCase();
+                        const matchName = invoice.clientName?.toLowerCase().includes(searchLower);
+                        const matchEmail = invoice.clientEmail?.toLowerCase().includes(searchLower);
+                        return matchName || matchEmail;
+                      }
+                      return true;
+                    })
+                    .map((invoice, index) => (
                     <div key={invoice.id || index} className="bg-white border rounded-lg p-4 shadow-sm">
                       <div className="flex justify-between items-start mb-3">
                         <div>
@@ -2691,8 +2928,19 @@ export default function AdminPage() {
                       </div>
                     </div>
                   ))}
-                  
-                  {invoices.length === 0 && (
+
+                  {invoices
+                    .filter(invoice => {
+                      if (invoiceStatusFilter !== 'all' && invoice.status !== invoiceStatusFilter) return false;
+                      if (invoiceTypeFilter !== 'all' && invoice.type !== invoiceTypeFilter) return false;
+                      if (invoiceSearchTerm) {
+                        const searchLower = invoiceSearchTerm.toLowerCase();
+                        const matchName = invoice.clientName?.toLowerCase().includes(searchLower);
+                        const matchEmail = invoice.clientEmail?.toLowerCase().includes(searchLower);
+                        return matchName || matchEmail;
+                      }
+                      return true;
+                    }).length === 0 && (
                     <div className="text-center py-8 sm:py-12">
                       <div className="text-gray-500 text-3xl sm:text-4xl mb-4">🧾</div>
                       <p className="text-gray-500">
@@ -2729,7 +2977,19 @@ export default function AdminPage() {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {invoices.map((invoice, index) => (
+                        {invoices
+                          .filter(invoice => {
+                            if (invoiceStatusFilter !== 'all' && invoice.status !== invoiceStatusFilter) return false;
+                            if (invoiceTypeFilter !== 'all' && invoice.type !== invoiceTypeFilter) return false;
+                            if (invoiceSearchTerm) {
+                              const searchLower = invoiceSearchTerm.toLowerCase();
+                              const matchName = invoice.clientName?.toLowerCase().includes(searchLower);
+                              const matchEmail = invoice.clientEmail?.toLowerCase().includes(searchLower);
+                              return matchName || matchEmail;
+                            }
+                            return true;
+                          })
+                          .map((invoice, index) => (
                           <tr key={invoice.id || index} className="hover:bg-gray-50">
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                               INV-{invoice.invoiceNumber || invoice.id}

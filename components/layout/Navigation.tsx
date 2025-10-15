@@ -18,9 +18,9 @@ export default function Navigation() {
   const navLinks = [
     { href: '/', label: { en: 'Home', fr: 'Accueil' } },
     { href: '/chalet', label: { en: 'The Chalet', fr: 'Le Chalet' } },
+    { href: '/gallery', label: { en: 'Gallery', fr: 'Galerie' } },
     { href: '/location', label: { en: 'Location', fr: 'Localisation' } },
     { href: '/booking', label: { en: 'Booking', fr: 'Réservation' } },
-    { href: '/gallery', label: { en: 'Gallery', fr: 'Galerie' } },
     { href: '/guide', label: { en: 'Guest Guide', fr: 'Guide' } },
     { href: '/contact', label: { en: 'Contact', fr: 'Contact' } },
   ];
