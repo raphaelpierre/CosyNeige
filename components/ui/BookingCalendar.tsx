@@ -152,7 +152,7 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
     } else if (isBooked) {
       className += "bg-red-100 text-red-800 cursor-not-allowed";
     } else if (isSelected) {
-      className += "bg-forest-700 text-white font-bold cursor-pointer active:scale-95";
+      className += "bg-forest-600 text-white font-bold cursor-pointer active:scale-95 ring-2 ring-forest-700 ring-offset-2 shadow-md";
     } else {
       className += "bg-green-50 text-green-800 hover:bg-green-100 cursor-pointer active:bg-green-200 active:scale-95";
     }
@@ -223,6 +223,10 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-green-50 border border-green-200 rounded" />
           <span className="text-gray-700">{t({ en: 'Available', fr: 'Disponible' })}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 bg-forest-600 border-2 border-forest-700 rounded shadow-sm" />
+          <span className="text-gray-700 font-semibold">{t({ en: 'Selected', fr: 'Sélectionné' })}</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-red-100 border border-red-200 rounded" />
