@@ -110,8 +110,8 @@ export default function HomePage() {
               <div className="grid md:grid-cols-2 gap-0 items-center">
                 <div className="relative h-80 md:h-96 overflow-hidden">
                   <Image
-                    src="/images/chalet_neige_devant.webp"
-                    alt="Chalet exterior view"
+                    src="/images/entre2vallees.webp"
+                    alt="Between two valleys - Strategic location"
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-700"
                     sizes="(max-width: 768px) 100vw, 50vw"
