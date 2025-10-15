@@ -54,8 +54,14 @@ export default function BookingPage() {
   const priceCalculation = checkIn && checkOut && seasons.length > 0 && pricingSettings
     ? calculatePriceWithSeasons(checkIn, checkOut, seasons, pricingSettings)
     : null;
-  const validation = checkIn && checkOut && seasons.length > 0 && pricingSettings
-    ? validateBookingDatesWithSeasons(checkIn, checkOut, seasons, pricingSettings)
+
+  // Validation: si les saisons ne sont pas encore chargées, on considère comme valide temporairement
+  // pour ne pas bloquer l'utilisateur pendant le chargement
+  const validation = checkIn && checkOut
+    ? (seasons.length > 0 && pricingSettings
+        ? validateBookingDatesWithSeasons(checkIn, checkOut, seasons, pricingSettings)
+        : { isValid: true } // Temporairement valide pendant le chargement
+      )
     : { isValid: false };
   const isValidStay = validation.isValid;
 
