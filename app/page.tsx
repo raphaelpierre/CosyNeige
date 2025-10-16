@@ -12,10 +12,10 @@ export default function HomePage() {
 
   // Images du hero carousel - les meilleures photos du chalet
   const heroImages = [
-    { src: '/images/ChaletPAnoramiqueVueHaut.webp', alt: 'Vue panoramique' },
+    { src: '/images/ExteriieurJacuzi.webp', alt: 'Chalet enneigé avec jacuzzi' },
     { src: '/images/chalet_neige_devant.webp', alt: 'Chalet en hiver' },
+    { src: '/images/ChaletPAnoramiqueVueHaut.webp', alt: 'Vue panoramique' },
     { src: '/images/Salon2.webp', alt: 'Salon cosy' },
-    { src: '/images/ExteriieurJacuzi.webp', alt: 'Jacuzzi extérieur' },
     { src: '/images/Exterieur.webp', alt: 'Vue extérieure été' },
     { src: '/images/Cuisine1.webp', alt: 'Cuisine équipée' },
   ];
@@ -51,39 +51,48 @@ export default function HomePage() {
           </div>
         ))}
 
-        {/* Overlay gradient harmonisé */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/40" />
+        {/* Overlay gradient adaptatif - Plus sombre en haut pour la lisibilité */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/50" />
 
-        {/* Titre et accroches - Centré verticalement */}
-        <div className="absolute inset-0 z-10 flex flex-col justify-center items-center">
+        {/* Titre et accroches - Positionnés en haut pour meilleure lisibilité */}
+        <div className="absolute inset-0 z-10 flex flex-col justify-start pt-16 md:pt-24 lg:pt-32 items-center">
           <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 text-center">
-            {/* Titre principal */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-2xl leading-tight mb-3 md:mb-4">
+            {/* Titre principal avec ombre portée renforcée */}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-3 md:mb-4"
+                style={{
+                  textShadow: '0 4px 12px rgba(0,0,0,0.8), 0 2px 4px rgba(0,0,0,0.9), 0 8px 24px rgba(0,0,0,0.6)'
+                }}>
               {chaletName}
             </h1>
 
             {/* Tagline accrocheur avec USP */}
-            <p className="text-lg md:text-2xl lg:text-3xl text-white/95 font-light tracking-wide mb-6 md:mb-8">
+            <p className="text-lg md:text-2xl lg:text-3xl text-white font-light tracking-wide mb-6 md:mb-8"
+               style={{
+                 textShadow: '0 3px 8px rgba(0,0,0,0.8), 0 1px 3px rgba(0,0,0,0.9), 0 6px 16px rgba(0,0,0,0.6)'
+               }}>
               {t({
                 en: 'Your Alpine Retreat • All Year Round',
                 fr: 'Votre Refuge Alpin • Toute l\'Année'
               })}
             </p>
 
-            {/* Points clés visuels sous le tagline */}
+            {/* Points clés visuels sous le tagline - Fond plus opaque */}
             <div className="flex flex-wrap justify-center gap-3 md:gap-4 max-w-3xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 md:px-6 md:py-3">
-                <span className="text-white font-semibold text-sm md:text-base">
+              <div className="bg-white/15 backdrop-blur-md border border-white/30 rounded-full px-4 py-2 md:px-6 md:py-3 shadow-xl">
+                <span className="text-white font-semibold text-sm md:text-base"
+                      style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
                   🏔️ {t({ en: '180m² Chalet', fr: 'Chalet 180m²' })}
                 </span>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 md:px-6 md:py-3">
-                <span className="text-white font-semibold text-sm md:text-base">
+              <div className="bg-white/15 backdrop-blur-md border border-white/30 rounded-full px-4 py-2 md:px-6 md:py-3 shadow-xl">
+                <span className="text-white font-semibold text-sm md:text-base"
+                      style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
                   🛏️ {t({ en: '10-12 Guests', fr: '10-12 Pers.' })}
                 </span>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 md:px-6 md:py-3">
-                <span className="text-white font-semibold text-sm md:text-base">
+              <div className="bg-white/15 backdrop-blur-md border border-white/30 rounded-full px-4 py-2 md:px-6 md:py-3 shadow-xl">
+                <span className="text-white font-semibold text-sm md:text-base"
+                      style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
                   ♨️ {t({ en: 'Private Hot Tub', fr: 'Jacuzzi Privé' })}
                 </span>
               </div>
