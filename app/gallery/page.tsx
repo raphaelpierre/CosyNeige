@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import { galleryImages } from '@/lib/data/chalet';
 
-export default function GalleryPage() {
+function GalleryContent() {
   const { t } = useLanguage();
   const searchParams = useSearchParams();
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
@@ -292,9 +292,9 @@ export default function GalleryPage() {
       )}
 
       {/* CTA */}
-      <section className="py-12 bg-white border-t border-forest-100/20">
+      <section className="py-12 bg-white border-t border-gray-200/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
             {t({ en: 'Like What You See?', fr: 'Vous Aimez ce que Vous Voyez ?' })}
           </h2>
           <p className="text-xl text-gray-700 mb-8">
@@ -309,7 +309,7 @@ export default function GalleryPage() {
             </a>
             <a
               href="/chalet"
-              className="inline-block border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-forest-700 px-8 py-4 rounded-lg font-bold text-lg transition-colors"
+              className="inline-block border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-8 py-4 rounded-lg font-bold text-lg transition-colors"
             >
               {t({ en: 'Learn More', fr: 'En Savoir Plus' })}
             </a>
@@ -317,5 +317,18 @@ export default function GalleryPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function GalleryPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-700 mx-auto"></div>
+        <p className="mt-4 text-gray-600">Loading gallery...</p>
+      </div>
+    </div>}>
+      <GalleryContent />
+    </Suspense>
   );
 }
