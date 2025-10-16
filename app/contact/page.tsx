@@ -111,13 +111,13 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Information */}
-      <section className="py-12 bg-cream">
+      <section className="py-12 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            <div className="text-center bg-cream rounded-lg p-8 hover:shadow-lg transition-shadow">
+            <div className="text-center bg-gray-50 rounded-lg p-8 hover:shadow-lg transition-shadow">
               <div className="text-5xl mb-4">📧</div>
-              <h3 className="text-xl font-bold text-forest-800 mb-3">{t({ en: 'Email', fr: 'Email' })}</h3>
-              <a href="mailto:contact@chalet-balmotte810.com" className="text-forest-900 hover:text-forest-800 transition-colors font-semibold">
+              <h3 className="text-xl font-bold text-gray-800 mb-3">{t({ en: 'Email', fr: 'Email' })}</h3>
+              <a href="mailto:contact@chalet-balmotte810.com" className="text-gray-900 hover:text-gray-800 transition-colors font-semibold">
                 contact@chalet-balmotte810.com
               </a>
               <p className="text-sm text-gray-600 mt-2">
@@ -125,10 +125,10 @@ export default function ContactPage() {
               </p>
             </div>
 
-            <div className="text-center bg-cream rounded-lg p-8 hover:shadow-lg transition-shadow">
+            <div className="text-center bg-gray-50 rounded-lg p-8 hover:shadow-lg transition-shadow">
               <div className="text-5xl mb-4">📞</div>
-              <h3 className="text-xl font-bold text-forest-800 mb-3">{t({ en: 'Phone', fr: 'Téléphone' })}</h3>
-              <a href="tel:+33685858491" className="text-forest-900 hover:text-forest-800 transition-colors font-semibold">
+              <h3 className="text-xl font-bold text-gray-800 mb-3">{t({ en: 'Phone', fr: 'Téléphone' })}</h3>
+              <a href="tel:+33685858491" className="text-gray-900 hover:text-gray-800 transition-colors font-semibold">
                 +33 6 85 85 84 91
               </a>
               <p className="text-sm text-gray-600 mt-2">
@@ -136,10 +136,10 @@ export default function ContactPage() {
               </p>
             </div>
 
-            <div className="text-center bg-cream rounded-lg p-8 hover:shadow-lg transition-shadow">
+            <div className="text-center bg-gray-50 rounded-lg p-8 hover:shadow-lg transition-shadow">
               <div className="text-5xl mb-4">📍</div>
-              <h3 className="text-xl font-bold text-forest-800 mb-3">{t({ en: 'Address', fr: 'Adresse' })}</h3>
-              <p className="text-forest-900 font-medium">
+              <h3 className="text-xl font-bold text-gray-800 mb-3">{t({ en: 'Address', fr: 'Adresse' })}</h3>
+              <p className="text-gray-900 font-medium">
                 {chaletName}<br />
                 {location.street && <>{location.street}<br /></>}
                 {location.village}<br />
@@ -153,7 +153,7 @@ export default function ContactPage() {
       {/* Contact Form */}
       <section className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">
             {t({ en: 'Send Us a Message', fr: 'Envoyez-nous un Message' })}
           </h2>
           <p className="text-center text-gray-600 mb-12">
@@ -173,7 +173,7 @@ export default function ContactPage() {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
                 placeholder={t({ en: 'Your name', fr: 'Votre nom' })}
               />
             </div>
@@ -188,7 +188,7 @@ export default function ContactPage() {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
                   placeholder={t({ en: 'your.email@example.com', fr: 'votre.email@exemple.com' })}
                 />
               </div>
@@ -204,7 +204,7 @@ export default function ContactPage() {
                     setFormData({ ...formData, phone: e.target.value });
                     setPhoneError(''); // Effacer l'erreur lors de la modification
                   }}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent ${
                     phoneError ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="+33 6 12 34 56 78"
@@ -223,7 +223,7 @@ export default function ContactPage() {
                 required
                 value={formData.subject}
                 onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
               >
                 {subjects.map((subject) => (
                   <option key={subject.value} value={subject.value}>
@@ -242,7 +242,7 @@ export default function ContactPage() {
                 rows={6}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
                 placeholder={t({
                   en: 'Please tell us how we can help you...',
                   fr: 'Dites-nous comment nous pouvons vous aider...',
@@ -274,7 +274,7 @@ export default function ContactPage() {
       {/* FAQ Section */}
       <section className="py-12 md:py-14 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">
             {t({ en: 'Frequently Asked Questions', fr: 'Questions Fréquentes' })}
           </h2>
           <p className="text-center text-gray-600 mb-12">
@@ -288,16 +288,16 @@ export default function ContactPage() {
             {faqs.map((faq, index) => (
               <div
                 key={index}
-                className="bg-cream rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg"
+                className="bg-gray-50 rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg"
               >
                 <button
                   onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                  className="w-full px-6 py-5 text-left flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-forest-700 focus:ring-inset"
+                  className="w-full px-6 py-5 text-left flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-slate-700 focus:ring-inset"
                 >
-                  <h3 className="text-lg font-bold text-forest-800 pr-4">
+                  <h3 className="text-lg font-bold text-gray-800 pr-4">
                     {t(faq.question)}
                   </h3>
-                  <span className="text-2xl text-forest-700 flex-shrink-0">
+                  <span className="text-2xl text-slate-700 flex-shrink-0">
                     {expandedFaq === index ? '−' : '+'}
                   </span>
                 </button>
@@ -310,8 +310,8 @@ export default function ContactPage() {
             ))}
           </div>
 
-          <div className="mt-12 text-center bg-forest-50 rounded-lg p-8">
-            <h3 className="text-xl font-bold text-forest-900 mb-3">
+          <div className="mt-12 text-center bg-gray-100 rounded-lg p-8">
+            <h3 className="text-xl font-bold text-gray-900 mb-3">
               {t({ en: 'Still have questions?', fr: 'Vous avez encore des questions ?' })}
             </h3>
             <p className="text-gray-700 mb-6">
@@ -354,9 +354,9 @@ export default function ContactPage() {
       </section>
 
       {/* Book Now CTA */}
-      <section className="py-10 bg-cream">
+      <section className="py-10 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-forest-900 mb-6">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
             {t({ en: 'Ready to Book?', fr: 'Prêt à Réserver ?' })}
           </h2>
           <p className="text-lg text-gray-700 mb-8">

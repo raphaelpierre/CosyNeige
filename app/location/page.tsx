@@ -39,39 +39,48 @@ export default function LocationPage() {
     },
   ];
 
-  const summerActivities = activities.filter(a => a.season === 'summer');
+  const summerActivities = activities.filter(a => a.season === 'summer' || a.season === 'all');
   const winterActivities = activities.filter(a => a.season === 'winter');
 
   return (
     <div>
-      {/* Hero Section */}
-      <section className="relative h-[400px] flex items-center justify-center">
+      {/* Hero Section Full Height */}
+      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/Terrasse1.webp"
+            src="/images/entre2vallees.webp"
             alt={t({ en: 'Mountain landscape', fr: 'Paysage montagnard' })}
             fill
-            className="object-cover brightness-75"
+            className="object-cover"
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/70" />
         </div>
-        <div className="relative z-10 text-center text-white">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4">{t({ en: 'Location & Activities', fr: 'Localisation & Activités' })}</h1>
-          <p className="text-xl md:text-2xl">{location.village}, {location.region}</p>
+        <div className="relative z-10 text-center text-white px-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4">{t({ en: 'Location & Activities', fr: 'Localisation & Activités' })}</h1>
+          <p className="text-xl md:text-2xl lg:text-3xl font-light mb-6">
+            {location.village}, {location.region}
+          </p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <div className="bg-white/20 backdrop-blur-md border border-white/30 px-6 py-3 rounded-full">
+              <span className="text-white font-semibold">📍 732m {t({ en: 'altitude', fr: 'd\'altitude' })}</span>
+            </div>
+            <div className="bg-white/20 backdrop-blur-md border border-white/30 px-6 py-3 rounded-full">
+              <span className="text-white font-semibold">🏔️ {t({ en: 'Between two valleys', fr: 'Entre deux vallées' })}</span>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Strategic Location */}
-      <section className="py-12 md:py-14 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               {t({ en: 'Strategic Location', fr: 'Emplacement Stratégique' })}
             </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-forest-600 to-forest-800 mx-auto rounded-full mb-4" />
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
               {t({
                 en: 'Châtillon-sur-Cluses sits perfectly between the Arve and Giffre valleys at 732m altitude, offering easy access to 5 major ski resorts and authentic mountain experiences.',
                 fr: 'Châtillon-sur-Cluses est idéalement situé entre les vallées de l\'Arve et du Giffre à 732m d\'altitude, offrant un accès facile à 5 grandes stations de ski et des expériences authentiques en montagne.',
@@ -79,49 +88,49 @@ export default function LocationPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h3 className="text-2xl font-bold text-forest-800 mb-6">
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
                 {t({ en: 'Key Details', fr: 'Détails Clés' })}
               </h3>
-              <div className="space-y-4">
-                <div className="flex items-start gap-4">
+              <div className="space-y-6">
+                <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
                   <div className="text-3xl">📍</div>
                   <div>
-                    <div className="font-semibold text-forest-800">{t({ en: 'Address', fr: 'Adresse' })}</div>
+                    <div className="font-semibold text-gray-800 mb-1">{t({ en: 'Address', fr: 'Adresse' })}</div>
                     <div className="text-gray-700">
                       {location.street && <>{location.street}, </>}
                       {location.village}, {location.department} ({location.postalCode})
                     </div>
                   </div>
                 </div>
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
                   <div className="text-3xl">⛰️</div>
                   <div>
-                    <div className="font-semibold text-forest-800">{t({ en: 'Altitude', fr: 'Altitude' })}</div>
+                    <div className="font-semibold text-gray-800 mb-1">{t({ en: 'Altitude', fr: 'Altitude' })}</div>
                     <div className="text-gray-700">{location.altitude}m</div>
                   </div>
                 </div>
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
                   <div className="text-3xl">🗺️</div>
                   <div>
-                    <div className="font-semibold text-forest-800">{t({ en: 'Region', fr: 'Région' })}</div>
+                    <div className="font-semibold text-gray-800 mb-1">{t({ en: 'Region', fr: 'Région' })}</div>
                     <div className="text-gray-700">{location.region}</div>
                   </div>
                 </div>
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
                   <div className="text-3xl">🌄</div>
                   <div>
-                    <div className="font-semibold text-forest-800">{t({ en: 'Between Two Valleys', fr: 'Entre Deux Vallées' })}</div>
+                    <div className="font-semibold text-gray-800 mb-1">{t({ en: 'Between Two Valleys', fr: 'Entre Deux Vallées' })}</div>
                     <div className="text-gray-700">{t({ en: 'Arve Valley (south) & Giffre Valley (north)', fr: 'Vallée de l\'Arve (sud) & Vallée du Giffre (nord)' })}</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
+            <div className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
               <Image
-                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800"
+                src="/images/ExterieurBalcon.webp"
                 alt="Mountain valley view"
                 fill
                 className="object-cover"
@@ -133,14 +142,13 @@ export default function LocationPage() {
       </section>
 
       {/* Nearby Ski Resorts */}
-      <section className="py-12 bg-cream">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               {t({ en: 'Access to 5 Major Ski Resorts', fr: 'Accès à 5 Grandes Stations' })}
             </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-forest-600 to-forest-800 mx-auto rounded-full mb-4" />
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
               {t({
                 en: 'Our central location between two valleys gives you unparalleled access to diverse skiing experiences, from family-friendly slopes to expert terrain.',
                 fr: 'Notre emplacement central entre deux vallées vous donne un accès incomparable à des expériences de ski variées, des pistes familiales aux terrains experts.',
@@ -150,20 +158,20 @@ export default function LocationPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {nearbyResorts.map((resort, index) => (
-              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-forest-200/20 to-transparent rounded-bl-full transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500" />
+              <div key={index} className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 border border-gray-200 overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-slate-200/20 to-transparent rounded-bl-full transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500" />
                 <div className="relative">
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-3xl group-hover:scale-125 transition-transform duration-300">⛷️</span>
-                    <h3 className="font-bold text-xl text-forest-800 group-hover:text-forest-900">{resort.name}</h3>
+                    <h3 className="font-bold text-xl text-gray-800 group-hover:text-gray-900">{resort.name}</h3>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-full">
-                      <span className="text-forest-700 font-semibold">{resort.distance}km</span>
+                    <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-full shadow-sm">
+                      <span className="text-slate-700 font-semibold">{resort.distance}km</span>
                     </div>
-                    <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-full">
+                    <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-full shadow-sm">
                       <span>🚗</span>
-                      <span className="text-forest-700 font-semibold">{resort.drivingTime} min</span>
+                      <span className="text-slate-700 font-semibold">{resort.drivingTime} min</span>
                     </div>
                   </div>
                 </div>
@@ -174,24 +182,26 @@ export default function LocationPage() {
       </section>
 
       {/* Nearby Services */}
-      <section className="py-12 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               {t({ en: 'Nearby Services & Towns', fr: 'Services & Villes à Proximité' })}
             </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-forest-600 to-forest-800 mx-auto rounded-full" />
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              {t({ en: 'Everything you need is within reach', fr: 'Tout ce dont vous avez besoin est à portée de main' })}
+            </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {nearbyServices.map((service, index) => (
-              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-forest-200/20 to-transparent rounded-bl-full transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500" />
+              <div key={index} className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 border border-gray-200 overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-slate-200/20 to-transparent rounded-bl-full transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500" />
                 <div className="relative flex items-start gap-4">
                   <div className="text-4xl group-hover:scale-125 transition-transform duration-300">{service.icon}</div>
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-2">
-                      <h3 className="text-xl font-bold text-forest-800 group-hover:text-forest-900">{service.name.en}</h3>
-                      <span className="text-sm font-semibold text-forest-700 bg-white/80 px-3 py-1 rounded-full">{service.distance} km</span>
+                      <h3 className="text-xl font-bold text-gray-800 group-hover:text-gray-900">{t(service.name)}</h3>
+                      <span className="text-sm font-semibold text-slate-700 bg-white/80 px-3 py-1 rounded-full shadow-sm">{service.distance} km</span>
                     </div>
                     <div className="text-sm text-gray-600 mb-1">{t(service.type)}</div>
                     <div className="text-sm text-gray-700">{t(service.description)}</div>
@@ -204,15 +214,20 @@ export default function LocationPage() {
       </section>
 
       {/* Interactive Map */}
-      <section className="py-12 bg-forest-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               {t({ en: 'Find Us on the Map', fr: 'Trouvez-Nous sur la Carte' })}
             </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-forest-600 to-forest-800 mx-auto rounded-full" />
+            <p className="text-lg text-gray-600">
+              {t({
+                en: 'Located in the heart of Châtillon-sur-Cluses, between the Arve and Giffre valleys',
+                fr: 'Situé au cœur de Châtillon-sur-Cluses, entre les vallées de l\'Arve et du Giffre',
+              })}
+            </p>
           </div>
-          <div className="bg-white rounded-lg shadow-xl overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
             <iframe
               src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d44343.65!2d6.5769!3d46.0833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478c64d0dc1d5623%3A0x40a7d8c6d6c3c3e0!2zQ2jDonRpbGxvbi1zdXItQ2x1c2VzLCBGcmFuY2U!5e0!3m2!1s${t({ en: 'en', fr: 'fr' })}!2sus!4v1234567890123!5m2!1s${t({ en: 'en', fr: 'fr' })}!2sus`}
               width="100%"
@@ -225,19 +240,13 @@ export default function LocationPage() {
               title={t({ en: 'Chalet-Balmotte810 Location Map', fr: 'Carte de localisation de Chalet-Balmotte810' })}
             />
           </div>
-          <div className="mt-6 text-center">
-            <p className="text-gray-600 mb-4">
-              {t({
-                en: 'Located in the heart of Châtillon-sur-Cluses, between the Arve and Giffre valleys',
-                fr: 'Situé au cœur de Châtillon-sur-Cluses, entre les vallées de l\'Arve et du Giffre',
-              })}
-            </p>
+          <div className="mt-8 text-center">
             <div className="flex flex-wrap justify-center gap-4">
               <a
                 href={`https://www.google.com/maps/dir//${location.latitude},${location.longitude}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-bold transition-colors border-2 border-slate-700 hover:border-slate-800"
+                className="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
               >
                 <span>🚗</span>
                 {t({ en: 'Get Directions', fr: 'Obtenir l\'Itinéraire' })}
@@ -246,7 +255,7 @@ export default function LocationPage() {
                 href={`https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-forest-700 px-6 py-3 rounded-lg font-bold transition-colors"
+                className="inline-flex items-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 hover:scale-105"
               >
                 <span>📍</span>
                 {t({ en: 'Open in Google Maps', fr: 'Ouvrir dans Google Maps' })}
@@ -256,15 +265,14 @@ export default function LocationPage() {
         </div>
       </section>
 
-      {/* Winter Activities */}
-      <section className="py-12 md:py-14 bg-cream">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Winter Activities with Photos */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               ❄️ {t({ en: 'Winter Activities', fr: 'Activités Hivernales' })}
             </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-forest-600 to-forest-800 mx-auto rounded-full mb-4" />
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
               {t({
                 en: 'From December to April, the Alps transform into a winter wonderland with endless activities for all ages.',
                 fr: 'De décembre à avril, les Alpes se transforment en paradis hivernal avec des activités infinies pour tous les âges.',
@@ -273,12 +281,20 @@ export default function LocationPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {winterActivities.map((activity, index) => (
-              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-forest-200/20 to-transparent rounded-bl-full transform translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform duration-500" />
-                <div className="relative">
-                  <div className="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300">{activity.icon}</div>
-                  <h3 className="text-xl font-bold text-forest-800 group-hover:text-forest-900 mb-2">{t(activity.name)}</h3>
-                  <p className="text-gray-700 text-sm">{t(activity.description)}</p>
+              <div key={index} className="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500">
+                <div className="relative h-64 overflow-hidden">
+                  <Image
+                    src={activity.image}
+                    alt={t(activity.name)}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <h3 className="text-xl font-bold mb-1">{t(activity.name)}</h3>
+                    <p className="text-sm text-white/90">{t(activity.description)}</p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -286,15 +302,14 @@ export default function LocationPage() {
         </div>
       </section>
 
-      {/* Summer Activities */}
-      <section className="py-12 md:py-14 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Summer Activities with Photos */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               ☀️ {t({ en: 'Summer Activities', fr: 'Activités Estivales' })}
             </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-forest-600 to-forest-800 mx-auto rounded-full mb-4" />
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
               {t({
                 en: 'From June to September, discover the beauty of the Alps with hiking, biking, and mountain adventures.',
                 fr: 'De juin à septembre, découvrez la beauté des Alpes avec randonnées, VTT et aventures en montagne.',
@@ -303,12 +318,20 @@ export default function LocationPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {summerActivities.map((activity, index) => (
-              <div key={index} className="group relative bg-gradient-to-br from-white to-forest-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300  border border-forest-100 overflow-hidden">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-forest-200/20 to-transparent rounded-bl-full transform translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform duration-500" />
-                <div className="relative">
-                  <div className="text-4xl mb-3 group-hover:scale-125 transition-transform duration-300">{activity.icon}</div>
-                  <h3 className="text-xl font-bold text-forest-800 group-hover:text-forest-900 mb-2">{t(activity.name)}</h3>
-                  <p className="text-gray-700 text-sm">{t(activity.description)}</p>
+              <div key={index} className="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500">
+                <div className="relative h-64 overflow-hidden">
+                  <Image
+                    src={activity.image}
+                    alt={t(activity.name)}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <h3 className="text-xl font-bold mb-1">{t(activity.name)}</h3>
+                    <p className="text-sm text-white/90">{t(activity.description)}</p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -317,23 +340,33 @@ export default function LocationPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-12 bg-white border-t border-forest-100/20">
+      <section className="py-16 bg-white border-t border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-700">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
             {t({ en: 'Ready to Explore?', fr: 'Prêt à Explorer ?' })}
           </h2>
-          <p className="text-xl text-gray-700 mb-8">
+          <p className="text-xl md:text-2xl text-gray-700 mb-8">
             {t({
               en: 'Book your stay and discover all that the French Alps have to offer',
               fr: 'Réservez votre séjour et découvrez tout ce que les Alpes françaises ont à offrir',
             })}
           </p>
-          <Link
-            href="/booking"
-            className="inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors border-2 border-slate-700 hover:border-slate-800"
-          >
-            {t({ en: 'Check Availability', fr: 'Vérifier Disponibilités' })}
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/booking"
+              className="inline-flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+            >
+              <span>📅</span>
+              {t({ en: 'Check Availability', fr: 'Vérifier Disponibilités' })}
+            </Link>
+            <Link
+              href="/chalet"
+              className="inline-flex items-center justify-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 hover:scale-105"
+            >
+              {t({ en: 'Discover the Chalet', fr: 'Découvrir le Chalet' })}
+              <span>→</span>
+            </Link>
+          </div>
         </div>
       </section>
     </div>

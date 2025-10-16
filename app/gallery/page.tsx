@@ -1,14 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import { galleryImages } from '@/lib/data/chalet';
 
 export default function GalleryPage() {
   const { t } = useLanguage();
+  const searchParams = useSearchParams();
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [filter, setFilter] = useState<string>('all');
+
+  // Read filter from URL query parameter on mount
+  useEffect(() => {
+    const filterParam = searchParams.get('filter');
+    if (filterParam && ['all', 'exterior', 'living', 'kitchen', 'bedroom', 'bathroom', 'wellness'].includes(filterParam)) {
+      setFilter(filterParam);
+    }
+  }, [searchParams]);
 
   const categories = [
     { value: 'all', label: { en: 'All Photos', fr: 'Toutes les Photos' }, icon: '📸' },

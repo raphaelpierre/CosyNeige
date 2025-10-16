@@ -324,7 +324,7 @@ export default function GuidePage() {
       {/* Welcome Message */}
       <section className="py-12 md:py-14 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
             {t({ en: 'Welcome to Chalet-Balmotte810!', fr: 'Bienvenue à Chalet-Balmotte810 !' })}
           </h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-6">
@@ -346,10 +346,10 @@ export default function GuidePage() {
       {sections.map((section, sectionIndex) => (
         <section
           key={sectionIndex}
-          className={`py-12 ${sectionIndex % 2 === 0 ? 'bg-cream' : 'bg-white'}`}
+          className={`py-12 ${sectionIndex % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}
         >
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-forest-900 mb-12 text-center flex items-center justify-center gap-3">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center flex items-center justify-center gap-3">
               <span className="text-4xl">{section.icon}</span>
               {t(section.title)}
             </h2>
@@ -359,10 +359,10 @@ export default function GuidePage() {
                 <div
                   key={itemIndex}
                   className={`${
-                    sectionIndex % 2 === 0 ? 'bg-white' : 'bg-cream'
+                    sectionIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50'
                   } rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow`}
                 >
-                  <h3 className="text-xl font-bold text-forest-800 mb-3">
+                  <h3 className="text-xl font-bold text-gray-800 mb-3">
                     {t(item.subtitle)}
                   </h3>
                   <p className="text-gray-700 leading-relaxed">{t(item.content)}</p>
@@ -374,7 +374,7 @@ export default function GuidePage() {
       ))}
 
       {/* Local Tips */}
-      <section className="py-12 bg-white border-t border-forest-100/20">
+      <section className="py-12 bg-white border-t border-gray-200/20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-700">
             {t({ en: 'Local Tips & Recommendations', fr: 'Conseils & Recommandations Locales' })}
@@ -421,9 +421,9 @@ export default function GuidePage() {
       </section>
 
       {/* Download PDF */}
-      <section className="py-12 bg-cream">
+      <section className="py-12 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-forest-900 mb-6">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
             {t({ en: 'Need This Information Offline?', fr: 'Besoin de ces Infos Hors Ligne ?' })}
           </h2>
           <p className="text-gray-700 mb-8">
@@ -443,7 +443,7 @@ export default function GuidePage() {
       </section>
 
       {/* Contact CTA */}
-      <section className="py-12 bg-white border-t border-forest-100/20">
+      <section className="py-12 bg-white border-t border-gray-200/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-gray-700 mb-6">
             {t({ en: 'Questions or Issues During Your Stay?', fr: 'Questions ou Problèmes Pendant Votre Séjour ?' })}
@@ -463,7 +463,7 @@ export default function GuidePage() {
             </a>
             <a
               href="tel:+33685858491"
-              className="inline-block border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-forest-700 px-8 py-4 rounded-lg font-bold text-lg transition-colors"
+              className="inline-block border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-8 py-4 rounded-lg font-bold text-lg transition-colors"
             >
               {t({ en: 'Call Us', fr: 'Appelez-Nous' })}
             </a>
