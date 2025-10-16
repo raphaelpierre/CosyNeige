@@ -133,7 +133,11 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
       // Auto-sélectionner le séjour minimum selon la saison
       if (pricingSettings) {
         const season = findSeasonForDate(localDate, seasons);
-        const minimumStay = season && season.seasonType === 'high'
+        console.log('Season found:', season);
+        console.log('Pricing settings:', pricingSettings);
+
+        const isHighSeason = season?.seasonType === 'high';
+        const minimumStay = isHighSeason
           ? pricingSettings.highSeasonMinimumStay
           : pricingSettings.defaultMinimumStay;
 
@@ -143,7 +147,7 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
         onDateSelect?.(localDate, autoCheckOut);
 
         // Afficher le message d'auto-sélection
-        const seasonName = season && season.seasonType === 'high'
+        const seasonName = isHighSeason
           ? t({ en: 'high season', fr: 'haute saison' })
           : t({ en: 'low season', fr: 'basse saison' });
         setAutoSelectMessage(
@@ -152,6 +156,7 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
             fr: `${minimumStay} nuits sélectionnées automatiquement (${seasonName} - séjour minimum)`
           })
         );
+        console.log('Auto-select message set:', autoSelectMessage);
         // Masquer le message après 5 secondes
         setTimeout(() => setAutoSelectMessage(null), 5000);
       } else {
@@ -186,7 +191,10 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
         // Auto-sélectionner le séjour minimum selon la saison
         if (pricingSettings) {
           const season = findSeasonForDate(localDate, seasons);
-          const minimumStay = season && season.seasonType === 'high'
+          console.log('Season found (2nd):', season);
+
+          const isHighSeason = season?.seasonType === 'high';
+          const minimumStay = isHighSeason
             ? pricingSettings.highSeasonMinimumStay
             : pricingSettings.defaultMinimumStay;
 
@@ -196,7 +204,7 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
           onDateSelect?.(localDate, autoCheckOut);
 
           // Afficher le message d'auto-sélection
-          const seasonName = season && season.seasonType === 'high'
+          const seasonName = isHighSeason
             ? t({ en: 'high season', fr: 'haute saison' })
             : t({ en: 'low season', fr: 'basse saison' });
           setAutoSelectMessage(
