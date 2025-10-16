@@ -116,6 +116,7 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
       setSelectedCheckIn(null);
       setSelectedCheckOut(null);
       onDateSelect?.(null, null);
+      setAutoSelectMessage(null);
       return;
     }
 
@@ -123,7 +124,55 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
     if (selectedCheckOut && localDate.getTime() === selectedCheckOut.getTime()) {
       setSelectedCheckOut(null);
       onDateSelect?.(selectedCheckIn, null);
+      setAutoSelectMessage(null);
       return;
+    }
+
+    // Si les deux dates sont sélectionnées et qu'on clique en dehors de la plage
+    // Réinitialiser et commencer une nouvelle sélection
+    if (selectedCheckIn && selectedCheckOut) {
+      const checkIn = new Date(selectedCheckIn);
+      checkIn.setHours(0, 0, 0, 0);
+      const checkOut = new Date(selectedCheckOut);
+      checkOut.setHours(0, 0, 0, 0);
+      const clickDate = new Date(localDate);
+      clickDate.setHours(0, 0, 0, 0);
+
+      // Si on clique en dehors de la plage sélectionnée, recommencer
+      if (clickDate < checkIn || clickDate > checkOut) {
+        setSelectedCheckIn(localDate);
+        setAutoSelectMessage(null);
+
+        // Auto-sélectionner le séjour minimum selon la saison
+        if (pricingSettings) {
+          const season = findSeasonForDate(localDate, seasons);
+          const isHighSeason = season?.seasonType === 'high';
+          const minimumStay = isHighSeason
+            ? pricingSettings.highSeasonMinimumStay
+            : pricingSettings.defaultMinimumStay;
+
+          const autoCheckOut = new Date(localDate);
+          autoCheckOut.setDate(localDate.getDate() + minimumStay);
+          setSelectedCheckOut(autoCheckOut);
+          onDateSelect?.(localDate, autoCheckOut);
+
+          // Afficher le message d'auto-sélection
+          const seasonName = isHighSeason
+            ? t({ en: 'high season', fr: 'haute saison' })
+            : t({ en: 'low season', fr: 'basse saison' });
+          setAutoSelectMessage(
+            t({
+              en: `${minimumStay} nights automatically selected (${seasonName} - minimum stay)`,
+              fr: `${minimumStay} nuits sélectionnées automatiquement (${seasonName} - séjour minimum)`
+            })
+          );
+          setTimeout(() => setAutoSelectMessage(null), 5000);
+        } else {
+          setSelectedCheckOut(null);
+          onDateSelect?.(localDate, null);
+        }
+        return;
+      }
     }
 
     if (!selectedCheckIn) {
@@ -171,48 +220,39 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
         onDateSelect?.(selectedCheckIn, localDate);
       }
     } else {
-      // Les deux dates sont déjà sélectionnées, étendre ou ajuster la période
-      if (localDate < selectedCheckIn) {
-        // Cliquer avant le check-in : ajuster le check-in
-        setSelectedCheckIn(localDate);
-        onDateSelect?.(localDate, selectedCheckOut);
-      } else if (localDate > selectedCheckOut) {
-        // Cliquer après le check-out : étendre le check-out
-        setSelectedCheckOut(localDate);
-        onDateSelect?.(selectedCheckIn, localDate);
+      // Les deux dates sont déjà sélectionnées
+      // On ne devrait jamais arriver ici car on gère ce cas au début
+      // mais on garde le code pour la sécurité
+      setSelectedCheckIn(localDate);
+      setAutoSelectMessage(null);
+
+      // Auto-sélectionner le séjour minimum selon la saison
+      if (pricingSettings) {
+        const season = findSeasonForDate(localDate, seasons);
+        const isHighSeason = season?.seasonType === 'high';
+        const minimumStay = isHighSeason
+          ? pricingSettings.highSeasonMinimumStay
+          : pricingSettings.defaultMinimumStay;
+
+        const autoCheckOut = new Date(localDate);
+        autoCheckOut.setDate(localDate.getDate() + minimumStay);
+        setSelectedCheckOut(autoCheckOut);
+        onDateSelect?.(localDate, autoCheckOut);
+
+        // Afficher le message d'auto-sélection
+        const seasonName = isHighSeason
+          ? t({ en: 'high season', fr: 'haute saison' })
+          : t({ en: 'low season', fr: 'basse saison' });
+        setAutoSelectMessage(
+          t({
+            en: `${minimumStay} nights automatically selected (${seasonName} - minimum stay)`,
+            fr: `${minimumStay} nuits sélectionnées automatiquement (${seasonName} - séjour minimum)`
+          })
+        );
+        setTimeout(() => setAutoSelectMessage(null), 5000);
       } else {
-        // Cliquer entre les deux dates : recommencer avec cette date comme check-in
-        setSelectedCheckIn(localDate);
-
-        // Auto-sélectionner le séjour minimum selon la saison
-        if (pricingSettings) {
-          const season = findSeasonForDate(localDate, seasons);
-          const isHighSeason = season?.seasonType === 'high';
-          const minimumStay = isHighSeason
-            ? pricingSettings.highSeasonMinimumStay
-            : pricingSettings.defaultMinimumStay;
-
-          const autoCheckOut = new Date(localDate);
-          autoCheckOut.setDate(localDate.getDate() + minimumStay);
-          setSelectedCheckOut(autoCheckOut);
-          onDateSelect?.(localDate, autoCheckOut);
-
-          // Afficher le message d'auto-sélection
-          const seasonName = isHighSeason
-            ? t({ en: 'high season', fr: 'haute saison' })
-            : t({ en: 'low season', fr: 'basse saison' });
-          setAutoSelectMessage(
-            t({
-              en: `${minimumStay} nights automatically selected (${seasonName} - minimum stay)`,
-              fr: `${minimumStay} nuits sélectionnées automatiquement (${seasonName} - séjour minimum)`
-            })
-          );
-          // Masquer le message après 5 secondes
-          setTimeout(() => setAutoSelectMessage(null), 5000);
-        } else {
-          setSelectedCheckOut(null);
-          onDateSelect?.(localDate, null);
-        }
+        setSelectedCheckOut(null);
+        onDateSelect?.(localDate, null);
       }
     }
   };

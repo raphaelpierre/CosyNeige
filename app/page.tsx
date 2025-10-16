@@ -342,6 +342,10 @@ export default function HomePage() {
                     <span>{t({ en: 'Smart TV', fr: 'TV connectée' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
+                    <span>🍽️</span>
+                    <span>{t({ en: 'Dining Table for 10', fr: 'Table pour 10 convives' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
                     <span>🏔️</span>
                     <span>{t({ en: 'Mountain Views', fr: 'Vue Montagne' })}</span>
                   </li>
@@ -379,10 +383,6 @@ export default function HomePage() {
                   <li className="flex items-center gap-2">
                     <span>☕</span>
                     <span>{t({ en: 'Nespresso Machine', fr: 'Machine Nespresso' })}</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span>🍽️</span>
-                    <span>{t({ en: 'Dining Table for 10', fr: 'Table pour 10 convives' })}</span>
                   </li>
                 </ul>
               </div>
@@ -496,10 +496,6 @@ export default function HomePage() {
                   <li className="flex items-center gap-2">
                     <span>🌿</span>
                     <span>{t({ en: 'Small Closet', fr: 'Petite Penderie' })}</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span>🪑</span>
-                    <span>{t({ en: 'Compact Design', fr: 'Design Compact' })}</span>
                   </li>
                 </ul>
               </div>
