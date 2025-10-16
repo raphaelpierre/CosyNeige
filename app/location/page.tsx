@@ -141,42 +141,96 @@ export default function LocationPage() {
         </div>
       </section>
 
-      {/* Nearby Ski Resorts */}
+      {/* Ski Resorts - Visual Map */}
       <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              {t({ en: 'Access to 5 Major Ski Resorts', fr: 'Accès à 5 Grandes Stations' })}
+              {t({ en: '5 Resorts Around You', fr: '5 Stations Autour de Vous' })}
             </h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
               {t({
-                en: 'Our central location between two valleys gives you unparalleled access to diverse skiing experiences, from family-friendly slopes to expert terrain.',
-                fr: 'Notre emplacement central entre deux vallées vous donne un accès incomparable à des expériences de ski variées, des pistes familiales aux terrains experts.',
+                en: 'Strategic position = maximum ski variety in minimum time',
+                fr: 'Position stratégique = variété maximale en un minimum de temps',
               })}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {nearbyResorts.map((resort, index) => (
-              <div key={index} className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 border border-gray-200 overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-slate-200/20 to-transparent rounded-bl-full transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500" />
-                <div className="relative">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-3xl group-hover:scale-125 transition-transform duration-300">⛷️</span>
-                    <h3 className="font-bold text-xl text-gray-800 group-hover:text-gray-900">{resort.name}</h3>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-full shadow-sm">
-                      <span className="text-slate-700 font-semibold">{resort.distance}km</span>
-                    </div>
-                    <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-full shadow-sm">
-                      <span>🚗</span>
-                      <span className="text-slate-700 font-semibold">{resort.drivingTime} min</span>
+          {/* Carte visuelle radiale */}
+          <div className="relative bg-gradient-to-br from-slate-700 via-slate-600 to-slate-800 rounded-3xl p-8 md:p-12 overflow-hidden shadow-2xl">
+            {/* Pattern de fond montagne */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0" style={{
+                backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+                backgroundSize: '30px 30px'
+              }} />
+            </div>
+
+            {/* Chalet au centre */}
+            <div className="relative flex flex-col items-center mb-12">
+              <div className="relative">
+                <div className="absolute inset-0 bg-white/20 rounded-full blur-2xl animate-pulse" />
+                <div className="relative bg-white rounded-full p-6 md:p-8 shadow-2xl">
+                  <div className="text-4xl md:text-6xl">🏔️</div>
+                </div>
+              </div>
+              <div className="mt-4 bg-white/10 backdrop-blur-sm border border-white/30 px-6 py-3 rounded-full">
+                <span className="text-white font-bold text-lg md:text-xl">{chaletName}</span>
+              </div>
+              <div className="mt-2 text-white/80 text-sm">📍 Châtillon-sur-Cluses</div>
+            </div>
+
+            {/* Stations en cercle autour */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
+              {nearbyResorts.map((resort, index) => (
+                <div key={index} className="group relative">
+                  {/* Ligne de connexion visuelle (desktop uniquement) */}
+                  <div className="hidden lg:block absolute bottom-full left-1/2 w-0.5 h-8 md:h-12 bg-gradient-to-t from-white/40 to-transparent -translate-x-1/2" />
+
+                  {/* Carte station */}
+                  <div className="relative bg-white rounded-2xl p-4 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+                    <div className="text-center">
+                      <div className="text-3xl md:text-4xl mb-3 group-hover:scale-110 transition-transform">⛷️</div>
+                      <h3 className="font-bold text-sm md:text-base text-gray-900 mb-3 leading-tight">
+                        {resort.name}
+                      </h3>
+
+                      {/* Distance et temps */}
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-center gap-2 bg-slate-100 rounded-full px-3 py-1.5">
+                          <span className="text-xs md:text-sm font-bold text-slate-700">{resort.distance}km</span>
+                        </div>
+                        <div className="flex items-center justify-center gap-1 bg-gradient-to-r from-slate-700 to-slate-800 text-white rounded-full px-3 py-1.5">
+                          <span className="text-xs">🚗</span>
+                          <span className="text-xs md:text-sm font-bold">{resort.drivingTime} min</span>
+                        </div>
+                      </div>
+
+                      {/* Barre de proximité */}
+                      <div className="mt-3 h-2 bg-gray-100 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-gradient-to-r from-green-500 to-green-600 transition-all duration-500 group-hover:to-green-700"
+                          style={{ width: `${Math.max(30, 100 - resort.drivingTime * 3)}%` }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
+              ))}
+            </div>
+
+            {/* Stats en bas */}
+            <div className="mt-12 flex flex-wrap justify-center gap-4">
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 px-6 py-3 rounded-full">
+                <span className="text-white font-semibold">⏱️ {t({ en: 'Average: 20min', fr: 'Moyenne: 20min' })}</span>
               </div>
-            ))}
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 px-6 py-3 rounded-full">
+                <span className="text-white font-semibold">🎿 650km {t({ en: 'of slopes', fr: 'de pistes' })}</span>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 px-6 py-3 rounded-full">
+                <span className="text-white font-semibold">🏔️ 5 {t({ en: 'domains', fr: 'domaines' })}</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -30,8 +30,8 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* Hero Carousel - Hauteur réduite sur mobile */}
-      <section className="relative h-[70vh] md:h-screen overflow-hidden">
+      {/* Hero Carousel - Compact avec accroches */}
+      <section className="relative h-[60vh] md:h-[85vh] overflow-hidden">
         {/* Images du carousel */}
         {heroImages.map((image, index) => (
           <div
@@ -51,101 +51,63 @@ export default function HomePage() {
           </div>
         ))}
 
-        {/* Overlay gradient renforcé pour mobile */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80" />
+        {/* Overlay gradient plus doux */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-white/90" />
 
-        {/* Titre et détails - Minimaliste sur mobile */}
-        <div className="absolute top-0 left-0 right-0 z-10 pt-20 md:pt-12">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-            {/* Mobile: Titre simple centré */}
-            <div className="md:hidden text-center animate-in fade-in duration-1000">
-              <h1 className="text-4xl font-bold text-white drop-shadow-2xl mb-2">
-                {chaletName}
-              </h1>
-              <p className="text-sm text-white/90 flex items-center justify-center gap-2">
-                <span>📍</span>
-                <span>Châtillon • {t({ en: 'French Alps', fr: 'Alpes Françaises' })}</span>
-              </p>
-            </div>
+        {/* Titre et accroches - Centré verticalement */}
+        <div className="absolute inset-0 z-10 flex flex-col justify-center items-center">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 text-center">
+            {/* Titre principal */}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-2xl leading-tight mb-3 md:mb-4">
+              {chaletName}
+            </h1>
 
-            {/* Desktop: Tout afficher */}
-            <div className="hidden md:block animate-in fade-in slide-in-from-top-4 duration-1000">
-              <h1 className="text-5xl lg:text-7xl font-bold text-white mb-2 drop-shadow-2xl leading-tight">
-                {chaletName}
-              </h1>
-              <p className="text-2xl lg:text-3xl text-white/95 mb-2 font-light tracking-wide">
-                {t(tagline)}
-              </p>
-              <p className="text-base lg:text-lg text-white/90 mb-4 flex items-center gap-2">
-                <span className="inline-block animate-pulse">📍</span>
-                <span className="truncate">Châtillon-sur-Cluses • {t({ en: 'French Alps', fr: 'Alpes Françaises' })}</span>
-              </p>
-
-              {/* Badges - Desktop uniquement */}
-              <div className="flex flex-wrap gap-3 animate-in fade-in slide-in-from-top-8 duration-1000 delay-200">
-                <div className="bg-white/15 backdrop-blur-md border border-white/30 px-4 py-2 rounded-full hover:bg-white/25 transition-all duration-300 shadow-lg">
-                  <span className="text-white font-semibold text-sm md:text-base">{specs.capacity} {t({ en: 'Guests', fr: 'Pers.' })}</span>
-                </div>
-                <div className="bg-white/15 backdrop-blur-md border border-white/30 px-4 py-2 rounded-full hover:bg-white/25 transition-all duration-300 shadow-lg">
-                  <span className="text-white font-semibold text-sm md:text-base">{specs.bedrooms} {t({ en: 'Bedrooms', fr: 'Ch.' })}</span>
-                </div>
-                <div className="bg-white/15 backdrop-blur-md border border-white/30 px-4 py-2 rounded-full hover:bg-white/25 transition-all duration-300 shadow-lg">
-                  <span className="text-white font-semibold text-sm md:text-base">{specs.bathrooms} {t({ en: 'Bathrooms', fr: 'SDB' })}</span>
-                </div>
-                <div className="bg-white/15 backdrop-blur-md border border-white/30 px-4 py-2 rounded-full hover:bg-white/25 transition-all duration-300 shadow-lg">
-                  <span className="text-white font-semibold text-sm md:text-base">{specs.surface}m²</span>
-                </div>
-              </div>
-            </div>
+            {/* Tagline accrocheur avec USP */}
+            <p className="text-lg md:text-2xl lg:text-3xl text-white/95 font-light tracking-wide">
+              {t({
+                en: '5 Ski Resorts • 650km of Slopes • Hot Tub',
+                fr: '5 Stations de Ski • 650km de Pistes • Jacuzzi'
+              })}
+            </p>
           </div>
         </div>
 
-        {/* Boutons CTA EN BAS - Desktop uniquement, mobile utilise le bouton flottant */}
-        <div className="hidden md:block absolute bottom-0 left-0 right-0 z-10 pb-16">
-          <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-            <div className="flex gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-400">
-              <Link
-                href="/booking"
-                className="group relative inline-flex items-center justify-center bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-2xl hover:shadow-slate-900/50 border-2 border-slate-700 hover:border-slate-800 hover:scale-105"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  <span>📅</span>
-                  <span className="whitespace-nowrap">{t({ en: 'Check Availability', fr: 'Voir Disponibilités' })}</span>
-                </span>
-              </Link>
-              <Link
-                href="/chalet"
-                className="group bg-white/15 hover:bg-white/25 backdrop-blur-md border-2 border-white/40 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 inline-flex items-center justify-center shadow-2xl hover:shadow-white/30 hover:scale-105"
-              >
-                <span className="flex items-center gap-2 whitespace-nowrap">
-                  {t({ en: 'Discover the Chalet', fr: 'Découvrir le Chalet' })}
-                  <span className="group-hover:translate-x-1 transition-transform">→</span>
-                </span>
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Navigation dots du carousel */}
-        <div className="absolute bottom-14 sm:bottom-16 md:bottom-24 left-1/2 -translate-x-1/2 z-10 flex gap-1.5 sm:gap-2">
+        {/* Navigation dots - Plus discrets */}
+        <div className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
           {heroImages.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`h-2 sm:h-3 rounded-full transition-all duration-300 ${
+              className={`h-1.5 md:h-2 rounded-full transition-all duration-300 ${
                 index === currentSlide
-                  ? 'bg-white w-6 sm:w-8'
-                  : 'bg-white/50 hover:bg-white/75 w-2 sm:w-3'
+                  ? 'bg-white/90 w-6 md:w-8'
+                  : 'bg-white/40 hover:bg-white/60 w-1.5 md:w-2'
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
         </div>
+      </section>
 
-        {/* Scroll indicator - masqué sur mobile */}
-        <div className="hidden sm:block absolute bottom-4 left-1/2 -translate-x-1/2 z-10 animate-bounce">
-          <div className="w-5 h-8 border-2 border-white/40 rounded-full flex justify-center">
-            <div className="w-1 h-2 bg-white/60 rounded-full mt-1.5 animate-pulse" />
+      {/* Boutons CTA - Après le hero */}
+      <section className="py-8 md:py-12 bg-white">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
+            <Link
+              href="/booking"
+              className="group inline-flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+            >
+              <span>📅</span>
+              <span>{t({ en: 'Check Availability', fr: 'Voir Disponibilités' })}</span>
+            </Link>
+
+            <Link
+              href="/chalet"
+              className="group inline-flex items-center justify-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300"
+            >
+              <span>{t({ en: 'Discover', fr: 'Découvrir' })}</span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </Link>
           </div>
         </div>
       </section>
@@ -301,18 +263,6 @@ export default function HomePage() {
               </div>
             </Link>
           </div>
-
-          {/* CTA vers galerie complète - Desktop uniquement */}
-          <div className="hidden md:block text-center mt-12">
-            <Link
-              href="/gallery"
-              className="group inline-flex items-center gap-3 bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
-            >
-              <span>📸</span>
-              <span className="whitespace-nowrap">{t({ en: 'View Full Gallery', fr: 'Voir Toute la Galerie' })}</span>
-              <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
-            </Link>
-          </div>
         </div>
       </section>
 
@@ -400,25 +350,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Final - Réserver */}
-      <section className="relative py-16 md:py-20 overflow-hidden bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900">
-        {/* Pattern de fond subtil */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
-            backgroundSize: '40px 40px'
-          }} />
-        </div>
-
+      {/* CTA Final - Réserver - Version plus claire */}
+      <section className="relative py-16 md:py-20 overflow-hidden bg-gradient-to-br from-slate-50 via-white to-gray-50">
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* Badge "Position stratégique" */}
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold mb-6">
+          <div className="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-semibold mb-6 shadow-sm">
             <span>📍</span>
             <span>{t({ en: 'Strategic Location', fr: 'Position Stratégique' })}</span>
           </div>
 
           {/* Titre principal */}
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 md:mb-6">
             {t({
               en: 'Ready for Your Alpine Adventure?',
               fr: 'Prêt pour Votre Aventure Alpine ?'
@@ -426,7 +368,7 @@ export default function HomePage() {
           </h2>
 
           {/* Sous-titre */}
-          <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 md:mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 md:mb-8 max-w-2xl mx-auto leading-relaxed">
             {t({
               en: 'Between 2 valleys, access to 5 resorts, 650km of slopes. Your perfect ski chalet awaits.',
               fr: 'Entre 2 vallées, accès à 5 stations, 650km de pistes. Votre chalet de ski idéal vous attend.'
@@ -435,103 +377,40 @@ export default function HomePage() {
 
           {/* Prix accrocheur */}
           <div className="mb-8 md:mb-10">
-            <div className="inline-flex items-center gap-2 text-white">
+            <div className="inline-flex items-center gap-2 text-slate-700">
               <span className="text-2xl md:text-3xl">✨</span>
               <span className="text-3xl md:text-4xl font-bold">€310</span>
-              <span className="text-lg md:text-xl text-white/80">/ {t({ en: 'night', fr: 'nuit' })}</span>
+              <span className="text-lg md:text-xl text-gray-600">/ {t({ en: 'night', fr: 'nuit' })}</span>
               <span className="text-2xl md:text-3xl">✨</span>
             </div>
           </div>
 
-          {/* Bouton CTA principal */}
-          <Link
-            href="/booking"
-            className="group inline-flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-slate-900 px-8 sm:px-10 md:px-12 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg md:text-xl transition-all duration-300 shadow-2xl hover:shadow-white/30 active:scale-95 md:hover:scale-105"
-          >
-            <span className="text-2xl">📅</span>
-            <span>{t({ en: 'Check Availability', fr: 'Vérifier Disponibilités' })}</span>
-            <span className="group-hover:translate-x-1 transition-transform">→</span>
-          </Link>
+          {/* Boutons CTA */}
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
+            <Link
+              href="/booking"
+              className="group inline-flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+            >
+              <span>📅</span>
+              <span>{t({ en: 'Check Availability', fr: 'Voir Disponibilités' })}</span>
+            </Link>
+
+            <Link
+              href="/chalet"
+              className="group inline-flex items-center justify-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300"
+            >
+              <span>{t({ en: 'Discover', fr: 'Découvrir' })}</span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </Link>
+          </div>
 
           {/* Mini info en bas */}
-          <p className="mt-6 text-sm text-white/60">
+          <p className="mt-6 text-sm text-gray-500">
             {t({
               en: 'Free cancellation up to 30 days before arrival',
               fr: 'Annulation gratuite jusqu\'à 30 jours avant l\'arrivée'
             })}
           </p>
-        </div>
-      </section>
-
-      {/* Key Stats - Masqué sur mobile */}
-      <section className="hidden md:block py-12 bg-gradient-to-b from-white to-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="text-4xl md:text-5xl font-bold text-slate-700 mb-2">5</div>
-              <div className="text-sm md:text-base text-gray-600">
-                {t({ en: 'Ski Resorts Nearby', fr: 'Stations de Ski' })}
-              </div>
-            </div>
-            <div className="text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="text-4xl md:text-5xl font-bold text-slate-700 mb-2">10</div>
-              <div className="text-sm md:text-base text-gray-600">
-                {t({ en: 'Guests Capacity', fr: 'Personnes Max' })}
-              </div>
-            </div>
-            <div className="text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="text-4xl md:text-5xl font-bold text-slate-700 mb-2">180</div>
-              <div className="text-sm md:text-base text-gray-600">
-                {t({ en: 'Square Meters', fr: 'Mètres Carrés' })}
-              </div>
-            </div>
-            <div className="text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="text-4xl md:text-5xl font-bold text-slate-700 mb-2">4+</div>
-              <div className="text-sm md:text-base text-gray-600">
-                {t({ en: 'Premium Amenities', fr: 'Équipements Premium' })}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Nearby Resorts - Masqué sur mobile */}
-      <section className="hidden md:block py-12 md:py-16 bg-gradient-to-b from-gray-50 via-gray-50 to-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              {t({ en: 'Access to 5 Major Ski Resorts', fr: 'Accès à 5 Grandes Stations' })}
-            </h2>
-            <p className="text-lg text-gray-600 mb-4">
-              {t({ en: 'Strategic location for ski variety', fr: 'Emplacement stratégique pour varier les plaisirs' })}
-            </p>
-            <div className="w-20 h-1 bg-gradient-to-r from-slate-600 to-slate-800 mx-auto rounded-full" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {nearbyResorts.map((resort, index) => (
-              <div
-                key={index}
-                className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300  border border-gray-200 overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-slate-200/20 to-transparent rounded-bl-full transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500" />
-                <div className="relative">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-3xl group-hover:scale-125 transition-transform duration-300">⛷️</span>
-                    <h3 className="font-bold text-xl text-gray-800 group-hover:text-gray-900">{resort.name}</h3>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-full">
-                      <span className="text-slate-700 font-semibold">{resort.distance}km</span>
-                    </div>
-                    <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-full">
-                      <span>🚗</span>
-                      <span className="text-slate-700 font-semibold">{resort.drivingTime} min</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -572,30 +451,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA - Desktop uniquement, mobile a le bouton flottant */}
-      <section className="hidden md:block py-14 bg-white border-t border-gray-200/20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000">
-            <h2 className="text-5xl font-bold mb-6 text-gray-700">
-              {t({ en: 'Ready to Book Your Alpine Retreat?', fr: 'Prêt à Réserver Votre Refuge Alpin ?' })}
-            </h2>
-            <p className="text-2xl text-gray-700 mb-8 flex items-center justify-center gap-2">
-              <span className="text-slate-700">✨</span>
-              {t({ en: 'From €310 per night', fr: 'À partir de 310€ par nuit' })}
-              <span className="text-slate-700">✨</span>
-            </p>
-            <Link
-              href="/booking"
-              className="group relative inline-block bg-slate-700 hover:bg-slate-800 text-white px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl border-2 border-slate-700 hover:border-slate-800"
-            >
-              <span className="relative z-10 flex items-center gap-2 font-bold">
-                {t({ en: 'View Rates & Book', fr: 'Voir Tarifs & Réserver' })}
-                <span className="group-hover:translate-x-1 transition-transform duration-300 font-bold">→</span>
-              </span>
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

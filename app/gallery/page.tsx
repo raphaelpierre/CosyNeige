@@ -61,9 +61,9 @@ function GalleryContent() {
   };
 
   return (
-    <div>
-      {/* Hero Section */}
-      <section className="relative h-[400px] flex items-center justify-center">
+    <div className="bg-white min-h-screen">
+      {/* Hero Section - Lumineux */}
+      <section className="relative h-[40vh] md:h-[50vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src={galleryImages[0].url}
@@ -73,99 +73,84 @@ function GalleryContent() {
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-white" />
         </div>
-        <div className="relative z-10 text-center text-white">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4">{t({ en: 'Photo Gallery', fr: 'Galerie Photos' })}</h1>
-          <p className="text-xl md:text-2xl font-light tracking-wide">{t({ en: 'Explore Every Corner', fr: 'Explorez Chaque Recoin' })}</p>
+        <div className="relative z-10 text-center text-gray-900 px-4">
+          <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md border border-gray-200 px-4 py-2 rounded-full text-sm font-semibold mb-4 shadow-lg">
+            <span>📸</span>
+            <span>{galleryImages.length} {t({ en: 'photos', fr: 'photos' })}</span>
+          </div>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-3 tracking-tight text-white drop-shadow-2xl">
+            {t({ en: 'Gallery', fr: 'Galerie' })}
+          </h1>
+          <p className="text-lg md:text-xl font-light text-white drop-shadow-lg">{t({ en: 'Immerse yourself in luxury', fr: 'Plongez dans le luxe' })}</p>
         </div>
       </section>
 
-      {/* Filter Tabs - Modern Compact Design */}
-      <section className="py-2 sm:py-3 bg-white/95 backdrop-blur-sm sticky top-20 z-40 border-b border-gray-200">
-        <div className="w-full px-2 sm:px-4">
-          <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto scrollbar-hide">
-            {/* Boutons filtres adaptés par taille d'écran */}
+      {/* Filter Tabs - Moderne et clair */}
+      <section className="py-3 md:py-4 bg-white/95 backdrop-blur-sm sticky top-16 md:top-20 z-40 border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4">
+          <div className="flex items-center justify-center gap-2 md:gap-3 overflow-x-auto scrollbar-hide">
+            {/* Boutons filtres clairs */}
             {categories.map((category) => (
               <button
                 key={category.value}
                 onClick={() => setFilter(category.value)}
-                className={`flex-shrink-0 flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 md:px-3 py-1 sm:py-1.5 rounded-full transition-all duration-300 ${
+                className={`group relative flex-shrink-0 flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-full transition-all duration-300 ${
                   filter === category.value
-                    ? 'bg-slate-900 text-white shadow-lg scale-105'
-                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                    ? 'bg-slate-900 text-white shadow-lg'
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200'
                 }`}
               >
-                <span className="text-xs sm:text-sm md:text-base">{category.icon}</span>
-                {/* Texte responsive selon la taille d'écran */}
-                <span className="font-medium text-xs hidden sm:inline md:text-sm whitespace-nowrap">
-                  {/* Version courte sur petits écrans, complète sur desktop */}
-                  <span className="md:hidden">
-                    {category.value === 'all' ? 'Toutes' : 
-                     category.value === 'exterior' ? 'Ext.' :
-                     category.value === 'living' ? 'Salon' :
-                     category.value === 'kitchen' ? 'Cuisine' :
-                     category.value === 'bedroom' ? 'Chambres' :
-                     category.value === 'bathroom' ? 'Bains' :
-                     'Spa'}
-                  </span>
-                  <span className="hidden md:inline">
-                    {t(category.label)}
-                  </span>
+                <span className="text-sm md:text-base">{category.icon}</span>
+                <span className="font-semibold text-xs md:text-sm whitespace-nowrap">
+                  {t(category.label)}
                 </span>
-                {/* Compteur dans le bouton actif */}
                 {filter === category.value && (
-                  <span className="bg-white/20 text-white px-1 py-0.5 rounded text-xs font-bold">
+                  <span className="bg-white/20 text-white px-1.5 py-0.5 rounded-full text-xs font-bold">
                     {galleryImages.filter(img => category.value === 'all' || img.category === category.value).length}
                   </span>
                 )}
               </button>
             ))}
-            
-            {/* Séparateur subtil */}
-            <div className="flex-shrink-0 w-0.5 h-4 sm:h-5 bg-gray-300 mx-1 sm:mx-2"></div>
-            
-            {/* Compteur total moderne */}
-            <div className="flex-shrink-0 flex items-center gap-1 bg-gradient-to-r from-slate-50 to-slate-100 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border border-slate-200">
-              <span className="text-slate-700 font-bold text-xs sm:text-sm">{filteredImages.length}</span>
-              <span className="text-slate-600 text-xs hidden sm:inline">photos</span>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Gallery Grid */}
-      <section className="py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+      {/* Gallery Grid - Masonry moderne sur fond clair */}
+      <section className="py-8 md:py-12 bg-gradient-to-b from-white to-gray-50">
+        <div className="max-w-[1600px] mx-auto px-3 sm:px-4 md:px-6">
+          {/* Grid masonry avec colonnes variables */}
+          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-3 md:gap-4">
             {filteredImages.map((image, index) => (
               <div
                 key={index}
                 onClick={() => openLightbox(index)}
-                className="relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer group shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 bg-white"
+                className="relative mb-3 md:mb-4 break-inside-avoid cursor-pointer group"
               >
-                <Image
-                  src={image.url}
-                  alt={t(image.alt)}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <p className="text-white text-sm font-medium drop-shadow-lg">{t(image.alt)}</p>
-                    <div className="flex items-center gap-2 mt-2">
-                      <span className="text-xs text-white/80 bg-white/20 px-2 py-1 rounded-full backdrop-blur-sm font-medium">
-                        {t({ en: 'Click to enlarge', fr: 'Cliquer pour agrandir' })}
-                      </span>
+                <div className="relative overflow-hidden rounded-xl md:rounded-2xl bg-white shadow-md hover:shadow-2xl transition-all duration-500">
+                  <Image
+                    src={image.url}
+                    alt={t(image.alt)}
+                    width={800}
+                    height={600}
+                    className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                  />
+                  {/* Overlay au hover - Subtil */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
+                      <p className="text-white text-xs md:text-sm font-medium drop-shadow-lg">{t(image.alt)}</p>
                     </div>
                   </div>
-                </div>
-                {/* Category badge */}
-                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="bg-slate-700/90 text-white text-xs font-medium px-3 py-1 rounded-full backdrop-blur-sm">
-                    {categories.find(c => c.value === image.category)?.icon}
-                  </span>
+                  {/* Icône zoom au centre */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="bg-white/90 backdrop-blur-md rounded-full p-3 md:p-4 shadow-xl">
+                      <svg className="w-5 h-5 md:w-6 md:h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
@@ -173,10 +158,10 @@ function GalleryContent() {
         </div>
       </section>
 
-      {/* Lightbox */}
+      {/* Lightbox - Moderne et équilibré */}
       {selectedImage !== null && (
         <div
-          className="fixed inset-0 bg-black/96 z-50 flex items-center justify-center backdrop-blur-sm"
+          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center backdrop-blur-sm"
           onClick={closeLightbox}
           onKeyDown={handleKeyDown}
           tabIndex={0}
@@ -186,10 +171,12 @@ function GalleryContent() {
           {/* Close Button */}
           <button
             onClick={closeLightbox}
-            className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white text-2xl transition-all z-60 backdrop-blur-sm"
+            className="absolute top-3 md:top-6 right-3 md:right-6 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-white/90 hover:bg-white backdrop-blur-md rounded-full text-slate-900 transition-all z-60 shadow-xl"
             aria-label="Close"
           >
-            ✕
+            <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
 
           {/* Previous Button */}
@@ -198,10 +185,12 @@ function GalleryContent() {
               e.stopPropagation();
               prevImage();
             }}
-            className="absolute left-4 w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white text-3xl transition-all z-60 backdrop-blur-sm"
+            className="absolute left-3 md:left-6 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-white/90 hover:bg-white backdrop-blur-md rounded-full text-slate-900 transition-all z-60 shadow-xl"
             aria-label="Previous image"
           >
-            ‹
+            <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
           </button>
 
           {/* Next Button */}
@@ -210,10 +199,12 @@ function GalleryContent() {
               e.stopPropagation();
               nextImage();
             }}
-            className="absolute right-4 w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white text-3xl transition-all z-60 backdrop-blur-sm"
+            className="absolute right-3 md:right-6 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-white/90 hover:bg-white backdrop-blur-md rounded-full text-slate-900 transition-all z-60 shadow-xl"
             aria-label="Next image"
           >
-            ›
+            <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </button>
 
           {/* Image - Optimisé pour mobile paysage */}
@@ -231,31 +222,27 @@ function GalleryContent() {
             />
           </div>
 
-          {/* Caption - Compacte sur mobile */}
-          <div className="absolute bottom-2 sm:bottom-6 left-0 right-0 text-center px-2 sm:px-4">
-            <div className="bg-black/70 sm:bg-black/80 backdrop-blur-md inline-block px-3 py-2 sm:px-6 sm:py-4 rounded-lg sm:rounded-2xl border border-white/10">
-              <p className="text-white text-xs sm:text-base md:text-lg font-medium mb-0.5 sm:mb-1 line-clamp-1 sm:line-clamp-2">
-                {t(filteredImages[selectedImage].alt)}
-              </p>
-              <div className="flex items-center justify-center gap-2 sm:gap-3 text-gray-300 text-xs sm:text-sm">
-                <span className="flex items-center gap-1">
-                  <span className="text-white font-bold">{selectedImage + 1}</span>
-                  <span>/</span>
-                  <span>{filteredImages.length}</span>
+          {/* Caption - Élégant en bas */}
+          <div className="absolute bottom-3 md:bottom-6 left-3 md:left-6 right-3 md:right-6 text-center">
+            <div className="bg-white/95 backdrop-blur-xl inline-block px-4 md:px-6 py-2 md:py-3 rounded-full shadow-2xl">
+              <div className="flex items-center justify-center gap-3 md:gap-4 text-slate-900">
+                <span className="text-xs md:text-sm font-bold">
+                  {selectedImage + 1} / {filteredImages.length}
                 </span>
-                <span className="text-gray-500 hidden sm:inline">•</span>
-                <span className="items-center gap-1 hidden sm:flex">
-                  {categories.find(c => c.value === filteredImages[selectedImage].category)?.icon}
-                  <span className="capitalize">{t(categories.find(c => c.value === filteredImages[selectedImage].category)?.label || { en: '', fr: '' })}</span>
+                <span className="text-gray-300">•</span>
+                <span className="text-xs md:text-sm font-medium line-clamp-1">
+                  {t(filteredImages[selectedImage].alt)}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Instructions */}
-          <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm px-4 py-2 rounded-lg text-white text-xs sm:text-sm opacity-80">
-            <p className="hidden sm:block">{t({ en: 'Press ESC to close, ← → to navigate', fr: 'ÉCHAP pour fermer, ← → pour naviguer' })}</p>
-            <p className="sm:hidden">{t({ en: 'Tap to close', fr: 'Appuyer pour fermer' })}</p>
+          {/* Progress bar */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-white/20">
+            <div
+              className="h-full bg-white transition-all duration-300"
+              style={{ width: `${((selectedImage + 1) / filteredImages.length) * 100}%` }}
+            />
           </div>
 
           {/* Thumbnail strip - Desktop uniquement pour ne pas encombrer mobile */}
@@ -291,27 +278,29 @@ function GalleryContent() {
         </div>
       )}
 
-      {/* CTA */}
-      <section className="py-12 bg-white border-t border-gray-200/20">
+      {/* CTA - Sur fond clair */}
+      <section className="py-12 md:py-16 bg-white border-t border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-            {t({ en: 'Like What You See?', fr: 'Vous Aimez ce que Vous Voyez ?' })}
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 md:mb-6">
+            {t({ en: 'Ready to Book?', fr: 'Prêt à Réserver ?' })}
           </h2>
-          <p className="text-xl text-gray-700 mb-8">
-            {t({ en: 'Book your stay and experience the chalet in person', fr: 'Réservez votre séjour et découvrez le chalet en personne' })}
+          <p className="text-lg md:text-xl text-gray-600 mb-8 md:mb-10">
+            {t({ en: 'Experience the chalet in person', fr: 'Vivez l\'expérience du chalet' })}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
             <a
               href="/booking"
-              className="inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors border-2 border-slate-700 hover:border-slate-800"
+              className="inline-flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
             >
+              <span>📅</span>
               {t({ en: 'Check Availability', fr: 'Vérifier Disponibilités' })}
             </a>
             <a
               href="/chalet"
-              className="inline-block border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-8 py-4 rounded-lg font-bold text-lg transition-colors"
+              className="inline-flex items-center justify-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300"
             >
-              {t({ en: 'Learn More', fr: 'En Savoir Plus' })}
+              {t({ en: 'Discover Chalet', fr: 'Découvrir le Chalet' })}
+              <span>→</span>
             </a>
           </div>
         </div>

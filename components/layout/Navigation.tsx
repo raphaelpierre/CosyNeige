@@ -21,7 +21,6 @@ export default function Navigation() {
   const navLinks = [
     { href: '/', label: { en: 'Home', fr: 'Accueil' } },
     { href: '/chalet', label: { en: 'The Chalet', fr: 'Le Chalet' } },
-    { href: '/gallery', label: { en: 'Gallery', fr: 'Galerie' } },
     { href: '/location', label: { en: 'Location', fr: 'Localisation' } },
     { href: '/booking', label: { en: 'Booking', fr: 'Réservation' } },
     { href: '/guide', label: { en: 'Guest Guide', fr: 'Guide' } },
@@ -31,7 +30,7 @@ export default function Navigation() {
   // Navigation simplifiée pour mobile
   const mobileNavLinks = [
     { href: '/', label: { en: 'Home', fr: 'Accueil' }, icon: '🏠' },
-    { href: '/gallery', label: { en: 'Gallery', fr: 'Galerie' }, icon: '📸' },
+    { href: '/chalet', label: { en: 'Chalet', fr: 'Chalet' }, icon: '🏔️' },
     { href: '/booking', label: { en: 'Book', fr: 'Réserver' }, icon: '📅', highlight: true },
     { href: '/contact', label: { en: 'Contact', fr: 'Contact' }, icon: '✉️' },
   ];
@@ -71,7 +70,7 @@ export default function Navigation() {
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 lg:h-20">
-            <Link href="/" className="flex items-center gap-2 lg:gap-3 group text-sm font-medium transition-all duration-300 relative text-gray-700 hover:text-slate-700 px-2 lg:px-3 py-2 rounded-lg bg-white/90 backdrop-blur-sm shadow-sm hover:bg-white/95">
+            <Link href="/" className="flex items-center gap-2 lg:gap-3 group text-sm font-medium transition-all duration-300 relative text-gray-700 hover:text-slate-700 px-2 lg:px-3 py-2 rounded-lg bg-white/90 backdrop-blur-sm shadow-sm hover:bg-white/95 outline-none focus:outline-none">
               <div className="text-xl lg:text-2xl transform group-hover:scale-110 transition-transform duration-300">🏔️</div>
               <div>
                 <div className="text-base lg:text-lg font-bold">
@@ -87,7 +86,7 @@ export default function Navigation() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-sm font-medium transition-all duration-300 relative group ${
+                  className={`text-sm font-medium transition-all duration-300 relative group outline-none focus:outline-none ${
                     pathname === link.href
                       ? 'text-slate-700'
                       : 'text-gray-700 hover:text-slate-700'
@@ -117,7 +116,7 @@ export default function Navigation() {
         <div className="px-3 py-2">
           <div className="flex justify-between items-center">
             {/* Logo minimaliste */}
-            <Link href="/" className="flex items-center gap-2 py-1">
+            <Link href="/" className="flex items-center gap-2 py-1 outline-none focus:outline-none">
               <span className="text-2xl">🏔️</span>
               <span className="font-bold text-sm text-gray-900">{chaletName}</span>
             </Link>
@@ -125,7 +124,7 @@ export default function Navigation() {
             {/* Hamburger icon */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors"
+              className="p-2 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors outline-none focus:outline-none"
               aria-label="Menu"
             >
               <svg className="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -156,7 +155,7 @@ export default function Navigation() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-4 rounded-2xl text-base font-semibold transition-all duration-200 active:scale-95 ${
+                    className={`flex items-center gap-3 px-4 py-4 rounded-2xl text-base font-semibold transition-all duration-200 active:scale-95 outline-none focus:outline-none ${
                       link.highlight
                         ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg hover:shadow-xl'
                         : pathname === link.href

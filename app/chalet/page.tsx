@@ -145,158 +145,156 @@ export default function ChaletPage() {
         </div>
       </section>
 
-      {/* Description avec image */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 md:mb-6">
-                {chaletName}
-              </h2>
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4 md:mb-6">
-                {t(description)}
-              </p>
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-                {t({
-                  en: 'Our chalet combines traditional Savoyard architecture with modern luxury. Every detail has been carefully chosen to create a warm and refined atmosphere, perfect for unforgettable family or friends gatherings.',
-                  fr: 'Notre chalet allie architecture savoyarde traditionnelle et luxe moderne. Chaque détail a été soigneusement choisi pour créer une atmosphère chaleureuse et raffinée, parfaite pour des séjours inoubliables en famille ou entre amis.',
-                })}
-              </p>
-            </div>
-            <div className="relative h-[300px] md:h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+      {/* Galerie moderne par catégories - Design épuré */}
+      <section className="py-8 md:py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+          {/* Grid masonry moderne avec grandes photos */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+            {/* Living Room - Large featured */}
+            <Link
+              href="/gallery?filter=living"
+              className="col-span-2 md:col-span-2 md:row-span-2 relative h-[280px] md:h-[500px] rounded-xl md:rounded-2xl overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
+            >
               <Image
-                src="/images/chalet_neige_devant.webp"
-                alt="Chalet"
+                src="/images/Salon1.webp"
+                alt="Living Room"
                 fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover group-hover:scale-110 transition-transform duration-700"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
-            </div>
-          </div>
-        </div>
-      </section>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-3xl md:text-4xl">🛋️</span>
+                  <h3 className="text-xl md:text-3xl font-bold text-white">{t({ en: 'Living Room', fr: 'Salon' })}</h3>
+                </div>
+                <p className="text-white/80 text-xs md:text-sm">{t({ en: 'Fireplace • Smart TV • Alpine views', fr: 'Cheminée • Smart TV • Vue alpine' })}</p>
+              </div>
+            </Link>
 
-      {/* Pièces avec grandes images */}
-      <section className="py-12 md:py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              {t({ en: 'Every Room, A Story', fr: 'Chaque Pièce, Une Histoire' })}
-            </h2>
-            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-              {t({
-                en: 'Discover each space designed for your comfort and enjoyment',
-                fr: 'Découvrez chaque espace conçu pour votre confort et plaisir'
-              })}
-            </p>
-          </div>
-
-          <div className="space-y-0">
-            {rooms.map((room, index) => (
-              <div
-                key={index}
-                className={`relative h-[60vh] md:h-[70vh] overflow-hidden ${index > 0 ? 'mt-0' : ''}`}
-              >
-                <Image
-                  src={room.image}
-                  alt={t(room.name)}
-                  fill
-                  className="object-cover"
-                  sizes="100vw"
-                />
-                {/* Alternance gauche/droite du texte */}
-                <div className={`absolute inset-0 bg-gradient-to-${index % 2 === 0 ? 'r' : 'l'} from-black/80 via-black/50 to-transparent`} />
-                <div className="absolute inset-0 flex items-center">
-                  <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full ${index % 2 === 0 ? '' : 'text-right'}`}>
-                    <div className={`max-w-xl ${index % 2 === 0 ? '' : 'ml-auto'}`}>
-                      <div className="text-5xl md:text-6xl mb-4 md:mb-6">{room.icon}</div>
-                      <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 md:mb-4">
-                        {t(room.name)}
-                      </h3>
-                      <p className="text-sm sm:text-base md:text-lg text-white/90 leading-relaxed">
-                        {t(room.description)}
-                      </p>
-                    </div>
-                  </div>
+            {/* Kitchen */}
+            <Link
+              href="/gallery?filter=kitchen"
+              className="relative h-[140px] md:h-[240px] rounded-xl md:rounded-2xl overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
+            >
+              <Image
+                src="/images/Cuisine2.webp"
+                alt="Kitchen"
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-700"
+                sizes="(max-width: 768px) 50vw, 25vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <span className="text-xl md:text-2xl">🍳</span>
+                  <h3 className="text-sm md:text-lg font-bold text-white">{t({ en: 'Kitchen', fr: 'Cuisine' })}</h3>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </Link>
 
-      {/* Grille amenities compacte */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 md:mb-12 text-center">
-            {t({ en: 'All Amenities', fr: 'Tous les Équipements' })}
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
-            {amenities.map((amenity, index) => (
-              <div
-                key={index}
-                className="bg-gradient-to-br from-white to-gray-50 rounded-xl md:rounded-2xl shadow-md hover:shadow-xl p-4 md:p-6 transition-all duration-300 border border-gray-200 text-center group"
-              >
-                <div className="text-3xl md:text-4xl mb-2 md:mb-3 group-hover:scale-125 transition-transform duration-300">
-                  {amenity.icon}
-                </div>
-                <div className="text-xs md:text-sm font-medium text-gray-800 group-hover:text-slate-700 transition-colors">
-                  {t(amenity.label)}
+            {/* Bedroom */}
+            <Link
+              href="/gallery?filter=bedroom"
+              className="relative h-[140px] md:h-[240px] rounded-xl md:rounded-2xl overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
+            >
+              <Image
+                src="/images/Chambre4.webp"
+                alt="Bedroom"
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-700"
+                sizes="(max-width: 768px) 50vw, 25vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <span className="text-xl md:text-2xl">🛏️</span>
+                  <h3 className="text-sm md:text-lg font-bold text-white">{t({ en: 'Bedrooms', fr: 'Chambres' })}</h3>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </Link>
 
-      {/* Galerie preview masonry mobile-friendly */}
-      <section className="py-12 md:py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              {t({ en: 'Photo Gallery', fr: 'Galerie Photos' })}
-            </h2>
-            <p className="text-base md:text-lg text-gray-600">
-              {t({ en: 'Explore more than 25 photos', fr: 'Explorez plus de 25 photos' })}
-            </p>
+            {/* Bathroom */}
+            <Link
+              href="/gallery?filter=bathroom"
+              className="relative h-[140px] md:h-[260px] rounded-xl md:rounded-2xl overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
+            >
+              <Image
+                src="/images/SalledeBain1.webp"
+                alt="Bathroom"
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-700"
+                sizes="(max-width: 768px) 50vw, 25vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <span className="text-xl md:text-2xl">🚿</span>
+                  <h3 className="text-sm md:text-lg font-bold text-white">{t({ en: 'Bathrooms', fr: 'Salles de Bain' })}</h3>
+                </div>
+              </div>
+            </Link>
+
+            {/* Hot Tub - Featured */}
+            <Link
+              href="/gallery?filter=wellness"
+              className="col-span-2 md:col-span-1 relative h-[200px] md:h-[260px] rounded-xl md:rounded-2xl overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
+            >
+              <Image
+                src="/images/ExteriieurJacuzi.webp"
+                alt="Hot Tub"
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-700"
+                sizes="(max-width: 768px) 100vw, 25vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-4">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-2xl md:text-3xl">♨️</span>
+                  <h3 className="text-base md:text-xl font-bold text-white">{t({ en: 'Hot Tub', fr: 'Jacuzzi' })}</h3>
+                </div>
+                <p className="text-white/80 text-xs md:text-sm">{t({ en: 'Mountain views', fr: 'Vue montagne' })}</p>
+              </div>
+            </Link>
+
+            {/* Exterior - Large featured */}
+            <Link
+              href="/gallery?filter=exterior"
+              className="col-span-2 md:col-span-2 relative h-[240px] md:h-[320px] rounded-xl md:rounded-2xl overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
+            >
+              <Image
+                src="/images/ExterieurBalcon.webp"
+                alt="Exterior"
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-700"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-3xl md:text-4xl">🏔️</span>
+                  <h3 className="text-xl md:text-3xl font-bold text-white">{t({ en: 'Exterior', fr: 'Extérieur' })}</h3>
+                </div>
+                <p className="text-white/80 text-xs md:text-sm">{t({ en: 'Terrace • BBQ • Private parking', fr: 'Terrasse • BBQ • Parking privé' })}</p>
+              </div>
+            </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 mb-8">
-            {galleryImages.slice(0, 12).map((img, index) => (
-              <Link
-                key={index}
-                href="/gallery"
-                className={`relative overflow-hidden rounded-lg md:rounded-xl group cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 ${
-                  index === 0 ? 'col-span-2 row-span-2 h-[300px] md:h-[400px]' : 'h-[145px] md:h-[195px]'
-                }`}
-              >
-                <Image
-                  src={img.url}
-                  alt={t(img.alt)}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  sizes={index === 0 ? '(max-width: 768px) 100vw, 50vw' : '(max-width: 768px) 50vw, 25vw'}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </Link>
-            ))}
-          </div>
-
-          <div className="text-center">
+          {/* CTA vers galerie complète - Compact */}
+          <div className="text-center mt-6 md:mt-8">
             <Link
               href="/gallery"
-              className="group inline-flex items-center gap-2 md:gap-3 bg-slate-700 hover:bg-slate-800 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-sm md:text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+              className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 font-semibold text-sm md:text-base transition-colors group"
             >
-              <span>📸</span>
-              <span>{t({ en: 'View Full Gallery', fr: 'Voir Toute la Galerie' })}</span>
-              <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
+              <span>{t({ en: 'View all photos', fr: 'Voir toutes les photos' })}</span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
             </Link>
           </div>
         </div>
       </section>
 
       {/* Virtual Tour */}
-      <section className="py-12 md:py-16 bg-white">
+      <section className="py-12 md:py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 md:mb-6 text-center">
             {t({ en: '360° Virtual Tour', fr: 'Visite Virtuelle 360°' })}

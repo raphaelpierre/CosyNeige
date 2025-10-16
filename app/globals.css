@@ -326,16 +326,16 @@ input[type="date"]:lang(fr-FR)::-webkit-datetime-edit-year-field {
   }
 }
 
-/* Improved focus states for accessibility */
+/* Remove default focus outlines */
 *:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
+  outline: none;
 }
 
 button:focus,
-[role="button"]:focus {
-  outline: 2px solid #1d4ed8;
-  outline-offset: 2px;
+[role="button"]:focus,
+a:focus,
+link:focus {
+  outline: none;
 }
 
 /* Prevent horizontal scroll */
