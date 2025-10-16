@@ -100,24 +100,10 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Boutons CTA EN BAS - Simplifié sur mobile */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 pb-20 md:pb-16">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-            {/* Mobile: CTA unique centré - le bouton flottant fera le reste */}
-            <div className="md:hidden flex justify-center animate-in fade-in duration-1000 delay-400">
-              <Link
-                href="/booking"
-                className="inline-flex items-center justify-center bg-slate-700 active:bg-slate-900 text-white px-8 py-4 rounded-full font-bold text-base transition-all duration-300 shadow-2xl active:scale-95 border-2 border-slate-700"
-              >
-                <span className="flex items-center gap-2">
-                  <span>📅</span>
-                  <span>{t({ en: 'Book Now', fr: 'Réserver' })}</span>
-                </span>
-              </Link>
-            </div>
-
-            {/* Desktop: Deux boutons */}
-            <div className="hidden md:flex gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-400">
+        {/* Boutons CTA EN BAS - Desktop uniquement, mobile utilise le bouton flottant */}
+        <div className="hidden md:block absolute bottom-0 left-0 right-0 z-10 pb-16">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+            <div className="flex gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-400">
               <Link
                 href="/booking"
                 className="group relative inline-flex items-center justify-center bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-2xl hover:shadow-slate-900/50 border-2 border-slate-700 hover:border-slate-800 hover:scale-105"
@@ -316,16 +302,100 @@ export default function HomePage() {
             </Link>
           </div>
 
-          {/* CTA vers galerie complète */}
-          <div className="text-center mt-8 sm:mt-12">
+          {/* CTA vers galerie complète - Desktop uniquement */}
+          <div className="hidden md:block text-center mt-12">
             <Link
               href="/gallery"
-              className="group inline-flex items-center gap-2 sm:gap-3 bg-slate-700 hover:bg-slate-800 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-sm sm:text-base md:text-lg transition-all duration-300 shadow-lg hover:shadow-xl active:scale-95 md:hover:scale-105"
+              className="group inline-flex items-center gap-3 bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
             >
               <span>📸</span>
               <span className="whitespace-nowrap">{t({ en: 'View Full Gallery', fr: 'Voir Toute la Galerie' })}</span>
               <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Section Domaines Skiables - Moderne et Compact */}
+      <section className="py-8 md:py-12 bg-gradient-to-b from-white to-slate-50">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+          {/* Titre accrocheur */}
+          <div className="text-center mb-6 md:mb-8">
+            <div className="inline-flex items-center gap-2 bg-slate-700 text-white px-4 py-2 rounded-full text-sm md:text-base font-bold mb-3 shadow-lg">
+              <span className="text-xl">⛷️</span>
+              <span>{t({ en: '5 Resorts in 30min', fr: '5 Stations en 30min' })}</span>
+            </div>
+            <h2 className="text-2xl md:text-4xl font-bold text-gray-900">
+              {t({ en: 'Unlimited Skiing', fr: 'Ski Illimité' })}
+            </h2>
+            <p className="text-sm md:text-base text-gray-600 mt-2 max-w-2xl mx-auto">
+              {t({
+                en: 'Strategic position between 2 valleys = access to the best ski resorts in the Alps',
+                fr: 'Position stratégique entre 2 vallées = accès aux meilleures stations des Alpes'
+              })}
+            </p>
+          </div>
+
+          {/* Cartes compactes modernes */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+            {nearbyResorts.map((resort, index) => (
+              <div
+                key={index}
+                className="group relative bg-white rounded-xl md:rounded-2xl p-3 md:p-4 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden"
+              >
+                {/* Badge de distance */}
+                <div className="absolute top-2 right-2 bg-slate-700 text-white text-xs font-bold px-2 py-1 rounded-full">
+                  {resort.drivingTime}min
+                </div>
+
+                {/* Icône et nom */}
+                <div className="flex flex-col items-center text-center">
+                  <div className="text-3xl md:text-4xl mb-2 group-hover:scale-110 transition-transform duration-300">
+                    ⛷️
+                  </div>
+                  <h3 className="font-bold text-sm md:text-base text-gray-900 leading-tight mb-1">
+                    {resort.name}
+                  </h3>
+                  <div className="flex items-center gap-1 text-xs text-gray-600">
+                    <span>🚗</span>
+                    <span className="font-semibold">{resort.distance}km</span>
+                  </div>
+                </div>
+
+                {/* Barre de progression visuelle pour la distance */}
+                <div className="mt-3 h-1 bg-gray-100 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-slate-600 to-slate-800 transition-all duration-500 group-hover:w-full"
+                    style={{ width: `${Math.max(20, 100 - resort.drivingTime * 2)}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Stats chocs en bas */}
+          <div className="mt-6 md:mt-8 flex flex-wrap justify-center gap-3 md:gap-6">
+            <div className="flex items-center gap-2 bg-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-md border border-gray-200">
+              <span className="text-2xl md:text-3xl">🏔️</span>
+              <div className="text-left">
+                <div className="text-xl md:text-2xl font-bold text-slate-700">650km</div>
+                <div className="text-xs md:text-sm text-gray-600">{t({ en: 'of slopes', fr: 'de pistes' })}</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 bg-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-md border border-gray-200">
+              <span className="text-2xl md:text-3xl">🎿</span>
+              <div className="text-left">
+                <div className="text-xl md:text-2xl font-bold text-slate-700">200+</div>
+                <div className="text-xs md:text-sm text-gray-600">{t({ en: 'ski lifts', fr: 'remontées' })}</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 bg-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-md border border-gray-200">
+              <span className="text-2xl md:text-3xl">⭐</span>
+              <div className="text-left">
+                <div className="text-xl md:text-2xl font-bold text-slate-700">1000-2500m</div>
+                <div className="text-xs md:text-sm text-gray-600">{t({ en: 'altitude', fr: 'd\'altitude' })}</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -487,14 +557,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-14 bg-white border-t border-gray-200/20">
+      {/* CTA - Desktop uniquement, mobile a le bouton flottant */}
+      <section className="hidden md:block py-14 bg-white border-t border-gray-200/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-700">
+            <h2 className="text-5xl font-bold mb-6 text-gray-700">
               {t({ en: 'Ready to Book Your Alpine Retreat?', fr: 'Prêt à Réserver Votre Refuge Alpin ?' })}
             </h2>
-            <p className="text-xl md:text-2xl text-gray-700 mb-8 flex items-center justify-center gap-2">
+            <p className="text-2xl text-gray-700 mb-8 flex items-center justify-center gap-2">
               <span className="text-slate-700">✨</span>
               {t({ en: 'From €310 per night', fr: 'À partir de 310€ par nuit' })}
               <span className="text-slate-700">✨</span>

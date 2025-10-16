@@ -141,39 +141,48 @@ export default function Navigation() {
 
         {/* Menu mobile simplifié - Full screen overlay */}
         {mobileMenuOpen && (
-          <div className="fixed inset-0 top-14 bg-white z-40 overflow-y-auto animate-in fade-in slide-in-from-top-4 duration-200">
-            <div className="px-4 py-6 space-y-2">
-              {mobileNavLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-4 rounded-2xl text-base font-semibold transition-all duration-200 active:scale-95 ${
-                    link.highlight
-                      ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg hover:shadow-xl'
-                      : pathname === link.href
-                        ? 'bg-gray-100 text-gray-900'
-                        : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  <span className="text-2xl">{link.icon}</span>
-                  <span>{t(link.label)}</span>
-                </Link>
-              ))}
+          <>
+            {/* Backdrop pour fermer au clic */}
+            <div
+              className="fixed inset-0 bg-black/20 z-[45]"
+              onClick={() => setMobileMenuOpen(false)}
+            />
 
-              {/* User section compact */}
-              <div className="pt-4 mt-4 border-t border-gray-200">
-                <UserMobileMenu onLinkClick={() => setMobileMenuOpen(false)} />
-              </div>
+            {/* Menu content */}
+            <div className="fixed inset-0 top-14 bg-white z-[60] overflow-y-auto animate-in fade-in slide-in-from-top-4 duration-200">
+              <div className="px-4 py-6 space-y-2">
+                {mobileNavLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-4 rounded-2xl text-base font-semibold transition-all duration-200 active:scale-95 ${
+                      link.highlight
+                        ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg hover:shadow-xl'
+                        : pathname === link.href
+                          ? 'bg-gray-100 text-gray-900'
+                          : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    <span className="text-2xl">{link.icon}</span>
+                    <span>{t(link.label)}</span>
+                  </Link>
+                ))}
 
-              {/* Language toggle */}
-              <div className="pt-2">
-                <div className="px-4">
-                  <LanguageToggle />
+                {/* User section compact */}
+                <div className="pt-4 mt-4 border-t border-gray-200">
+                  <UserMobileMenu onLinkClick={() => setMobileMenuOpen(false)} />
+                </div>
+
+                {/* Language toggle */}
+                <div className="pt-2">
+                  <div className="px-4">
+                    <LanguageToggle />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </>
         )}
       </nav>
 
