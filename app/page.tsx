@@ -51,73 +51,83 @@ export default function HomePage() {
         {/* Overlay gradient adaptatif - Plus sombre en haut pour la lisibilité */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/50" />
 
-        {/* Badges informatifs - Repositionnés pour mieux comprendre le chalet */}
+        {/* Badges informatifs - Version optimisée mobile */}
         <div className="absolute inset-0 z-10 flex flex-col justify-center items-center">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 text-center">
-            {/* Grille de badges descriptifs */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 max-w-5xl mx-auto">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 text-center">
+            {/* Disposition horizontale compacte sur mobile, grille sur desktop */}
+            <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-3 md:gap-4 max-w-6xl mx-auto">
               {/* Surface */}
-              <div className="bg-white/20 backdrop-blur-md border border-white/40 rounded-2xl px-3 py-3 md:px-5 md:py-4 shadow-2xl hover:bg-white/30 transition-all">
-                <div className="text-2xl md:text-3xl mb-1">🏔️</div>
-                <div className="text-white font-bold text-lg md:text-xl"
-                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
-                  180m²
-                </div>
-                <div className="text-white/90 text-xs md:text-sm"
-                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
-                  {t({ en: 'Chalet', fr: 'Chalet' })}
+              <div className="bg-white/25 backdrop-blur-lg border border-white/50 rounded-xl sm:rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3 md:px-6 md:py-4 shadow-2xl hover:bg-white/35 transition-all flex items-center gap-2 sm:flex-col sm:gap-1">
+                <div className="text-xl sm:text-2xl md:text-3xl">🏔️</div>
+                <div className="flex items-baseline gap-1 sm:flex-col sm:gap-0">
+                  <div className="text-white font-bold text-base sm:text-lg md:text-xl"
+                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
+                    180m²
+                  </div>
+                  <div className="text-white/90 text-xs sm:text-sm"
+                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
+                    {t({ en: 'Chalet', fr: 'Chalet' })}
+                  </div>
                 </div>
               </div>
 
               {/* Capacité */}
-              <div className="bg-white/20 backdrop-blur-md border border-white/40 rounded-2xl px-3 py-3 md:px-5 md:py-4 shadow-2xl hover:bg-white/30 transition-all">
-                <div className="text-2xl md:text-3xl mb-1">👥</div>
-                <div className="text-white font-bold text-lg md:text-xl"
-                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
-                  10-12
-                </div>
-                <div className="text-white/90 text-xs md:text-sm"
-                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
-                  {t({ en: 'Guests', fr: 'Personnes' })}
+              <div className="bg-white/25 backdrop-blur-lg border border-white/50 rounded-xl sm:rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3 md:px-6 md:py-4 shadow-2xl hover:bg-white/35 transition-all flex items-center gap-2 sm:flex-col sm:gap-1">
+                <div className="text-xl sm:text-2xl md:text-3xl">👥</div>
+                <div className="flex items-baseline gap-1 sm:flex-col sm:gap-0">
+                  <div className="text-white font-bold text-base sm:text-lg md:text-xl"
+                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
+                    10-12
+                  </div>
+                  <div className="text-white/90 text-xs sm:text-sm"
+                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
+                    {t({ en: 'Guests', fr: 'Pers.' })}
+                  </div>
                 </div>
               </div>
 
               {/* Chambres */}
-              <div className="bg-white/20 backdrop-blur-md border border-white/40 rounded-2xl px-3 py-3 md:px-5 md:py-4 shadow-2xl hover:bg-white/30 transition-all">
-                <div className="text-2xl md:text-3xl mb-1">🛏️</div>
-                <div className="text-white font-bold text-lg md:text-xl"
-                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
-                  5
-                </div>
-                <div className="text-white/90 text-xs md:text-sm"
-                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
-                  {t({ en: 'Bedrooms', fr: 'Chambres' })}
+              <div className="bg-white/25 backdrop-blur-lg border border-white/50 rounded-xl sm:rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3 md:px-6 md:py-4 shadow-2xl hover:bg-white/35 transition-all flex items-center gap-2 sm:flex-col sm:gap-1">
+                <div className="text-xl sm:text-2xl md:text-3xl">🛏️</div>
+                <div className="flex items-baseline gap-1 sm:flex-col sm:gap-0">
+                  <div className="text-white font-bold text-base sm:text-lg md:text-xl"
+                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
+                    5
+                  </div>
+                  <div className="text-white/90 text-xs sm:text-sm"
+                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
+                    {t({ en: 'Rooms', fr: 'Chambres' })}
+                  </div>
                 </div>
               </div>
 
               {/* Jacuzzi */}
-              <div className="bg-white/20 backdrop-blur-md border border-white/40 rounded-2xl px-3 py-3 md:px-5 md:py-4 shadow-2xl hover:bg-white/30 transition-all">
-                <div className="text-2xl md:text-3xl mb-1">♨️</div>
-                <div className="text-white font-bold text-lg md:text-xl"
-                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
-                  {t({ en: 'Hot Tub', fr: 'Jacuzzi' })}
-                </div>
-                <div className="text-white/90 text-xs md:text-sm"
-                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
-                  {t({ en: 'Private', fr: 'Privé' })}
+              <div className="bg-white/25 backdrop-blur-lg border border-white/50 rounded-xl sm:rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3 md:px-6 md:py-4 shadow-2xl hover:bg-white/35 transition-all flex items-center gap-2 sm:flex-col sm:gap-1">
+                <div className="text-xl sm:text-2xl md:text-3xl">♨️</div>
+                <div className="flex items-baseline gap-1 sm:flex-col sm:gap-0">
+                  <div className="text-white font-bold text-base sm:text-lg md:text-xl"
+                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
+                    {t({ en: 'Jacuzzi', fr: 'Jacuzzi' })}
+                  </div>
+                  <div className="text-white/90 text-xs sm:text-sm"
+                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
+                    {t({ en: 'Private', fr: 'Privé' })}
+                  </div>
                 </div>
               </div>
 
               {/* Localisation */}
-              <div className="bg-white/20 backdrop-blur-md border border-white/40 rounded-2xl px-3 py-3 md:px-5 md:py-4 shadow-2xl hover:bg-white/30 transition-all col-span-2 md:col-span-1">
-                <div className="text-2xl md:text-3xl mb-1">⛷️</div>
-                <div className="text-white font-bold text-lg md:text-xl"
-                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
-                  {t({ en: '5 Resorts', fr: '5 Stations' })}
-                </div>
-                <div className="text-white/90 text-xs md:text-sm"
-                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
-                  {t({ en: 'Nearby', fr: 'À proximité' })}
+              <div className="bg-white/25 backdrop-blur-lg border border-white/50 rounded-xl sm:rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3 md:px-6 md:py-4 shadow-2xl hover:bg-white/35 transition-all flex items-center gap-2 sm:flex-col sm:gap-1">
+                <div className="text-xl sm:text-2xl md:text-3xl">⛷️</div>
+                <div className="flex items-baseline gap-1 sm:flex-col sm:gap-0">
+                  <div className="text-white font-bold text-base sm:text-lg md:text-xl"
+                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
+                    {t({ en: '5 Resorts', fr: '5 Stations' })}
+                  </div>
+                  <div className="text-white/90 text-xs sm:text-sm"
+                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
+                    {t({ en: 'Nearby', fr: 'Proches' })}
+                  </div>
                 </div>
               </div>
             </div>
@@ -560,6 +570,69 @@ export default function HomePage() {
             >
               <span>{t({ en: 'View Full Gallery', fr: 'Voir la Galerie Complète' })}</span>
               <span>→</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Virtual Tour Section */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+          <div className="text-center mb-8 md:mb-12">
+            <div className="inline-flex items-center gap-2 bg-slate-700 text-white px-5 py-2.5 rounded-full text-sm md:text-base font-semibold mb-4 shadow-lg">
+              <span className="text-xl">🏠</span>
+              <span>{t({ en: 'Virtual Experience', fr: 'Expérience Virtuelle' })}</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+              {t({ en: '360° Virtual Tour', fr: 'Visite Virtuelle 360°' })}
+            </h2>
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              {t({
+                en: 'Explore every corner of the chalet from the comfort of your home. Navigate through each room and discover the authentic alpine charm.',
+                fr: 'Explorez chaque recoin du chalet depuis chez vous. Naviguez à travers chaque pièce et découvrez le charme alpin authentique.'
+              })}
+            </p>
+          </div>
+
+          <div className="bg-gray-100 rounded-2xl overflow-hidden shadow-2xl">
+            <iframe
+              src="https://view.ricoh360.com/1b07e554-b9eb-4b08-9b18-2940ab2496ea"
+              width="100%"
+              height="400"
+              style={{ border: 0 }}
+              allowFullScreen
+              className="w-full h-[400px] md:h-[600px]"
+              title={t({ en: '360° Virtual Tour of the Chalet', fr: 'Visite Virtuelle 360° du Chalet' })}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action Section */}
+      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-slate-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 text-gray-900">
+            {t({ en: 'Ready to Book Your Stay?', fr: 'Prêt à Réserver Votre Séjour ?' })}
+          </h2>
+          <p className="text-lg md:text-xl text-gray-600 mb-8 md:mb-10 max-w-2xl mx-auto">
+            {t({
+              en: 'Experience authentic alpine living in our luxury chalet. Check availability and secure your dates today.',
+              fr: 'Vivez l\'authentique expérience alpine dans notre chalet de luxe. Vérifiez les disponibilités et réservez vos dates dès aujourd\'hui.'
+            })}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Link
+              href="/booking"
+              className="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-8 py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+            >
+              <span>{t({ en: 'Check Availability', fr: 'Voir Disponibilités' })}</span>
+              <span>→</span>
+            </Link>
+            <Link
+              href="/location"
+              className="inline-flex items-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-8 py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300"
+            >
+              <span>{t({ en: 'Explore Location', fr: 'Découvrir la Région' })}</span>
             </Link>
           </div>
         </div>

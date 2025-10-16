@@ -20,7 +20,7 @@ export default function Navigation() {
   // Navigation complète pour desktop
   const navLinks = [
     { href: '/', label: { en: 'Home', fr: 'Accueil' } },
-    { href: '/chalet', label: { en: 'The Chalet', fr: 'Le Chalet' } },
+    { href: '/gallery', label: { en: 'Gallery', fr: 'Galerie' } },
     { href: '/location', label: { en: 'Location & Info', fr: 'Localisation & Infos' } },
     { href: '/booking', label: { en: 'Booking', fr: 'Réservation' } },
     { href: '/contact', label: { en: 'Contact', fr: 'Contact' } },
@@ -29,7 +29,7 @@ export default function Navigation() {
   // Navigation simplifiée pour mobile
   const mobileNavLinks = [
     { href: '/', label: { en: 'Home', fr: 'Accueil' }, icon: '🏠' },
-    { href: '/chalet', label: { en: 'Chalet', fr: 'Chalet' }, icon: '🏔️' },
+    { href: '/gallery', label: { en: 'Gallery', fr: 'Galerie' }, icon: '📸' },
     { href: '/location', label: { en: 'Info', fr: 'Infos' }, icon: '📍' },
     { href: '/booking', label: { en: 'Book', fr: 'Réserver' }, icon: '📅', highlight: true },
     { href: '/contact', label: { en: 'Contact', fr: 'Contact' }, icon: '✉️' },
