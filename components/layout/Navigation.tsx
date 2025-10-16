@@ -186,18 +186,6 @@ export default function Navigation() {
         )}
       </nav>
 
-      {/* CTA Flottant Mobile - Bouton Réserver persistant */}
-      <div className="md:hidden fixed bottom-4 right-4 z-40">
-        <Link
-          href="/booking"
-          className={`flex items-center gap-2 bg-gradient-to-r from-slate-700 to-slate-800 text-white px-5 py-3 rounded-full font-bold text-sm shadow-2xl hover:shadow-slate-900/50 active:scale-95 transition-all duration-300 ${
-            pathname === '/booking' ? 'scale-0' : 'scale-100'
-          }`}
-        >
-          <span>📅</span>
-          <span>{t({ en: 'Book', fr: 'Réserver' })}</span>
-        </Link>
-      </div>
     </>
   );
 }

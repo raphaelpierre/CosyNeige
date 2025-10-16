@@ -30,8 +30,8 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* Hero Carousel Full-Screen - Optimisé Mobile */}
-      <section className="relative h-screen overflow-hidden">
+      {/* Hero Carousel - Hauteur réduite sur mobile */}
+      <section className="relative h-[70vh] md:h-screen overflow-hidden">
         {/* Images du carousel */}
         {heroImages.map((image, index) => (
           <div
@@ -283,14 +283,14 @@ export default function HomePage() {
               </div>
             </Link>
 
-            {/* Vue panoramique - vers exterior */}
-            <Link href="/gallery?filter=exterior" className="col-span-2 lg:col-span-1 relative h-[135px] sm:h-[170px] md:h-[243px] overflow-hidden rounded-xl sm:rounded-2xl group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500">
+            {/* Vue panoramique - vers exterior - FIX: col-span-1 sur toutes les tailles */}
+            <Link href="/gallery?filter=exterior" className="relative h-[135px] sm:h-[170px] md:h-[243px] overflow-hidden rounded-xl sm:rounded-2xl group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500">
               <Image
                 src="/images/ExterieurBalcon.webp"
                 alt="Balcon"
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-700"
-                sizes="(max-width: 768px) 100vw, 25vw"
+                sizes="(max-width: 768px) 50vw, 25vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
               <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 text-white">
@@ -400,51 +400,66 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Section Hero Immersive - USP Principal */}
-      <section className="py-0">
-        {/* Vue entre deux vallées - Photo immersive */}
-        <div className="relative h-[50vh] md:h-[70vh] overflow-hidden">
-          <Image
-            src="/images/entre2vallees.webp"
-            alt="Entre deux vallées"
-            fill
-            className="object-cover"
-            sizes="100vw"
-          />
-          {/* Mobile: Gradient léger, pas de texte - juste la photo */}
-          <div className="md:hidden absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+      {/* CTA Final - Réserver */}
+      <section className="relative py-16 md:py-20 overflow-hidden bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900">
+        {/* Pattern de fond subtil */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+            backgroundSize: '40px 40px'
+          }} />
+        </div>
 
-          {/* Desktop: Gradient + texte complet */}
-          <div className="hidden md:block">
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
-            <div className="absolute inset-0 flex items-end">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-16">
-                <div className="max-w-3xl mx-auto text-center">
-                  <div className="text-6xl mb-6">⛷️</div>
-                  <h2 className="text-5xl font-bold text-white mb-6">
-                    {t({ en: 'Between Two Valleys', fr: 'Entre Deux Vallées' })}
-                  </h2>
-                  <p className="text-xl text-white/90 mb-8 leading-relaxed">
-                    {t({
-                      en: 'Unique strategic location between the Arve and Giffre valleys. Access to 5 major ski resorts in under 30 minutes.',
-                      fr: 'Position stratégique unique entre les vallées de l\'Arve et du Giffre. Accès à 5 grandes stations en moins de 30 minutes.'
-                    })}
-                  </p>
-                  <div className="flex flex-wrap gap-3 justify-center">
-                    <div className="bg-white/20 backdrop-blur-sm border border-white/30 px-6 py-3 rounded-full">
-                      <span className="text-white font-semibold text-base">⛷️ 5 {t({ en: 'Resorts', fr: 'Stations' })}</span>
-                    </div>
-                    <div className="bg-white/20 backdrop-blur-sm border border-white/30 px-6 py-3 rounded-full">
-                      <span className="text-white font-semibold text-base">🚗 &lt; 30 min</span>
-                    </div>
-                    <div className="bg-white/20 backdrop-blur-sm border border-white/30 px-6 py-3 rounded-full">
-                      <span className="text-white font-semibold text-base">👥 10 {t({ en: 'Guests', fr: 'Personnes' })}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          {/* Badge "Position stratégique" */}
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold mb-6">
+            <span>📍</span>
+            <span>{t({ en: 'Strategic Location', fr: 'Position Stratégique' })}</span>
+          </div>
+
+          {/* Titre principal */}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6">
+            {t({
+              en: 'Ready for Your Alpine Adventure?',
+              fr: 'Prêt pour Votre Aventure Alpine ?'
+            })}
+          </h2>
+
+          {/* Sous-titre */}
+          <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 md:mb-8 max-w-2xl mx-auto leading-relaxed">
+            {t({
+              en: 'Between 2 valleys, access to 5 resorts, 650km of slopes. Your perfect ski chalet awaits.',
+              fr: 'Entre 2 vallées, accès à 5 stations, 650km de pistes. Votre chalet de ski idéal vous attend.'
+            })}
+          </p>
+
+          {/* Prix accrocheur */}
+          <div className="mb-8 md:mb-10">
+            <div className="inline-flex items-center gap-2 text-white">
+              <span className="text-2xl md:text-3xl">✨</span>
+              <span className="text-3xl md:text-4xl font-bold">€310</span>
+              <span className="text-lg md:text-xl text-white/80">/ {t({ en: 'night', fr: 'nuit' })}</span>
+              <span className="text-2xl md:text-3xl">✨</span>
             </div>
           </div>
+
+          {/* Bouton CTA principal */}
+          <Link
+            href="/booking"
+            className="group inline-flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-slate-900 px-8 sm:px-10 md:px-12 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg md:text-xl transition-all duration-300 shadow-2xl hover:shadow-white/30 active:scale-95 md:hover:scale-105"
+          >
+            <span className="text-2xl">📅</span>
+            <span>{t({ en: 'Check Availability', fr: 'Vérifier Disponibilités' })}</span>
+            <span className="group-hover:translate-x-1 transition-transform">→</span>
+          </Link>
+
+          {/* Mini info en bas */}
+          <p className="mt-6 text-sm text-white/60">
+            {t({
+              en: 'Free cancellation up to 30 days before arrival',
+              fr: 'Annulation gratuite jusqu\'à 30 jours avant l\'arrivée'
+            })}
+          </p>
         </div>
       </section>
 
