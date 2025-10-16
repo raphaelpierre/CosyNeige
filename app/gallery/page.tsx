@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import { galleryImages } from '@/lib/data/chalet';
@@ -295,13 +296,13 @@ function GalleryContent() {
               <span>📅</span>
               {t({ en: 'Check Availability', fr: 'Vérifier Disponibilités' })}
             </a>
-            <a
+            <Link
               href="/"
               className="inline-flex items-center justify-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300"
             >
               {t({ en: 'Discover Chalet', fr: 'Découvrir le Chalet' })}
               <span>→</span>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
