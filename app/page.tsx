@@ -300,18 +300,12 @@ export default function HomePage() {
       {/* Section Pièces du Chalet */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-white to-slate-50">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          {/* Titre */}
+          {/* Badge */}
           <div className="text-center mb-8 md:mb-12">
-            <div className="inline-flex items-center gap-2 bg-slate-700 text-white px-5 py-2.5 rounded-full text-sm md:text-base font-semibold mb-4 shadow-lg">
+            <div className="inline-flex items-center gap-2 bg-slate-700 text-white px-5 py-2.5 rounded-full text-sm md:text-base font-semibold shadow-lg">
               <span className="text-xl">🏠</span>
               <span>{t({ en: 'Inside the Chalet', fr: 'À l\'Intérieur du Chalet' })}</span>
             </div>
-            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              {t({
-                en: '180m² of carefully designed space, where alpine charm meets modern comfort. Every room tells a story of warmth and elegance.',
-                fr: '180m² d\'espace soigneusement conçu, où le charme alpin rencontre le confort moderne. Chaque pièce raconte une histoire de chaleur et d\'élégance.'
-              })}
-            </p>
           </div>
 
           {/* Grille des pièces */}
@@ -394,40 +388,196 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Chambres */}
+            {/* Chambre 1 - Suite Master */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
               <div className="relative h-64 overflow-hidden">
                 <Image
-                  src="/images/Chambre3.webp"
-                  alt="Chambre"
+                  src="/images/Chambre4.webp"
+                  alt="Suite Master"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Bedrooms', fr: 'Chambres' })}</h3>
+                  <h3 className="text-2xl font-bold">{t({ en: 'Master Suite', fr: 'Suite Master' })}</h3>
                 </div>
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: '5 cozy bedrooms designed for restful nights. Quality bedding and peaceful mountain atmosphere.',
-                    fr: '5 chambres douillettes conçues pour des nuits reposantes. Literie de qualité et atmosphère paisible de montagne.'
+                    en: 'Luxurious suite with walk-in dressing room, breathtaking mountain panorama, private balcony access, and climate control.',
+                    fr: 'Suite luxueuse avec dressing, panorama montagneux à couper le souffle, accès balcon privé et climatisation.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🛏️</span>
-                    <span>{t({ en: '5 Bedrooms', fr: '5 Chambres' })}</span>
+                    <span>{t({ en: 'Queen Bed + Child Bed', fr: 'Lit Queen + Lit enfant' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span>👥</span>
-                    <span>{t({ en: '10-12 Guests', fr: '10-12 Personnes' })}</span>
+                    <span>🚪</span>
+                    <span>{t({ en: 'Walk-in Dressing', fr: 'Dressing' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🏔️</span>
+                    <span>{t({ en: 'Mountain Views', fr: 'Vue Montagne' })}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Chambre 2 - Rez-de-Chaussée */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/images/Chambre3.webp"
+                  alt="Chambre Rez-de-Chaussée"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold">{t({ en: 'Ground Floor Room', fr: 'Chambre RDC' })}</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  {t({
+                    en: 'Elegant queen-size bed with premium bedding, peaceful garden views, and spacious alpine wardrobe.',
+                    fr: 'Élégant lit queen-size avec literie premium, vue paisible sur jardin et spacieuse armoire alpine.'
+                  })}
+                </p>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center gap-2">
+                    <span>🛏️</span>
+                    <span>{t({ en: 'Queen Bed', fr: 'Lit Queen' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🌿</span>
+                    <span>{t({ en: 'Garden View', fr: 'Vue Jardin' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🪑</span>
+                    <span>{t({ en: 'Alpine Wardrobe', fr: 'Armoire Alpine' })}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Chambre 3 - Vue Jardin */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/images/Chambre3.webp"
+                  alt="Chambre Vue Jardin"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold">{t({ en: 'Garden View Room', fr: 'Chambre Vue Jardin' })}</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  {t({
+                    en: 'Comfortable queen-size bed overlooking the private garden with authentic alpine closet.',
+                    fr: 'Confortable lit queen-size donnant sur le jardin privé avec penderie alpine authentique.'
+                  })}
+                </p>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center gap-2">
+                    <span>🛏️</span>
+                    <span>{t({ en: 'Queen Bed', fr: 'Lit Queen' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🌿</span>
+                    <span>{t({ en: 'Private Garden', fr: 'Jardin Privé' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🪑</span>
+                    <span>{t({ en: 'Alpine Closet', fr: 'Penderie Alpine' })}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Chambre 4 - Chambre Enfants */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/images/ChambreDortoir.webp"
+                  alt="Chambre Enfants"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold">{t({ en: 'Children\'s Room', fr: 'Chambre Enfants' })}</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  {t({
+                    en: 'Three single beds in a cheerful, family-friendly space with playful mountain-themed décor.',
+                    fr: 'Trois lits simples dans un espace familial chaleureux avec décoration ludique aux thèmes montagnards.'
+                  })}
+                </p>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center gap-2">
+                    <span>🛏️</span>
+                    <span>{t({ en: '3 Single Beds', fr: '3 Lits Simples' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>👨‍👩‍👧‍👦</span>
+                    <span>{t({ en: 'Family-Friendly', fr: 'Familial' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🪑</span>
+                    <span>{t({ en: 'Storage Closet', fr: 'Penderie' })}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Chambre 5 - Chambre Standard */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/images/Chambre3.webp"
+                  alt="Chambre Standard"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold">{t({ en: 'Cozy Room', fr: 'Chambre Cosy' })}</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  {t({
+                    en: 'Comfortable bedroom with quality bedding and peaceful mountain atmosphere for restful nights.',
+                    fr: 'Chambre confortable avec literie de qualité et atmosphère paisible de montagne pour des nuits reposantes.'
+                  })}
+                </p>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center gap-2">
+                    <span>🛏️</span>
+                    <span>{t({ en: 'Queen Bed', fr: 'Lit Queen' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🌙</span>
-                    <span>{t({ en: 'Quality Bedding', fr: 'Literie qualité' })}</span>
+                    <span>{t({ en: 'Quality Bedding', fr: 'Literie Qualité' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🏔️</span>
+                    <span>{t({ en: 'Mountain Atmosphere', fr: 'Atmosphère Montagne' })}</span>
                   </li>
                 </ul>
               </div>
@@ -549,6 +699,45 @@ export default function HomePage() {
                 </ul>
               </div>
             </div>
+
+            {/* Parking & Local à Skis */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/images/Exterieur2.webp"
+                  alt="Parking et accès"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold">{t({ en: 'Parking & Ski Room', fr: 'Parking & Local Skis' })}</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  {t({
+                    en: 'Convenient 5-space private parking with dedicated ski room featuring boot warmers for ultimate comfort.',
+                    fr: 'Parking privé pratique de 5 places avec local à skis dédié équipé de chauffe-chaussures pour un confort optimal.'
+                  })}
+                </p>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center gap-2">
+                    <span>🚗</span>
+                    <span>{t({ en: '5 Parking Spaces', fr: '5 Places de Parking' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>⛷️</span>
+                    <span>{t({ en: 'Ski Room', fr: 'Local à Skis' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🔥</span>
+                    <span>{t({ en: 'Boot Warmers', fr: 'Chauffe-Chaussures' })}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
 
           {/* Lien vers galerie */}
@@ -567,20 +756,11 @@ export default function HomePage() {
       {/* Virtual Tour Section */}
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-12">
-            <div className="inline-flex items-center gap-2 bg-slate-700 text-white px-5 py-2.5 rounded-full text-sm md:text-base font-semibold mb-4 shadow-lg">
-              <span className="text-xl">🏠</span>
-              <span>{t({ en: 'Virtual Experience', fr: 'Expérience Virtuelle' })}</span>
+          <div className="text-center mb-6 md:mb-8">
+            <div className="inline-flex items-center gap-2 bg-slate-700 text-white px-5 py-2.5 rounded-full text-sm md:text-base font-semibold shadow-lg">
+              <span className="text-xl">360°</span>
+              <span>{t({ en: 'Virtual Tour', fr: 'Visite Virtuelle' })}</span>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              {t({ en: '360° Virtual Tour', fr: 'Visite Virtuelle 360°' })}
-            </h2>
-            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              {t({
-                en: 'Explore every corner of the chalet from the comfort of your home. Navigate through each room and discover the authentic alpine charm.',
-                fr: 'Explorez chaque recoin du chalet depuis chez vous. Naviguez à travers chaque pièce et découvrez le charme alpin authentique.'
-              })}
-            </p>
           </div>
 
           <div className="bg-gray-100 rounded-2xl overflow-hidden shadow-2xl">

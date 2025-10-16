@@ -10,9 +10,9 @@ export default function Footer() {
 
   const footerLinks = {
     explore: [
-      { href: '/chalet', label: { en: 'The Chalet', fr: 'Le Chalet' } },
-      { href: '/location', label: { en: 'Location', fr: 'Localisation' } },
+      { href: '/', label: { en: 'Home', fr: 'Accueil' } },
       { href: '/gallery', label: { en: 'Gallery', fr: 'Galerie' } },
+      { href: '/location', label: { en: 'Location', fr: 'Localisation' } },
       { href: '/guide', label: { en: 'Guest Guide', fr: 'Guide' } },
     ],
     booking: [
