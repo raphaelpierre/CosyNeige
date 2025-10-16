@@ -537,8 +537,8 @@ export default function HomePage() {
                     <span>{t({ en: 'Small Closet', fr: 'Petite Penderie' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span>🪑</span>
-                    <span>{t({ en: 'Ground Floor Access', fr: 'Accès Rez-de-Chaussée' })}</span>
+                    <span>👨‍👩‍👧‍👦</span>
+                    <span>{t({ en: 'Family Friendly', fr: 'Familiale' })}</span>
                   </li>
                 </ul>
               </div>

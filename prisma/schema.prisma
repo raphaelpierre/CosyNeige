@@ -99,6 +99,7 @@ model PricingSettings {
   defaultHighSeasonPrice Float @default(410)
   defaultLowSeasonPrice  Float @default(310)
   defaultMinimumStay     Int   @default(3)
+  highSeasonMinimumStay  Int   @default(7) // Nombre de jours minimum en haute saison
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }

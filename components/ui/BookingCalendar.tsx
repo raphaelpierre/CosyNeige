@@ -127,10 +127,10 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
       // Première sélection : check-in
       setSelectedCheckIn(localDate);
 
-      // Vérifier si la date est en haute saison (minimum 7 nuits)
+      // Vérifier si la date est en haute saison
       const season = findSeasonForDate(localDate, seasons);
-      if (season && season.minimumStay >= 7) {
-        // Auto-sélectionner 7 jours
+      if (season && season.seasonType === 'high') {
+        // Auto-sélectionner 7 jours en haute saison
         const autoCheckOut = new Date(localDate);
         autoCheckOut.setDate(localDate.getDate() + 7);
         setSelectedCheckOut(autoCheckOut);
@@ -166,7 +166,7 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
 
         // Vérifier aussi ici si on doit auto-sélectionner 7 jours
         const season = findSeasonForDate(localDate, seasons);
-        if (season && season.minimumStay >= 7) {
+        if (season && season.seasonType === 'high') {
           const autoCheckOut = new Date(localDate);
           autoCheckOut.setDate(localDate.getDate() + 7);
           setSelectedCheckOut(autoCheckOut);

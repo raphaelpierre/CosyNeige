@@ -3129,6 +3129,17 @@ export default function AdminPage() {
                             className="w-full px-3 py-2 border rounded-lg"
                           />
                         </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            {t({ en: 'High Season Minimum Stay (nights)', fr: 'Séjour Minimum Haute Saison (nuits)' })}
+                          </label>
+                          <input
+                            type="number"
+                            value={pricingSettings.highSeasonMinimumStay || 7}
+                            onChange={(e) => setPricingSettings({...pricingSettings, highSeasonMinimumStay: parseInt(e.target.value)})}
+                            className="w-full px-3 py-2 border rounded-lg"
+                          />
+                        </div>
                       </div>
                       <button
                         type="submit"

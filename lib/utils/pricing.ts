@@ -20,6 +20,7 @@ export interface PricingSettings {
   defaultHighSeasonPrice: number;
   defaultLowSeasonPrice: number;
   defaultMinimumStay: number;
+  highSeasonMinimumStay: number;
 }
 
 // Cache pour les saisons (éviter trop d'appels à la DB)
@@ -69,7 +70,8 @@ export async function fetchSeasons(): Promise<{ seasons: SeasonPeriod[], pricing
         depositAmount: 1500,
         defaultHighSeasonPrice: 410,
         defaultLowSeasonPrice: 310,
-        defaultMinimumStay: 3
+        defaultMinimumStay: 3,
+        highSeasonMinimumStay: 7
       }
     };
   }
@@ -202,7 +204,7 @@ export function validateBookingDatesWithSeasons(
   const checkOutDate = typeof checkOut === 'string' ? new Date(checkOut) : checkOut;
 
   // Vérifier chaque nuit pour trouver les règles applicables
-  let maxMinimumStay = pricingSettings.defaultMinimumStay;
+  let hasHighSeason = false;
   let requiresSundayToSunday = false;
 
   for (let i = 0; i < nights; i++) {
@@ -211,19 +213,26 @@ export function validateBookingDatesWithSeasons(
 
     const season = findSeasonForDate(currentNight, seasons);
     if (season) {
-      maxMinimumStay = Math.max(maxMinimumStay, season.minimumStay);
+      if (season.seasonType === 'high') {
+        hasHighSeason = true;
+      }
       if (season.sundayToSunday) {
         requiresSundayToSunday = true;
       }
     }
   }
 
+  // Déterminer le séjour minimum selon la saison
+  const minimumStay = hasHighSeason
+    ? pricingSettings.highSeasonMinimumStay
+    : pricingSettings.defaultMinimumStay;
+
   // Vérification du séjour minimum
-  if (nights < maxMinimumStay) {
+  if (nights < minimumStay) {
     return {
       isValid: false,
-      error: `Minimum stay of ${maxMinimumStay} nights required for this period`,
-      errorFr: `Séjour minimum de ${maxMinimumStay} nuits requis pour cette période`
+      error: `Minimum stay of ${minimumStay} nights required for this period`,
+      errorFr: `Séjour minimum de ${minimumStay} nuits requis pour cette période`
     };
   }
 
