@@ -133,9 +133,6 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
       // Auto-sélectionner le séjour minimum selon la saison
       if (pricingSettings) {
         const season = findSeasonForDate(localDate, seasons);
-        console.log('Season found:', season);
-        console.log('Pricing settings:', pricingSettings);
-
         const isHighSeason = season?.seasonType === 'high';
         const minimumStay = isHighSeason
           ? pricingSettings.highSeasonMinimumStay
@@ -156,7 +153,6 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
             fr: `${minimumStay} nuits sélectionnées automatiquement (${seasonName} - séjour minimum)`
           })
         );
-        console.log('Auto-select message set:', autoSelectMessage);
         // Masquer le message après 5 secondes
         setTimeout(() => setAutoSelectMessage(null), 5000);
       } else {
@@ -191,8 +187,6 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
         // Auto-sélectionner le séjour minimum selon la saison
         if (pricingSettings) {
           const season = findSeasonForDate(localDate, seasons);
-          console.log('Season found (2nd):', season);
-
           const isHighSeason = season?.seasonType === 'high';
           const minimumStay = isHighSeason
             ? pricingSettings.highSeasonMinimumStay
