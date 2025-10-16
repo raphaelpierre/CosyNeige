@@ -10,14 +10,11 @@ export default function HomePage() {
   const { t } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Images du hero carousel - les meilleures photos du chalet
+  // Images du hero carousel - focus sur le chalet enneigé et jacuzzi
   const heroImages = [
-    { src: '/images/ExteriieurJacuzi.webp', alt: 'Chalet enneigé avec jacuzzi' },
     { src: '/images/chalet_neige_devant.webp', alt: 'Chalet en hiver' },
-    { src: '/images/ChaletPAnoramiqueVueHaut.webp', alt: 'Vue panoramique' },
-    { src: '/images/Salon2.webp', alt: 'Salon cosy' },
-    { src: '/images/Exterieur.webp', alt: 'Vue extérieure été' },
-    { src: '/images/Cuisine1.webp', alt: 'Cuisine équipée' },
+    { src: '/images/jacusi.webp', alt: 'Jacuzzi de nuit' },
+    { src: '/images/ExteriieurJacuzi.webp', alt: 'Jacuzzi de jour' },
   ];
 
   // Auto-rotation du carousel
@@ -54,27 +51,19 @@ export default function HomePage() {
         {/* Overlay gradient adaptatif - Plus sombre en haut pour la lisibilité */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/50" />
 
-        {/* Titre et accroches - Positionnés en haut pour meilleure lisibilité */}
-        <div className="absolute inset-0 z-10 flex flex-col justify-start pt-16 md:pt-24 lg:pt-32 items-center">
+        {/* Tagline et accroches - Positionnés plus bas sur l'image */}
+        <div className="absolute inset-0 z-10 flex flex-col justify-center items-center">
           <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 text-center">
-            {/* Titre principal avec ombre portée renforcée */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-3 md:mb-4"
-                style={{
-                  textShadow: '0 4px 12px rgba(0,0,0,0.8), 0 2px 4px rgba(0,0,0,0.9), 0 8px 24px rgba(0,0,0,0.6)'
-                }}>
-              {chaletName}
-            </h1>
-
             {/* Tagline accrocheur avec USP */}
-            <p className="text-lg md:text-2xl lg:text-3xl text-white font-light tracking-wide mb-6 md:mb-8"
-               style={{
-                 textShadow: '0 3px 8px rgba(0,0,0,0.8), 0 1px 3px rgba(0,0,0,0.9), 0 6px 16px rgba(0,0,0,0.6)'
-               }}>
+            <h1 className="text-2xl md:text-4xl lg:text-5xl text-white font-light tracking-wide mb-6 md:mb-8"
+                style={{
+                  textShadow: '0 3px 8px rgba(0,0,0,0.8), 0 1px 3px rgba(0,0,0,0.9), 0 6px 16px rgba(0,0,0,0.6)'
+                }}>
               {t({
                 en: 'Your Alpine Retreat • All Year Round',
                 fr: 'Votre Refuge Alpin • Toute l\'Année'
               })}
-            </p>
+            </h1>
 
             {/* Points clés visuels sous le tagline - Fond plus opaque */}
             <div className="flex flex-wrap justify-center gap-3 md:gap-4 max-w-3xl mx-auto">
@@ -276,17 +265,17 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           {/* Titre */}
           <div className="text-center mb-8 md:mb-12">
-            <div className="inline-flex items-center gap-2 bg-slate-700 text-white px-4 py-2 rounded-full text-sm md:text-base font-bold mb-3 shadow-lg">
+            <div className="inline-flex items-center gap-2 bg-slate-700 text-white px-5 py-2.5 rounded-full text-sm md:text-base font-semibold mb-4 shadow-lg">
               <span className="text-xl">🌍</span>
-              <span>{t({ en: 'More Than Just a Chalet', fr: 'Plus Qu\'un Chalet' })}</span>
+              <span>{t({ en: 'Experience the French Alps', fr: 'Découvrez les Alpes Françaises' })}</span>
             </div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              {t({ en: 'Adventures for Everyone, All Year Long', fr: 'Des Aventures pour Tous, Toute l\'Année' })}
+              {t({ en: 'Year-Round Alpine Adventures', fr: 'Aventures Alpines Toute l\'Année' })}
             </h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               {t({
-                en: 'A stunning chalet is just the beginning. Ski enthusiasts, hikers, families, adventurers—the French Alps offer endless possibilities for every type of traveler.',
-                fr: 'Un chalet magnifique n\'est que le début. Skieurs, randonneurs, familles, aventuriers—les Alpes françaises offrent des possibilités infinies pour tous les voyageurs.'
+                en: 'Nestled in the heart of Haute-Savoie, our location provides privileged access to world-class ski resorts, pristine hiking trails, and authentic alpine experiences throughout all seasons.',
+                fr: 'Niché au cœur de la Haute-Savoie, notre emplacement offre un accès privilégié aux stations de ski de renommée mondiale, aux sentiers de randonnée préservés et aux expériences alpines authentiques en toutes saisons.'
               })}
             </p>
           </div>
