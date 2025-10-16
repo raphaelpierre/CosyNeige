@@ -51,39 +51,74 @@ export default function HomePage() {
         {/* Overlay gradient adaptatif - Plus sombre en haut pour la lisibilité */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/50" />
 
-        {/* Tagline et accroches - Positionnés plus bas sur l'image */}
+        {/* Badges informatifs - Repositionnés pour mieux comprendre le chalet */}
         <div className="absolute inset-0 z-10 flex flex-col justify-center items-center">
           <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 text-center">
-            {/* Tagline accrocheur avec USP */}
-            <h1 className="text-2xl md:text-4xl lg:text-5xl text-white font-light tracking-wide mb-6 md:mb-8"
-                style={{
-                  textShadow: '0 3px 8px rgba(0,0,0,0.8), 0 1px 3px rgba(0,0,0,0.9), 0 6px 16px rgba(0,0,0,0.6)'
-                }}>
-              {t({
-                en: 'Your Alpine Retreat • All Year Round',
-                fr: 'Votre Refuge Alpin • Toute l\'Année'
-              })}
-            </h1>
+            {/* Grille de badges descriptifs */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 max-w-5xl mx-auto">
+              {/* Surface */}
+              <div className="bg-white/20 backdrop-blur-md border border-white/40 rounded-2xl px-3 py-3 md:px-5 md:py-4 shadow-2xl hover:bg-white/30 transition-all">
+                <div className="text-2xl md:text-3xl mb-1">🏔️</div>
+                <div className="text-white font-bold text-lg md:text-xl"
+                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
+                  180m²
+                </div>
+                <div className="text-white/90 text-xs md:text-sm"
+                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
+                  {t({ en: 'Chalet', fr: 'Chalet' })}
+                </div>
+              </div>
 
-            {/* Points clés visuels sous le tagline - Fond plus opaque */}
-            <div className="flex flex-wrap justify-center gap-3 md:gap-4 max-w-3xl mx-auto">
-              <div className="bg-white/15 backdrop-blur-md border border-white/30 rounded-full px-4 py-2 md:px-6 md:py-3 shadow-xl">
-                <span className="text-white font-semibold text-sm md:text-base"
-                      style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
-                  🏔️ {t({ en: '180m² Chalet', fr: 'Chalet 180m²' })}
-                </span>
+              {/* Capacité */}
+              <div className="bg-white/20 backdrop-blur-md border border-white/40 rounded-2xl px-3 py-3 md:px-5 md:py-4 shadow-2xl hover:bg-white/30 transition-all">
+                <div className="text-2xl md:text-3xl mb-1">👥</div>
+                <div className="text-white font-bold text-lg md:text-xl"
+                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
+                  10-12
+                </div>
+                <div className="text-white/90 text-xs md:text-sm"
+                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
+                  {t({ en: 'Guests', fr: 'Personnes' })}
+                </div>
               </div>
-              <div className="bg-white/15 backdrop-blur-md border border-white/30 rounded-full px-4 py-2 md:px-6 md:py-3 shadow-xl">
-                <span className="text-white font-semibold text-sm md:text-base"
-                      style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
-                  🛏️ {t({ en: '10-12 Guests', fr: '10-12 Pers.' })}
-                </span>
+
+              {/* Chambres */}
+              <div className="bg-white/20 backdrop-blur-md border border-white/40 rounded-2xl px-3 py-3 md:px-5 md:py-4 shadow-2xl hover:bg-white/30 transition-all">
+                <div className="text-2xl md:text-3xl mb-1">🛏️</div>
+                <div className="text-white font-bold text-lg md:text-xl"
+                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
+                  5
+                </div>
+                <div className="text-white/90 text-xs md:text-sm"
+                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
+                  {t({ en: 'Bedrooms', fr: 'Chambres' })}
+                </div>
               </div>
-              <div className="bg-white/15 backdrop-blur-md border border-white/30 rounded-full px-4 py-2 md:px-6 md:py-3 shadow-xl">
-                <span className="text-white font-semibold text-sm md:text-base"
-                      style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
-                  ♨️ {t({ en: 'Private Hot Tub', fr: 'Jacuzzi Privé' })}
-                </span>
+
+              {/* Jacuzzi */}
+              <div className="bg-white/20 backdrop-blur-md border border-white/40 rounded-2xl px-3 py-3 md:px-5 md:py-4 shadow-2xl hover:bg-white/30 transition-all">
+                <div className="text-2xl md:text-3xl mb-1">♨️</div>
+                <div className="text-white font-bold text-lg md:text-xl"
+                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
+                  {t({ en: 'Hot Tub', fr: 'Jacuzzi' })}
+                </div>
+                <div className="text-white/90 text-xs md:text-sm"
+                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
+                  {t({ en: 'Private', fr: 'Privé' })}
+                </div>
+              </div>
+
+              {/* Localisation */}
+              <div className="bg-white/20 backdrop-blur-md border border-white/40 rounded-2xl px-3 py-3 md:px-5 md:py-4 shadow-2xl hover:bg-white/30 transition-all col-span-2 md:col-span-1">
+                <div className="text-2xl md:text-3xl mb-1">⛷️</div>
+                <div className="text-white font-bold text-lg md:text-xl"
+                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
+                  {t({ en: '5 Resorts', fr: '5 Stations' })}
+                </div>
+                <div className="text-white/90 text-xs md:text-sm"
+                     style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
+                  {t({ en: 'Nearby', fr: 'À proximité' })}
+                </div>
               </div>
             </div>
           </div>
@@ -260,117 +295,270 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Section Activités 4 Saisons */}
+      {/* Section Pièces du Chalet */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-white to-slate-50">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           {/* Titre */}
           <div className="text-center mb-8 md:mb-12">
             <div className="inline-flex items-center gap-2 bg-slate-700 text-white px-5 py-2.5 rounded-full text-sm md:text-base font-semibold mb-4 shadow-lg">
-              <span className="text-xl">🌍</span>
-              <span>{t({ en: 'Experience the French Alps', fr: 'Découvrez les Alpes Françaises' })}</span>
+              <span className="text-xl">🏠</span>
+              <span>{t({ en: 'Inside the Chalet', fr: 'À l\'Intérieur du Chalet' })}</span>
             </div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              {t({ en: 'Year-Round Alpine Adventures', fr: 'Aventures Alpines Toute l\'Année' })}
+              {t({ en: 'Discover Each Room', fr: 'Découvrez Chaque Pièce' })}
             </h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               {t({
-                en: 'Nestled in the heart of Haute-Savoie, our location provides privileged access to world-class ski resorts, pristine hiking trails, and authentic alpine experiences throughout all seasons.',
-                fr: 'Niché au cœur de la Haute-Savoie, notre emplacement offre un accès privilégié aux stations de ski de renommée mondiale, aux sentiers de randonnée préservés et aux expériences alpines authentiques en toutes saisons.'
+                en: '180m² of carefully designed space, where alpine charm meets modern comfort. Every room tells a story of warmth and elegance.',
+                fr: '180m² d\'espace soigneusement conçu, où le charme alpin rencontre le confort moderne. Chaque pièce raconte une histoire de chaleur et d\'élégance.'
               })}
             </p>
           </div>
 
-          {/* Grille d'activités par saison */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8">
-            {/* Hiver */}
-            <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="text-4xl">❄️</div>
-                <h3 className="text-2xl font-bold text-gray-900">
-                  {t({ en: 'Winter', fr: 'Hiver' })}
-                </h3>
+          {/* Grille des pièces */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Salon */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/images/Salon2.webp"
+                  alt="Salon"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold">{t({ en: 'Living Room', fr: 'Salon' })}</h3>
+                </div>
               </div>
-              <ul className="space-y-2 text-gray-700">
-                <li className="flex items-start gap-2">
-                  <span className="text-slate-700 font-bold">⛷️</span>
-                  <span>{t({ en: 'Skiing & Snowboarding (5 resorts, 650km slopes)', fr: 'Ski & Snowboard (5 stations, 650km de pistes)' })}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-slate-700 font-bold">🥾</span>
-                  <span>{t({ en: 'Snowshoeing & winter hiking', fr: 'Raquettes & randonnée hivernale' })}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-slate-700 font-bold">🧗</span>
-                  <span>{t({ en: 'Ice climbing & frozen waterfalls', fr: 'Cascade de glace & cascades gelées' })}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-slate-700 font-bold">♨️</span>
-                  <span>{t({ en: 'Hot tub under the stars', fr: 'Jacuzzi sous les étoiles' })}</span>
-                </li>
-              </ul>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  {t({
+                    en: 'Spacious living area with fireplace, comfortable seating, and panoramic mountain views. The heart of the chalet.',
+                    fr: 'Vaste espace de vie avec cheminée, sièges confortables et vues panoramiques sur les montagnes. Le cœur du chalet.'
+                  })}
+                </p>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center gap-2">
+                    <span>🔥</span>
+                    <span>{t({ en: 'Fireplace', fr: 'Cheminée' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>📺</span>
+                    <span>{t({ en: 'Smart TV', fr: 'TV connectée' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🏔️</span>
+                    <span>{t({ en: 'Mountain Views', fr: 'Vue Montagne' })}</span>
+                  </li>
+                </ul>
+              </div>
             </div>
 
-            {/* Été */}
-            <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="text-4xl">☀️</div>
-                <h3 className="text-2xl font-bold text-gray-900">
-                  {t({ en: 'Summer', fr: 'Été' })}
-                </h3>
+            {/* Cuisine */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/images/Cuisine2.webp"
+                  alt="Cuisine"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold">{t({ en: 'Kitchen', fr: 'Cuisine' })}</h3>
+                </div>
               </div>
-              <ul className="space-y-2 text-gray-700">
-                <li className="flex items-start gap-2">
-                  <span className="text-slate-700 font-bold">🥾</span>
-                  <span>{t({ en: 'Mountain hiking & alpine trails', fr: 'Randonnée montagne & sentiers alpins' })}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-slate-700 font-bold">🚴</span>
-                  <span>{t({ en: 'Mountain biking & cycling routes', fr: 'VTT & parcours cyclables' })}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-slate-700 font-bold">🪂</span>
-                  <span>{t({ en: 'Paragliding & via ferrata', fr: 'Parapente & via ferrata' })}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-slate-700 font-bold">🏊</span>
-                  <span>{t({ en: 'Swimming lakes & water sports', fr: 'Lacs de baignade & sports nautiques' })}</span>
-                </li>
-              </ul>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  {t({
+                    en: 'Fully equipped modern kitchen with high-end appliances. Perfect for preparing hearty meals after a day on the slopes.',
+                    fr: 'Cuisine moderne entièrement équipée avec appareils haut de gamme. Parfaite pour préparer de copieux repas après une journée sur les pistes.'
+                  })}
+                </p>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center gap-2">
+                    <span>🍳</span>
+                    <span>{t({ en: 'Full Equipment', fr: 'Équipement complet' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>☕</span>
+                    <span>{t({ en: 'Coffee Machine', fr: 'Machine à café' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🍽️</span>
+                    <span>{t({ en: 'Dining Area', fr: 'Coin repas' })}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Chambres */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/images/Chambre3.webp"
+                  alt="Chambre"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold">{t({ en: 'Bedrooms', fr: 'Chambres' })}</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  {t({
+                    en: '5 cozy bedrooms designed for restful nights. Quality bedding and peaceful mountain atmosphere.',
+                    fr: '5 chambres douillettes conçues pour des nuits reposantes. Literie de qualité et atmosphère paisible de montagne.'
+                  })}
+                </p>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center gap-2">
+                    <span>🛏️</span>
+                    <span>{t({ en: '5 Bedrooms', fr: '5 Chambres' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>👥</span>
+                    <span>{t({ en: '10-12 Guests', fr: '10-12 Personnes' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🌙</span>
+                    <span>{t({ en: 'Quality Bedding', fr: 'Literie qualité' })}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Salle de Bain */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/images/SalledeBain1.webp"
+                  alt="Salle de bain"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold">{t({ en: 'Bathrooms', fr: 'Salles de Bain' })}</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  {t({
+                    en: 'Modern bathrooms with premium fixtures. Comfort and elegance for your daily routine.',
+                    fr: 'Salles de bain modernes avec équipements haut de gamme. Confort et élégance pour votre routine quotidienne.'
+                  })}
+                </p>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center gap-2">
+                    <span>🚿</span>
+                    <span>{t({ en: 'Walk-in Showers', fr: 'Douches italiennes' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🛁</span>
+                    <span>{t({ en: 'Bathtub', fr: 'Baignoire' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>💫</span>
+                    <span>{t({ en: 'Modern Design', fr: 'Design moderne' })}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Jacuzzi */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/images/jacusi.webp"
+                  alt="Jacuzzi"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold">{t({ en: 'Hot Tub', fr: 'Jacuzzi' })}</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  {t({
+                    en: 'Private outdoor hot tub with stunning mountain views. The perfect way to relax after skiing.',
+                    fr: 'Jacuzzi extérieur privé avec vue imprenable sur les montagnes. Le moyen parfait pour se détendre après le ski.'
+                  })}
+                </p>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center gap-2">
+                    <span>♨️</span>
+                    <span>{t({ en: 'Heated Year-Round', fr: 'Chauffé toute l\'année' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🌟</span>
+                    <span>{t({ en: 'Stargazing', fr: 'Vue sur étoiles' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🏔️</span>
+                    <span>{t({ en: 'Mountain Views', fr: 'Vue Montagne' })}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Terrasse */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/images/Terrasse1.webp"
+                  alt="Terrasse"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold">{t({ en: 'Terrace', fr: 'Terrasse' })}</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  {t({
+                    en: 'Spacious terrace with outdoor furniture. Enjoy breakfast with alpine views or evening aperitifs.',
+                    fr: 'Grande terrasse avec mobilier extérieur. Profitez du petit-déjeuner avec vue alpine ou des apéritifs en soirée.'
+                  })}
+                </p>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center gap-2">
+                    <span>🌄</span>
+                    <span>{t({ en: 'Panoramic Views', fr: 'Vue panoramique' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🪑</span>
+                    <span>{t({ en: 'Outdoor Furniture', fr: 'Mobilier extérieur' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>☀️</span>
+                    <span>{t({ en: 'Sun All Day', fr: 'Soleil toute la journée' })}</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
-          {/* Activités toute l'année */}
-          <div className="bg-gradient-to-br from-slate-700 to-slate-800 rounded-2xl p-6 md:p-8 shadow-xl text-white">
-            <h3 className="text-xl md:text-2xl font-bold mb-4 text-center">
-              {t({ en: 'All Year Round', fr: 'Toute l\'Année' })}
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-              <div className="flex flex-col items-center gap-2">
-                <span className="text-3xl">🏔️</span>
-                <span className="text-sm md:text-base">{t({ en: 'Chamonix Mont-Blanc', fr: 'Chamonix Mont-Blanc' })}</span>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <span className="text-3xl">🏰</span>
-                <span className="text-sm md:text-base">{t({ en: 'Swiss Villages', fr: 'Villages Suisses' })}</span>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <span className="text-3xl">🧀</span>
-                <span className="text-sm md:text-base">{t({ en: 'Cheese Farms', fr: 'Fermes Fromagères' })}</span>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <span className="text-3xl">✈️</span>
-                <span className="text-sm md:text-base">{t({ en: 'Geneva 45min', fr: 'Genève 45min' })}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Lien vers localisation */}
+          {/* Lien vers galerie */}
           <div className="mt-8 text-center">
             <Link
-              href="/location"
+              href="/gallery"
               className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 font-semibold transition-colors"
             >
-              <span>{t({ en: 'Discover more activities', fr: 'Découvrir plus d\'activités' })}</span>
+              <span>{t({ en: 'View Full Gallery', fr: 'Voir la Galerie Complète' })}</span>
               <span>→</span>
             </Link>
           </div>
