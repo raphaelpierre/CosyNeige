@@ -34,6 +34,7 @@ export async function GET(req: NextRequest) {
         defaultHighSeasonPrice: 410,
         defaultLowSeasonPrice: 310,
         defaultMinimumStay: 3,
+        highSeasonMinimumStay: 7,
         createdAt: new Date(),
         updatedAt: new Date()
       };
