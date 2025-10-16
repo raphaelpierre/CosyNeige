@@ -314,7 +314,7 @@ export default function HomePage() {
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
               <div className="relative h-64 overflow-hidden">
                 <Image
-                  src="/images/Salon2.webp"
+                  src="/images/VueSalonBas.webp"
                   alt="Salon"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
@@ -413,15 +413,15 @@ export default function HomePage() {
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🛏️</span>
-                    <span>{t({ en: 'Queen Bed + Child Bed', fr: 'Lit Queen + Lit enfant' })}</span>
+                    <span>{t({ en: 'King Bed 180x200 + Child Bed 70x140', fr: 'Lit King Size 180x200 + Lit enfant 70x140' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🚪</span>
-                    <span>{t({ en: 'Walk-in Dressing', fr: 'Dressing' })}</span>
+                    <span>{t({ en: 'Double Walk-in Dressing', fr: 'Double Dressing' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🏔️</span>
-                    <span>{t({ en: 'Mountain Views', fr: 'Vue Montagne' })}</span>
+                    <span>{t({ en: 'Balcony Access', fr: 'Accès Balcon' })}</span>
                   </li>
                 </ul>
               </div>
@@ -431,7 +431,7 @@ export default function HomePage() {
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
               <div className="relative h-64 overflow-hidden">
                 <Image
-                  src="/images/Chambre3.webp"
+                  src="/images/Chambre23.webp"
                   alt="Chambre Émeraude"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
@@ -445,22 +445,22 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Elegant queen-size bed with premium bedding, peaceful garden views, and spacious alpine wardrobe.',
-                    fr: 'Élégant lit queen-size avec literie premium, vue paisible sur jardin et spacieuse armoire alpine.'
+                    en: 'Elegant room with flexible sleeping arrangements. Can be configured as 1 double bed (160x200) + 1 single bed (80x200) or 3 single beds (80x200).',
+                    fr: 'Chambre élégante avec couchages modulables. Configuration en 1 lit double 160x200 + 1 lit simple 80x200 ou 3 lits simples 80x200.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🛏️</span>
-                    <span>{t({ en: 'Queen Bed', fr: 'Lit Queen' })}</span>
+                    <span>{t({ en: '1 Double 160x200 + 1 Single 80x200 OR 3 Singles 80x200', fr: '1 lit double 160x200 + 1 simple 80x200 OU 3 lits simples 80x200' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span>🌿</span>
-                    <span>{t({ en: 'Garden View', fr: 'Vue Jardin' })}</span>
+                    <span>🚪</span>
+                    <span>{t({ en: 'Double Walk-in Dressing', fr: 'Double Dressing' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span>🪑</span>
-                    <span>{t({ en: 'Alpine Wardrobe', fr: 'Armoire Alpine' })}</span>
+                    <span>🏔️</span>
+                    <span>{t({ en: 'Balcony Access', fr: 'Accès Balcon' })}</span>
                   </li>
                 </ul>
               </div>
@@ -484,22 +484,22 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Comfortable queen-size bed overlooking the private garden with authentic alpine closet.',
-                    fr: 'Confortable lit queen-size donnant sur le jardin privé avec penderie alpine authentique.'
+                    en: 'Cozy room with flexible sleeping: 3 single beds (80x200) or modular setup as 1 double (160x200) + 1 single (80x200).',
+                    fr: 'Chambre cosy avec couchages flexibles : 3 lits simples 80x200 modulables en 1 lit double 160x200 + 1 lit simple 80x200.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🛏️</span>
-                    <span>{t({ en: 'Queen Bed', fr: 'Lit Queen' })}</span>
+                    <span>{t({ en: '3 Singles 80x200 OR 1 Double 160x200 + 1 Single 80x200', fr: '3 lits simples 80x200 OU 1 double 160x200 + 1 simple 80x200' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🌿</span>
-                    <span>{t({ en: 'Private Garden', fr: 'Jardin Privé' })}</span>
+                    <span>{t({ en: 'Small Closet', fr: 'Petite Penderie' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🪑</span>
-                    <span>{t({ en: 'Alpine Closet', fr: 'Penderie Alpine' })}</span>
+                    <span>{t({ en: 'Compact Design', fr: 'Design Compact' })}</span>
                   </li>
                 </ul>
               </div>
@@ -523,65 +523,28 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Three single beds in a cheerful, family-friendly space with playful mountain-themed décor.',
-                    fr: 'Trois lits simples dans un espace familial chaleureux avec décoration ludique aux thèmes montagnards.'
+                    en: 'Ground floor bedroom with double bed (160x200) and traditional alpine wardrobe.',
+                    fr: 'Chambre au rez-de-chaussée avec lit double 160x200 et armoire traditionnelle alpine avec penderie.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🛏️</span>
-                    <span>{t({ en: '3 Single Beds', fr: '3 Lits Simples' })}</span>
+                    <span>{t({ en: 'Double Bed 160x200', fr: 'Lit Double 160x200' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span>👨‍👩‍👧‍👦</span>
-                    <span>{t({ en: 'Family-Friendly', fr: 'Familial' })}</span>
+                    <span>🚪</span>
+                    <span>{t({ en: 'Traditional Wardrobe', fr: 'Armoire Traditionnelle' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🪑</span>
-                    <span>{t({ en: 'Storage Closet', fr: 'Penderie' })}</span>
+                    <span>{t({ en: 'Ground Floor Access', fr: 'Accès Rez-de-Chaussée' })}</span>
                   </li>
                 </ul>
               </div>
             </div>
 
-            {/* Chambre 5 - Rubis */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
-              <div className="relative h-64 overflow-hidden">
-                <Image
-                  src="/images/Chambre3.webp"
-                  alt="Chambre Rubis"
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-700"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Ruby Room', fr: 'Chambre Rubis' })}</h3>
-                </div>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-600 mb-4">
-                  {t({
-                    en: 'Comfortable bedroom with quality bedding and peaceful mountain atmosphere for restful nights.',
-                    fr: 'Chambre confortable avec literie de qualité et atmosphère paisible de montagne pour des nuits reposantes.'
-                  })}
-                </p>
-                <ul className="space-y-2 text-sm text-gray-700">
-                  <li className="flex items-center gap-2">
-                    <span>🛏️</span>
-                    <span>{t({ en: 'Queen Bed', fr: 'Lit Queen' })}</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span>🌙</span>
-                    <span>{t({ en: 'Quality Bedding', fr: 'Literie Qualité' })}</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span>🏔️</span>
-                    <span>{t({ en: 'Mountain Atmosphere', fr: 'Atmosphère Montagne' })}</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            {/* Chambre 5 - Rubis (removed - now using Family Dormitory as Chambre d'en bas) */}
 
             {/* Salle de Bain 1 - Suite Prestige */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
@@ -626,7 +589,7 @@ export default function HomePage() {
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
               <div className="relative h-64 overflow-hidden">
                 <Image
-                  src="/images/Salledebain2.webp"
+                  src="/images/salleDebain_GrabnBaignire.webp"
                   alt="Salle de bain Spa Familial"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700"

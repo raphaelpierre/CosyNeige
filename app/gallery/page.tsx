@@ -296,7 +296,7 @@ function GalleryContent() {
               {t({ en: 'Check Availability', fr: 'Vérifier Disponibilités' })}
             </a>
             <a
-              href="/chalet"
+              href="/"
               className="inline-flex items-center justify-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300"
             >
               {t({ en: 'Discover Chalet', fr: 'Découvrir le Chalet' })}

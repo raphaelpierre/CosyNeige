@@ -174,6 +174,9 @@ export const galleryImages: GalleryImage[] = [
 
   // Living Room - Espaces de vie
   { url: "/images/Salon2.webp", category: "living", alt: { en: "Main living room with fireplace", fr: "Salon principal avec cheminée" } },
+  { url: "/images/VueSalonBas.webp", category: "living", alt: { en: "Ground floor living room view", fr: "Vue du salon rez-de-chaussée" } },
+  { url: "/images/VueSalonBasJardin.webp", category: "living", alt: { en: "Living room with garden view", fr: "Salon avec vue sur jardin" } },
+  { url: "/images/Salon2_Etage.webp", category: "living", alt: { en: "Upstairs living room lounge", fr: "Salon d'étage" } },
   { url: "/images/Salon1.webp", category: "living", alt: { en: "Cozy living room atmosphere", fr: "Ambiance chaleureuse du salon" } },
   { url: "/images/Salon.webp", category: "living", alt: { en: "Living room overview", fr: "Vue d'ensemble du salon" } },
   { url: "/images/Fauteuil.webp", category: "living", alt: { en: "Cozy armchair corner", fr: "Coin fauteuil confortable" } },
@@ -186,14 +189,18 @@ export const galleryImages: GalleryImage[] = [
   { url: "/images/Cuisine1.webp", category: "kitchen", alt: { en: "Kitchen with dining table", fr: "Cuisine avec table à manger" } },
   { url: "/images/Cuisine2.webp", category: "kitchen", alt: { en: "Modern fully equipped kitchen", fr: "Cuisine moderne entièrement équipée" } },
   { url: "/images/Cuisine.webp", category: "kitchen", alt: { en: "Gourmet kitchen", fr: "Cuisine gastronomique" } },
+  { url: "/images/SalleAmanger.webp", category: "kitchen", alt: { en: "Dining room with large table", fr: "Salle à manger avec grande table" } },
 
   // Bedrooms - Chambres
-  { url: "/images/Chambre3.webp", category: "bedroom", alt: { en: "Comfortable bedroom with queen bed", fr: "Chambre confortable avec lit queen" } },
-  { url: "/images/Chambre4.webp", category: "bedroom", alt: { en: "Master bedroom with mountain view", fr: "Suite master avec vue montagne" } },
-  { url: "/images/ChambreDortoir.webp", category: "bedroom", alt: { en: "Bunk bed room for children", fr: "Chambre avec lits superposés pour enfants" } },
-  { url: "/images/ChambreDortoir2.webp", category: "bedroom", alt: { en: "Bunk bed room view 2", fr: "Chambre lits superposés vue 2" } },
+  { url: "/images/Chambre4.webp", category: "bedroom", alt: { en: "Master suite with mountain view", fr: "Suite master avec vue montagne" } },
+  { url: "/images/Chambre23.webp", category: "bedroom", alt: { en: "Emerald bedroom with garden view", fr: "Chambre Émeraude avec vue jardin" } },
+  { url: "/images/ChambreDortoir2.webp", category: "bedroom", alt: { en: "Sapphire bedroom cozy atmosphere", fr: "Chambre Saphir ambiance cosy" } },
+  { url: "/images/ChambreDortoir.webp", category: "bedroom", alt: { en: "Family dormitory three single beds", fr: "Dortoir familial trois lits simples" } },
+  { url: "/images/chambre__2.webp", category: "bedroom", alt: { en: "Ruby bedroom peaceful retreat", fr: "Chambre Rubis refuge paisible" } },
+  { url: "/images/Chambre3.webp", category: "bedroom", alt: { en: "Comfortable bedroom queen bed", fr: "Chambre confortable lit queen" } },
 
   // Bathrooms - Salles de bain
-  { url: "/images/SalledeBain1.webp", category: "bathroom", alt: { en: "Modern bathroom with italian shower", fr: "Salle de bain moderne avec douche italienne" } },
-  { url: "/images/Salledebain2.webp", category: "bathroom", alt: { en: "Bathroom with bathtub", fr: "Salle de bain avec baignoire" } }
+  { url: "/images/SalledeBain1.webp", category: "bathroom", alt: { en: "Prestige suite bathroom with italian shower", fr: "Salle de bain Suite Prestige avec douche italienne" } },
+  { url: "/images/salleDebain_GrabnBaignire.webp", category: "bathroom", alt: { en: "Family spa bathroom with deep tub", fr: "Salle de bain Spa Familial avec grande baignoire" } },
+  { url: "/images/Salledebain2.webp", category: "bathroom", alt: { en: "Bathroom with modern fixtures", fr: "Salle de bain avec équipements modernes" } }
 ];

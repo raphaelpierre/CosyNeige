@@ -26,7 +26,7 @@ export default function LocationPage() {
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
             <span className="text-white font-semibold text-sm md:text-base">
-              📍 Châtillon-sur-Cluses • 732m
+              📍 Châtillon-sur-Cluses
             </span>
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-2xl mb-4 md:mb-6">
@@ -389,7 +389,7 @@ export default function LocationPage() {
             </Link>
 
             <Link
-              href="/chalet"
+              href="/"
               className="inline-flex items-center justify-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all"
             >
               {t({ en: 'Discover', fr: 'Découvrir' })}

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/lib/hooks/useLanguage';
+import { fetchSeasons, findSeasonForDate, type SeasonPeriod, type PricingSettings } from '@/lib/utils/pricing';
 
 interface BookedPeriod {
   start: Date;
@@ -18,11 +19,16 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
   const [selectedCheckIn, setSelectedCheckIn] = useState<Date | null>(null);
   const [selectedCheckOut, setSelectedCheckOut] = useState<Date | null>(null);
   const [bookedPeriods, setBookedPeriods] = useState<BookedPeriod[]>([]);
+  const [seasons, setSeasons] = useState<SeasonPeriod[]>([]);
+  const [pricingSettings, setPricingSettings] = useState<PricingSettings | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Récupérer les périodes réservées depuis l'API
+  // Récupérer les périodes réservées et les saisons depuis l'API
   useEffect(() => {
-    fetchBookedPeriods();
+    const loadData = async () => {
+      await Promise.all([fetchBookedPeriods(), loadSeasons()]);
+    };
+    loadData();
   }, []);
 
   const fetchBookedPeriods = async () => {
@@ -38,6 +44,16 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
       }
     } catch (error) {
       console.error('Error fetching booked periods:', error);
+    }
+  };
+
+  const loadSeasons = async () => {
+    try {
+      const { seasons: loadedSeasons, pricingSettings: loadedPricingSettings } = await fetchSeasons();
+      setSeasons(loadedSeasons);
+      setPricingSettings(loadedPricingSettings);
+    } catch (error) {
+      console.error('Error loading seasons:', error);
     } finally {
       setLoading(false);
     }
@@ -112,8 +128,19 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
     if (!selectedCheckIn) {
       // Première sélection : check-in
       setSelectedCheckIn(localDate);
-      setSelectedCheckOut(null);
-      onDateSelect?.(localDate, null);
+
+      // Vérifier si la date est dans une période de vacances scolaires (minimum 7 nuits)
+      const season = findSeasonForDate(localDate, seasons);
+      if (season && season.minimumStay >= 7) {
+        // Auto-calculer la date de checkout : +7 jours
+        const autoCheckOut = new Date(localDate);
+        autoCheckOut.setDate(localDate.getDate() + 7);
+        setSelectedCheckOut(autoCheckOut);
+        onDateSelect?.(localDate, autoCheckOut);
+      } else {
+        setSelectedCheckOut(null);
+        onDateSelect?.(localDate, null);
+      }
     } else if (!selectedCheckOut) {
       // Deuxième sélection : check-out
       if (localDate < selectedCheckIn) {
@@ -138,8 +165,17 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
       } else {
         // Cliquer entre les deux dates : recommencer avec cette date comme check-in
         setSelectedCheckIn(localDate);
-        setSelectedCheckOut(null);
-        onDateSelect?.(localDate, null);
+        // Vérifier aussi ici pour l'auto-calcul
+        const season = findSeasonForDate(localDate, seasons);
+        if (season && season.minimumStay >= 7) {
+          const autoCheckOut = new Date(localDate);
+          autoCheckOut.setDate(localDate.getDate() + 7);
+          setSelectedCheckOut(autoCheckOut);
+          onDateSelect?.(localDate, autoCheckOut);
+        } else {
+          setSelectedCheckOut(null);
+          onDateSelect?.(localDate, null);
+        }
       }
     }
   };

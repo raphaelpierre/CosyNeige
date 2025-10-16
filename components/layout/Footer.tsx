@@ -37,8 +37,8 @@ export default function Footer() {
             </div>
             <p className="text-gray-700 text-sm leading-relaxed mb-4 font-medium">
               {t({
-                en: 'Luxury alpine retreat in the heart of Haute-Savoie, offering unforgettable mountain experiences.',
-                fr: 'Refuge alpin de luxe au cœur de la Haute-Savoie, offrant des expériences de montagne inoubliables.',
+                en: 'Alpine chalet in Haute-Savoie. 180m², 5 bedrooms, access to 5 ski resorts.',
+                fr: 'Chalet alpin en Haute-Savoie. 180m², 5 chambres, accès à 5 stations de ski.',
               })}
             </p>
             <div className="text-gray-700 text-sm">
