@@ -21,9 +21,8 @@ export default function Navigation() {
   const navLinks = [
     { href: '/', label: { en: 'Home', fr: 'Accueil' } },
     { href: '/chalet', label: { en: 'The Chalet', fr: 'Le Chalet' } },
-    { href: '/location', label: { en: 'Location', fr: 'Localisation' } },
+    { href: '/location', label: { en: 'Location & Info', fr: 'Localisation & Infos' } },
     { href: '/booking', label: { en: 'Booking', fr: 'Réservation' } },
-    { href: '/guide', label: { en: 'Guest Guide', fr: 'Guide' } },
     { href: '/contact', label: { en: 'Contact', fr: 'Contact' } },
   ];
 
@@ -31,6 +30,7 @@ export default function Navigation() {
   const mobileNavLinks = [
     { href: '/', label: { en: 'Home', fr: 'Accueil' }, icon: '🏠' },
     { href: '/chalet', label: { en: 'Chalet', fr: 'Chalet' }, icon: '🏔️' },
+    { href: '/location', label: { en: 'Info', fr: 'Infos' }, icon: '📍' },
     { href: '/booking', label: { en: 'Book', fr: 'Réserver' }, icon: '📅', highlight: true },
     { href: '/contact', label: { en: 'Contact', fr: 'Contact' }, icon: '✉️' },
   ];
@@ -39,18 +39,8 @@ export default function Navigation() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // Menu apparaît/disparaît selon le scroll (mobile uniquement)
-      if (window.innerWidth < 768) {
-        if (currentScrollY > lastScrollY && currentScrollY > 100) {
-          // Scroll down - cache le menu
-          setVisible(false);
-        } else {
-          // Scroll up - montre le menu
-          setVisible(true);
-        }
-      } else {
-        setVisible(true); // Toujours visible sur desktop
-      }
+      // Menu mobile toujours visible maintenant
+      setVisible(true);
 
       setScrolled(currentScrollY > 20);
       setLastScrollY(currentScrollY);
