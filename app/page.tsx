@@ -51,83 +51,75 @@ export default function HomePage() {
         {/* Overlay gradient adaptatif - Plus sombre en haut pour la lisibilité */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/50" />
 
-        {/* Badges informatifs - Version optimisée mobile */}
-        <div className="absolute inset-0 z-10 flex flex-col justify-center items-center">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 text-center">
-            {/* Disposition horizontale compacte sur mobile, grille sur desktop */}
-            <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-3 md:gap-4 max-w-6xl mx-auto">
+        {/* Badges informatifs - Optimisés mobile et desktop */}
+        <div className="absolute bottom-16 md:bottom-24 left-0 right-0 z-10">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+            {/* Badges compacts */}
+            <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 md:gap-3">
               {/* Surface */}
-              <div className="bg-white/25 backdrop-blur-lg border border-white/50 rounded-xl sm:rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3 md:px-6 md:py-4 shadow-2xl hover:bg-white/35 transition-all flex items-center gap-2 sm:flex-col sm:gap-1">
-                <div className="text-xl sm:text-2xl md:text-3xl">🏔️</div>
-                <div className="flex items-baseline gap-1 sm:flex-col sm:gap-0">
-                  <div className="text-white font-bold text-base sm:text-lg md:text-xl"
-                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
+              <div className="bg-white/25 backdrop-blur-lg border border-white/50 rounded-lg sm:rounded-xl px-2.5 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2.5 shadow-xl hover:bg-white/35 transition-all flex items-center gap-1.5 sm:gap-2">
+                <div className="text-base sm:text-lg md:text-xl">🏔️</div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-white font-bold text-xs sm:text-sm md:text-base"
+                        style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
                     180m²
-                  </div>
-                  <div className="text-white/90 text-xs sm:text-sm"
-                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
-                    {t({ en: 'Chalet', fr: 'Chalet' })}
-                  </div>
+                  </span>
                 </div>
               </div>
 
               {/* Capacité */}
-              <div className="bg-white/25 backdrop-blur-lg border border-white/50 rounded-xl sm:rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3 md:px-6 md:py-4 shadow-2xl hover:bg-white/35 transition-all flex items-center gap-2 sm:flex-col sm:gap-1">
-                <div className="text-xl sm:text-2xl md:text-3xl">👥</div>
-                <div className="flex items-baseline gap-1 sm:flex-col sm:gap-0">
-                  <div className="text-white font-bold text-base sm:text-lg md:text-xl"
-                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
+              <div className="bg-white/25 backdrop-blur-lg border border-white/50 rounded-lg sm:rounded-xl px-2.5 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2.5 shadow-xl hover:bg-white/35 transition-all flex items-center gap-1.5 sm:gap-2">
+                <div className="text-base sm:text-lg md:text-xl">👥</div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-white font-bold text-xs sm:text-sm md:text-base"
+                        style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
                     10-12
-                  </div>
-                  <div className="text-white/90 text-xs sm:text-sm"
-                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
-                    {t({ en: 'Guests', fr: 'Pers.' })}
-                  </div>
+                  </span>
+                  <span className="text-white/90 text-xs sm:text-xs md:text-sm"
+                        style={{ textShadow: '0 2px 4px rgba(0,0,0,0.7)' }}>
+                    {t({ en: 'guests', fr: 'pers.' })}
+                  </span>
                 </div>
               </div>
 
               {/* Chambres */}
-              <div className="bg-white/25 backdrop-blur-lg border border-white/50 rounded-xl sm:rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3 md:px-6 md:py-4 shadow-2xl hover:bg-white/35 transition-all flex items-center gap-2 sm:flex-col sm:gap-1">
-                <div className="text-xl sm:text-2xl md:text-3xl">🛏️</div>
-                <div className="flex items-baseline gap-1 sm:flex-col sm:gap-0">
-                  <div className="text-white font-bold text-base sm:text-lg md:text-xl"
-                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
+              <div className="bg-white/25 backdrop-blur-lg border border-white/50 rounded-lg sm:rounded-xl px-2.5 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2.5 shadow-xl hover:bg-white/35 transition-all flex items-center gap-1.5 sm:gap-2">
+                <div className="text-base sm:text-lg md:text-xl">🛏️</div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-white font-bold text-xs sm:text-sm md:text-base"
+                        style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
                     5
-                  </div>
-                  <div className="text-white/90 text-xs sm:text-sm"
-                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
-                    {t({ en: 'Rooms', fr: 'Chambres' })}
-                  </div>
+                  </span>
+                  <span className="text-white/90 text-xs sm:text-xs md:text-sm"
+                        style={{ textShadow: '0 2px 4px rgba(0,0,0,0.7)' }}>
+                    {t({ en: 'rooms', fr: 'ch.' })}
+                  </span>
                 </div>
               </div>
 
               {/* Jacuzzi */}
-              <div className="bg-white/25 backdrop-blur-lg border border-white/50 rounded-xl sm:rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3 md:px-6 md:py-4 shadow-2xl hover:bg-white/35 transition-all flex items-center gap-2 sm:flex-col sm:gap-1">
-                <div className="text-xl sm:text-2xl md:text-3xl">♨️</div>
-                <div className="flex items-baseline gap-1 sm:flex-col sm:gap-0">
-                  <div className="text-white font-bold text-base sm:text-lg md:text-xl"
-                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
-                    {t({ en: 'Jacuzzi', fr: 'Jacuzzi' })}
-                  </div>
-                  <div className="text-white/90 text-xs sm:text-sm"
-                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
-                    {t({ en: 'Private', fr: 'Privé' })}
-                  </div>
+              <div className="bg-white/25 backdrop-blur-lg border border-white/50 rounded-lg sm:rounded-xl px-2.5 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2.5 shadow-xl hover:bg-white/35 transition-all flex items-center gap-1.5 sm:gap-2">
+                <div className="text-base sm:text-lg md:text-xl">♨️</div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-white font-bold text-xs sm:text-sm md:text-base"
+                        style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
+                    Jacuzzi
+                  </span>
                 </div>
               </div>
 
               {/* Localisation */}
-              <div className="bg-white/25 backdrop-blur-lg border border-white/50 rounded-xl sm:rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3 md:px-6 md:py-4 shadow-2xl hover:bg-white/35 transition-all flex items-center gap-2 sm:flex-col sm:gap-1">
-                <div className="text-xl sm:text-2xl md:text-3xl">⛷️</div>
-                <div className="flex items-baseline gap-1 sm:flex-col sm:gap-0">
-                  <div className="text-white font-bold text-base sm:text-lg md:text-xl"
-                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.8)' }}>
-                    {t({ en: '5 Resorts', fr: '5 Stations' })}
-                  </div>
-                  <div className="text-white/90 text-xs sm:text-sm"
-                       style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}>
-                    {t({ en: 'Nearby', fr: 'Proches' })}
-                  </div>
+              <div className="bg-white/25 backdrop-blur-lg border border-white/50 rounded-lg sm:rounded-xl px-2.5 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-2.5 shadow-xl hover:bg-white/35 transition-all flex items-center gap-1.5 sm:gap-2">
+                <div className="text-base sm:text-lg md:text-xl">⛷️</div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-white font-bold text-xs sm:text-sm md:text-base"
+                        style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
+                    5
+                  </span>
+                  <span className="text-white/90 text-xs sm:text-xs md:text-sm"
+                        style={{ textShadow: '0 2px 4px rgba(0,0,0,0.7)' }}>
+                    {t({ en: 'resorts', fr: 'stations' })}
+                  </span>
                 </div>
               </div>
             </div>
