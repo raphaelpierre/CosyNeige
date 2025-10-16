@@ -65,8 +65,8 @@ export default function HomePage() {
             {/* Tagline accrocheur avec USP */}
             <p className="text-lg md:text-2xl lg:text-3xl text-white/95 font-light tracking-wide mb-6 md:mb-8">
               {t({
-                en: '5 Ski Resorts • 650km of Slopes • Hot Tub',
-                fr: '5 Stations de Ski • 650km de Pistes • Jacuzzi'
+                en: 'Your Alpine Retreat • All Year Round',
+                fr: 'Votre Refuge Alpin • Toute l\'Année'
               })}
             </p>
 
@@ -376,64 +376,6 @@ export default function HomePage() {
               <span>→</span>
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* CTA Final - Réserver - Version plus claire */}
-      <section className="relative py-16 md:py-20 overflow-hidden bg-gradient-to-br from-slate-50 via-white to-gray-50">
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          {/* Titre principal */}
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 md:mb-6">
-            {t({
-              en: 'Ready for Your Alpine Adventure?',
-              fr: 'Prêt pour Votre Aventure Alpine ?'
-            })}
-          </h2>
-
-          {/* Sous-titre */}
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 md:mb-8 max-w-2xl mx-auto leading-relaxed">
-            {t({
-              en: 'Between 2 valleys, access to 5 resorts, 650km of slopes. Your perfect ski chalet awaits.',
-              fr: 'Entre 2 vallées, accès à 5 stations, 650km de pistes. Votre chalet de ski idéal vous attend.'
-            })}
-          </p>
-
-          {/* Prix accrocheur */}
-          <div className="mb-8 md:mb-10">
-            <div className="inline-flex items-center gap-2 text-slate-700">
-              <span className="text-2xl md:text-3xl">✨</span>
-              <span className="text-3xl md:text-4xl font-bold">€310</span>
-              <span className="text-lg md:text-xl text-gray-600">/ {t({ en: 'night', fr: 'nuit' })}</span>
-              <span className="text-2xl md:text-3xl">✨</span>
-            </div>
-          </div>
-
-          {/* Boutons CTA */}
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
-            <Link
-              href="/booking"
-              className="group inline-flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
-            >
-              <span>📅</span>
-              <span>{t({ en: 'Check Availability', fr: 'Voir Disponibilités' })}</span>
-            </Link>
-
-            <Link
-              href="/chalet"
-              className="group inline-flex items-center justify-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300"
-            >
-              <span>{t({ en: 'Discover', fr: 'Découvrir' })}</span>
-              <span className="group-hover:translate-x-1 transition-transform">→</span>
-            </Link>
-          </div>
-
-          {/* Mini info en bas */}
-          <p className="mt-6 text-sm text-gray-500">
-            {t({
-              en: 'Free cancellation up to 30 days before arrival',
-              fr: 'Annulation gratuite jusqu\'à 30 jours avant l\'arrivée'
-            })}
-          </p>
         </div>
       </section>
 

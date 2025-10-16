@@ -95,14 +95,8 @@ export default function Navigation() {
         </div>
       </nav>
 
-      {/* Navigation Mobile - Ultra-simplifiée avec auto-hide */}
-      <nav className={`md:hidden fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        visible ? 'translate-y-0' : '-translate-y-full'
-      } ${
-        scrolled
-          ? 'bg-white/90 backdrop-blur-md shadow-lg'
-          : 'bg-white/95 backdrop-blur-sm shadow-md'
-      }`}>
+      {/* Navigation Mobile - Ultra-simplifiée */}
+      <nav className="md:hidden fixed top-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-sm shadow-md">
         <div className="px-3 py-2">
           <div className="flex justify-between items-center">
             {/* Logo minimaliste */}
@@ -127,18 +121,19 @@ export default function Navigation() {
             </button>
           </div>
         </div>
+      </nav>
 
-        {/* Menu mobile simplifié - Full screen overlay */}
-        {mobileMenuOpen && (
-          <>
-            {/* Backdrop pour fermer au clic */}
-            <div
-              className="fixed inset-0 bg-black/20 z-[45]"
-              onClick={() => setMobileMenuOpen(false)}
-            />
+      {/* Menu mobile simplifié - Full screen overlay */}
+      {mobileMenuOpen && (
+        <>
+          {/* Backdrop pour fermer au clic */}
+          <div
+            className="md:hidden fixed inset-0 bg-black/20 z-[90]"
+            onClick={() => setMobileMenuOpen(false)}
+          />
 
-            {/* Menu content */}
-            <div className="fixed inset-0 top-14 bg-white z-[60] overflow-y-auto animate-in fade-in slide-in-from-top-4 duration-200">
+          {/* Menu content */}
+          <div className="md:hidden fixed inset-0 top-[52px] bg-white z-[95] overflow-y-auto animate-in fade-in slide-in-from-top-4 duration-200">
               <div className="px-4 py-6 space-y-2">
                 {mobileNavLinks.map((link) => (
                   <Link
@@ -171,9 +166,8 @@ export default function Navigation() {
                 </div>
               </div>
             </div>
-          </>
-        )}
-      </nav>
+        </>
+      )}
 
     </>
   );
