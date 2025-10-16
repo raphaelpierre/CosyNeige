@@ -298,7 +298,7 @@ export default function HomePage() {
       </section>
 
       {/* Section Pièces du Chalet */}
-      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-slate-50">
+      <section className="py-8 md:py-12 bg-gradient-to-b from-white to-slate-50">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           {/* Badge */}
           <div className="text-center mb-8 md:mb-12">
@@ -583,40 +583,79 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Salle de Bain */}
+            {/* Salle de Bain 1 - Master */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src="/images/SalledeBain1.webp"
-                  alt="Salle de bain"
+                  alt="Salle de bain master"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Bathrooms', fr: 'Salles de Bain' })}</h3>
+                  <h3 className="text-2xl font-bold">{t({ en: 'Master Bathroom', fr: 'Salle de Bain Master' })}</h3>
                 </div>
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Modern bathrooms with premium fixtures. Comfort and elegance for your daily routine.',
-                    fr: 'Salles de bain modernes avec équipements haut de gamme. Confort et élégance pour votre routine quotidienne.'
+                    en: 'Designer master bathroom with oversized Italian shower, double vanity, and heated towel rails for ultimate comfort.',
+                    fr: 'Salle de bain master design avec grande douche italienne, double vasque et sèche-serviettes chauffants pour un confort optimal.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🚿</span>
-                    <span>{t({ en: 'Walk-in Showers', fr: 'Douches italiennes' })}</span>
+                    <span>{t({ en: 'Italian Shower', fr: 'Douche Italienne' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
+                    <span>🪞</span>
+                    <span>{t({ en: 'Double Vanity', fr: 'Double Vasque' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🔥</span>
+                    <span>{t({ en: 'Heated Towel Rails', fr: 'Sèche-Serviettes' })}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Salle de Bain 2 - Familiale */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src="/images/SalledeBain1.webp"
+                  alt="Salle de bain familiale"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-2xl font-bold">{t({ en: 'Family Bathroom', fr: 'Salle de Bain Familiale' })}</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  {t({
+                    en: 'Spacious family bathroom with deep soaking tub, separate shower, and elegant fixtures for relaxing moments.',
+                    fr: 'Spacieuse salle de bain familiale avec baignoire profonde, douche séparée et élégants équipements pour des moments de détente.'
+                  })}
+                </p>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center gap-2">
                     <span>🛁</span>
-                    <span>{t({ en: 'Bathtub', fr: 'Baignoire' })}</span>
+                    <span>{t({ en: 'Deep Bathtub', fr: 'Baignoire Profonde' })}</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🚿</span>
+                    <span>{t({ en: 'Separate Shower', fr: 'Douche Séparée' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>💫</span>
-                    <span>{t({ en: 'Modern Design', fr: 'Design moderne' })}</span>
+                    <span>{t({ en: 'Elegant Fixtures', fr: 'Équipements Élégants' })}</span>
                   </li>
                 </ul>
               </div>
@@ -679,22 +718,22 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Spacious terrace with outdoor furniture. Enjoy breakfast with alpine views or evening aperitifs.',
-                    fr: 'Grande terrasse avec mobilier extérieur. Profitez du petit-déjeuner avec vue alpine ou des apéritifs en soirée.'
+                    en: 'Spacious terrace with outdoor furniture, BBQ and plancha. Perfect for al fresco dining with stunning alpine views.',
+                    fr: 'Grande terrasse avec mobilier extérieur, barbecue et plancha. Parfaite pour les repas en plein air avec vue alpine imprenable.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
-                    <span>🌄</span>
-                    <span>{t({ en: 'Panoramic Views', fr: 'Vue panoramique' })}</span>
+                    <span>🍖</span>
+                    <span>{t({ en: 'BBQ & Plancha', fr: 'Barbecue & Plancha' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🪑</span>
                     <span>{t({ en: 'Outdoor Furniture', fr: 'Mobilier extérieur' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span>☀️</span>
-                    <span>{t({ en: 'Sun All Day', fr: 'Soleil toute la journée' })}</span>
+                    <span>🌄</span>
+                    <span>{t({ en: 'Mountain Views', fr: 'Vue Montagne' })}</span>
                   </li>
                 </ul>
               </div>
@@ -704,7 +743,7 @@ export default function HomePage() {
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
               <div className="relative h-64 overflow-hidden">
                 <Image
-                  src="/images/Exterieur2.webp"
+                  src="/images/Chalet_Exterieur.webp"
                   alt="Parking et accès"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
@@ -718,8 +757,8 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Convenient 5-space private parking with dedicated ski room featuring boot warmers for ultimate comfort.',
-                    fr: 'Parking privé pratique de 5 places avec local à skis dédié équipé de chauffe-chaussures pour un confort optimal.'
+                    en: 'Convenient 5-space private parking with dedicated ski room for all your winter sports equipment.',
+                    fr: 'Parking privé pratique de 5 places avec local à skis dédié pour tout votre équipement de sports d\'hiver.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
@@ -732,8 +771,8 @@ export default function HomePage() {
                     <span>{t({ en: 'Ski Room', fr: 'Local à Skis' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span>🔥</span>
-                    <span>{t({ en: 'Boot Warmers', fr: 'Chauffe-Chaussures' })}</span>
+                    <span>🏔️</span>
+                    <span>{t({ en: 'Direct Access', fr: 'Accès Direct' })}</span>
                   </li>
                 </ul>
               </div>
@@ -741,7 +780,7 @@ export default function HomePage() {
           </div>
 
           {/* Lien vers galerie */}
-          <div className="mt-8 text-center">
+          <div className="mt-6 text-center">
             <Link
               href="/gallery"
               className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 font-semibold transition-colors"
@@ -754,7 +793,7 @@ export default function HomePage() {
       </section>
 
       {/* Virtual Tour Section */}
-      <section className="py-12 md:py-16 bg-white">
+      <section className="py-8 md:py-12 bg-white">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           <div className="text-center mb-6 md:mb-8">
             <div className="inline-flex items-center gap-2 bg-slate-700 text-white px-5 py-2.5 rounded-full text-sm md:text-base font-semibold shadow-lg">
@@ -778,7 +817,7 @@ export default function HomePage() {
       </section>
 
       {/* Call to Action Section */}
-      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-slate-50">
+      <section className="py-8 md:py-12 bg-gradient-to-b from-white to-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 text-gray-900">
             {t({ en: 'Ready to Book Your Stay?', fr: 'Prêt à Réserver Votre Séjour ?' })}
