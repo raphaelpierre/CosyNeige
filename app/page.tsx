@@ -306,9 +306,6 @@ export default function HomePage() {
               <span className="text-xl">🏠</span>
               <span>{t({ en: 'Inside the Chalet', fr: 'À l\'Intérieur du Chalet' })}</span>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              {t({ en: 'Discover Each Room', fr: 'Découvrez Chaque Pièce' })}
-            </h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               {t({
                 en: '180m² of carefully designed space, where alpine charm meets modern comfort. Every room tells a story of warmth and elegance.',
@@ -376,22 +373,22 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Fully equipped modern kitchen with high-end appliances. Perfect for preparing hearty meals after a day on the slopes.',
-                    fr: 'Cuisine moderne entièrement équipée avec appareils haut de gamme. Parfaite pour préparer de copieux repas après une journée sur les pistes.'
+                    en: 'Authentic Savoyard kitchen fully equipped with traditional charm. Perfect for preparing hearty mountain meals after a day on the slopes.',
+                    fr: 'Authentique cuisine savoyarde entièrement équipée au charme traditionnel. Parfaite pour préparer de copieux repas montagnards après une journée sur les pistes.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🍳</span>
-                    <span>{t({ en: 'Full Equipment', fr: 'Équipement complet' })}</span>
+                    <span>{t({ en: 'Traditional Gas Range', fr: 'Piano à gaz traditionnel' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>☕</span>
-                    <span>{t({ en: 'Coffee Machine', fr: 'Machine à café' })}</span>
+                    <span>{t({ en: 'Nespresso Machine', fr: 'Machine Nespresso' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🍽️</span>
-                    <span>{t({ en: 'Dining Area', fr: 'Coin repas' })}</span>
+                    <span>{t({ en: 'Dining Table for 10', fr: 'Table pour 10 convives' })}</span>
                   </li>
                 </ul>
               </div>
