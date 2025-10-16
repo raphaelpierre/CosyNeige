@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/lib/hooks/useLanguage';
-import { fetchSeasons, findSeasonForDate, type SeasonPeriod } from '@/lib/utils/pricing';
+import { fetchSeasons, findSeasonForDate, type SeasonPeriod, type PricingSettings } from '@/lib/utils/pricing';
 
 interface BookedPeriod {
   start: Date;
@@ -20,7 +20,9 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
   const [selectedCheckOut, setSelectedCheckOut] = useState<Date | null>(null);
   const [bookedPeriods, setBookedPeriods] = useState<BookedPeriod[]>([]);
   const [seasons, setSeasons] = useState<SeasonPeriod[]>([]);
+  const [pricingSettings, setPricingSettings] = useState<PricingSettings | null>(null);
   const [loading, setLoading] = useState(true);
+  const [autoSelectMessage, setAutoSelectMessage] = useState<string | null>(null);
 
   // Récupérer les périodes réservées et les saisons depuis l'API
   useEffect(() => {
@@ -48,8 +50,9 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
 
   const loadSeasons = async () => {
     try {
-      const { seasons: loadedSeasons } = await fetchSeasons();
+      const { seasons: loadedSeasons, pricingSettings: loadedPricingSettings } = await fetchSeasons();
       setSeasons(loadedSeasons);
+      setPricingSettings(loadedPricingSettings);
     } catch (error) {
       console.error('Error loading seasons:', error);
     } finally {
@@ -127,14 +130,30 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
       // Première sélection : check-in
       setSelectedCheckIn(localDate);
 
-      // Vérifier si la date est en haute saison
-      const season = findSeasonForDate(localDate, seasons);
-      if (season && season.seasonType === 'high') {
-        // Auto-sélectionner 7 jours en haute saison
+      // Auto-sélectionner le séjour minimum selon la saison
+      if (pricingSettings) {
+        const season = findSeasonForDate(localDate, seasons);
+        const minimumStay = season && season.seasonType === 'high'
+          ? pricingSettings.highSeasonMinimumStay
+          : pricingSettings.defaultMinimumStay;
+
         const autoCheckOut = new Date(localDate);
-        autoCheckOut.setDate(localDate.getDate() + 7);
+        autoCheckOut.setDate(localDate.getDate() + minimumStay);
         setSelectedCheckOut(autoCheckOut);
         onDateSelect?.(localDate, autoCheckOut);
+
+        // Afficher le message d'auto-sélection
+        const seasonName = season && season.seasonType === 'high'
+          ? t({ en: 'high season', fr: 'haute saison' })
+          : t({ en: 'low season', fr: 'basse saison' });
+        setAutoSelectMessage(
+          t({
+            en: `${minimumStay} nights automatically selected (${seasonName} - minimum stay)`,
+            fr: `${minimumStay} nuits sélectionnées automatiquement (${seasonName} - séjour minimum)`
+          })
+        );
+        // Masquer le message après 5 secondes
+        setTimeout(() => setAutoSelectMessage(null), 5000);
       } else {
         setSelectedCheckOut(null);
         onDateSelect?.(localDate, null);
@@ -164,13 +183,30 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
         // Cliquer entre les deux dates : recommencer avec cette date comme check-in
         setSelectedCheckIn(localDate);
 
-        // Vérifier aussi ici si on doit auto-sélectionner 7 jours
-        const season = findSeasonForDate(localDate, seasons);
-        if (season && season.seasonType === 'high') {
+        // Auto-sélectionner le séjour minimum selon la saison
+        if (pricingSettings) {
+          const season = findSeasonForDate(localDate, seasons);
+          const minimumStay = season && season.seasonType === 'high'
+            ? pricingSettings.highSeasonMinimumStay
+            : pricingSettings.defaultMinimumStay;
+
           const autoCheckOut = new Date(localDate);
-          autoCheckOut.setDate(localDate.getDate() + 7);
+          autoCheckOut.setDate(localDate.getDate() + minimumStay);
           setSelectedCheckOut(autoCheckOut);
           onDateSelect?.(localDate, autoCheckOut);
+
+          // Afficher le message d'auto-sélection
+          const seasonName = season && season.seasonType === 'high'
+            ? t({ en: 'high season', fr: 'haute saison' })
+            : t({ en: 'low season', fr: 'basse saison' });
+          setAutoSelectMessage(
+            t({
+              en: `${minimumStay} nights automatically selected (${seasonName} - minimum stay)`,
+              fr: `${minimumStay} nuits sélectionnées automatiquement (${seasonName} - séjour minimum)`
+            })
+          );
+          // Masquer le message après 5 secondes
+          setTimeout(() => setAutoSelectMessage(null), 5000);
         } else {
           setSelectedCheckOut(null);
           onDateSelect?.(localDate, null);
@@ -269,6 +305,18 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
           </svg>
         </button>
       </div>
+
+      {/* Message d'auto-sélection */}
+      {autoSelectMessage && (
+        <div className="mb-4 md:mb-2 lg:mb-3 bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg text-sm md:text-xs lg:text-sm animate-fade-in">
+          <div className="flex items-center gap-2">
+            <svg className="w-5 h-5 md:w-4 md:h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            </svg>
+            <span>{autoSelectMessage}</span>
+          </div>
+        </div>
+      )}
 
       {/* Jours de la semaine */}
       <div className="grid grid-cols-7 gap-1 md:gap-1 lg:gap-1.5 mb-1 md:mb-1 lg:mb-1.5">
