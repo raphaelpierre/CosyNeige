@@ -12,9 +12,12 @@ import { chaletName } from '@/lib/data/chalet';
 export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
   const { t } = useLanguage();
 
+  // Navigation complète pour desktop
   const navLinks = [
     { href: '/', label: { en: 'Home', fr: 'Accueil' } },
     { href: '/chalet', label: { en: 'The Chalet', fr: 'Le Chalet' } },
@@ -25,98 +28,167 @@ export default function Navigation() {
     { href: '/contact', label: { en: 'Contact', fr: 'Contact' } },
   ];
 
+  // Navigation simplifiée pour mobile
+  const mobileNavLinks = [
+    { href: '/', label: { en: 'Home', fr: 'Accueil' }, icon: '🏠' },
+    { href: '/gallery', label: { en: 'Gallery', fr: 'Galerie' }, icon: '📸' },
+    { href: '/booking', label: { en: 'Book', fr: 'Réserver' }, icon: '📅', highlight: true },
+    { href: '/contact', label: { en: 'Contact', fr: 'Contact' }, icon: '✉️' },
+  ];
+
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      const currentScrollY = window.scrollY;
+
+      // Menu apparaît/disparaît selon le scroll (mobile uniquement)
+      if (window.innerWidth < 768) {
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          // Scroll down - cache le menu
+          setVisible(false);
+        } else {
+          // Scroll up - montre le menu
+          setVisible(true);
+        }
+      } else {
+        setVisible(true); // Toujours visible sur desktop
+      }
+
+      setScrolled(currentScrollY > 20);
+      setLastScrollY(currentScrollY);
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   return (
-    <nav className={`sticky top-0 z-50 transition-all duration-300 ${
-      scrolled
-        ? 'bg-white/80 backdrop-blur-lg shadow-lg border-b border-forest-100/20'
-        : 'bg-white/95 backdrop-blur-md shadow-md'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 lg:h-20">
-          <Link href="/" className="flex items-center gap-2 lg:gap-3 group text-sm font-medium transition-all duration-300 relative text-gray-700 hover:text-forest-700 px-2 lg:px-3 py-2 rounded-lg bg-white/90 backdrop-blur-sm shadow-sm hover:bg-white/95">
-            <div className="text-xl lg:text-2xl transform group-hover:scale-110 transition-transform duration-300">🏔️</div>
-            <div className="hidden sm:block lg:block">
-              <div className="text-base lg:text-lg font-bold">
-                {chaletName}
+    <>
+      {/* Navigation Desktop - Style actuel */}
+      <nav className={`hidden md:block sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/80 backdrop-blur-lg shadow-lg border-b border-gray-200/20'
+          : 'bg-white/95 backdrop-blur-md shadow-md'
+      }`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16 lg:h-20">
+            <Link href="/" className="flex items-center gap-2 lg:gap-3 group text-sm font-medium transition-all duration-300 relative text-gray-700 hover:text-slate-700 px-2 lg:px-3 py-2 rounded-lg bg-white/90 backdrop-blur-sm shadow-sm hover:bg-white/95">
+              <div className="text-xl lg:text-2xl transform group-hover:scale-110 transition-transform duration-300">🏔️</div>
+              <div>
+                <div className="text-base lg:text-lg font-bold">
+                  {chaletName}
+                </div>
+                <div className="text-xs text-gray-600">{t({ en: 'French Alps', fr: 'Alpes Françaises' })}</div>
               </div>
-              <div className="text-xs text-wood-600">{t({ en: 'French Alps', fr: 'Alpes Françaises' })}</div>
-            </div>
-            <div className="sm:hidden block">
-              <div className="text-sm font-bold">
-                {chaletName}
-              </div>
-            </div>
-            <span className="absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-forest-600 to-forest-800 transition-all duration-300 w-0 group-hover:w-full" />
-          </Link>
+              <span className="absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-slate-600 to-slate-800 transition-all duration-300 w-0 group-hover:w-full" />
+            </Link>
 
-          <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm font-medium transition-all duration-300 relative group ${
-                  pathname === link.href
-                    ? 'text-forest-700'
-                    : 'text-gray-700 hover:text-forest-700'
-                }`}
-              >
-                {t(link.label)}
-                <span className={`absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-forest-600 to-forest-800 transition-all duration-300 ${
-                  pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'
-                }`} />
-              </Link>
-            ))}
-            <UserDropdown />
-            <LanguageToggle />
-          </div>
-
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-lg hover:bg-forest-50 transition-colors"
-          >
-            <svg className="w-6 h-6 text-forest-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {mobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="lg:hidden pb-3 opacity-100 transform translate-y-0 transition-all duration-300 max-h-screen overflow-y-auto">
-            <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-8">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`text-sm font-medium transition-all duration-300 relative group ${
                     pathname === link.href
-                      ? 'bg-gradient-to-r from-forest-50 to-forest-100 text-forest-700 shadow-sm'
-                      : 'text-gray-700 hover:bg-forest-50'
+                      ? 'text-slate-700'
+                      : 'text-gray-700 hover:text-slate-700'
                   }`}
                 >
                   {t(link.label)}
+                  <span className={`absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-slate-600 to-slate-800 transition-all duration-300 ${
+                    pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`} />
                 </Link>
               ))}
-              <UserMobileMenu onLinkClick={() => setMobileMenuOpen(false)} />
-              <div className="px-3 py-1 mt-2">
-                <LanguageToggle />
+              <UserDropdown />
+              <LanguageToggle />
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Navigation Mobile - Ultra-simplifiée avec auto-hide */}
+      <nav className={`md:hidden fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        visible ? 'translate-y-0' : '-translate-y-full'
+      } ${
+        scrolled
+          ? 'bg-white/90 backdrop-blur-md shadow-lg'
+          : 'bg-white/95 backdrop-blur-sm shadow-md'
+      }`}>
+        <div className="px-3 py-2">
+          <div className="flex justify-between items-center">
+            {/* Logo minimaliste */}
+            <Link href="/" className="flex items-center gap-2 py-1">
+              <span className="text-2xl">🏔️</span>
+              <span className="font-bold text-sm text-gray-900">{chaletName}</span>
+            </Link>
+
+            {/* Hamburger icon */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors"
+              aria-label="Menu"
+            >
+              <svg className="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {mobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Menu mobile simplifié - Full screen overlay */}
+        {mobileMenuOpen && (
+          <div className="fixed inset-0 top-14 bg-white z-40 overflow-y-auto animate-in fade-in slide-in-from-top-4 duration-200">
+            <div className="px-4 py-6 space-y-2">
+              {mobileNavLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex items-center gap-3 px-4 py-4 rounded-2xl text-base font-semibold transition-all duration-200 active:scale-95 ${
+                    link.highlight
+                      ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg hover:shadow-xl'
+                      : pathname === link.href
+                        ? 'bg-gray-100 text-gray-900'
+                        : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <span className="text-2xl">{link.icon}</span>
+                  <span>{t(link.label)}</span>
+                </Link>
+              ))}
+
+              {/* User section compact */}
+              <div className="pt-4 mt-4 border-t border-gray-200">
+                <UserMobileMenu onLinkClick={() => setMobileMenuOpen(false)} />
+              </div>
+
+              {/* Language toggle */}
+              <div className="pt-2">
+                <div className="px-4">
+                  <LanguageToggle />
+                </div>
               </div>
             </div>
           </div>
         )}
+      </nav>
+
+      {/* CTA Flottant Mobile - Bouton Réserver persistant */}
+      <div className="md:hidden fixed bottom-4 right-4 z-40">
+        <Link
+          href="/booking"
+          className={`flex items-center gap-2 bg-gradient-to-r from-slate-700 to-slate-800 text-white px-5 py-3 rounded-full font-bold text-sm shadow-2xl hover:shadow-slate-900/50 active:scale-95 transition-all duration-300 ${
+            pathname === '/booking' ? 'scale-0' : 'scale-100'
+          }`}
+        >
+          <span>📅</span>
+          <span>{t({ en: 'Book', fr: 'Réserver' })}</span>
+        </Link>
       </div>
-    </nav>
+    </>
   );
 }
