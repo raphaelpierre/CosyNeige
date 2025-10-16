@@ -445,22 +445,22 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Elegant room with flexible sleeping arrangements. Can be configured as 1 double bed (160x200) + 1 single bed (80x200) or 3 single beds (80x200).',
-                    fr: 'Chambre élégante avec couchages modulables. Configuration en 1 lit double 160x200 + 1 lit simple 80x200 ou 3 lits simples 80x200.'
+                    en: 'Ground floor bedroom with double bed 160x200 and traditional Alpine wardrobe with hanging space.',
+                    fr: 'Chambre au rez-de-chaussée avec lit double 160x200 et armoire traditionnelle alpine avec penderie.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🛏️</span>
-                    <span>{t({ en: '1 Double 160x200 + 1 Single 80x200 OR 3 Singles 80x200', fr: '1 lit double 160x200 + 1 simple 80x200 OU 3 lits simples 80x200' })}</span>
+                    <span>{t({ en: 'Double Bed 160x200', fr: 'Lit double 160x200' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🚪</span>
-                    <span>{t({ en: 'Double Walk-in Dressing', fr: 'Double Dressing' })}</span>
+                    <span>{t({ en: 'Traditional Alpine Wardrobe', fr: 'Armoire Traditionnelle Alpine' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🏔️</span>
-                    <span>{t({ en: 'Balcony Access', fr: 'Accès Balcon' })}</span>
+                    <span>{t({ en: 'Ground Floor Access', fr: 'Accès Rez-de-Chaussée' })}</span>
                   </li>
                 </ul>
               </div>
@@ -484,14 +484,14 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Cozy room with flexible sleeping: 3 single beds (80x200) or modular setup as 1 double (160x200) + 1 single (80x200).',
-                    fr: 'Chambre cosy avec couchages flexibles : 3 lits simples 80x200 modulables en 1 lit double 160x200 + 1 lit simple 80x200.'
+                    en: 'Elegant room with flexible sleeping arrangements. Can be configured as 1 double bed 160x200 + 1 single bed 80x200 or 3 single beds 80x200.',
+                    fr: 'Chambre élégante avec couchages modulables. Configuration en 1 lit double 160x200 + 1 lit simple 80x200 ou 3 lits simples 80x200.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🛏️</span>
-                    <span>{t({ en: '3 Singles 80x200 OR 1 Double 160x200 + 1 Single 80x200', fr: '3 lits simples 80x200 OU 1 double 160x200 + 1 simple 80x200' })}</span>
+                    <span>{t({ en: '1 Double 160x200 + 1 Single 80x200 OR 3 Singles 80x200', fr: '1 lit double 160x200 + 1 simple 80x200 OU 3 lits simples 80x200' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🌿</span>
@@ -523,18 +523,18 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Ground floor bedroom with double bed (160x200) and traditional alpine wardrobe.',
-                    fr: 'Chambre au rez-de-chaussée avec lit double 160x200 et armoire traditionnelle alpine avec penderie.'
+                    en: 'Flexible family dormitory: 3 beds (80x200) that can be converted into 1 double bed (160x200) + 1 single bed (80x200), with small closet.',
+                    fr: '3 lits 80 x 200 modulable en 1 lit double 160 x 200 et 1 lit simple 80 x 200, petite penderie.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🛏️</span>
-                    <span>{t({ en: 'Double Bed 160x200', fr: 'Lit Double 160x200' })}</span>
+                    <span>{t({ en: '3 Singles 80x200 OR 1 Double 160x200 + 1 Single 80x200', fr: '3 lits 80x200 OU 1 double 160x200 + 1 simple 80x200' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🚪</span>
-                    <span>{t({ en: 'Traditional Wardrobe', fr: 'Armoire Traditionnelle' })}</span>
+                    <span>{t({ en: 'Small Closet', fr: 'Petite Penderie' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🪑</span>

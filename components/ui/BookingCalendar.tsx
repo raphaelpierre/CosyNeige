@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/lib/hooks/useLanguage';
-import { fetchSeasons, findSeasonForDate, type SeasonPeriod, type PricingSettings } from '@/lib/utils/pricing';
+import { fetchSeasons, findSeasonForDate, type SeasonPeriod } from '@/lib/utils/pricing';
 
 interface BookedPeriod {
   start: Date;
@@ -20,7 +20,6 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
   const [selectedCheckOut, setSelectedCheckOut] = useState<Date | null>(null);
   const [bookedPeriods, setBookedPeriods] = useState<BookedPeriod[]>([]);
   const [seasons, setSeasons] = useState<SeasonPeriod[]>([]);
-  const [pricingSettings, setPricingSettings] = useState<PricingSettings | null>(null);
   const [loading, setLoading] = useState(true);
 
   // Récupérer les périodes réservées et les saisons depuis l'API
@@ -49,9 +48,8 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
 
   const loadSeasons = async () => {
     try {
-      const { seasons: loadedSeasons, pricingSettings: loadedPricingSettings } = await fetchSeasons();
+      const { seasons: loadedSeasons } = await fetchSeasons();
       setSeasons(loadedSeasons);
-      setPricingSettings(loadedPricingSettings);
     } catch (error) {
       console.error('Error loading seasons:', error);
     } finally {
@@ -129,10 +127,10 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
       // Première sélection : check-in
       setSelectedCheckIn(localDate);
 
-      // Vérifier si la date est dans une période de vacances scolaires (minimum 7 nuits)
+      // Vérifier si la date est en haute saison (minimum 7 nuits)
       const season = findSeasonForDate(localDate, seasons);
       if (season && season.minimumStay >= 7) {
-        // Auto-calculer la date de checkout : +7 jours
+        // Auto-sélectionner 7 jours
         const autoCheckOut = new Date(localDate);
         autoCheckOut.setDate(localDate.getDate() + 7);
         setSelectedCheckOut(autoCheckOut);
@@ -165,7 +163,8 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
       } else {
         // Cliquer entre les deux dates : recommencer avec cette date comme check-in
         setSelectedCheckIn(localDate);
-        // Vérifier aussi ici pour l'auto-calcul
+
+        // Vérifier aussi ici si on doit auto-sélectionner 7 jours
         const season = findSeasonForDate(localDate, seasons);
         if (season && season.minimumStay >= 7) {
           const autoCheckOut = new Date(localDate);
