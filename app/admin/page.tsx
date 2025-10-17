@@ -52,13 +52,13 @@ interface Message {
   message?: string; // Pour compatibilité avec l'affichage
 }
 
-type TabType = 'dashboard' | 'reservations' | 'users' | 'messages' | 'invoices' | 'accounting' | 'calendar' | 'settings';
+type TabType = 'reservations' | 'users' | 'messages' | 'invoices' | 'accounting' | 'calendar' | 'settings';
 
 export default function AdminPage() {
   const { t, language } = useLanguage();
   const { user, isAuthenticated, loading, logout } = useAuth();
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<TabType>('dashboard');
+  const [activeTab, setActiveTab] = useState<TabType>('reservations');
   const [currentCalendarDate, setCurrentCalendarDate] = useState(new Date());
 
   // Données depuis l'API
@@ -932,7 +932,6 @@ export default function AdminPage() {
 
 
   const tabs = [
-    { id: 'dashboard' as TabType, icon: '📊', label: { en: 'Dashboard', fr: 'Tableau de Bord' } },
     { id: 'reservations' as TabType, icon: '📅', label: { en: 'Reservations', fr: 'Réservations' } },
     { id: 'users' as TabType, icon: '�', label: { en: 'Users', fr: 'Utilisateurs' } },
     { id: 'messages' as TabType, icon: '💬', label: { en: 'Messages', fr: 'Messages' } },
@@ -1080,239 +1079,7 @@ export default function AdminPage() {
 
           {/* Content Container */}
           <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 lg:p-8">
-            {activeTab === 'dashboard' && (
-              <div>
-                {/* Header with date and quick stats */}
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3">
-                  <div>
-                    <h2 className="text-2xl font-bold text-gray-900">
-                      {t({ en: 'Dashboard', fr: 'Tableau de Bord' })}
-                    </h2>
-                    <p className="text-sm text-gray-500 mt-1">
-                      {new Date().toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </p>
-                  </div>
-
-                  {/* Quick Alert Badges */}
-                  <div className="flex gap-2">
-                    {messages.filter(m => !m.read).length > 0 && (
-                      <button
-                        onClick={() => setActiveTab('messages')}
-                        className="flex items-center gap-2 bg-amber-100 hover:bg-amber-200 text-amber-800 px-3 py-2 rounded-lg transition-colors text-sm font-medium"
-                      >
-                        <span className="relative">
-                          💬
-                          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                            {messages.filter(m => !m.read).length}
-                          </span>
-                        </span>
-                        <span className="hidden sm:inline">{t({ en: 'New Messages', fr: 'Nouveaux Messages' })}</span>
-                      </button>
-                    )}
-                    {reservations.filter(r => r.status === 'pending').length > 0 && (
-                      <button
-                        onClick={() => setActiveTab('reservations')}
-                        className="flex items-center gap-2 bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-2 rounded-lg transition-colors text-sm font-medium"
-                      >
-                        <span className="relative">
-                          📅
-                          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                            {reservations.filter(r => r.status === 'pending').length}
-                          </span>
-                        </span>
-                        <span className="hidden sm:inline">{t({ en: 'Pending', fr: 'En Attente' })}</span>
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                {/* Key Metrics - Compact Row */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
-                  {/* Revenue - Most Important */}
-                  <button
-                    onClick={() => setActiveTab('reservations')}
-                    className="bg-white rounded-xl shadow-md hover:shadow-lg p-4 border-2 border-emerald-200 hover:border-emerald-300 transition-all text-left group"
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="text-3xl">💰</div>
-                      <div className="flex-1">
-                        <p className="text-xs text-gray-500 font-medium uppercase">{t({ en: 'Revenue', fr: 'Revenu' })}</p>
-                        <p className="text-2xl font-bold text-emerald-600 group-hover:text-emerald-700">
-                          {formatEuro(reservations.filter(r => r.status === 'confirmed').reduce((sum, r) => sum + (r.totalPrice || 0), 0))}
-                        </p>
-                      </div>
-                    </div>
-                    <p className="text-xs text-gray-500">{reservations.filter(r => r.status === 'confirmed').length} {t({ en: 'confirmed bookings', fr: 'réservations confirmées' })}</p>
-                  </button>
-
-                  {/* Reservations */}
-                  <button
-                    onClick={() => setActiveTab('reservations')}
-                    className="bg-white rounded-xl shadow-md hover:shadow-lg p-4 border-2 border-blue-200 hover:border-blue-300 transition-all text-left group"
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="text-3xl">📅</div>
-                      <div className="flex-1">
-                        <p className="text-xs text-gray-500 font-medium uppercase">{t({ en: 'Reservations', fr: 'Réservations' })}</p>
-                        <p className="text-2xl font-bold text-blue-600 group-hover:text-blue-700">{reservations.length}</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2 text-xs">
-                      <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded font-medium">{reservations.filter(r => r.status === 'pending').length} {t({ en: 'pending', fr: 'attente' })}</span>
-                      <span className="bg-green-100 text-green-700 px-2 py-1 rounded font-medium">{reservations.filter(r => r.status === 'confirmed').length} {t({ en: 'confirmed', fr: 'confirmées' })}</span>
-                    </div>
-                  </button>
-
-                  {/* Messages */}
-                  <button
-                    onClick={() => setActiveTab('messages')}
-                    className="bg-white rounded-xl shadow-md hover:shadow-lg p-4 border-2 border-purple-200 hover:border-purple-300 transition-all text-left group"
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="text-3xl relative">
-                        💬
-                        {messages.filter(m => !m.read).length > 0 && (
-                          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                            {messages.filter(m => !m.read).length}
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-xs text-gray-500 font-medium uppercase">{t({ en: 'Messages', fr: 'Messages' })}</p>
-                        <p className="text-2xl font-bold text-purple-600 group-hover:text-purple-700">{messages.length}</p>
-                      </div>
-                    </div>
-                    <p className="text-xs text-gray-500">
-                      {messages.filter(m => !m.read).length} {t({ en: 'unread', fr: 'non lus' })}
-                    </p>
-                  </button>
-
-                  {/* Users */}
-                  <button
-                    onClick={() => setActiveTab('users')}
-                    className="bg-white rounded-xl shadow-md hover:shadow-lg p-4 border-2 border-slate-200 hover:border-slate-300 transition-all text-left group"
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="text-3xl">👥</div>
-                      <div className="flex-1">
-                        <p className="text-xs text-gray-500 font-medium uppercase">{t({ en: 'Users', fr: 'Utilisateurs' })}</p>
-                        <p className="text-2xl font-bold text-slate-600 group-hover:text-slate-700">{users.length}</p>
-                      </div>
-                    </div>
-                    <p className="text-xs text-gray-500">
-                      {users.filter(u => u.role === 'client').length} {t({ en: 'clients', fr: 'clients' })} · {users.filter(u => u.role === 'admin').length} {t({ en: 'admins', fr: 'admins' })}
-                    </p>
-                  </button>
-                </div>
-
-                {/* Two Column Layout */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  {/* Recent Reservations - Takes 2 columns */}
-                  <div className="lg:col-span-2 bg-white rounded-xl shadow-md p-6 border border-gray-200">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-bold text-gray-900">
-                        {t({ en: 'Recent Reservations', fr: 'Réservations Récentes' })}
-                      </h3>
-                      <button
-                        onClick={() => setActiveTab('reservations')}
-                        className="text-sm text-slate-700 hover:text-slate-900 font-medium flex items-center gap-1"
-                      >
-                        {t({ en: 'View all', fr: 'Voir tout' })} →
-                      </button>
-                    </div>
-                    <div className="space-y-2">
-                      {reservations.slice(0, 5).map(reservation => (
-                        <button
-                          key={reservation.id}
-                          onClick={() => setActiveTab('reservations')}
-                          className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left group"
-                        >
-                          <div className="flex-1 min-w-0">
-                            <p className="font-medium text-gray-900 truncate">{reservation.guestName}</p>
-                            <p className="text-xs text-gray-600">
-                              {new Date(reservation.checkIn).toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US', { month: 'short', day: 'numeric' })} - {new Date(reservation.checkOut).toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2 ml-3">
-                            <span className="text-sm font-bold text-gray-700">{formatEuro(reservation.totalPrice || 0)}</span>
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ${getStatusColor(reservation.status)}`}>
-                              {reservation.status === 'pending' && '⏳'}
-                              {reservation.status === 'confirmed' && '✅'}
-                              {reservation.status === 'cancelled' && '❌'}
-                            </span>
-                          </div>
-                        </button>
-                      ))}
-                      {reservations.length === 0 && (
-                        <div className="text-center py-8">
-                          <div className="text-4xl mb-2">📅</div>
-                          <p className="text-gray-500">{t({ en: 'No reservations yet', fr: 'Aucune réservation pour le moment' })}</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Right Sidebar - Quick Actions & Stats */}
-                  <div className="space-y-6">
-                    {/* Quick Actions */}
-                    <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-                      <h3 className="text-lg font-bold text-gray-900 mb-4">
-                        {t({ en: 'Quick Actions', fr: 'Actions Rapides' })}
-                      </h3>
-                      <div className="space-y-2">
-                        <button
-                          onClick={() => setActiveTab('calendar')}
-                          className="w-full flex items-center gap-3 p-3 bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 rounded-lg transition-all text-left group border border-blue-200"
-                        >
-                          <span className="text-2xl">🗓️</span>
-                          <span className="font-medium text-blue-900">{t({ en: 'View Calendar', fr: 'Voir Calendrier' })}</span>
-                        </button>
-                        <button
-                          onClick={() => setActiveTab('invoices')}
-                          className="w-full flex items-center gap-3 p-3 bg-gradient-to-r from-orange-50 to-orange-100 hover:from-orange-100 hover:to-orange-200 rounded-lg transition-all text-left group border border-orange-200"
-                        >
-                          <span className="text-2xl">🧾</span>
-                          <span className="font-medium text-orange-900">{t({ en: 'Invoices', fr: 'Factures' })}</span>
-                        </button>
-                        <button
-                          onClick={() => setActiveTab('settings')}
-                          className="w-full flex items-center gap-3 p-3 bg-gradient-to-r from-slate-50 to-slate-100 hover:from-slate-100 hover:to-slate-200 rounded-lg transition-all text-left group border border-slate-200"
-                        >
-                          <span className="text-2xl">⚙️</span>
-                          <span className="font-medium text-slate-900">{t({ en: 'Settings', fr: 'Paramètres' })}</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Payment Status */}
-                    <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-                      <h3 className="text-sm font-bold text-gray-700 uppercase mb-3">
-                        {t({ en: 'Payment Status', fr: 'État des Paiements' })}
-                      </h3>
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm text-gray-600">{t({ en: 'Paid', fr: 'Payées' })}</span>
-                          <span className="text-lg font-bold text-green-600">{invoices.filter(i => i.status === 'paid').length}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm text-gray-600">{t({ en: 'Pending', fr: 'En Attente' })}</span>
-                          <span className="text-lg font-bold text-orange-600">{invoices.filter(i => i.status === 'pending').length}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm text-gray-600">{t({ en: 'Overdue', fr: 'En Retard' })}</span>
-                          <span className="text-lg font-bold text-red-600">{invoices.filter(i => i.status === 'overdue').length}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+            {/* Dashboard section removed - admin lands directly on reservations */}
 
             {activeTab === 'reservations' && (
               <div>
