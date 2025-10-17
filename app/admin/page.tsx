@@ -974,14 +974,44 @@ export default function AdminPage() {
               </div>
             </div>
 
-            {/* Logout */}
-            <button
-              onClick={logout}
-              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors focus:outline-none"
-            >
-              <span>🚪</span>
-              <span className="hidden sm:inline">{t({ en: 'Logout', fr: 'Déconnexion' })}</span>
-            </button>
+            {/* Quick Stats & Logout */}
+            <div className="flex items-center gap-4">
+              {/* Quick notifications badges */}
+              <div className="hidden md:flex items-center gap-3">
+                {reservations.filter(r => r.status === 'pending').length > 0 && (
+                  <button
+                    onClick={() => {
+                      setActiveTab('reservations');
+                      setStatusFilter('pending');
+                    }}
+                    className="flex items-center gap-2 px-3 py-1.5 bg-amber-50 text-amber-700 rounded-lg hover:bg-amber-100 transition-colors"
+                    title={t({ en: 'Pending reservations', fr: 'Réservations en attente' })}
+                  >
+                    <span className="text-sm">⏳</span>
+                    <span className="font-semibold text-sm">{reservations.filter(r => r.status === 'pending').length}</span>
+                  </button>
+                )}
+                {messages.filter(m => !m.read).length > 0 && (
+                  <button
+                    onClick={() => setActiveTab('messages')}
+                    className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors"
+                    title={t({ en: 'Unread messages', fr: 'Messages non lus' })}
+                  >
+                    <span className="text-sm">💬</span>
+                    <span className="font-semibold text-sm">{messages.filter(m => !m.read).length}</span>
+                  </button>
+                )}
+              </div>
+
+              {/* Logout */}
+              <button
+                onClick={logout}
+                className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors focus:outline-none"
+              >
+                <span>🚪</span>
+                <span className="hidden sm:inline">{t({ en: 'Logout', fr: 'Déconnexion' })}</span>
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -995,6 +1025,67 @@ export default function AdminPage() {
 
             {activeTab === 'reservations' && (
               <div>
+                {/* Quick Summary Cards */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                  <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-4 border border-amber-200">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs font-medium text-amber-700 mb-1">
+                          {t({ en: 'Pending', fr: 'En attente' })}
+                        </p>
+                        <p className="text-2xl font-bold text-amber-900">
+                          {reservations.filter(r => r.status === 'pending').length}
+                        </p>
+                      </div>
+                      <div className="text-2xl">⏳</div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs font-medium text-green-700 mb-1">
+                          {t({ en: 'Confirmed', fr: 'Confirmées' })}
+                        </p>
+                        <p className="text-2xl font-bold text-green-900">
+                          {reservations.filter(r => r.status === 'confirmed').length}
+                        </p>
+                      </div>
+                      <div className="text-2xl">✅</div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs font-medium text-blue-700 mb-1">
+                          {t({ en: 'Total', fr: 'Total' })}
+                        </p>
+                        <p className="text-2xl font-bold text-blue-900">
+                          {reservations.length}
+                        </p>
+                      </div>
+                      <div className="text-2xl">📋</div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-200">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs font-medium text-purple-700 mb-1">
+                          {t({ en: 'Revenue', fr: 'Revenus' })}
+                        </p>
+                        <p className="text-xl font-bold text-purple-900">
+                          {new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(
+                            reservations.filter(r => r.status === 'confirmed').reduce((sum, r) => sum + r.totalPrice, 0)
+                          )}
+                        </p>
+                      </div>
+                      <div className="text-2xl">💰</div>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-3">
                   <div>
                     <h2 className="text-lg sm:text-xl font-bold text-gray-900">
