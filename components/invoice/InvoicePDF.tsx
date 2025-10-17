@@ -1,34 +1,43 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import jsPDF from 'jspdf';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 
-interface Reservation {
+interface InvoiceData {
   id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
+  invoiceNumber: string;
+  clientName: string;
+  clientEmail: string;
+  clientPhone?: string;
   checkIn: string | Date;
   checkOut: string | Date;
-  guests: number;
-  totalPrice: number;
+  guests?: number;
+  totalAmount: number;
+  nights?: number;
+  baseAmount?: number;
+  pricePerNight?: number;
+  cleaningFee?: number;
+  linenFee?: number;
+  taxAmount?: number;
   depositAmount?: number;
-  paymentStatus?: string;
+  status?: string;
   createdAt: string | Date;
+  notes?: string;
 }
 
-interface InvoiceGeneratorProps {
-  reservation: Reservation;
+interface InvoicePDFProps {
+  invoice: InvoiceData;
   onClose: () => void;
+  autoGenerate?: boolean;
 }
 
-export default function InvoiceGenerator({ reservation, onClose }: InvoiceGeneratorProps) {
+export default function InvoicePDF({ invoice, onClose, autoGenerate = false }: InvoicePDFProps) {
   const { t } = useLanguage();
+  const generated = useRef(false);
 
   const formatDate = (date: string | Date) => {
-    const d = new Date(date);
-    return d.toLocaleDateString('fr-FR', {
+    return new Date(date).toLocaleDateString('fr-FR', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric'
@@ -43,48 +52,40 @@ export default function InvoiceGenerator({ reservation, onClose }: InvoiceGenera
   };
 
   const calculateNights = () => {
-    const checkIn = new Date(reservation.checkIn);
-    const checkOut = new Date(reservation.checkOut);
-    const diffTime = Math.abs(checkOut.getTime() - checkIn.getTime());
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  };
-
-  const generateInvoiceNumber = () => {
-    const date = new Date(reservation.createdAt);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const reservationId = reservation.id.slice(-6).toUpperCase();
-    return `CHB${year}${month}${day}-${reservationId}`;
+    if (invoice.nights) return invoice.nights;
+    const checkIn = new Date(invoice.checkIn);
+    const checkOut = new Date(invoice.checkOut);
+    return Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
   };
 
   const generatePDF = () => {
     try {
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pageWidth = 210;
+      const pageHeight = 297;
       const margin = 15;
       const contentWidth = pageWidth - (margin * 2);
       let y = margin;
 
-      // Configuration
+      // Configuration des polices
       pdf.setFont('helvetica');
 
-      // HEADER
+      // HEADER - Logo et titre
       pdf.setFontSize(24);
       pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(30, 41, 59);
+      pdf.setTextColor(30, 41, 59); // slate-800
       pdf.text('🏔️ Chalet Balmotte810', margin, y);
       y += 6;
 
       pdf.setFontSize(9);
       pdf.setFont('helvetica', 'normal');
-      pdf.setTextColor(75, 85, 99);
+      pdf.setTextColor(75, 85, 99); // gray-600
       pdf.text('810 rte de Balmotte, Châtillon-sur-Cluses, 74300', margin, y);
       y += 4;
       pdf.text('+33 6 85 85 84 91 • contact@chalet-balmotte810.com • SIRET: 123 456 789 00012', margin, y);
       y += 10;
 
-      // FACTURE header
+      // FACTURE header à droite
       pdf.setFontSize(18);
       pdf.setFont('helvetica', 'bold');
       pdf.setTextColor(30, 41, 59);
@@ -92,43 +93,43 @@ export default function InvoiceGenerator({ reservation, onClose }: InvoiceGenera
 
       pdf.setFontSize(10);
       pdf.setFont('helvetica', 'bold');
-      pdf.text(`N° ${generateInvoiceNumber()}`, pageWidth - margin, 22, { align: 'right' });
+      pdf.text(`N° ${invoice.invoiceNumber}`, pageWidth - margin, 22, { align: 'right' });
 
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(9);
       pdf.text(formatDate(new Date()), pageWidth - margin, 27, { align: 'right' });
 
       // Ligne de séparation
-      pdf.setDrawColor(226, 232, 240);
+      pdf.setDrawColor(226, 232, 240); // gray-200
       pdf.line(margin, y, pageWidth - margin, y);
       y += 8;
 
-      // CLIENT ET DETAILS
+      // CLIENT ET DETAILS - Côte à côte
       const colWidth = (contentWidth - 5) / 2;
 
-      // Client
+      // Colonne gauche - Client
       pdf.setFontSize(10);
       pdf.setFont('helvetica', 'bold');
       pdf.setTextColor(30, 41, 59);
       pdf.text('Facturer à:', margin, y);
       y += 5;
 
-      pdf.setFillColor(249, 250, 251);
+      pdf.setFillColor(249, 250, 251); // gray-50
       pdf.rect(margin, y - 3, colWidth, 18, 'F');
 
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(9);
       pdf.setTextColor(17, 24, 39);
-      pdf.text(`${reservation.firstName} ${reservation.lastName}`, margin + 2, y);
+      pdf.text(invoice.clientName, margin + 2, y);
       y += 4;
 
       pdf.setFont('helvetica', 'normal');
       pdf.setTextColor(55, 65, 81);
-      pdf.text(reservation.email, margin + 2, y);
+      pdf.text(invoice.clientEmail, margin + 2, y);
       y += 4;
-      pdf.text(reservation.phone, margin + 2, y);
+      pdf.text(invoice.clientPhone || '', margin + 2, y);
 
-      // Détails
+      // Colonne droite - Détails réservation
       let yRight = y - 13;
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(10);
@@ -136,30 +137,31 @@ export default function InvoiceGenerator({ reservation, onClose }: InvoiceGenera
       pdf.text('Détails:', pageWidth - margin - colWidth, yRight);
       yRight += 5;
 
-      pdf.setFillColor(239, 246, 255);
+      pdf.setFillColor(239, 246, 255); // blue-50
       pdf.rect(pageWidth - margin - colWidth, yRight - 3, colWidth, 18, 'F');
 
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(9);
       pdf.setTextColor(55, 65, 81);
 
-      pdf.text(`Arrivée: ${formatDate(reservation.checkIn)}`, pageWidth - margin - colWidth + 2, yRight);
+      const nights = calculateNights();
+      pdf.text(`Arrivée: ${formatDate(invoice.checkIn)}`, pageWidth - margin - colWidth + 2, yRight);
       yRight += 4;
-      pdf.text(`Départ: ${formatDate(reservation.checkOut)}`, pageWidth - margin - colWidth + 2, yRight);
+      pdf.text(`Départ: ${formatDate(invoice.checkOut)}`, pageWidth - margin - colWidth + 2, yRight);
       yRight += 4;
-      pdf.text(`Durée: ${nights} nuit${nights > 1 ? 's' : ''} • ${reservation.guests} pers.`, pageWidth - margin - colWidth + 2, yRight);
+      pdf.text(`Durée: ${nights} nuit${nights > 1 ? 's' : ''} • ${invoice.guests || 2} pers.`, pageWidth - margin - colWidth + 2, yRight);
 
       y += 20;
 
-      // TABLEAU
+      // TABLEAU DES SERVICES
       pdf.setFontSize(10);
       pdf.setFont('helvetica', 'bold');
       pdf.setTextColor(30, 41, 59);
       pdf.text('Détail des prestations', margin, y);
       y += 6;
 
-      // Header tableau
-      pdf.setFillColor(226, 232, 240);
+      // Header du tableau
+      pdf.setFillColor(226, 232, 240); // gray-200
       pdf.rect(margin, y - 4, contentWidth, 6, 'F');
 
       pdf.setFontSize(8);
@@ -171,51 +173,60 @@ export default function InvoiceGenerator({ reservation, onClose }: InvoiceGenera
       pdf.text('Total HT', pageWidth - margin - 2, y, { align: 'right' });
       y += 6;
 
-      // Ligne
+      // Lignes du tableau
       pdf.setFont('helvetica', 'normal');
       pdf.setDrawColor(229, 231, 235);
 
+      const vatRate = 0.10;
+      const priceExVat = invoice.totalAmount / (1 + vatRate);
+      const pricePerNight = invoice.pricePerNight || (priceExVat / nights);
+
+      // Location
       pdf.text('Location Chalet', margin + 2, y);
-      pdf.text(`${formatDate(reservation.checkIn)} - ${formatDate(reservation.checkOut)}`, margin + 2, y + 3);
+      pdf.text(`${formatDate(invoice.checkIn)} - ${formatDate(invoice.checkOut)}`, margin + 2, y + 3);
       pdf.text(nights.toString(), pageWidth - margin - 60, y, { align: 'right' });
       pdf.text(formatEuro(pricePerNight / (1 + vatRate)), pageWidth - margin - 40, y, { align: 'right' });
-      pdf.text(formatEuro(priceExVat), pageWidth - margin - 2, y, { align: 'right' });
+      pdf.text(formatEuro((pricePerNight * nights) / (1 + vatRate)), pageWidth - margin - 2, y, { align: 'right' });
       pdf.line(margin, y + 4, pageWidth - margin, y + 4);
-      y += 12;
+      y += 8;
 
       // Totaux
+      y += 4;
+      const subtotalHT = priceExVat;
+      const vatAmount = invoice.totalAmount - priceExVat;
+
       pdf.setFontSize(9);
       pdf.text('Sous-total HT:', pageWidth - margin - 40, y);
-      pdf.text(formatEuro(priceExVat), pageWidth - margin - 2, y, { align: 'right' });
+      pdf.text(formatEuro(subtotalHT), pageWidth - margin - 2, y, { align: 'right' });
       y += 5;
 
       pdf.text('TVA (10%):', pageWidth - margin - 40, y);
       pdf.text(formatEuro(vatAmount), pageWidth - margin - 2, y, { align: 'right' });
       y += 6;
 
-      // Total
+      // Total TTC
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(11);
       pdf.setDrawColor(75, 85, 99);
       pdf.line(pageWidth - margin - 50, y - 1, pageWidth - margin, y - 1);
       pdf.text('Total TTC:', pageWidth - margin - 40, y + 4);
-      pdf.text(formatEuro(reservation.totalPrice), pageWidth - margin - 2, y + 4, { align: 'right' });
+      pdf.text(formatEuro(invoice.totalAmount), pageWidth - margin - 2, y + 4, { align: 'right' });
       y += 10;
 
-      // Acompte
-      if (reservation.depositAmount && reservation.depositAmount > 0) {
-        pdf.setFillColor(240, 253, 244);
+      // Acompte si présent
+      if (invoice.depositAmount && invoice.depositAmount > 0) {
+        pdf.setFillColor(240, 253, 244); // green-50
         pdf.rect(pageWidth - margin - 55, y, 55, 12, 'F');
 
         pdf.setFont('helvetica', 'normal');
         pdf.setFontSize(9);
-        pdf.setTextColor(21, 128, 61);
+        pdf.setTextColor(21, 128, 61); // green-700
         pdf.text('Acompte versé:', pageWidth - margin - 53, y + 4);
-        pdf.text(formatEuro(reservation.depositAmount), pageWidth - margin - 2, y + 4, { align: 'right' });
+        pdf.text(formatEuro(invoice.depositAmount), pageWidth - margin - 2, y + 4, { align: 'right' });
 
         pdf.setFont('helvetica', 'bold');
         pdf.text('Reste à payer:', pageWidth - margin - 53, y + 9);
-        pdf.text(formatEuro(reservation.totalPrice - reservation.depositAmount), pageWidth - margin - 2, y + 9, { align: 'right' });
+        pdf.text(formatEuro(invoice.totalAmount - invoice.depositAmount), pageWidth - margin - 2, y + 9, { align: 'right' });
         y += 14;
       }
 
@@ -255,20 +266,23 @@ export default function InvoiceGenerator({ reservation, onClose }: InvoiceGenera
       pdf.setTextColor(107, 114, 128);
       pdf.text('Facture générée automatiquement - Location saisonnière', pageWidth / 2, y, { align: 'center' });
 
-      const fileName = `Facture_${generateInvoiceNumber()}_${reservation.lastName}.pdf`;
+      // Sauvegarder
+      const fileName = `Facture_${invoice.invoiceNumber}_${invoice.clientName.replace(/\s+/g, '_')}.pdf`;
       pdf.save(fileName);
 
+      onClose();
     } catch (error) {
       console.error('Erreur lors de la génération du PDF:', error);
-      alert('Erreur lors de la génération de la facture. Veuillez réessayer.');
+      alert(t({ en: 'Error generating PDF', fr: 'Erreur lors de la génération du PDF' }));
     }
   };
 
-  const nights = calculateNights();
-  const pricePerNight = reservation.totalPrice / nights;
-  const vatRate = 0.10; // 10% de TVA
-  const priceExVat = reservation.totalPrice / (1 + vatRate);
-  const vatAmount = reservation.totalPrice - priceExVat;
+  useEffect(() => {
+    if (autoGenerate && !generated.current) {
+      generated.current = true;
+      generatePDF();
+    }
+  }, [autoGenerate]);
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -288,9 +302,9 @@ export default function InvoiceGenerator({ reservation, onClose }: InvoiceGenera
         <div className="space-y-4">
           <div className="bg-gray-50 rounded-lg p-4">
             <h3 className="font-semibold text-gray-900 mb-2">Facture</h3>
-            <p className="text-sm text-gray-600">N° {generateInvoiceNumber()}</p>
-            <p className="text-sm text-gray-600">Client: {reservation.firstName} {reservation.lastName}</p>
-            <p className="text-sm text-gray-600">Montant: {formatEuro(reservation.totalPrice)}</p>
+            <p className="text-sm text-gray-600">N° {invoice.invoiceNumber}</p>
+            <p className="text-sm text-gray-600">Client: {invoice.clientName}</p>
+            <p className="text-sm text-gray-600">Montant: {formatEuro(invoice.totalAmount)}</p>
           </div>
 
           <div className="flex gap-3">
@@ -308,7 +322,6 @@ export default function InvoiceGenerator({ reservation, onClose }: InvoiceGenera
             </button>
           </div>
         </div>
-
       </div>
     </div>
   );

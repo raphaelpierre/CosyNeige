@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import { useAuth } from '@/lib/context/AuthContext';
 import { formatEuro } from '@/lib/utils';
-import AdminInvoiceGeneratorFixed from '@/components/invoice/AdminInvoiceGeneratorFixed';
+import InvoicePDF from '@/components/invoice/InvoicePDF';
 import InvoiceModal from '@/components/invoice/InvoiceModal';
 
 interface User {
@@ -961,7 +961,7 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Top Header - Unified for desktop and mobile */}
+      {/* Top Header - Simple */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -973,24 +973,6 @@ export default function AdminPage() {
                 <p className="text-xs text-gray-500 hidden sm:block">Chalet-Balmotte810</p>
               </div>
             </div>
-
-            {/* Navigation Desktop - Horizontal */}
-            <nav className="hidden md:flex items-center gap-1">
-              {tabs.map(tab => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all focus:outline-none ${
-                    activeTab === tab.id
-                      ? 'bg-slate-900 text-white shadow-sm'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
-                >
-                  <span className="text-base">{tab.icon}</span>
-                  <span className="hidden lg:inline">{t(tab.label)}</span>
-                </button>
-              ))}
-            </nav>
 
             {/* Logout */}
             <button
@@ -1005,77 +987,7 @@ export default function AdminPage() {
       </header>
 
       {/* Main Content */}
-      <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-7xl mx-auto pb-24 md:pb-8">
-          {/* Stats Cards - Mobile Responsive */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
-          <button
-            onClick={() => setActiveTab('reservations')}
-            className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
-            title={t({ en: 'View all reservations', fr: 'Voir toutes les réservations' })}
-          >
-            <div className="text-center sm:flex sm:items-center sm:justify-between">
-              <div className="sm:text-left">
-                <p className="text-xs sm:text-sm text-gray-600">{t({ en: 'Total', fr: 'Total' })}</p>
-                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-forest-900 mt-1">{reservations.length}</p>
-              </div>
-              <div className="text-2xl sm:text-3xl lg:text-4xl mt-2 sm:mt-0">📊</div>
-            </div>
-          </button>
-
-          <button
-            onClick={() => {
-              setActiveTab('reservations');
-              setStatusFilter('pending');
-            }}
-            className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
-            title={t({ en: 'View pending reservations', fr: 'Voir les réservations en attente' })}
-          >
-            <div className="text-center sm:flex sm:items-center sm:justify-between">
-              <div className="sm:text-left">
-                <p className="text-xs sm:text-sm text-gray-600">{t({ en: 'Pending', fr: 'En Attente' })}</p>
-                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-yellow-600 mt-1">
-                  {reservations.filter(r => r.status === 'pending').length}
-                </p>
-              </div>
-              <div className="text-2xl sm:text-3xl lg:text-4xl mt-2 sm:mt-0">⏳</div>
-            </div>
-          </button>
-
-          <button
-            onClick={() => {
-              setActiveTab('reservations');
-              setStatusFilter('confirmed');
-            }}
-            className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
-            title={t({ en: 'View confirmed reservations', fr: 'Voir les réservations confirmées' })}
-          >
-            <div className="text-center sm:flex sm:items-center sm:justify-between">
-              <div className="sm:text-left">
-                <p className="text-xs sm:text-sm text-gray-600">{t({ en: 'Confirmed', fr: 'Confirmées' })}</p>
-                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-600 mt-1">
-                  {reservations.filter(r => r.status === 'confirmed').length}
-                </p>
-              </div>
-              <div className="text-2xl sm:text-3xl lg:text-4xl mt-2 sm:mt-0">✅</div>
-            </div>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('messages')}
-            className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
-            title={t({ en: 'View unread messages', fr: 'Voir les messages non lus' })}
-          >
-            <div className="text-center sm:flex sm:items-center sm:justify-between">
-              <div className="sm:text-left">
-                <p className="text-xs sm:text-sm text-gray-600">{t({ en: 'Messages', fr: 'Messages' })}</p>
-                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-700 mt-1">
-                  {messages.filter(m => !m.read).length}
-                </p>
-              </div>
-              <div className="text-2xl sm:text-3xl lg:text-4xl mt-2 sm:mt-0">📧</div>
-            </div>
-          </button>
-        </div>
+      <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-7xl mx-auto">
 
           {/* Content Container */}
           <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 lg:p-8">
@@ -3536,7 +3448,7 @@ export default function AdminPage() {
 
       {/* Générateur de PDF pour factures admin */}
       {showInvoicePDF && invoiceForPDF && (
-        <AdminInvoiceGeneratorFixed
+        <InvoicePDF
           invoice={invoiceForPDF}
           onClose={() => {
             setShowInvoicePDF(false);
@@ -3545,10 +3457,10 @@ export default function AdminPage() {
         />
       )}
 
-      {/* Mobile Bottom Navigation */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-2xl z-50">
-        <div className="grid grid-cols-4 gap-1 px-2 py-2">
-          {tabs.slice(0, 8).map(tab => {
+      {/* Navigation mobile sous forme d'onglets horizontaux */}
+      <nav className="md:hidden bg-white border-b border-gray-200 sticky top-16 z-30 shadow-sm overflow-x-auto">
+        <div className="flex gap-2 px-4 py-3">
+          {tabs.map(tab => {
             const hasNotification =
               (tab.id === 'messages' && messages.filter(m => !m.read).length > 0) ||
               (tab.id === 'reservations' && reservations.filter(r => r.status === 'pending').length > 0);
@@ -3557,22 +3469,16 @@ export default function AdminPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative flex flex-col items-center justify-center py-2 px-1 rounded-lg transition-all duration-300 ${
+                className={`relative flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
                   activeTab === tab.id
-                    ? 'bg-slate-900 text-white scale-105'
-                    : 'text-gray-600 hover:bg-gray-100 active:scale-95'
+                    ? 'bg-slate-900 text-white shadow-sm'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
-                <span className={`text-xl mb-0.5 transition-transform ${
-                  activeTab === tab.id ? 'scale-110' : ''
-                }`}>
-                  {tab.icon}
-                </span>
-                <span className="text-[10px] font-medium truncate w-full text-center">
-                  {t(tab.label)}
-                </span>
+                <span className="text-base">{tab.icon}</span>
+                <span>{t(tab.label)}</span>
                 {hasNotification && (
-                  <span className="absolute top-1 right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                  <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                 )}
               </button>
             );
