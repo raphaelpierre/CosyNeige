@@ -98,17 +98,17 @@ export default function Navigation() {
       {/* Navigation Mobile - Ultra-simplifiée */}
       <nav className="md:hidden fixed top-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-sm shadow-md">
         <div className="px-3 py-2.5">
-          <div className="flex justify-between items-center">
-            {/* Logo minimaliste - Plus visible sur mobile */}
-            <Link href="/" className="flex items-center gap-2 py-1 outline-none focus:outline-none">
+          <div className="flex items-center gap-2">
+            {/* Logo et titre - Occupe toute la largeur disponible */}
+            <Link href="/" className="flex items-center gap-2 py-1 flex-1 outline-none focus:outline-none">
               <span className="text-3xl">🏔️</span>
               <span className="font-bold text-base text-gray-900 tracking-tight">{chaletName}</span>
             </Link>
 
-            {/* Hamburger icon */}
+            {/* Hamburger icon - Position fixe à droite */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors outline-none focus:outline-none"
+              className="p-2 rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors outline-none focus:outline-none flex-shrink-0"
               aria-label="Menu"
             >
               <svg className="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
