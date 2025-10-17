@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import { chaletName } from '@/lib/data/chalet';
+import { useAuth } from '@/lib/context/AuthContext';
 
 export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -13,6 +14,7 @@ export default function Navigation() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
   const { t } = useLanguage();
+  const { user, isAuthenticated, loading } = useAuth();
 
   // Navigation complète pour desktop
   const navLinks = [
@@ -82,6 +84,40 @@ export default function Navigation() {
                   }`} />
                 </Link>
               ))}
+
+              {/* Lien Mon Compte */}
+              {loading ? (
+                <div className="flex items-center justify-center w-8 h-8">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-slate-600"></div>
+                </div>
+              ) : (
+                <Link
+                  href={isAuthenticated ? (user?.role === 'admin' ? '/admin' : '/client/dashboard') : '/client/login'}
+                  className={`text-sm font-medium transition-all duration-300 relative group flex items-center gap-2 outline-none focus:outline-none ${
+                    pathname.startsWith('/client') || pathname.startsWith('/admin')
+                      ? 'text-slate-700'
+                      : 'text-gray-700 hover:text-slate-700'
+                  }`}
+                >
+                  {isAuthenticated ? (
+                    <>
+                      <div className="w-7 h-7 bg-slate-700 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                        {user?.firstName?.charAt(0).toUpperCase()}{user?.lastName?.charAt(0).toUpperCase()}
+                      </div>
+                      <span className="hidden lg:block">{user?.firstName}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>👤</span>
+                      <span>{t({ en: 'My Account', fr: 'Mon Compte' })}</span>
+                    </>
+                  )}
+                  <span className={`absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-slate-600 to-slate-800 transition-all duration-300 ${
+                    pathname.startsWith('/client') || pathname.startsWith('/admin') ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`} />
+                </Link>
+              )}
+
               <LanguageToggle />
             </div>
           </div>
@@ -146,8 +182,40 @@ export default function Navigation() {
                   </Link>
                 ))}
 
-                {/* Language toggle */}
+                {/* Mon Compte - Mobile */}
                 <div className="pt-4 mt-4 border-t border-gray-200">
+                  {loading ? (
+                    <div className="flex items-center justify-center py-4">
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-slate-700"></div>
+                    </div>
+                  ) : (
+                    <Link
+                      href={isAuthenticated ? (user?.role === 'admin' ? '/admin' : '/client/dashboard') : '/client/login'}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-3 px-4 py-4 rounded-2xl text-base font-semibold transition-all duration-200 active:scale-95 outline-none focus:outline-none bg-slate-100 text-slate-900 hover:bg-slate-200"
+                    >
+                      {isAuthenticated ? (
+                        <>
+                          <div className="w-8 h-8 bg-slate-700 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                            {user?.firstName?.charAt(0).toUpperCase()}{user?.lastName?.charAt(0).toUpperCase()}
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="text-sm font-bold">{user?.firstName} {user?.lastName}</span>
+                            <span className="text-xs text-slate-600">{t({ en: 'My Account', fr: 'Mon Compte' })}</span>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-2xl">👤</span>
+                          <span>{t({ en: 'My Account', fr: 'Mon Compte' })}</span>
+                        </>
+                      )}
+                    </Link>
+                  )}
+                </div>
+
+                {/* Language toggle */}
+                <div className="pt-2">
                   <div className="px-4">
                     <LanguageToggle />
                   </div>

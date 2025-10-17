@@ -69,191 +69,387 @@ export default function InvoiceGenerator({ reservation, onClose }: InvoiceGenera
       // Configuration
       pdf.setFont('helvetica');
 
-      // HEADER
-      pdf.setFontSize(24);
+      // HEADER - Logo avec bordure élégante
+      pdf.setFillColor(30, 41, 59);
+      pdf.rect(margin, y, contentWidth, 25, 'F');
+
+      pdf.setFontSize(26);
       pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(30, 41, 59);
-      pdf.text('🏔️ Chalet Balmotte810', margin, y);
-      y += 6;
+      pdf.setTextColor(255, 255, 255);
+      pdf.text('CHALET BALMOTTE 810', margin + 3, y + 8);
 
       pdf.setFontSize(9);
       pdf.setFont('helvetica', 'normal');
-      pdf.setTextColor(75, 85, 99);
-      pdf.text('810 rte de Balmotte, Châtillon-sur-Cluses, 74300', margin, y);
-      y += 4;
-      pdf.text('+33 6 85 85 84 91 • contact@chalet-balmotte810.com • SIRET: 123 456 789 00012', margin, y);
-      y += 10;
+      pdf.setTextColor(226, 232, 240);
+      pdf.text('Location saisonniere - Alpes Francaises', margin + 3, y + 13);
 
-      // FACTURE header
-      pdf.setFontSize(18);
+      pdf.setDrawColor(203, 213, 225);
+      pdf.setLineWidth(0.5);
+      pdf.line(margin + 3, y + 15, margin + 80, y + 15);
+
+      pdf.setFontSize(8);
+      pdf.setTextColor(241, 245, 249);
+      pdf.text('810 route de Balmotte', margin + 3, y + 19);
+      pdf.text('Chatillon-sur-Cluses, 74300 France', margin + 3, y + 22);
+
+      y += 28;
+
+      // FACTURE header - Informations légales
+      pdf.setFontSize(8);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(75, 85, 99);
+      pdf.text('Tel: +33 6 85 85 84 91', pageWidth - margin, y - 20, { align: 'right' });
+      pdf.text('Email: contact@chalet-balmotte810.com', pageWidth - margin, y - 17, { align: 'right' });
+      pdf.text('SIRET: 123 456 789 00012', pageWidth - margin, y - 14, { align: 'right' });
+      pdf.text('TVA: FR12345678901', pageWidth - margin, y - 11, { align: 'right' });
+
+      // FACTURE title
+      pdf.setFillColor(241, 245, 249);
+      pdf.rect(pageWidth - margin - 50, y - 6, 50, 12, 'F');
+
+      pdf.setFontSize(20);
       pdf.setFont('helvetica', 'bold');
       pdf.setTextColor(30, 41, 59);
-      pdf.text('FACTURE', pageWidth - margin, 15, { align: 'right' });
+      pdf.text('FACTURE', pageWidth - margin - 25, y, { align: 'center' });
+
+      y += 6;
 
       pdf.setFontSize(10);
       pdf.setFont('helvetica', 'bold');
-      pdf.text(`N° ${generateInvoiceNumber()}`, pageWidth - margin, 22, { align: 'right' });
+      pdf.setTextColor(51, 65, 85);
+      pdf.text(`Numero: ${generateInvoiceNumber()}`, pageWidth - margin, y, { align: 'right' });
+      y += 4;
 
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(9);
-      pdf.text(formatDate(new Date()), pageWidth - margin, 27, { align: 'right' });
+      pdf.setTextColor(100, 116, 139);
+      pdf.text(`Date d'emission: ${formatDate(new Date())}`, pageWidth - margin, y, { align: 'right' });
+      y += 4;
+      pdf.text(`Date d'echeance: ${formatDate(new Date(reservation.checkIn))}`, pageWidth - margin, y, { align: 'right' });
 
       // Ligne de séparation
       pdf.setDrawColor(226, 232, 240);
-      pdf.line(margin, y, pageWidth - margin, y);
+      pdf.setLineWidth(0.3);
+      pdf.line(margin, y + 2, pageWidth - margin, y + 2);
       y += 8;
 
-      // CLIENT ET DETAILS
+      // CLIENT ET DETAILS - Mise en page professionnelle
       const colWidth = (contentWidth - 5) / 2;
 
-      // Client
-      pdf.setFontSize(10);
+      // Client - Encadré avec bordure
+      pdf.setFontSize(9);
       pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(30, 41, 59);
-      pdf.text('Facturer à:', margin, y);
+      pdf.setTextColor(71, 85, 105);
+      pdf.text('FACTURE ADRESSEE A', margin, y);
       y += 5;
 
-      pdf.setFillColor(249, 250, 251);
-      pdf.rect(margin, y - 3, colWidth, 18, 'F');
+      pdf.setDrawColor(203, 213, 225);
+      pdf.setLineWidth(0.5);
+      pdf.rect(margin, y - 2, colWidth, 26);
 
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(9);
-      pdf.setTextColor(17, 24, 39);
-      pdf.text(`${reservation.firstName} ${reservation.lastName}`, margin + 2, y);
-      y += 4;
+      pdf.setFillColor(248, 250, 252);
+      pdf.rect(margin + 0.5, y - 1.5, colWidth - 1, 8, 'F');
 
-      pdf.setFont('helvetica', 'normal');
-      pdf.setTextColor(55, 65, 81);
-      pdf.text(reservation.email, margin + 2, y);
-      y += 4;
-      pdf.text(reservation.phone, margin + 2, y);
-
-      // Détails
-      let yRight = y - 13;
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(10);
-      pdf.setTextColor(30, 41, 59);
-      pdf.text('Détails:', pageWidth - margin - colWidth, yRight);
+      pdf.setTextColor(15, 23, 42);
+      pdf.text(`${reservation.firstName} ${reservation.lastName}`, margin + 3, y + 4);
+
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(8);
+      pdf.setTextColor(71, 85, 105);
+      pdf.text(`Email: ${reservation.email}`, margin + 3, y + 10);
+      pdf.text(`Tel: ${reservation.phone}`, margin + 3, y + 14);
+      pdf.text(`ID Client: #${reservation.id.slice(-8).toUpperCase()}`, margin + 3, y + 18);
+
+      // Détails de la réservation - Encadré avec bordure
+      let yRight = y - 7;
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(9);
+      pdf.setTextColor(71, 85, 105);
+      pdf.text('DETAILS DE LA RESERVATION', pageWidth - margin - colWidth, yRight);
       yRight += 5;
 
+      pdf.setDrawColor(203, 213, 225);
+      pdf.setLineWidth(0.5);
+      pdf.rect(pageWidth - margin - colWidth, yRight - 2, colWidth, 26);
+
       pdf.setFillColor(239, 246, 255);
-      pdf.rect(pageWidth - margin - colWidth, yRight - 3, colWidth, 18, 'F');
+      pdf.rect(pageWidth - margin - colWidth + 0.5, yRight - 1.5, colWidth - 1, 8, 'F');
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(9);
+      pdf.setTextColor(30, 58, 138);
+      pdf.text('SEJOUR DU', pageWidth - margin - colWidth + 3, yRight + 4);
 
       pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(9);
-      pdf.setTextColor(55, 65, 81);
+      pdf.setFontSize(8);
+      pdf.setTextColor(71, 85, 105);
+      pdf.text(`Check-in: ${formatDate(reservation.checkIn)} - 16h00`, pageWidth - margin - colWidth + 3, yRight + 10);
+      pdf.text(`Check-out: ${formatDate(reservation.checkOut)} - 10h00`, pageWidth - margin - colWidth + 3, yRight + 14);
+      pdf.text(`Duree: ${nights} nuit${nights > 1 ? 's' : ''} - ${reservation.guests} personne${reservation.guests > 1 ? 's' : ''}`, pageWidth - margin - colWidth + 3, yRight + 18);
 
-      pdf.text(`Arrivée: ${formatDate(reservation.checkIn)}`, pageWidth - margin - colWidth + 2, yRight);
-      yRight += 4;
-      pdf.text(`Départ: ${formatDate(reservation.checkOut)}`, pageWidth - margin - colWidth + 2, yRight);
-      yRight += 4;
-      pdf.text(`Durée: ${nights} nuit${nights > 1 ? 's' : ''} • ${reservation.guests} pers.`, pageWidth - margin - colWidth + 2, yRight);
+      y += 28;
 
-      y += 20;
-
-      // TABLEAU
+      // TABLEAU DES PRESTATIONS - Design professionnel
       pdf.setFontSize(10);
       pdf.setFont('helvetica', 'bold');
       pdf.setTextColor(30, 41, 59);
-      pdf.text('Détail des prestations', margin, y);
+      pdf.text('DETAIL DES PRESTATIONS', margin, y);
       y += 6;
 
-      // Header tableau
-      pdf.setFillColor(226, 232, 240);
-      pdf.rect(margin, y - 4, contentWidth, 6, 'F');
+      // Header tableau avec fond sombre
+      pdf.setFillColor(51, 65, 85);
+      pdf.rect(margin, y - 4, contentWidth, 7, 'F');
 
       pdf.setFontSize(8);
       pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(55, 65, 81);
-      pdf.text('Description', margin + 2, y);
-      pdf.text('Qté', pageWidth - margin - 60, y, { align: 'right' });
-      pdf.text('P.U. HT', pageWidth - margin - 40, y, { align: 'right' });
-      pdf.text('Total HT', pageWidth - margin - 2, y, { align: 'right' });
+      pdf.setTextColor(255, 255, 255);
+      pdf.text('DESIGNATION', margin + 2, y);
+      pdf.text('QTE', pageWidth - margin - 70, y, { align: 'right' });
+      pdf.text('PRIX UNIT. HT', pageWidth - margin - 50, y, { align: 'right' });
+      pdf.text('TVA', pageWidth - margin - 30, y, { align: 'right' });
+      pdf.text('TOTAL HT', pageWidth - margin - 2, y, { align: 'right' });
       y += 6;
 
-      // Ligne
-      pdf.setFont('helvetica', 'normal');
-      pdf.setDrawColor(229, 231, 235);
+      // Bordure du tableau
+      pdf.setDrawColor(203, 213, 225);
+      pdf.setLineWidth(0.3);
+      pdf.rect(margin, y - 10, contentWidth, 0);
 
-      pdf.text('Location Chalet', margin + 2, y);
-      pdf.text(`${formatDate(reservation.checkIn)} - ${formatDate(reservation.checkOut)}`, margin + 2, y + 3);
-      pdf.text(nights.toString(), pageWidth - margin - 60, y, { align: 'right' });
-      pdf.text(formatEuro(pricePerNight / (1 + vatRate)), pageWidth - margin - 40, y, { align: 'right' });
-      pdf.text(formatEuro(priceExVat), pageWidth - margin - 2, y, { align: 'right' });
-      pdf.line(margin, y + 4, pageWidth - margin, y + 4);
+      // Lignes de prestations
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(9);
+      pdf.setTextColor(15, 23, 42);
+
+      // Ligne 1: Location principale
+      pdf.setFillColor(248, 250, 252);
+      pdf.rect(margin, y - 1, contentWidth, 9, 'F');
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Location Chalet Balmotte 810', margin + 2, y + 3);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(7);
+      pdf.setTextColor(71, 85, 105);
+      pdf.text(`Periode: ${formatDate(reservation.checkIn)} au ${formatDate(reservation.checkOut)}`, margin + 2, y + 6);
+      pdf.text(`Capacite: ${reservation.guests} personne(s) - ${nights} nuitee(s)`, margin + 2, y + 8.5);
+
+      pdf.setFontSize(8);
+      pdf.setTextColor(15, 23, 42);
+      pdf.text(nights.toString(), pageWidth - margin - 70, y + 3, { align: 'right' });
+      pdf.text(formatEuro(pricePerNight / (1 + vatRate)), pageWidth - margin - 50, y + 3, { align: 'right' });
+      pdf.text('10%', pageWidth - margin - 30, y + 3, { align: 'right' });
+      pdf.text(formatEuro((pricePerNight * nights) / (1 + vatRate)), pageWidth - margin - 2, y + 3, { align: 'right' });
+
+      pdf.setDrawColor(226, 232, 240);
+      pdf.line(margin, y + 9, pageWidth - margin, y + 9);
       y += 12;
 
-      // Totaux
-      pdf.setFontSize(9);
-      pdf.text('Sous-total HT:', pageWidth - margin - 40, y);
-      pdf.text(formatEuro(priceExVat), pageWidth - margin - 2, y, { align: 'right' });
-      y += 5;
+      // Ligne 2: Frais de ménage
+      const cleaningFee = 150;
+      pdf.setFont('helvetica', 'normal');
+      pdf.text('Forfait menage fin de sejour', margin + 2, y);
+      pdf.setFontSize(7);
+      pdf.setTextColor(71, 85, 105);
+      pdf.text('Nettoyage complet et desinfection', margin + 2, y + 3);
 
-      pdf.text('TVA (10%):', pageWidth - margin - 40, y);
-      pdf.text(formatEuro(vatAmount), pageWidth - margin - 2, y, { align: 'right' });
-      y += 6;
+      pdf.setFontSize(8);
+      pdf.setTextColor(15, 23, 42);
+      pdf.text('1', pageWidth - margin - 70, y, { align: 'right' });
+      pdf.text(formatEuro(cleaningFee / (1 + vatRate)), pageWidth - margin - 50, y, { align: 'right' });
+      pdf.text('10%', pageWidth - margin - 30, y, { align: 'right' });
+      pdf.text(formatEuro(cleaningFee / (1 + vatRate)), pageWidth - margin - 2, y, { align: 'right' });
 
-      // Total
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(11);
-      pdf.setDrawColor(75, 85, 99);
-      pdf.line(pageWidth - margin - 50, y - 1, pageWidth - margin, y - 1);
-      pdf.text('Total TTC:', pageWidth - margin - 40, y + 4);
-      pdf.text(formatEuro(reservation.totalPrice), pageWidth - margin - 2, y + 4, { align: 'right' });
-      y += 10;
-
-      // Acompte
-      if (reservation.depositAmount && reservation.depositAmount > 0) {
-        pdf.setFillColor(240, 253, 244);
-        pdf.rect(pageWidth - margin - 55, y, 55, 12, 'F');
-
-        pdf.setFont('helvetica', 'normal');
-        pdf.setFontSize(9);
-        pdf.setTextColor(21, 128, 61);
-        pdf.text('Acompte versé:', pageWidth - margin - 53, y + 4);
-        pdf.text(formatEuro(reservation.depositAmount), pageWidth - margin - 2, y + 4, { align: 'right' });
-
-        pdf.setFont('helvetica', 'bold');
-        pdf.text('Reste à payer:', pageWidth - margin - 53, y + 9);
-        pdf.text(formatEuro(reservation.totalPrice - reservation.depositAmount), pageWidth - margin - 2, y + 9, { align: 'right' });
-        y += 14;
-      }
-
-      y += 6;
-
-      // CONDITIONS
       pdf.setDrawColor(226, 232, 240);
-      pdf.line(margin, y, pageWidth - margin, y);
-      y += 6;
+      pdf.line(margin, y + 4, pageWidth - margin, y + 4);
+      y += 7;
 
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(10);
-      pdf.setTextColor(30, 41, 59);
-      pdf.text('Conditions', margin, y);
-      y += 5;
-
+      // Ligne 3: Linge de maison
+      const linenFee = reservation.guests * 25;
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(8);
-      pdf.setTextColor(75, 85, 99);
+      pdf.setTextColor(15, 23, 42);
+      pdf.text('Linge de maison (draps, serviettes)', margin + 2, y);
+      pdf.setFontSize(7);
+      pdf.setTextColor(71, 85, 105);
+      pdf.text(`${reservation.guests} personne(s) x 25 EUR`, margin + 2, y + 3);
 
-      const col1X = margin;
-      const col2X = margin + (contentWidth / 2);
+      pdf.setFontSize(8);
+      pdf.setTextColor(15, 23, 42);
+      pdf.text(reservation.guests.toString(), pageWidth - margin - 70, y, { align: 'right' });
+      pdf.text(formatEuro(25 / (1 + vatRate)), pageWidth - margin - 50, y, { align: 'right' });
+      pdf.text('10%', pageWidth - margin - 30, y, { align: 'right' });
+      pdf.text(formatEuro(linenFee / (1 + vatRate)), pageWidth - margin - 2, y, { align: 'right' });
 
-      pdf.text('• Acompte 30% à la réservation', col1X, y);
-      pdf.text('• Solde 30j avant arrivée', col2X, y);
+      pdf.setDrawColor(226, 232, 240);
+      pdf.line(margin, y + 4, pageWidth - margin, y + 4);
+      y += 8;
+
+      // Calcul des totaux incluant tous les frais
+      const totalCleaningLinenHT = (cleaningFee + linenFee) / (1 + vatRate);
+      const totalLocationHT = (pricePerNight * nights) / (1 + vatRate);
+      const totalGeneralHT = totalLocationHT + totalCleaningLinenHT;
+      const totalTVA = totalGeneralHT * vatRate;
+      const totalTTC = totalGeneralHT + totalTVA;
+
+      // Section totaux avec fond gris
+      pdf.setFillColor(248, 250, 252);
+      pdf.rect(pageWidth - margin - 60, y - 2, 60, 20, 'F');
+
+      pdf.setDrawColor(203, 213, 225);
+      pdf.setLineWidth(0.3);
+      pdf.rect(pageWidth - margin - 60, y - 2, 60, 20);
+
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(9);
+      pdf.setTextColor(71, 85, 105);
+      pdf.text('Total HT:', pageWidth - margin - 58, y + 2);
+      pdf.text(formatEuro(totalGeneralHT), pageWidth - margin - 2, y + 2, { align: 'right' });
+
+      pdf.text('TVA (10%):', pageWidth - margin - 58, y + 7);
+      pdf.text(formatEuro(totalTVA), pageWidth - margin - 2, y + 7, { align: 'right' });
+
+      pdf.setDrawColor(203, 213, 225);
+      pdf.line(pageWidth - margin - 58, y + 9, pageWidth - margin - 2, y + 9);
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(11);
+      pdf.setTextColor(15, 23, 42);
+      pdf.text('TOTAL TTC:', pageWidth - margin - 58, y + 15);
+      pdf.text(formatEuro(totalTTC), pageWidth - margin - 2, y + 15, { align: 'right' });
+
+      y += 24;
+
+      // Section Acompte et Paiement - Design amélioré
+      if (reservation.depositAmount && reservation.depositAmount > 0) {
+        pdf.setFillColor(220, 252, 231);
+        pdf.setDrawColor(134, 239, 172);
+        pdf.setLineWidth(0.5);
+        pdf.rect(pageWidth - margin - 62, y, 62, 18, 'FD');
+
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(8);
+        pdf.setTextColor(22, 101, 52);
+        pdf.text('Acompte verse (30%):', pageWidth - margin - 60, y + 5);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(formatEuro(reservation.depositAmount), pageWidth - margin - 2, y + 5, { align: 'right' });
+
+        pdf.setDrawColor(187, 247, 208);
+        pdf.line(pageWidth - margin - 60, y + 8, pageWidth - margin - 2, y + 8);
+
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(10);
+        pdf.setTextColor(22, 101, 52);
+        pdf.text('RESTE A PAYER:', pageWidth - margin - 60, y + 14);
+        pdf.text(formatEuro(totalTTC - reservation.depositAmount), pageWidth - margin - 2, y + 14, { align: 'right' });
+        y += 20;
+      } else {
+        // Aucun acompte versé
+        pdf.setFillColor(254, 243, 199);
+        pdf.setDrawColor(251, 191, 36);
+        pdf.setLineWidth(0.5);
+        pdf.rect(pageWidth - margin - 62, y, 62, 10, 'FD');
+
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(9);
+        pdf.setTextColor(146, 64, 14);
+        pdf.text('MONTANT DU A RECEPTION:', pageWidth - margin - 60, y + 6);
+        pdf.text(formatEuro(totalTTC), pageWidth - margin - 2, y + 6, { align: 'right' });
+        y += 12;
+      }
+
       y += 4;
-      pdf.text('• Caution 1 500€ à l\'arrivée', col1X, y);
-      pdf.text('• Annulation gratuite 60j avant', col2X, y);
+
+      // CONDITIONS ET MODALITES DE PAIEMENT
+      pdf.setDrawColor(51, 65, 85);
+      pdf.setLineWidth(0.5);
+      pdf.line(margin, y, pageWidth - margin, y);
       y += 6;
 
-      // FOOTER
-      pdf.setDrawColor(226, 232, 240);
+      pdf.setFillColor(51, 65, 85);
+      pdf.rect(margin, y - 2, 80, 6, 'F');
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(9);
+      pdf.setTextColor(255, 255, 255);
+      pdf.text('CONDITIONS GENERALES', margin + 2, y + 2);
+      y += 8;
+
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(7);
+      pdf.setTextColor(51, 65, 85);
+
+      const col1X = margin;
+      const col2X = margin + (contentWidth / 2) + 2;
+
+      // Colonne 1
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('PAIEMENT', col1X, y);
+      pdf.setFont('helvetica', 'normal');
+      y += 3;
+      pdf.text('- Acompte: 30% a la reservation', col1X + 2, y);
+      y += 3;
+      pdf.text('- Solde: 30 jours avant l\'arrivee', col1X + 2, y);
+      y += 3;
+      pdf.text('- Caution: 1 500 EUR a l\'arrivee', col1X + 2, y);
+      y += 3;
+      pdf.text('  (restituee sous 7 jours)', col1X + 2, y);
+
+      // Colonne 2
+      let yCol2 = y - 12;
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('ANNULATION', col2X, yCol2);
+      pdf.setFont('helvetica', 'normal');
+      yCol2 += 3;
+      pdf.text('- Gratuite: > 60 jours avant arrivee', col2X + 2, yCol2);
+      yCol2 += 3;
+      pdf.text('- 50% rembourse: 30-60 jours', col2X + 2, yCol2);
+      yCol2 += 3;
+      pdf.text('- Aucun remboursement: < 30 jours', col2X + 2, yCol2);
+
+      y += 5;
+
+      // Informations complémentaires
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('HORAIRES', col1X, y);
+      pdf.setFont('helvetica', 'normal');
+      y += 3;
+      pdf.text('- Arrivee: 16h00 - 19h00', col1X + 2, y);
+      y += 3;
+      pdf.text('- Depart: avant 10h00', col1X + 2, y);
+
+      yCol2 = y - 6;
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('MODALITES', col2X, yCol2);
+      pdf.setFont('helvetica', 'normal');
+      yCol2 += 3;
+      pdf.text('- Linge fourni et menage inclus', col2X + 2, yCol2);
+      yCol2 += 3;
+      pdf.text('- Assurance annulation recommandee', col2X + 2, yCol2);
+
+      y += 5;
+
+      // FOOTER PROFESSIONNEL
+      pdf.setDrawColor(203, 213, 225);
+      pdf.setLineWidth(0.3);
       pdf.line(margin, y, pageWidth - margin, y);
       y += 4;
 
-      pdf.setFontSize(7);
-      pdf.setTextColor(107, 114, 128);
-      pdf.text('Facture générée automatiquement - Location saisonnière', pageWidth / 2, y, { align: 'center' });
+      pdf.setFillColor(248, 250, 252);
+      pdf.rect(margin, y, contentWidth, 12, 'F');
+
+      pdf.setFontSize(6);
+      pdf.setTextColor(100, 116, 139);
+      pdf.text('Chalet Balmotte 810 - Location saisonniere', pageWidth / 2, y + 3, { align: 'center' });
+      pdf.text('810 route de Balmotte, 74300 Chatillon-sur-Cluses, France', pageWidth / 2, y + 6, { align: 'center' });
+      pdf.text('SIRET: 123 456 789 00012 - TVA: FR12345678901', pageWidth / 2, y + 9, { align: 'center' });
+
+      // Note de bas de page
+      y += 14;
+      pdf.setFontSize(6);
+      pdf.setTextColor(148, 163, 184);
+      pdf.text('Document genere electroniquement - Aucune signature requise', pageWidth / 2, y, { align: 'center' });
+      pdf.text(`Date de generation: ${new Date().toLocaleString('fr-FR')}`, pageWidth / 2, y + 2.5, { align: 'center' });
 
       const fileName = `Facture_${generateInvoiceNumber()}_${reservation.lastName}.pdf`;
       pdf.save(fileName);
@@ -267,8 +463,6 @@ export default function InvoiceGenerator({ reservation, onClose }: InvoiceGenera
   const nights = calculateNights();
   const pricePerNight = reservation.totalPrice / nights;
   const vatRate = 0.10; // 10% de TVA
-  const priceExVat = reservation.totalPrice / (1 + vatRate);
-  const vatAmount = reservation.totalPrice - priceExVat;
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
