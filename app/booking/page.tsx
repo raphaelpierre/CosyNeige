@@ -322,6 +322,59 @@ export default function BookingPage() {
                     </p>
                   </div>
 
+                  {/* Zone centrale des messages de statut - Visible pour tous */}
+                  {validationError && (
+                    <div className="bg-red-50 border-2 border-red-300 rounded-xl p-4 sm:p-6 shadow-lg animate-in fade-in slide-in-from-top-2 duration-300">
+                      <div className="flex items-center gap-3 mb-3">
+                        <span className="text-red-500 text-4xl sm:text-5xl">⚠️</span>
+                        <div className="flex-1">
+                          <h4 className="text-red-800 font-bold text-lg sm:text-xl">
+                            {t({ en: 'Invalid Booking Period', fr: 'Période de Réservation Invalide' })}
+                          </h4>
+                        </div>
+                      </div>
+                      <p className="text-red-700 text-sm sm:text-base font-medium">
+                        {t({
+                          en: validationError.error,
+                          fr: validationError.errorFr
+                        })}
+                      </p>
+                    </div>
+                  )}
+
+                  {checkIn && checkOut && nights > 0 && !validationError && isValidStay && priceCalculation && (
+                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-4 sm:p-6 shadow-lg animate-in fade-in zoom-in-95 duration-300">
+                      <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div className="flex items-center gap-3 text-center sm:text-left">
+                          <span className="text-green-600 text-4xl sm:text-5xl animate-bounce">✅</span>
+                          <div>
+                            <h4 className="text-green-900 font-bold text-lg sm:text-xl mb-1">
+                              {t({ en: 'Dates Available!', fr: 'Dates Disponibles !' })}
+                            </h4>
+                            <p className="text-green-800 text-sm sm:text-base font-semibold">
+                              {t({ en: `${nights} nights • ${guests} guests`, fr: `${nights} nuits • ${guests} pers.` })}
+                            </p>
+                            <div className="mt-2">
+                              <span className="text-2xl sm:text-3xl font-black text-green-900">{formatEuro(priceCalculation.total)}</span>
+                              <span className="text-sm sm:text-base text-green-700 ml-2">{t({ en: 'total', fr: 'au total' })}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Bouton Continuer - Desktop uniquement, mobile utilise bottom sheet */}
+                        <div className="hidden sm:flex flex-shrink-0">
+                          <button
+                            onClick={() => setCurrentStep(2)}
+                            className="px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 active:scale-98 border-2 border-green-700"
+                          >
+                            <span>{t({ en: 'Continue', fr: 'Continuer' })}</span>
+                            <span className="text-xl">→</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Grille calendrier + widgets - Côte à côte sur desktop */}
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     {/* Calendrier - 2 colonnes sur desktop */}
@@ -329,55 +382,8 @@ export default function BookingPage() {
                       <BookingCalendar onDateSelect={handleDateSelect} />
                     </div>
 
-                    {/* Colonne de droite - Widgets de statut et tarifs */}
+                    {/* Colonne de droite - Widget tarifs uniquement */}
                     <div className="lg:col-span-1 space-y-4">
-                      {/* Widget de statut de validation */}
-                      {validationError && (
-                        <div className="bg-red-50 border-2 border-red-300 rounded-xl p-4 shadow-lg">
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="text-red-500 text-3xl">⚠️</span>
-                            <h4 className="text-red-800 font-bold text-base">
-                              {t({ en: 'Invalid Period', fr: 'Période Invalide' })}
-                            </h4>
-                          </div>
-                          <p className="text-red-700 text-sm font-medium">
-                            {t({
-                              en: validationError.error,
-                              fr: validationError.errorFr
-                            })}
-                          </p>
-                        </div>
-                      )}
-
-                      {/* Message de succès avec prix */}
-                      {checkIn && checkOut && nights > 0 && !validationError && isValidStay && priceCalculation && (
-                        <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-4 shadow-lg space-y-4">
-                          <div className="flex items-center gap-2 mb-3">
-                            <span className="text-green-600 text-3xl">✅</span>
-                            <h4 className="text-green-900 font-bold text-base">
-                              {t({ en: 'Available!', fr: 'Disponible !' })}
-                            </h4>
-                          </div>
-                          <div className="space-y-2">
-                            <p className="text-green-800 text-sm font-semibold">
-                              {t({ en: `${nights} nights • ${guests} guests`, fr: `${nights} nuits • ${guests} pers.` })}
-                            </p>
-                            <div className="pt-2 border-t border-green-200">
-                              <div className="text-sm text-green-700 mb-1">{t({ en: 'Total', fr: 'Total' })}</div>
-                              <div className="text-2xl font-black text-green-900">{formatEuro(priceCalculation.total)}</div>
-                            </div>
-                          </div>
-
-                          {/* Bouton Continuer */}
-                          <button
-                            onClick={() => setCurrentStep(2)}
-                            className="w-full px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-bold text-base transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 active:scale-98 border-2 border-green-700"
-                          >
-                            <span>{t({ en: 'Continue', fr: 'Continuer' })}</span>
-                            <span className="text-lg">→</span>
-                          </button>
-                        </div>
-                      )}
 
                       {/* Widget Tarifs et Conditions - Toujours visible */}
                       {pricingSettings && !isLoadingSeasons && (

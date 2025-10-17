@@ -12,7 +12,6 @@ import { chaletName } from '@/lib/data/chalet';
 export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
   const { t } = useLanguage();
@@ -38,9 +37,6 @@ export default function Navigation() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
-      // Menu mobile toujours visible maintenant
-      setVisible(true);
 
       setScrolled(currentScrollY > 20);
       setLastScrollY(currentScrollY);
@@ -97,12 +93,12 @@ export default function Navigation() {
 
       {/* Navigation Mobile - Ultra-simplifiée */}
       <nav className="md:hidden fixed top-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-sm shadow-md">
-        <div className="px-3 py-2.5">
-          <div className="flex items-center gap-2">
+        <div className="pl-2 pr-1 py-2.5">
+          <div className="flex items-center gap-1">
             {/* Logo et titre - Occupe toute la largeur disponible */}
-            <Link href="/" className="flex items-center gap-2 py-1 flex-1 outline-none focus:outline-none">
-              <span className="text-3xl">🏔️</span>
-              <span className="font-bold text-base text-gray-900 tracking-tight">{chaletName}</span>
+            <Link href="/" className="flex items-center gap-2 py-1 flex-1 min-w-0 outline-none focus:outline-none">
+              <span className="text-3xl flex-shrink-0">🏔️</span>
+              <span className="font-bold text-base text-gray-900 tracking-tight truncate">{chaletName}</span>
             </Link>
 
             {/* Hamburger icon - Position fixe à droite */}
