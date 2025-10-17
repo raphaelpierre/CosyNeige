@@ -322,12 +322,66 @@ export default function BookingPage() {
                     </p>
                   </div>
 
-                  {/* Calendrier EN PREMIER */}
-                  <div>
-                    <BookingCalendar onDateSelect={handleDateSelect} />
+                  {/* Grille calendrier + statut - Côte à côte sur desktop */}
+                  <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                    {/* Calendrier - 3 colonnes sur desktop */}
+                    <div className="lg:col-span-3">
+                      <BookingCalendar onDateSelect={handleDateSelect} />
+                    </div>
+
+                    {/* Widget de statut - 2 colonnes sur desktop, en dessous sur mobile */}
+                    <div className="lg:col-span-2 space-y-4">
+                      {/* Message d'erreur de validation - PERSISTENT ET VISIBLE */}
+                      {validationError && (
+                        <div className="bg-red-50 border-2 border-red-300 rounded-xl p-4 shadow-lg">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-red-500 text-3xl">⚠️</span>
+                            <h4 className="text-red-800 font-bold text-base">
+                              {t({ en: 'Invalid Period', fr: 'Période Invalide' })}
+                            </h4>
+                          </div>
+                          <p className="text-red-700 text-sm font-medium">
+                            {t({
+                              en: validationError.error,
+                              fr: validationError.errorFr
+                            })}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Message de succès avec prix */}
+                      {checkIn && checkOut && nights > 0 && !validationError && isValidStay && priceCalculation && (
+                        <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-4 shadow-lg space-y-4">
+                          <div className="flex items-center gap-2 mb-3">
+                            <span className="text-green-600 text-3xl">✅</span>
+                            <h4 className="text-green-900 font-bold text-base">
+                              {t({ en: 'Available!', fr: 'Disponible !' })}
+                            </h4>
+                          </div>
+                          <div className="space-y-2">
+                            <p className="text-green-800 text-sm font-semibold">
+                              {t({ en: `${nights} nights • ${guests} guests`, fr: `${nights} nuits • ${guests} pers.` })}
+                            </p>
+                            <div className="pt-2 border-t border-green-200">
+                              <div className="text-sm text-green-700 mb-1">{t({ en: 'Total', fr: 'Total' })}</div>
+                              <div className="text-2xl font-black text-green-900">{formatEuro(priceCalculation.total)}</div>
+                            </div>
+                          </div>
+
+                          {/* Bouton Continuer */}
+                          <button
+                            onClick={() => setCurrentStep(2)}
+                            className="w-full px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-bold text-base transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 active:scale-98 border-2 border-green-700"
+                          >
+                            <span>{t({ en: 'Continue', fr: 'Continuer' })}</span>
+                            <span className="text-lg">→</span>
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Sélecteur personnes - COMPACT et sous le calendrier sur mobile */}
+                  {/* Sélecteur personnes - COMPACT et sous le calendrier */}
                   <div className="bg-forest-50 rounded-lg p-2 sm:p-3 border border-forest-200">
                     <div className="flex flex-row items-center justify-between gap-3">
                       <div className="flex items-center gap-2">
@@ -470,66 +524,6 @@ export default function BookingPage() {
                     </div>
                   )}
 
-                  {/* Message d'erreur de validation - PERSISTENT */}
-                  {validationError && (
-                    <div className="bg-red-50 border-2 border-red-300 rounded-xl p-4 text-center shadow-md">
-                      <div className="flex items-center justify-center gap-2 mb-2">
-                        <span className="text-red-500 text-2xl">⚠️</span>
-                        <h4 className="text-red-800 font-bold text-base sm:text-lg">
-                          {t({ en: 'Invalid booking period', fr: 'Période de réservation invalide' })}
-                        </h4>
-                      </div>
-                      <p className="text-red-700 text-sm font-medium">
-                        {t({
-                          en: validationError.error,
-                          fr: validationError.errorFr
-                        })}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Feedback messages - DYNAMIQUES avec animations */}
-                  {checkIn && checkOut && nights > 0 && !validationError && (
-                    <div className="animate-in fade-in slide-in-from-top-2 duration-300">
-                      {isValidStay && (
-                        <div className="space-y-4">
-                          {/* Message de succès avec prix */}
-                          {priceCalculation && (
-                            <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-4 sm:p-6 shadow-lg animate-in fade-in zoom-in-95 duration-300">
-                              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                                <div className="text-center sm:text-left">
-                                  <div className="flex items-center justify-center sm:justify-start gap-2 mb-2">
-                                    <span className="text-green-600 text-2xl animate-bounce">✅</span>
-                                    <h4 className="text-green-900 font-bold text-base sm:text-lg">
-                                      {t({ en: 'Dates available!', fr: 'Dates disponibles !' })}
-                                    </h4>
-                                  </div>
-                                  <p className="text-green-800 text-xs sm:text-sm font-semibold">
-                                    {t({ en: `${nights} nights • ${guests} ${guests === 1 ? 'guest' : 'guests'}`, fr: `${nights} nuits • ${guests} ${guests === 1 ? 'personne' : 'personnes'}` })}
-                                  </p>
-                                  <div className="mt-2 flex items-center justify-center sm:justify-start gap-2">
-                                    <span className="text-xl sm:text-2xl font-black text-green-900">{formatEuro(priceCalculation.total)}</span>
-                                    <span className="text-xs sm:text-sm text-green-700">{t({ en: 'total', fr: 'au total' })}</span>
-                                  </div>
-                                </div>
-
-                                {/* Bouton Continuer - DESKTOP seulement, Mobile utilise le bottom sheet */}
-                                <div className="hidden xl:flex flex-shrink-0">
-                                  <button
-                                    onClick={() => setCurrentStep(2)}
-                                    className="px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 active:scale-98 border-2 border-green-700"
-                                  >
-                                    <span>{t({ en: 'Continue', fr: 'Continuer' })}</span>
-                                    <span className="text-xl">→</span>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  )}
                 </div>
               )}
 

@@ -97,12 +97,12 @@ export default function Navigation() {
 
       {/* Navigation Mobile - Ultra-simplifiée */}
       <nav className="md:hidden fixed top-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-sm shadow-md">
-        <div className="px-3 py-2">
+        <div className="px-3 py-2.5">
           <div className="flex justify-between items-center">
-            {/* Logo minimaliste */}
+            {/* Logo minimaliste - Plus visible sur mobile */}
             <Link href="/" className="flex items-center gap-2 py-1 outline-none focus:outline-none">
-              <span className="text-2xl">🏔️</span>
-              <span className="font-bold text-sm text-gray-900">{chaletName}</span>
+              <span className="text-3xl">🏔️</span>
+              <span className="font-bold text-base text-gray-900 tracking-tight">{chaletName}</span>
             </Link>
 
             {/* Hamburger icon */}
