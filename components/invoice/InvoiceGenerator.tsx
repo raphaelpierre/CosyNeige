@@ -134,102 +134,94 @@ export default function InvoiceGenerator({ reservation, onClose }: InvoiceGenera
         </div>
 
         {/* Facture */}
-        <div ref={invoiceRef} className="p-8 bg-white">
+        <div ref={invoiceRef} className="p-6 bg-white" style={{ maxHeight: '297mm' }}>
           {/* En-tête */}
-          <div className="flex justify-between items-start mb-8">
-            <div>
-              <h1 className="text-3xl font-bold text-slate-800 mb-2">🏔️ Chalet Balmotte810</h1>
-              <div className="text-gray-600">
-                <p>810 route de Balmotte</p>
-                <p>Châtillon-sur-Cluses</p>
-                <p>Haute-Savoie, 74300, France</p>
-                <p>Tél: +33 6 85 85 84 91</p>
-                <p>Email: contact@chalet-balmotte810.com</p>
+          <div className="flex justify-between items-start mb-3">
+            <div className="text-xs">
+              <h1 className="text-lg font-bold text-slate-800 mb-0.5">🏔️ Chalet Balmotte810</h1>
+              <div className="text-gray-600 leading-tight">
+                <p>810 rte de Balmotte, Châtillon-sur-Cluses, 74300</p>
+                <p>+33 6 85 85 84 91 • contact@chalet-balmotte810.com</p>
                 <p>SIRET: 123 456 789 00012</p>
               </div>
             </div>
             <div className="text-right">
-              <h2 className="text-2xl font-bold text-slate-800 mb-2">FACTURE</h2>
-              <div className="bg-slate-100 p-4 rounded-lg">
+              <h2 className="text-lg font-bold text-slate-800 mb-0.5">FACTURE</h2>
+              <div className="bg-slate-100 p-1.5 rounded text-xs">
                 <p className="font-semibold">N° {generateInvoiceNumber()}</p>
-                <p>Date: {formatDate(new Date())}</p>
-                <p>Réservation: {reservation.id.slice(-8).toUpperCase()}</p>
+                <p>{formatDate(new Date())}</p>
               </div>
             </div>
           </div>
 
-          {/* Informations client */}
-          <div className="mb-8">
-            <h3 className="text-lg font-semibold text-slate-800 mb-3">Facturer à:</h3>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <p className="font-semibold">{reservation.firstName} {reservation.lastName}</p>
-              <p>{reservation.email}</p>
-              <p>{reservation.phone}</p>
+          {/* Informations client et détails réservation - Côte à côte */}
+          <div className="grid grid-cols-2 gap-3 mb-3">
+            {/* Client */}
+            <div>
+              <h3 className="text-xs font-semibold text-slate-800 mb-0.5">Facturer à:</h3>
+              <div className="bg-gray-50 p-1.5 rounded text-xs">
+                <p className="font-semibold">{reservation.firstName} {reservation.lastName}</p>
+                <p>{reservation.email}</p>
+                <p>{reservation.phone}</p>
+              </div>
             </div>
-          </div>
 
-          {/* Détails de la réservation */}
-          <div className="mb-8">
-            <h3 className="text-lg font-semibold text-slate-800 mb-4">Détails de la Réservation</h3>
-            <div className="bg-blue-50 p-4 rounded-lg mb-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p><strong>Arrivée:</strong> {formatDate(reservation.checkIn)}</p>
-                  <p><strong>Départ:</strong> {formatDate(reservation.checkOut)}</p>
-                </div>
-                <div>
-                  <p><strong>Durée:</strong> {nights} nuit{nights > 1 ? 's' : ''}</p>
-                  <p><strong>Personnes:</strong> {reservation.guests}</p>
-                </div>
+            {/* Détails réservation */}
+            <div>
+              <h3 className="text-xs font-semibold text-slate-800 mb-0.5">Détails:</h3>
+              <div className="bg-blue-50 p-1.5 rounded text-xs">
+                <p><strong>Arrivée:</strong> {formatDate(reservation.checkIn)}</p>
+                <p><strong>Départ:</strong> {formatDate(reservation.checkOut)}</p>
+                <p><strong>Durée:</strong> {nights} nuit{nights > 1 ? 's' : ''} • {reservation.guests} pers.</p>
               </div>
             </div>
           </div>
 
           {/* Tableau des services */}
-          <div className="mb-8">
-            <table className="w-full border-collapse">
+          <div className="mb-3">
+            <table className="w-full border-collapse text-xs">
               <thead>
                 <tr className="bg-slate-200">
-                  <th className="border border-gray-300 p-3 text-left">Description</th>
-                  <th className="border border-gray-300 p-3 text-center">Quantité</th>
-                  <th className="border border-gray-300 p-3 text-right">Prix unitaire HT</th>
-                  <th className="border border-gray-300 p-3 text-right">Total HT</th>
+                  <th className="border border-gray-300 p-1.5 text-left">Description</th>
+                  <th className="border border-gray-300 p-1.5 text-center">Qté</th>
+                  <th className="border border-gray-300 p-1.5 text-right">P.U. HT</th>
+                  <th className="border border-gray-300 p-1.5 text-right">Total HT</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="border border-gray-300 p-3">
-                    <strong>Location Chalet Balmotte810</strong><br/>
-                    <span className="text-sm text-gray-600">
-                      Séjour du {formatDate(reservation.checkIn)} au {formatDate(reservation.checkOut)}
+                  <td className="border border-gray-300 p-1.5">
+                    <strong>Location Chalet</strong><br/>
+                    <span className="text-gray-600">
+                      {formatDate(reservation.checkIn)} - {formatDate(reservation.checkOut)}
                     </span>
                   </td>
-                  <td className="border border-gray-300 p-3 text-center">{nights} nuit{nights > 1 ? 's' : ''}</td>
-                  <td className="border border-gray-300 p-3 text-right">{formatEuro(pricePerNight / (1 + vatRate))}</td>
-                  <td className="border border-gray-300 p-3 text-right">{formatEuro(priceExVat)}</td>
+                  <td className="border border-gray-300 p-1.5 text-center">{nights}</td>
+                  <td className="border border-gray-300 p-1.5 text-right">{formatEuro(pricePerNight / (1 + vatRate))}</td>
+                  <td className="border border-gray-300 p-1.5 text-right">{formatEuro(priceExVat)}</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           {/* Totaux */}
-          <div className="flex justify-end mb-8">
-            <div className="w-64">
-              <div className="flex justify-between py-2">
+          <div className="flex justify-end mb-3">
+            <div className="w-56 text-xs">
+              <div className="flex justify-between py-0.5">
                 <span>Sous-total HT:</span>
                 <span className="font-semibold">{formatEuro(priceExVat)}</span>
               </div>
-              <div className="flex justify-between py-2">
+              <div className="flex justify-between py-0.5">
                 <span>TVA (10%):</span>
                 <span className="font-semibold">{formatEuro(vatAmount)}</span>
               </div>
-              <div className="border-t border-gray-300 my-2"></div>
-              <div className="flex justify-between py-2 text-lg font-bold">
+              <div className="border-t border-gray-300 my-0.5"></div>
+              <div className="flex justify-between py-0.5 text-sm font-bold">
                 <span>Total TTC:</span>
                 <span>{formatEuro(reservation.totalPrice)}</span>
               </div>
               {reservation.depositAmount && (
-                <div className="mt-4 p-3 bg-green-50 rounded-lg">
+                <div className="mt-1.5 p-1.5 bg-green-50 rounded">
                   <div className="flex justify-between">
                     <span>Acompte versé:</span>
                     <span className="font-semibold text-green-700">{formatEuro(reservation.depositAmount)}</span>
@@ -244,20 +236,19 @@ export default function InvoiceGenerator({ reservation, onClose }: InvoiceGenera
           </div>
 
           {/* Conditions de paiement */}
-          <div className="border-t border-gray-300 pt-6">
-            <h3 className="text-lg font-semibold text-slate-800 mb-3">Conditions de Paiement</h3>
-            <div className="text-sm text-gray-600 space-y-1">
-              <p>• Acompte de 30% requis à la réservation</p>
-              <p>• Solde à régler 30 jours avant l&apos;arrivée</p>
-              <p>• Caution de 1 500€ demandée à l&apos;arrivée (chèque ou espèces)</p>
-              <p>• Annulation gratuite jusqu&apos;à 60 jours avant l&apos;arrivée</p>
+          <div className="border-t border-gray-300 pt-2">
+            <h3 className="text-xs font-semibold text-slate-800 mb-0.5">Conditions de Paiement</h3>
+            <div className="text-xs text-gray-600 grid grid-cols-2 gap-x-3">
+              <p>• Acompte 30% à la réservation</p>
+              <p>• Solde 30 jours avant arrivée</p>
+              <p>• Caution 1 500€ à l&apos;arrivée</p>
+              <p>• Annulation gratuite 60 jours avant</p>
             </div>
           </div>
 
           {/* Pied de page */}
-          <div className="mt-8 pt-6 border-t border-gray-300 text-center text-xs text-gray-500">
-            <p>Chalet Balmotte810 - Location saisonnière - SIRET: 123 456 789 00012</p>
-            <p>Cette facture est générée automatiquement par notre système de réservation.</p>
+          <div className="mt-2 pt-2 border-t border-gray-300 text-center text-xs text-gray-500">
+            <p>Facture générée automatiquement - Location saisonnière</p>
           </div>
         </div>
       </div>
