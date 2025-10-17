@@ -739,6 +739,35 @@ export default function AdminPage() {
     setShowInvoicePDF(true);
   };
 
+  const handleDeleteInvoice = async (invoiceId: string) => {
+    if (!confirm(t({ en: 'Are you sure you want to delete this invoice? This action cannot be undone.', fr: 'Êtes-vous sûr de vouloir supprimer cette facture ? Cette action est irréversible.' }))) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/admin/invoices?id=${invoiceId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erreur lors de la suppression');
+      }
+
+      // Rafraîchir la liste des factures
+      await fetchInvoices();
+      alert(t({ en: 'Invoice deleted successfully', fr: 'Facture supprimée avec succès' }));
+    } catch (error: any) {
+      console.error('Error deleting invoice:', error);
+      alert(error.message || t({ en: 'Error deleting invoice', fr: 'Erreur lors de la suppression de la facture' }));
+    }
+  };
+
   // Fonction pour générer les jours du calendrier avec les réservations
   const generateCalendarDays = (date: Date, bookings: Reservation[]) => {
     const year = date.getFullYear();
@@ -2895,6 +2924,15 @@ export default function AdminPage() {
                         >
                           📄 PDF
                         </button>
+                        {(invoice.status === 'draft' || invoice.status === 'cancelled') && (
+                          <button
+                            onClick={() => handleDeleteInvoice(invoice.id)}
+                            className="flex-1 bg-red-100 text-red-700 px-3 py-2 rounded font-medium"
+                            title={t({ en: 'Delete invoice', fr: 'Supprimer la facture' })}
+                          >
+                            🗑️
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -3006,24 +3044,32 @@ export default function AdminPage() {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                               <div className="flex gap-2">
-                                <button 
+                                <button
                                   onClick={() => handleViewInvoice(invoice)}
                                   className="text-slate-600 hover:text-slate-900"
                                 >
                                   {t({ en: 'View', fr: 'Voir' })}
                                 </button>
-                                <button 
+                                <button
                                   onClick={() => handleViewInvoice(invoice)}
                                   className="text-forest-600 hover:text-forest-900"
                                 >
                                   {t({ en: 'Edit Status', fr: 'Modifier' })}
                                 </button>
-                                <button 
+                                <button
                                   onClick={() => handleDownloadPDF(invoice)}
                                   className="text-blue-600 hover:text-blue-900"
                                 >
                                   {t({ en: 'Download', fr: 'Télécharger' })}
                                 </button>
+                                {(invoice.status === 'draft' || invoice.status === 'cancelled') && (
+                                  <button
+                                    onClick={() => handleDeleteInvoice(invoice.id)}
+                                    className="text-red-600 hover:text-red-900"
+                                  >
+                                    {t({ en: 'Delete', fr: 'Supprimer' })}
+                                  </button>
+                                )}
                               </div>
                             </td>
                           </tr>
@@ -3698,7 +3744,19 @@ export default function AdminPage() {
               >
                 {t({ en: 'Close', fr: 'Fermer' })}
               </button>
-              <button 
+              {(selectedInvoice.status === 'draft' || selectedInvoice.status === 'cancelled') && (
+                <button
+                  onClick={() => {
+                    handleDeleteInvoice(selectedInvoice.id);
+                    setShowInvoiceModal(false);
+                    setSelectedInvoice(null);
+                  }}
+                  className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors text-sm sm:text-base"
+                >
+                  {t({ en: 'Delete Invoice', fr: 'Supprimer la Facture' })}
+                </button>
+              )}
+              <button
                 onClick={() => handleDownloadPDF(selectedInvoice)}
                 className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors text-sm sm:text-base"
               >
