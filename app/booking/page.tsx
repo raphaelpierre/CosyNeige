@@ -322,16 +322,16 @@ export default function BookingPage() {
                     </p>
                   </div>
 
-                  {/* Grille calendrier + statut - Côte à côte sur desktop */}
-                  <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-                    {/* Calendrier - 3 colonnes sur desktop */}
-                    <div className="lg:col-span-3">
+                  {/* Grille calendrier + widgets - Côte à côte sur desktop */}
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    {/* Calendrier - 2 colonnes sur desktop */}
+                    <div className="lg:col-span-2">
                       <BookingCalendar onDateSelect={handleDateSelect} />
                     </div>
 
-                    {/* Widget de statut - 2 colonnes sur desktop, en dessous sur mobile */}
-                    <div className="lg:col-span-2 space-y-4">
-                      {/* Message d'erreur de validation - PERSISTENT ET VISIBLE */}
+                    {/* Colonne de droite - Widgets de statut et tarifs */}
+                    <div className="lg:col-span-1 space-y-4">
+                      {/* Widget de statut de validation */}
                       {validationError && (
                         <div className="bg-red-50 border-2 border-red-300 rounded-xl p-4 shadow-lg">
                           <div className="flex items-center gap-2 mb-2">
@@ -378,6 +378,104 @@ export default function BookingPage() {
                           </button>
                         </div>
                       )}
+
+                      {/* Widget Tarifs et Conditions - Toujours visible */}
+                      {pricingSettings && !isLoadingSeasons && (
+                        <div className="bg-gradient-to-br from-blue-50 via-white to-blue-50 border-2 border-blue-300 rounded-xl p-4 shadow-lg">
+                          <div className="flex items-center gap-2 mb-3">
+                            <span className="text-xl">💵</span>
+                            <h4 className="text-sm font-bold text-gray-900">
+                              {t({ en: 'Rates & Conditions', fr: 'Tarifs & Conditions' })}
+                            </h4>
+                          </div>
+
+                          {/* Tarifs compacts */}
+                          <div className="space-y-2 mb-3">
+                            <div className="bg-white rounded-lg p-2 border-l-4 border-blue-600 shadow-sm">
+                              <div className="flex items-baseline gap-1 mb-1">
+                                <span className="text-lg font-black text-blue-900">
+                                  {formatEuro(pricingSettings.defaultHighSeasonPrice)}
+                                </span>
+                                <span className="text-xs text-gray-600">/ {t({ en: 'night', fr: 'nuit' })}</span>
+                              </div>
+                              <div className="text-xs font-semibold text-blue-800 mb-1">
+                                {t({ en: 'Holiday Periods', fr: 'Périodes de Vacances' })}
+                              </div>
+                              <div className="text-[10px] text-gray-600">
+                                {seasons
+                                  .filter(s => s.seasonType === 'high' && s.isActive)
+                                  .slice(0, 2)
+                                  .map((season, index) => (
+                                    <div key={index}>• {season.name}</div>
+                                  ))}
+                              </div>
+                            </div>
+
+                            <div className="bg-white rounded-lg p-2 border-l-4 border-green-600 shadow-sm">
+                              <div className="flex items-baseline gap-1 mb-1">
+                                <span className="text-lg font-black text-green-900">
+                                  {formatEuro(pricingSettings.defaultLowSeasonPrice)}
+                                </span>
+                                <span className="text-xs text-gray-600">/ {t({ en: 'night', fr: 'nuit' })}</span>
+                              </div>
+                              <div className="text-xs font-semibold text-green-800 mb-1">
+                                {t({ en: 'Other Periods', fr: 'Autres Périodes' })}
+                              </div>
+                              <div className="text-[10px] text-gray-600">
+                                {t({ en: 'All other dates', fr: 'Toutes autres dates' })}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Conditions importantes - compact */}
+                          <div className="bg-white rounded-lg p-2 border border-gray-200">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="text-sm">📋</span>
+                              <div className="text-xs font-bold text-gray-900">
+                                {t({ en: 'Important Info', fr: 'Infos Importantes' })}
+                              </div>
+                            </div>
+                            <div className="space-y-1 text-[10px] text-gray-700">
+                              <div className="flex items-start gap-2">
+                                <span className="text-green-600 flex-shrink-0">✓</span>
+                                <span>
+                                  {t({
+                                    en: `Min. ${pricingSettings.defaultMinimumStay} nights`,
+                                    fr: `Min. ${pricingSettings.defaultMinimumStay} nuits`
+                                  })}
+                                </span>
+                              </div>
+                              <div className="flex items-start gap-2">
+                                <span className="text-green-600 flex-shrink-0">✓</span>
+                                <span>
+                                  {t({
+                                    en: `Cleaning: ${formatEuro(pricingSettings.cleaningFee)}`,
+                                    fr: `Ménage: ${formatEuro(pricingSettings.cleaningFee)}`
+                                  })}
+                                </span>
+                              </div>
+                              <div className="flex items-start gap-2">
+                                <span className="text-green-600 flex-shrink-0">✓</span>
+                                <span>
+                                  {t({
+                                    en: `Deposit: ${formatEuro(pricingSettings.depositAmount)}`,
+                                    fr: `Caution: ${formatEuro(pricingSettings.depositAmount)}`
+                                  })}
+                                </span>
+                              </div>
+                              <div className="flex items-start gap-2">
+                                <span className="text-green-600 flex-shrink-0">✓</span>
+                                <span>
+                                  {t({
+                                    en: '30% deposit required',
+                                    fr: 'Acompte 30% requis'
+                                  })}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -420,109 +518,6 @@ export default function BookingPage() {
                       </div>
                     </div>
                   </div>
-
-                  {/* Section Tarifs et Conditions - TOUJOURS VISIBLE - DESIGN COMPACT */}
-                  {pricingSettings && !isLoadingSeasons ? (
-                    <div className="bg-gradient-to-br from-blue-50 via-white to-blue-50 border-2 border-blue-300 rounded-lg p-3 sm:p-4 shadow-md">
-                      <div className="flex items-center gap-2 mb-3">
-                        <span className="text-xl">💵</span>
-                        <h4 className="text-base sm:text-lg font-bold text-gray-900">
-                          {t({ en: 'Rates & Booking Conditions', fr: 'Tarifs & Conditions de Réservation' })}
-                        </h4>
-                      </div>
-
-                      {/* Tarifs en ligne compacte */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
-                        <div className="bg-white rounded-lg p-3 border-l-4 border-blue-600 shadow-sm">
-                          <div className="flex items-baseline gap-1 mb-1">
-                            <span className="text-lg sm:text-xl font-black text-blue-900">
-                              {formatEuro(pricingSettings.defaultHighSeasonPrice)}
-                            </span>
-                            <span className="text-xs text-gray-600">/ {t({ en: 'night', fr: 'nuit' })}</span>
-                          </div>
-                          <div className="text-xs font-semibold text-blue-800 mb-1">
-                            {t({ en: 'Holiday Periods', fr: 'Périodes de Vacances' })}
-                          </div>
-                          <div className="text-[10px] text-gray-600">
-                            {seasons
-                              .filter(s => s.seasonType === 'high' && s.isActive)
-                              .slice(0, 2)
-                              .map((season, index) => (
-                                <div key={index}>• {season.name}</div>
-                              ))}
-                          </div>
-                        </div>
-
-                        <div className="bg-white rounded-lg p-3 border-l-4 border-green-600 shadow-sm">
-                          <div className="flex items-baseline gap-1 mb-1">
-                            <span className="text-lg sm:text-xl font-black text-green-900">
-                              {formatEuro(pricingSettings.defaultLowSeasonPrice)}
-                            </span>
-                            <span className="text-xs text-gray-600">/ {t({ en: 'night', fr: 'nuit' })}</span>
-                          </div>
-                          <div className="text-xs font-semibold text-green-800 mb-1">
-                            {t({ en: 'Other Periods', fr: 'Autres Périodes' })}
-                          </div>
-                          <div className="text-[10px] text-gray-600">
-                            {t({ en: 'All other dates', fr: 'Toutes autres dates' })}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Conditions importantes - plus compact */}
-                      <div className="bg-white rounded-lg p-3 border border-gray-200">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="text-base">📋</span>
-                          <div className="text-xs font-bold text-gray-900">
-                            {t({ en: 'Important Information', fr: 'Informations Importantes' })}
-                          </div>
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1 text-[10px] sm:text-xs text-gray-700">
-                          <div className="flex items-start gap-2">
-                            <span className="text-green-600 flex-shrink-0">✓</span>
-                            <span>
-                              {t({
-                                en: `Min. ${pricingSettings.defaultMinimumStay} nights`,
-                                fr: `Min. ${pricingSettings.defaultMinimumStay} nuits`
-                              })}
-                            </span>
-                          </div>
-                          <div className="flex items-start gap-2">
-                            <span className="text-green-600 flex-shrink-0">✓</span>
-                            <span>
-                              {t({
-                                en: `Cleaning: ${formatEuro(pricingSettings.cleaningFee)}`,
-                                fr: `Ménage: ${formatEuro(pricingSettings.cleaningFee)}`
-                              })}
-                            </span>
-                          </div>
-                          <div className="flex items-start gap-2">
-                            <span className="text-green-600 flex-shrink-0">✓</span>
-                            <span>
-                              {t({
-                                en: `Deposit: ${formatEuro(pricingSettings.depositAmount)}`,
-                                fr: `Caution: ${formatEuro(pricingSettings.depositAmount)}`
-                              })}
-                            </span>
-                          </div>
-                          <div className="flex items-start gap-2">
-                            <span className="text-green-600 flex-shrink-0">✓</span>
-                            <span>
-                              {t({
-                                en: '30% deposit required',
-                                fr: 'Acompte 30% requis'
-                              })}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 text-center">
-                      <div className="animate-spin text-3xl mb-2">⏳</div>
-                      <p className="text-gray-600">{t({ en: 'Loading rates...', fr: 'Chargement des tarifs...' })}</p>
-                    </div>
-                  )}
 
                 </div>
               )}
