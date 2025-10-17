@@ -5,8 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import LanguageToggle from '@/components/ui/LanguageToggle';
-import UserDropdown from '@/components/ui/UserDropdown';
-import UserMobileMenu from '@/components/ui/UserMobileMenu';
 import { chaletName } from '@/lib/data/chalet';
 
 export default function Navigation() {
@@ -84,7 +82,6 @@ export default function Navigation() {
                   }`} />
                 </Link>
               ))}
-              <UserDropdown />
               <LanguageToggle />
             </div>
           </div>
@@ -149,13 +146,8 @@ export default function Navigation() {
                   </Link>
                 ))}
 
-                {/* User section compact */}
-                <div className="pt-4 mt-4 border-t border-gray-200">
-                  <UserMobileMenu onLinkClick={() => setMobileMenuOpen(false)} />
-                </div>
-
                 {/* Language toggle */}
-                <div className="pt-2">
+                <div className="pt-4 mt-4 border-t border-gray-200">
                   <div className="px-4">
                     <LanguageToggle />
                   </div>
