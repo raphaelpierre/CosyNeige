@@ -29,6 +29,19 @@ interface Message {
   createdAt: string;
 }
 
+interface Invoice {
+  id: string;
+  invoiceNumber: string;
+  clientName: string;
+  clientEmail: string;
+  clientPhone?: string;
+  totalAmount: number;
+  status: 'draft' | 'sent' | 'partial' | 'paid' | 'cancelled';
+  type: 'deposit' | 'balance' | 'full';
+  createdAt: string;
+  reservationId?: string;
+}
+
 function ClientDashboardContent() {
   const { t } = useLanguage();
   const router = useRouter();
@@ -36,7 +49,8 @@ function ClientDashboardContent() {
   const { user, isAuthenticated, logout, loading: authLoading } = useAuth();
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [activeTab, setActiveTab] = useState<'overview' | 'reservations' | 'messages'>('overview');
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [activeTab, setActiveTab] = useState<'overview' | 'reservations' | 'messages' | 'invoices'>('overview');
   const [dataLoading, setDataLoading] = useState(true);
 
   // Message form state
@@ -73,8 +87,8 @@ function ClientDashboardContent() {
   // Gérer les paramètres d'URL pour les onglets
   useEffect(() => {
     const tab = searchParams.get('tab');
-    if (tab && ['overview', 'reservations', 'messages'].includes(tab)) {
-      setActiveTab(tab as 'overview' | 'reservations' | 'messages');
+    if (tab && ['overview', 'reservations', 'messages', 'invoices'].includes(tab)) {
+      setActiveTab(tab as 'overview' | 'reservations' | 'messages' | 'invoices');
     }
   }, [searchParams]);
 
@@ -106,6 +120,17 @@ function ClientDashboardContent() {
       if (msgRes.ok) {
         const messagesData = await msgRes.json();
         setMessages(messagesData);
+      }
+
+      // Récupérer les factures
+      const invRes = await fetch('/api/invoices');
+      if (invRes.ok) {
+        const allInvoices = await invRes.json();
+        // Filtrer les factures de l'utilisateur
+        const userInvoices = allInvoices.filter(
+          (inv: Invoice) => inv.clientEmail === user.email
+        );
+        setInvoices(userInvoices);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -385,10 +410,10 @@ function ClientDashboardContent() {
         </div>
 
         {/* Tabs */}
-        <div className="bg-white rounded-xl shadow p-2 mb-6 flex gap-2">
+        <div className="bg-white rounded-xl shadow p-2 mb-6 flex gap-2 overflow-x-auto">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all text-sm ${
+            className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all text-sm whitespace-nowrap ${
               activeTab === 'overview'
                 ? 'bg-slate-900 text-white'
                 : 'text-gray-600 hover:bg-gray-100'
@@ -398,7 +423,7 @@ function ClientDashboardContent() {
           </button>
           <button
             onClick={() => setActiveTab('reservations')}
-            className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all text-sm ${
+            className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all text-sm whitespace-nowrap ${
               activeTab === 'reservations'
                 ? 'bg-slate-900 text-white'
                 : 'text-gray-600 hover:bg-gray-100'
@@ -407,8 +432,18 @@ function ClientDashboardContent() {
             {t({ en: 'Bookings', fr: 'Réservations' })}
           </button>
           <button
+            onClick={() => setActiveTab('invoices')}
+            className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-all text-sm whitespace-nowrap ${
+              activeTab === 'invoices'
+                ? 'bg-slate-900 text-white'
+                : 'text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            {t({ en: 'Invoices', fr: 'Factures' })}
+          </button>
+          <button
             onClick={() => setActiveTab('messages')}
-            className={`relative flex-1 px-4 py-3 rounded-lg font-semibold transition-all text-sm ${
+            className={`relative flex-1 px-4 py-3 rounded-lg font-semibold transition-all text-sm whitespace-nowrap ${
               activeTab === 'messages'
                 ? 'bg-slate-900 text-white'
                 : 'text-gray-600 hover:bg-gray-100'
@@ -1090,6 +1125,120 @@ function ClientDashboardContent() {
                         </div>
                       </div>
                     )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeTab === 'invoices' && (
+          <div className="bg-white rounded-xl shadow-lg p-8">
+            <h2 className="text-2xl font-bold text-forest-900 mb-6">
+              {t({ en: 'My Invoices', fr: 'Mes Factures' })}
+            </h2>
+
+            {invoices.length === 0 ? (
+              <div className="text-center py-16">
+                <div className="text-6xl mb-4 opacity-50">📄</div>
+                <p className="text-gray-500 mb-2">
+                  {t({ en: 'No invoices yet', fr: 'Aucune facture pour le moment' })}
+                </p>
+                <p className="text-gray-400 text-sm">
+                  {t({ en: 'Invoices will appear here once generated', fr: 'Les factures apparaîtront ici une fois générées' })}
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {invoices.map((invoice) => (
+                  <div
+                    key={invoice.id}
+                    className="border-2 border-gray-200 rounded-xl p-6 hover:border-slate-700 hover:shadow-lg transition-all"
+                  >
+                    <div className="flex flex-col lg:flex-row justify-between gap-6">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-4">
+                          <span className={`px-4 py-1.5 rounded-full text-sm font-bold ${
+                            invoice.status === 'paid'
+                              ? 'bg-green-100 text-green-700'
+                              : invoice.status === 'sent'
+                              ? 'bg-blue-100 text-blue-700'
+                              : invoice.status === 'partial'
+                              ? 'bg-yellow-100 text-yellow-700'
+                              : invoice.status === 'cancelled'
+                              ? 'bg-red-100 text-red-700'
+                              : 'bg-gray-100 text-gray-700'
+                          }`}>
+                            {invoice.status === 'paid'
+                              ? t({ en: 'PAID', fr: 'PAYÉE' })
+                              : invoice.status === 'sent'
+                              ? t({ en: 'SENT', fr: 'ENVOYÉE' })
+                              : invoice.status === 'partial'
+                              ? t({ en: 'PARTIAL', fr: 'PARTIELLE' })
+                              : invoice.status === 'cancelled'
+                              ? t({ en: 'CANCELLED', fr: 'ANNULÉE' })
+                              : t({ en: 'DRAFT', fr: 'BROUILLON' })
+                            }
+                          </span>
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                            invoice.type === 'deposit'
+                              ? 'bg-purple-100 text-purple-700'
+                              : invoice.type === 'balance'
+                              ? 'bg-orange-100 text-orange-700'
+                              : 'bg-slate-100 text-slate-700'
+                          }`}>
+                            {invoice.type === 'deposit'
+                              ? t({ en: 'Deposit', fr: 'Acompte' })
+                              : invoice.type === 'balance'
+                              ? t({ en: 'Balance', fr: 'Solde' })
+                              : t({ en: 'Full Payment', fr: 'Paiement complet' })
+                            }
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-gray-50 rounded-lg p-4">
+                            <div className="text-xs text-gray-600 mb-1">
+                              {t({ en: 'Invoice Number', fr: 'Numéro de Facture' })}
+                            </div>
+                            <div className="font-bold text-gray-900">
+                              {invoice.invoiceNumber}
+                            </div>
+                          </div>
+                          <div className="bg-gray-50 rounded-lg p-4">
+                            <div className="text-xs text-gray-600 mb-1">
+                              {t({ en: 'Issue Date', fr: 'Date d\'émission' })}
+                            </div>
+                            <div className="font-bold text-gray-900">
+                              {new Date(invoice.createdAt).toLocaleDateString('fr-FR', {
+                                day: 'numeric',
+                                month: 'short',
+                                year: 'numeric'
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="lg:text-right border-t lg:border-t-0 lg:border-l border-gray-200 pt-6 lg:pt-0 lg:pl-6">
+                        <div className="text-sm text-gray-600 mb-2">
+                          {t({ en: 'Amount', fr: 'Montant' })}
+                        </div>
+                        <div className="text-3xl font-bold text-forest-900 mb-4">
+                          {formatEuro(invoice.totalAmount)}
+                        </div>
+                        <button
+                          onClick={() => {
+                            // Find the reservation for this invoice
+                            const reservation = reservations.find(r => r.id === invoice.reservationId);
+                            if (reservation) {
+                              handleGenerateInvoice(reservation);
+                            }
+                          }}
+                          className="w-full lg:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all text-sm sm:text-base touch-manipulation active:scale-98"
+                        >
+                          📄 {t({ en: 'Download PDF', fr: 'Télécharger PDF' })}
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>

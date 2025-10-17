@@ -14,7 +14,7 @@ export default function Navigation() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
   const { t } = useLanguage();
-  const { user, isAuthenticated, loading } = useAuth();
+  const { user, isAuthenticated, loading, logout } = useAuth();
 
   // Navigation complète pour desktop
   const navLinks = [
@@ -90,30 +90,45 @@ export default function Navigation() {
                 <div className="flex items-center justify-center w-8 h-8">
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-slate-600"></div>
                 </div>
+              ) : isAuthenticated ? (
+                <>
+                  <Link
+                    href={user?.role === 'admin' ? '/admin' : '/client/dashboard'}
+                    className={`text-sm font-medium transition-all duration-300 relative group flex items-center gap-2 outline-none focus:outline-none ${
+                      pathname.startsWith('/client') || pathname.startsWith('/admin')
+                        ? 'text-slate-700'
+                        : 'text-gray-700 hover:text-slate-700'
+                    }`}
+                  >
+                    <div className="w-7 h-7 bg-slate-700 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                      {user?.firstName?.charAt(0).toUpperCase()}{user?.lastName?.charAt(0).toUpperCase()}
+                    </div>
+                    <span className="hidden lg:block">{user?.firstName} {user?.lastName}</span>
+                    <span className={`absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-slate-600 to-slate-800 transition-all duration-300 ${
+                      pathname.startsWith('/client') || pathname.startsWith('/admin') ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`} />
+                  </Link>
+                  <button
+                    onClick={logout}
+                    className="text-sm font-medium transition-all duration-300 relative group flex items-center gap-2 text-red-600 hover:text-red-700 outline-none focus:outline-none"
+                  >
+                    <span>🚪</span>
+                    <span className="hidden lg:block">{t({ en: 'Logout', fr: 'Déconnexion' })}</span>
+                  </button>
+                </>
               ) : (
                 <Link
-                  href={isAuthenticated ? (user?.role === 'admin' ? '/admin' : '/client/dashboard') : '/client/login'}
+                  href="/client/login"
                   className={`text-sm font-medium transition-all duration-300 relative group flex items-center gap-2 outline-none focus:outline-none ${
-                    pathname.startsWith('/client') || pathname.startsWith('/admin')
+                    pathname.startsWith('/client')
                       ? 'text-slate-700'
                       : 'text-gray-700 hover:text-slate-700'
                   }`}
                 >
-                  {isAuthenticated ? (
-                    <>
-                      <div className="w-7 h-7 bg-slate-700 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                        {user?.firstName?.charAt(0).toUpperCase()}{user?.lastName?.charAt(0).toUpperCase()}
-                      </div>
-                      <span className="hidden lg:block">{user?.firstName}</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>👤</span>
-                      <span>{t({ en: 'My Account', fr: 'Mon Compte' })}</span>
-                    </>
-                  )}
+                  <span>👤</span>
+                  <span>{t({ en: 'My Account', fr: 'Mon Compte' })}</span>
                   <span className={`absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-slate-600 to-slate-800 transition-all duration-300 ${
-                    pathname.startsWith('/client') || pathname.startsWith('/admin') ? 'w-full' : 'w-0 group-hover:w-full'
+                    pathname.startsWith('/client') ? 'w-full' : 'w-0 group-hover:w-full'
                   }`} />
                 </Link>
               )}
@@ -183,33 +198,45 @@ export default function Navigation() {
                 ))}
 
                 {/* Mon Compte - Mobile */}
-                <div className="pt-4 mt-4 border-t border-gray-200">
+                <div className="pt-4 mt-4 border-t border-gray-200 space-y-2">
                   {loading ? (
                     <div className="flex items-center justify-center py-4">
                       <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-slate-700"></div>
                     </div>
+                  ) : isAuthenticated ? (
+                    <>
+                      <Link
+                        href={user?.role === 'admin' ? '/admin' : '/client/dashboard'}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-3 px-4 py-4 rounded-2xl text-base font-semibold transition-all duration-200 active:scale-95 outline-none focus:outline-none bg-slate-100 text-slate-900 hover:bg-slate-200"
+                      >
+                        <div className="w-8 h-8 bg-slate-700 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                          {user?.firstName?.charAt(0).toUpperCase()}{user?.lastName?.charAt(0).toUpperCase()}
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-bold">{user?.firstName} {user?.lastName}</span>
+                          <span className="text-xs text-slate-600">{t({ en: 'My Account', fr: 'Mon Compte' })}</span>
+                        </div>
+                      </Link>
+                      <button
+                        onClick={() => {
+                          logout();
+                          setMobileMenuOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl text-base font-semibold transition-all duration-200 active:scale-95 outline-none focus:outline-none bg-red-50 text-red-700 hover:bg-red-100"
+                      >
+                        <span className="text-2xl">🚪</span>
+                        <span>{t({ en: 'Logout', fr: 'Déconnexion' })}</span>
+                      </button>
+                    </>
                   ) : (
                     <Link
-                      href={isAuthenticated ? (user?.role === 'admin' ? '/admin' : '/client/dashboard') : '/client/login'}
+                      href="/client/login"
                       onClick={() => setMobileMenuOpen(false)}
                       className="flex items-center gap-3 px-4 py-4 rounded-2xl text-base font-semibold transition-all duration-200 active:scale-95 outline-none focus:outline-none bg-slate-100 text-slate-900 hover:bg-slate-200"
                     >
-                      {isAuthenticated ? (
-                        <>
-                          <div className="w-8 h-8 bg-slate-700 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
-                            {user?.firstName?.charAt(0).toUpperCase()}{user?.lastName?.charAt(0).toUpperCase()}
-                          </div>
-                          <div className="flex flex-col">
-                            <span className="text-sm font-bold">{user?.firstName} {user?.lastName}</span>
-                            <span className="text-xs text-slate-600">{t({ en: 'My Account', fr: 'Mon Compte' })}</span>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <span className="text-2xl">👤</span>
-                          <span>{t({ en: 'My Account', fr: 'Mon Compte' })}</span>
-                        </>
-                      )}
+                      <span className="text-2xl">👤</span>
+                      <span>{t({ en: 'My Account', fr: 'Mon Compte' })}</span>
                     </Link>
                   )}
                 </div>

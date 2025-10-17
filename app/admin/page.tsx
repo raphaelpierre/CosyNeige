@@ -56,7 +56,7 @@ type TabType = 'reservations' | 'users' | 'messages' | 'invoices' | 'accounting'
 
 export default function AdminPage() {
   const { t, language } = useLanguage();
-  const { user, isAuthenticated, loading, logout } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabType>('reservations');
   const [currentCalendarDate, setCurrentCalendarDate] = useState(new Date());
@@ -974,43 +974,31 @@ export default function AdminPage() {
               </div>
             </div>
 
-            {/* Quick Stats & Logout */}
-            <div className="flex items-center gap-4">
-              {/* Quick notifications badges */}
-              <div className="hidden md:flex items-center gap-3">
-                {reservations.filter(r => r.status === 'pending').length > 0 && (
-                  <button
-                    onClick={() => {
-                      setActiveTab('reservations');
-                      setStatusFilter('pending');
-                    }}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-amber-50 text-amber-700 rounded-lg hover:bg-amber-100 transition-colors"
-                    title={t({ en: 'Pending reservations', fr: 'Réservations en attente' })}
-                  >
-                    <span className="text-sm">⏳</span>
-                    <span className="font-semibold text-sm">{reservations.filter(r => r.status === 'pending').length}</span>
-                  </button>
-                )}
-                {messages.filter(m => !m.read).length > 0 && (
-                  <button
-                    onClick={() => setActiveTab('messages')}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors"
-                    title={t({ en: 'Unread messages', fr: 'Messages non lus' })}
-                  >
-                    <span className="text-sm">💬</span>
-                    <span className="font-semibold text-sm">{messages.filter(m => !m.read).length}</span>
-                  </button>
-                )}
-              </div>
-
-              {/* Logout */}
-              <button
-                onClick={logout}
-                className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors focus:outline-none"
-              >
-                <span>🚪</span>
-                <span className="hidden sm:inline">{t({ en: 'Logout', fr: 'Déconnexion' })}</span>
-              </button>
+            {/* Quick notifications badges */}
+            <div className="flex items-center gap-3">
+              {reservations.filter(r => r.status === 'pending').length > 0 && (
+                <button
+                  onClick={() => {
+                    setActiveTab('reservations');
+                    setStatusFilter('pending');
+                  }}
+                  className="flex items-center gap-2 px-3 py-1.5 bg-amber-50 text-amber-700 rounded-lg hover:bg-amber-100 transition-colors"
+                  title={t({ en: 'Pending reservations', fr: 'Réservations en attente' })}
+                >
+                  <span className="text-sm">⏳</span>
+                  <span className="font-semibold text-sm">{reservations.filter(r => r.status === 'pending').length}</span>
+                </button>
+              )}
+              {messages.filter(m => !m.read).length > 0 && (
+                <button
+                  onClick={() => setActiveTab('messages')}
+                  className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors"
+                  title={t({ en: 'Unread messages', fr: 'Messages non lus' })}
+                >
+                  <span className="text-sm">💬</span>
+                  <span className="font-semibold text-sm">{messages.filter(m => !m.read).length}</span>
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -3549,8 +3537,8 @@ export default function AdminPage() {
       )}
 
       {/* Navigation mobile sous forme d'onglets horizontaux */}
-      <nav className="md:hidden bg-white border-b border-gray-200 sticky top-16 z-30 shadow-sm overflow-x-auto">
-        <div className="flex gap-2 px-4 py-3">
+      <nav className="md:hidden bg-white border-b border-gray-200 sticky top-16 z-30 shadow-sm overflow-x-auto scrollbar-hide">
+        <div className="flex gap-1.5 px-2 py-2.5">
           {tabs.map(tab => {
             const hasNotification =
               (tab.id === 'messages' && messages.filter(m => !m.read).length > 0) ||
@@ -3560,16 +3548,19 @@ export default function AdminPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
+                className={`relative flex flex-col items-center justify-center gap-0.5 px-2 sm:px-3 py-2 rounded-lg text-xs font-medium transition-all min-w-[60px] sm:min-w-[80px] ${
                   activeTab === tab.id
                     ? 'bg-slate-900 text-white shadow-sm'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
+                title={t(tab.label)}
               >
-                <span className="text-base">{tab.icon}</span>
-                <span>{t(tab.label)}</span>
+                <span className="text-xl sm:text-2xl">{tab.icon}</span>
+                <span className="text-[9px] sm:text-xs font-semibold leading-tight truncate w-full text-center">
+                  {t(tab.label)}
+                </span>
                 {hasNotification && (
-                  <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                  <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                 )}
               </button>
             );
