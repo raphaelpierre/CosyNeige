@@ -50,6 +50,7 @@ export default function BookingPage() {
   const [seasons, setSeasons] = useState<SeasonPeriod[]>([]);
   const [pricingSettings, setPricingSettings] = useState<PricingSettings | null>(null);
   const [isLoadingSeasons, setIsLoadingSeasons] = useState(true);
+  const [validationError, setValidationError] = useState<{ error: string; errorFr: string } | null>(null);
 
   // Calculs automatiques
   const nights = checkIn && checkOut ? calculateNights(checkIn, checkOut) : 0;
@@ -182,6 +183,18 @@ export default function BookingPage() {
     // Mettre à jour les deux dates ensemble
     setCheckIn(formattedCheckIn);
     setCheckOut(formattedCheckOut);
+
+    // Valider les dates et stocker l'erreur si invalide
+    if (formattedCheckIn && formattedCheckOut && seasons.length > 0 && pricingSettings) {
+      const validation = validateBookingDatesWithSeasons(formattedCheckIn, formattedCheckOut, seasons, pricingSettings);
+      if (!validation.isValid) {
+        setValidationError({ error: validation.error || '', errorFr: validation.errorFr || '' });
+      } else {
+        setValidationError(null);
+      }
+    } else {
+      setValidationError(null);
+    }
   };
 
   const handleCreateReservationAndPayment = async () => {
@@ -457,25 +470,28 @@ export default function BookingPage() {
                     </div>
                   )}
 
+                  {/* Message d'erreur de validation - PERSISTENT */}
+                  {validationError && (
+                    <div className="bg-red-50 border-2 border-red-300 rounded-xl p-4 text-center shadow-md">
+                      <div className="flex items-center justify-center gap-2 mb-2">
+                        <span className="text-red-500 text-2xl">⚠️</span>
+                        <h4 className="text-red-800 font-bold text-base sm:text-lg">
+                          {t({ en: 'Invalid booking period', fr: 'Période de réservation invalide' })}
+                        </h4>
+                      </div>
+                      <p className="text-red-700 text-sm font-medium">
+                        {t({
+                          en: validationError.error,
+                          fr: validationError.errorFr
+                        })}
+                      </p>
+                    </div>
+                  )}
+
                   {/* Feedback messages - DYNAMIQUES avec animations */}
-                  {checkIn && checkOut && nights > 0 && (
+                  {checkIn && checkOut && nights > 0 && !validationError && (
                     <div className="animate-in fade-in slide-in-from-top-2 duration-300">
-                      {!isValidStay ? (
-                        <div className="bg-red-50 border-2 border-red-300 rounded-xl p-4 text-center animate-in fade-in zoom-in-95 duration-200 shadow-md">
-                          <div className="flex items-center justify-center gap-2 mb-2">
-                            <span className="text-red-500 text-2xl animate-pulse">⚠️</span>
-                            <h4 className="text-red-800 font-bold text-base sm:text-lg">
-                              {t({ en: 'Invalid booking period', fr: 'Période de réservation invalide' })}
-                            </h4>
-                          </div>
-                          <p className="text-red-700 text-sm font-medium">
-                            {t({
-                              en: validation.error || 'Invalid dates',
-                              fr: validation.errorFr || 'Dates invalides'
-                            })}
-                          </p>
-                        </div>
-                      ) : (
+                      {isValidStay && (
                         <div className="space-y-4">
                           {/* Message de succès avec prix */}
                           {priceCalculation && (

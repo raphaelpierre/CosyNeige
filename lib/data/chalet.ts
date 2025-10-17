@@ -154,11 +154,9 @@ export const galleryImages: GalleryImage[] = [
   // Exterior - Meilleures vues en premier
   { url: "/images/vuehaute_pagedegarde.webp", category: "exterior", alt: { en: "Aerial view cover photo", fr: "Vue aérienne photo de couverture" } },
   { url: "/images/ChaletPAnoramiqueVueHaut.webp", category: "exterior", alt: { en: "Chalet panoramic view from above", fr: "Vue panoramique du chalet d'en haut" } },
-  { url: "/images/ChaletPAnoramique.webp", category: "exterior", alt: { en: "Wide panoramic chalet view", fr: "Vue panoramique large du chalet" } },
   { url: "/images/Chalet_Exterieur.webp", category: "exterior", alt: { en: "Chalet main exterior view", fr: "Vue extérieure principale du chalet" } },
   { url: "/images/chalet_neige_devant.webp", category: "exterior", alt: { en: "Chalet in winter with snow", fr: "Chalet en hiver avec neige" } },
   { url: "/images/chaletneigedehors.webp", category: "exterior", alt: { en: "Chalet winter view from outside", fr: "Vue hivernale du chalet de l'extérieur" } },
-  { url: "/images/VueEnsemble.webp", category: "exterior", alt: { en: "Chalet overall view", fr: "Vue d'ensemble du chalet" } },
   { url: "/images/exterieur_terrase_devant.webp", category: "exterior", alt: { en: "Front terrace view", fr: "Vue terrasse devant" } },
   { url: "/images/exterieur_avant.webp", category: "exterior", alt: { en: "Front view of the chalet", fr: "Vue de face du chalet" } },
   { url: "/images/Exterieur.webp", category: "exterior", alt: { en: "Chalet exterior in summer", fr: "Extérieur du chalet en été" } },
@@ -192,10 +190,10 @@ export const galleryImages: GalleryImage[] = [
   { url: "/images/SalleAmanger.webp", category: "kitchen", alt: { en: "Dining room with large table", fr: "Salle à manger avec grande table" } },
 
   // Bedrooms - Chambres
-  { url: "/images/Chambre4.webp", category: "bedroom", alt: { en: "Master suite with mountain view", fr: "Suite master avec vue montagne" } },
-  { url: "/images/Chambre23.webp", category: "bedroom", alt: { en: "Emerald bedroom with garden view", fr: "Chambre Émeraude avec vue jardin" } },
+  { url: "/images/Chambre4.webp", category: "bedroom", alt: { en: "Master suite upstairs with mountain view", fr: "Suite master à l'étage avec vue montagne" } },
+  { url: "/images/Chambre23.webp", category: "bedroom", alt: { en: "Ground floor bedroom with garden view", fr: "Chambre du bas avec vue jardin" } },
   { url: "/images/ChambreDortoir2.webp", category: "bedroom", alt: { en: "Sapphire bedroom cozy atmosphere", fr: "Chambre Saphir ambiance cosy" } },
-  { url: "/images/ChambreDortoir.webp", category: "bedroom", alt: { en: "Family dormitory three single beds", fr: "Dortoir familial trois lits simples" } },
+  { url: "/images/ChambreDortoir.webp", category: "bedroom", alt: { en: "Children's bedroom three single beds", fr: "Chambre enfants trois lits simples" } },
   { url: "/images/chambre__2.webp", category: "bedroom", alt: { en: "Ruby bedroom peaceful retreat", fr: "Chambre Rubis refuge paisible" } },
   { url: "/images/Chambre3.webp", category: "bedroom", alt: { en: "Comfortable bedroom queen bed", fr: "Chambre confortable lit queen" } },
 

@@ -28,25 +28,19 @@ export default function ChaletPage() {
 
   const rooms = [
     {
-      name: { en: 'Ground Floor Bedroom', fr: 'Chambre Rez-de-Chaussée' },
-      description: { en: 'Elegant queen-size bed with premium bedding, peaceful garden views, spacious traditional alpine wardrobe with ample storage', fr: 'Élégant lit queen-size avec literie premium, vue paisible sur jardin, spacieuse armoire alpine traditionnelle avec grand rangement' },
-      icon: '🛏️',
-      image: '/images/Chambre3.webp',
-    },
-    {
-      name: { en: 'Master Bedroom', fr: 'Suite Master' },
-      description: { en: 'Luxurious suite with walk-in dressing room, breathtaking mountain panorama, private balcony access, climate control, and children\'s bed on request', fr: 'Suite luxueuse avec dressing, panorama montagneux à couper le souffle, accès balcon privé, climatisation, et lit enfant sur demande' },
+      name: { en: 'Master Suite', fr: 'Suite Master' },
+      description: { en: 'Luxurious upstairs suite with walk-in dressing room, breathtaking mountain panorama, private balcony access, climate control, and children\'s bed on request', fr: 'Suite luxueuse à l\'étage avec dressing, panorama montagneux à couper le souffle, accès balcon privé, climatisation, et lit enfant sur demande' },
       icon: '🛏️',
       image: '/images/Chambre4.webp',
     },
     {
       name: { en: 'Garden View Bedroom', fr: 'Chambre Vue Jardin' },
-      description: { en: 'Comfortable queen-size bed overlooking the private garden, authentic alpine closet with traditional wood finishes', fr: 'Confortable lit queen-size donnant sur le jardin privé, penderie alpine authentique aux finitions bois traditionnelles' },
+      description: { en: 'Ground floor bedroom with comfortable queen-size bed overlooking the private garden, authentic alpine closet with traditional wood finishes', fr: 'Chambre au rez-de-chaussée avec confortable lit queen-size donnant sur le jardin privé, penderie alpine authentique aux finitions bois traditionnelles' },
       icon: '🛏️',
-      image: '/images/Chambre3.webp',
+      image: '/images/Chambre23.webp',
     },
     {
-      name: { en: 'Children\'s Bedroom', fr: 'Chambre des Enfants' },
+      name: { en: 'Children\'s Bedroom', fr: 'Chambre Enfants' },
       description: { en: 'Three single beds in a cheerful, family-friendly space with playful mountain-themed décor and dedicated storage closet', fr: 'Trois lits simples dans un espace familial chaleureux avec décoration ludique aux thèmes montagnards et penderie dédiée' },
       icon: '🛏️',
       image: '/images/ChambreDortoir.webp',

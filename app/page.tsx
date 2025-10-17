@@ -406,61 +406,61 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Luxurious suite with walk-in dressing room, breathtaking mountain panorama, private balcony access, and climate control.',
-                    fr: 'Suite luxueuse avec dressing, panorama montagneux à couper le souffle, accès balcon privé et climatisation.'
+                    en: 'Upstairs retreat with panoramic mountain views and private balcony. Features a spacious walk-in dressing and climate control for year-round comfort.',
+                    fr: 'Refuge à l\'étage avec vue panoramique sur les montagnes et balcon privé. Dispose d\'un spacieux dressing et climatisation pour un confort toute l\'année.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🛏️</span>
-                    <span>{t({ en: 'King Bed 180x200 + Child Bed 70x140', fr: 'Lit King Size 180x200 + Lit enfant 70x140' })}</span>
+                    <span>{t({ en: 'King 180x200 + Child bed available', fr: 'King 180x200 + Lit enfant disponible' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🚪</span>
-                    <span>{t({ en: 'Double Walk-in Dressing', fr: 'Double Dressing' })}</span>
+                    <span>{t({ en: 'Walk-in Dressing Room', fr: 'Dressing Walk-in' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span>🏔️</span>
-                    <span>{t({ en: 'Balcony Access', fr: 'Accès Balcon' })}</span>
+                    <span>❄️</span>
+                    <span>{t({ en: 'Air Conditioning', fr: 'Climatisation' })}</span>
                   </li>
                 </ul>
               </div>
             </div>
 
-            {/* Chambre 2 - Émeraude */}
+            {/* Chambre 2 - Chambre du Bas avec Vue Jardin */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src="/images/Chambre23.webp"
-                  alt="Chambre Émeraude"
+                  alt="Chambre Vue Jardin"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Emerald Room', fr: 'Chambre Émeraude' })}</h3>
+                  <h3 className="text-2xl font-bold">{t({ en: 'Garden View Bedroom', fr: 'Chambre Vue Jardin' })}</h3>
                 </div>
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Ground floor bedroom with double bed 160x200 and traditional Alpine wardrobe with hanging space.',
-                    fr: 'Chambre au rez-de-chaussée avec lit double 160x200 et armoire traditionnelle alpine avec penderie.'
+                    en: 'Peaceful ground floor room overlooking the private garden. Combines comfort with authentic Alpine charm through traditional wood furnishings.',
+                    fr: 'Chambre paisible au rez-de-chaussée donnant sur le jardin privé. Allie confort et charme alpin authentique grâce à des meubles traditionnels en bois.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🛏️</span>
-                    <span>{t({ en: 'Double Bed 160x200', fr: 'Lit double 160x200' })}</span>
+                    <span>{t({ en: 'Queen Bed 160x200', fr: 'Lit Queen 160x200' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🚪</span>
-                    <span>{t({ en: 'Traditional Alpine Wardrobe', fr: 'Armoire Traditionnelle Alpine' })}</span>
+                    <span>{t({ en: 'Alpine Wardrobe', fr: 'Armoire Alpine' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span>🏔️</span>
-                    <span>{t({ en: 'Ground Floor Access', fr: 'Accès Rez-de-Chaussée' })}</span>
+                    <span>🌿</span>
+                    <span>{t({ en: 'Garden Outlook', fr: 'Vue sur Jardin' })}</span>
                   </li>
                 </ul>
               </div>
@@ -484,57 +484,57 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Elegant room with flexible sleeping arrangements. Can be configured as 1 double bed 160x200 + 1 single bed 80x200 or 3 single beds 80x200.',
-                    fr: 'Chambre élégante avec couchages modulables. Configuration en 1 lit double 160x200 + 1 lit simple 80x200 ou 3 lits simples 80x200.'
+                    en: 'Versatile bedroom perfect for couples or small groups. Modular bed configuration adapts to your needs.',
+                    fr: 'Chambre polyvalente parfaite pour couples ou petits groupes. Configuration de lits modulable selon vos besoins.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🛏️</span>
-                    <span>{t({ en: '1 Double 160x200 + 1 Single 80x200 OR 3 Singles 80x200', fr: '1 lit double 160x200 + 1 simple 80x200 OU 3 lits simples 80x200' })}</span>
+                    <span>{t({ en: 'Flexible: 1 Double + 1 Single OR 3 Singles', fr: 'Modulable: 1 Double + 1 Simple OU 3 Simples' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span>🌿</span>
-                    <span>{t({ en: 'Small Closet', fr: 'Petite Penderie' })}</span>
+                    <span>🚪</span>
+                    <span>{t({ en: 'Compact Storage', fr: 'Rangement Compact' })}</span>
                   </li>
                 </ul>
               </div>
             </div>
 
-            {/* Chambre 4 - Dortoir Familial */}
+            {/* Chambre 4 - Chambre Enfants */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src="/images/ChambreDortoir.webp"
-                  alt="Dortoir Familial"
+                  alt="Chambre Enfants"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Family Dormitory', fr: 'Dortoir Familial' })}</h3>
+                  <h3 className="text-2xl font-bold">{t({ en: 'Children\'s Bedroom', fr: 'Chambre Enfants' })}</h3>
                 </div>
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Flexible family dormitory: 3 beds (80x200) that can be converted into 1 double bed (160x200) + 1 single bed (80x200), with small closet.',
-                    fr: '3 lits 80 x 200 modulable en 1 lit double 160 x 200 et 1 lit simple 80 x 200, petite penderie.'
+                    en: 'Cheerful family space ideal for children or additional guests. Adaptable layout suits various group configurations.',
+                    fr: 'Espace familial joyeux idéal pour enfants ou invités supplémentaires. Agencement adaptable convient à diverses configurations de groupe.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🛏️</span>
-                    <span>{t({ en: '3 Singles 80x200 OR 1 Double 160x200 + 1 Single 80x200', fr: '3 lits 80x200 OU 1 double 160x200 + 1 simple 80x200' })}</span>
+                    <span>{t({ en: '3 Singles OR 1 Double + 1 Single', fr: '3 Simples OU 1 Double + 1 Simple' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🚪</span>
-                    <span>{t({ en: 'Small Closet', fr: 'Petite Penderie' })}</span>
+                    <span>{t({ en: 'Storage Space', fr: 'Espace Rangement' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>👨‍👩‍👧‍👦</span>
-                    <span>{t({ en: 'Family Friendly', fr: 'Familiale' })}</span>
+                    <span>{t({ en: 'Family-Friendly', fr: 'Adapté Familles' })}</span>
                   </li>
                 </ul>
               </div>
@@ -560,22 +560,22 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Designer master bathroom with oversized Italian shower, double vanity, and heated towel rails for ultimate comfort.',
-                    fr: 'Salle de bain master design avec grande douche italienne, double vasque et sèche-serviettes chauffants pour un confort optimal.'
+                    en: 'Contemporary design meets luxury with walk-in shower and dual sinks. Heated rails add a premium touch.',
+                    fr: 'Design contemporain rencontre le luxe avec douche à l\'italienne et double vasque. Sèche-serviettes pour une touche premium.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🚿</span>
-                    <span>{t({ en: 'Italian Shower', fr: 'Douche Italienne' })}</span>
+                    <span>{t({ en: 'Walk-in Shower', fr: 'Douche Italienne' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🪞</span>
-                    <span>{t({ en: 'Double Vanity', fr: 'Double Vasque' })}</span>
+                    <span>{t({ en: 'Dual Sinks', fr: 'Double Vasque' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🔥</span>
-                    <span>{t({ en: 'Heated Towel Rails', fr: 'Sèche-Serviettes' })}</span>
+                    <span>{t({ en: 'Towel Warmer', fr: 'Chauffe-Serviettes' })}</span>
                   </li>
                 </ul>
               </div>
@@ -599,22 +599,22 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Spacious family bathroom with deep soaking tub, separate shower, and elegant fixtures for relaxing moments.',
-                    fr: 'Spacieuse salle de bain familiale avec baignoire profonde, douche séparée et élégants équipements pour des moments de détente.'
+                    en: 'Generous wellness space featuring a soaking tub perfect for après-ski relaxation. Independent shower adds practicality.',
+                    fr: 'Généreux espace bien-être avec baignoire idéale pour l\'après-ski. Douche indépendante pour plus de praticité.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🛁</span>
-                    <span>{t({ en: 'Deep Bathtub', fr: 'Baignoire Profonde' })}</span>
+                    <span>{t({ en: 'Soaking Tub', fr: 'Baignoire Relaxante' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🚿</span>
-                    <span>{t({ en: 'Separate Shower', fr: 'Douche Séparée' })}</span>
+                    <span>{t({ en: 'Independent Shower', fr: 'Douche Indépendante' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span>💫</span>
-                    <span>{t({ en: 'Elegant Fixtures', fr: 'Équipements Élégants' })}</span>
+                    <span>✨</span>
+                    <span>{t({ en: 'Premium Finishes', fr: 'Finitions Premium' })}</span>
                   </li>
                 </ul>
               </div>
@@ -638,22 +638,22 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Private outdoor hot tub with stunning mountain views. The perfect way to relax after skiing.',
-                    fr: 'Jacuzzi extérieur privé avec vue imprenable sur les montagnes. Le moyen parfait pour se détendre après le ski.'
+                    en: 'Unwind in your private outdoor spa under alpine skies. Heated year-round for après-ski bliss.',
+                    fr: 'Détendez-vous dans votre spa extérieur privé sous le ciel alpin. Chauffé toute l\'année pour un moment après-ski parfait.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>♨️</span>
-                    <span>{t({ en: 'Heated Year-Round', fr: 'Chauffé toute l\'année' })}</span>
+                    <span>{t({ en: 'All-Season Heating', fr: 'Chauffage 4 Saisons' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🌟</span>
-                    <span>{t({ en: 'Stargazing', fr: 'Vue sur étoiles' })}</span>
+                    <span>{t({ en: 'Evening Ambiance', fr: 'Ambiance Nocturne' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🏔️</span>
-                    <span>{t({ en: 'Mountain Views', fr: 'Vue Montagne' })}</span>
+                    <span>{t({ en: 'Alpine Panorama', fr: 'Panorama Alpin' })}</span>
                   </li>
                 </ul>
               </div>
@@ -677,8 +677,8 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Spacious terrace with outdoor furniture, BBQ and plancha. Perfect for al fresco dining with stunning alpine views.',
-                    fr: 'Grande terrasse avec mobilier extérieur, barbecue et plancha. Parfaite pour les repas en plein air avec vue alpine imprenable.'
+                    en: 'Generous outdoor living area equipped for memorable mountain dining experiences. Enjoy summer cookouts with breathtaking scenery.',
+                    fr: 'Généreux espace de vie extérieur équipé pour des moments gastronomiques inoubliables. Profitez de grillades estivales avec panorama exceptionnel.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
@@ -688,11 +688,11 @@ export default function HomePage() {
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🪑</span>
-                    <span>{t({ en: 'Outdoor Furniture', fr: 'Mobilier extérieur' })}</span>
+                    <span>{t({ en: 'Lounge Seating', fr: 'Salon d\'Extérieur' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>🌄</span>
-                    <span>{t({ en: 'Mountain Views', fr: 'Vue Montagne' })}</span>
+                    <span>{t({ en: 'Scenic Backdrop', fr: 'Décor Naturel' })}</span>
                   </li>
                 </ul>
               </div>
@@ -716,22 +716,22 @@ export default function HomePage() {
               <div className="p-6">
                 <p className="text-gray-600 mb-4">
                   {t({
-                    en: 'Convenient 5-space private parking with dedicated ski room for all your winter sports equipment.',
-                    fr: 'Parking privé pratique de 5 places avec local à skis dédié pour tout votre équipement de sports d\'hiver.'
+                    en: 'Ample vehicle storage plus organized gear space. Everything you need for hassle-free mountain adventures.',
+                    fr: 'Grand parking véhicules et espace équipement organisé. Tout pour des aventures en montagne sans tracas.'
                   })}
                 </p>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-center gap-2">
                     <span>🚗</span>
-                    <span>{t({ en: '5 Parking Spaces', fr: '5 Places de Parking' })}</span>
+                    <span>{t({ en: '5 Vehicle Spaces', fr: '5 Places Véhicules' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span>⛷️</span>
-                    <span>{t({ en: 'Ski Room', fr: 'Local à Skis' })}</span>
+                    <span>{t({ en: 'Equipment Storage', fr: 'Stockage Équipement' })}</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span>🏔️</span>
-                    <span>{t({ en: 'Direct Access', fr: 'Accès Direct' })}</span>
+                    <span>👢</span>
+                    <span>{t({ en: 'Boot Warmers', fr: 'Chauffe-Chaussures' })}</span>
                   </li>
                 </ul>
               </div>
