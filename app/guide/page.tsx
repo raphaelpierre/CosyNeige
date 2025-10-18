@@ -294,14 +294,6 @@ export default function GuidePage() {
           subtitle: { en: 'Property Owner', fr: 'Propriétaire' },
           content: { en: 'Available 24/7 for emergencies: +33 6 85 85 84 91', fr: 'Disponible 24h/24 pour urgences : +33 6 85 85 84 91' },
         },
-        {
-          subtitle: { en: 'Local Doctor', fr: 'Médecin Local' },
-          content: { en: 'Dr Cecile NEUVILLERS, Cluses: +33 6 65 05 95 13', fr: 'Dr Cecile NEUVILLERS, Cluses : +33 6 65 05 95 13' },
-        },
-        {
-          subtitle: { en: 'Plumber/Electrician', fr: 'Plombier/Électricien' },
-          content: { en: 'For non-emergency repairs, contact us first. Emergency plumber: +33 6 01 61 67 49', fr: 'Pour réparations non urgentes, contactez-nous d\'abord. Plombier urgence : +33 6 01 61 67 49' },
-        },
       ],
     },
     {
