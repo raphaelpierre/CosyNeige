@@ -3535,6 +3535,47 @@ export default function AdminPage() {
         />
       )}
 
+      {/* Navigation desktop - Horizontal tabs */}
+      <nav className="hidden md:block bg-white border-b border-gray-200 sticky top-16 z-30 shadow-sm">
+        <div className="px-6 py-3">
+          <div className="flex items-center gap-2">
+            {tabs.map(tab => {
+              const hasNotification =
+                (tab.id === 'messages' && messages.filter(m => !m.read).length > 0) ||
+                (tab.id === 'reservations' && reservations.filter(r => r.status === 'pending').length > 0);
+
+              const notificationCount =
+                tab.id === 'messages' ? messages.filter(m => !m.read).length :
+                tab.id === 'reservations' ? reservations.filter(r => r.status === 'pending').length : 0;
+
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`relative flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-200 ${
+                    activeTab === tab.id
+                      ? 'bg-gradient-to-br from-slate-700 to-slate-900 text-white shadow-md'
+                      : 'text-gray-700 hover:bg-gray-50 border border-gray-200'
+                  }`}
+                >
+                  <span className="text-xl">
+                    {tab.icon}
+                  </span>
+                  <span className="text-sm font-semibold whitespace-nowrap">
+                    {t(tab.label)}
+                  </span>
+                  {hasNotification && notificationCount > 0 && (
+                    <span className="min-w-[20px] h-[20px] px-1.5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                      {notificationCount}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </nav>
+
       {/* Navigation mobile - Grid layout moderne */}
       <nav className="md:hidden bg-gradient-to-br from-gray-50 to-white border-b border-gray-200 sticky top-16 z-30 shadow-md">
         <div className="px-3 py-4">

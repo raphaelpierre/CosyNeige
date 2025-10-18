@@ -20,7 +20,8 @@ export default function Navigation() {
   const navLinks = [
     { href: '/', label: { en: 'Home', fr: 'Accueil' } },
     { href: '/gallery', label: { en: 'Gallery', fr: 'Galerie' } },
-    { href: '/location', label: { en: 'Location & Info', fr: 'Localisation & Infos' } },
+    { href: '/location', label: { en: 'Info', fr: 'Infos' } },
+    { href: '/guide', label: { en: 'Guest Guide', fr: 'Guide' } },
     { href: '/booking', label: { en: 'Booking', fr: 'Réservation' } },
     { href: '/contact', label: { en: 'Contact', fr: 'Contact' } },
   ];
@@ -30,6 +31,7 @@ export default function Navigation() {
     { href: '/', label: { en: 'Home', fr: 'Accueil' }, icon: '🏠' },
     { href: '/gallery', label: { en: 'Gallery', fr: 'Galerie' }, icon: '📸' },
     { href: '/location', label: { en: 'Info', fr: 'Infos' }, icon: '📍' },
+    { href: '/guide', label: { en: 'Guide', fr: 'Guide' }, icon: '📖' },
     { href: '/booking', label: { en: 'Book', fr: 'Réserver' }, icon: '📅', highlight: true },
     { href: '/contact', label: { en: 'Contact', fr: 'Contact' }, icon: '✉️' },
   ];

@@ -8,26 +8,12 @@ export default function Footer() {
   const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
 
-  const footerLinks = {
-    explore: [
-      { href: '/', label: { en: 'Home', fr: 'Accueil' } },
-      { href: '/gallery', label: { en: 'Gallery', fr: 'Galerie' } },
-      { href: '/location', label: { en: 'Location', fr: 'Localisation' } },
-      { href: '/guide', label: { en: 'Guest Guide', fr: 'Guide' } },
-    ],
-    booking: [
-      { href: '/booking', label: { en: 'Book Now', fr: 'Réserver' } },
-      { href: '/contact', label: { en: 'Contact Us', fr: 'Nous Contacter' } },
-      { href: '/client/login', label: { en: 'My Account', fr: 'Mon Compte' } },
-    ],
-  };
-
   return (
     <footer className="bg-white border-t border-forest-100/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           {/* Brand Section */}
-          <div className="lg:col-span-1">
+          <div>
             <div className="flex items-center gap-2 mb-4">
               <span className="text-3xl">🏔️</span>
               <div>
@@ -41,40 +27,6 @@ export default function Footer() {
               <p className="font-medium text-gray-700">{location.village}</p>
               <p className="font-medium text-gray-700">{location.region}, {location.postalCode}</p>
             </div>
-          </div>
-
-          {/* Explore Links */}
-          <div>
-            <h4 className="text-lg font-bold text-gray-700 mb-4">{t({ en: 'Explore', fr: 'Explorer' })}</h4>
-            <ul className="space-y-2">
-              {footerLinks.explore.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-gray-700 hover:text-forest-700 transition-colors text-sm font-medium"
-                  >
-                    {t(link.label)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Booking Links */}
-          <div>
-            <h4 className="text-lg font-bold text-gray-700 mb-4">{t({ en: 'Booking', fr: 'Réservation' })}</h4>
-            <ul className="space-y-2">
-              {footerLinks.booking.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-gray-700 hover:text-forest-700 transition-colors text-sm font-medium"
-                  >
-                    {t(link.label)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
 
           {/* Contact Info */}
