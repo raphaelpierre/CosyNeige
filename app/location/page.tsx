@@ -421,14 +421,14 @@ export default function LocationPage() {
                 {/* Main Headline */}
                 <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
                   {t({
-                    en: 'Access Great Local Deals',
-                    fr: 'Accédez aux Meilleures Offres Locales'
+                    en: 'Discover Local Partnerships',
+                    fr: 'Découvrez nos Partenariats Locaux'
                   })}
                   <br />
-                  <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-cream to-amber-200 bg-clip-text text-transparent">
                     {t({
-                      en: 'Save Up to €500 Per Stay',
-                      fr: 'Économisez jusqu\'à 500€ par Séjour'
+                      en: '& Special Member Offers',
+                      fr: '& Offres Spéciales Membres'
                     })}
                   </span>
                 </h3>
@@ -436,8 +436,8 @@ export default function LocationPage() {
                 {/* Subheadline */}
                 <p className="text-xl md:text-2xl text-white/90 mb-10 leading-relaxed font-medium">
                   {t({
-                    en: 'Create a free account to access our curated local partnerships, special rates, and helpful travel tips',
-                    fr: 'Créez un compte gratuit pour accéder à nos partenariats locaux, tarifs préférentiels et conseils de voyage'
+                    en: 'Create a free account to access curated local deals, activity bookings, and insider travel tips to enhance your stay',
+                    fr: 'Créez un compte gratuit pour accéder aux offres locales, réservations d\'activités et conseils de voyage pour enrichir votre séjour'
                   })}
                 </p>
 
@@ -445,25 +445,25 @@ export default function LocationPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
                   <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
                     <div className="text-4xl mb-3">🎿</div>
-                    <div className="text-2xl font-bold text-white mb-2">{t({ en: 'Up to 15%', fr: 'Jusqu\'à 15%' })}</div>
-                    <p className="text-white/80 text-sm">{t({ en: 'On ski passes & rentals', fr: 'Sur forfaits & location ski' })}</p>
+                    <div className="text-xl font-bold text-white mb-2">{t({ en: 'Ski & Activities', fr: 'Ski & Activités' })}</div>
+                    <p className="text-white/80 text-sm">{t({ en: 'Partner deals on passes & equipment', fr: 'Offres partenaires forfaits & équipement' })}</p>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
                     <div className="text-4xl mb-3">🍽️</div>
-                    <div className="text-2xl font-bold text-white mb-2">{t({ en: 'Special Rates', fr: 'Tarifs Préférentiels' })}</div>
-                    <p className="text-white/80 text-sm">{t({ en: 'Restaurants & activities', fr: 'Restaurants & activités' })}</p>
+                    <div className="text-xl font-bold text-white mb-2">{t({ en: 'Dining & Wellness', fr: 'Restaurants & Bien-être' })}</div>
+                    <p className="text-white/80 text-sm">{t({ en: 'Local restaurants & spa experiences', fr: 'Restaurants locaux & expériences spa' })}</p>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
                     <div className="text-4xl mb-3">💡</div>
-                    <div className="text-2xl font-bold text-white mb-2">{t({ en: 'Local Tips', fr: 'Conseils Locaux' })}</div>
-                    <p className="text-white/80 text-sm">{t({ en: 'Insider recommendations', fr: 'Recommandations privilégiées' })}</p>
+                    <div className="text-xl font-bold text-white mb-2">{t({ en: 'Expert Advice', fr: 'Conseils d\'Expert' })}</div>
+                    <p className="text-white/80 text-sm">{t({ en: 'Personalized tips & recommendations', fr: 'Conseils personnalisés & recommandations' })}</p>
                   </div>
                 </div>
 
                 {/* CTA Button */}
                 <a
                   href="/client/login?action=register"
-                  className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-10 md:px-12 py-5 md:py-6 rounded-full font-black text-xl md:text-2xl transition-all shadow-2xl hover:shadow-blue-500/50 hover:scale-105 transform"
+                  className="inline-flex items-center gap-3 bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-800 hover:to-slate-900 text-white px-10 md:px-12 py-5 md:py-6 rounded-full font-black text-xl md:text-2xl transition-all shadow-2xl hover:shadow-slate-900/50 hover:scale-105 transform border-2 border-slate-600 hover:border-slate-500"
                 >
                   <span className="text-2xl">✨</span>
                   {t({ en: 'Create Free Account', fr: 'Créer un Compte Gratuit' })}
@@ -472,19 +472,19 @@ export default function LocationPage() {
                 {/* Trust Signals */}
                 <div className="mt-8 flex flex-wrap justify-center gap-6 text-white/70 text-sm">
                   <div className="flex items-center gap-2">
-                    <span className="text-blue-400 text-lg">✓</span>
+                    <span className="text-amber-200 text-lg">✓</span>
                     <span>{t({ en: '100% Free', fr: '100% Gratuit' })}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-blue-400 text-lg">✓</span>
+                    <span className="text-amber-200 text-lg">✓</span>
                     <span>{t({ en: 'Instant access', fr: 'Accès immédiat' })}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-blue-400 text-lg">✓</span>
+                    <span className="text-amber-200 text-lg">✓</span>
                     <span>{t({ en: 'No obligation', fr: 'Sans obligation' })}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-blue-400 text-lg">✓</span>
+                    <span className="text-amber-200 text-lg">✓</span>
                     <span>{t({ en: 'Cancel anytime', fr: 'Résiliation libre' })}</span>
                   </div>
                 </div>
