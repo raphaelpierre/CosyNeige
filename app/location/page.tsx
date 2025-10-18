@@ -508,16 +508,16 @@ export default function LocationPage() {
               <span className="tracking-wide uppercase">{t({ en: 'Ski Paradise', fr: 'Paradis du Ski' })}</span>
             </div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 tracking-tight">
-              {t({ en: '5 World-Class Resorts', fr: '5 Stations de Classe Mondiale' })}
+              {t({ en: '5 Ski Resorts', fr: '5 Stations de Ski' })}
               <br />
               <span className="bg-gradient-to-r from-slate-600 to-slate-900 bg-clip-text text-transparent">
-                {t({ en: 'Within 30 Minutes', fr: 'En Moins de 30 Minutes' })}
+                {t({ en: 'Within 30 Minutes', fr: 'À Moins de 30 Minutes' })}
               </span>
             </h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               {t({
-                en: 'Our strategic location gives you unmatched access to 650km of slopes across the French Alps',
-                fr: 'Notre emplacement stratégique vous donne un accès inégalé à 650km de pistes dans les Alpes françaises'
+                en: 'The chalet is ideally located to access 650km of slopes across the French Alps',
+                fr: 'Le chalet est idéalement situé pour accéder à 650km de pistes dans les Alpes françaises'
               })}
             </p>
           </div>
