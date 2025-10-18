@@ -16,6 +16,7 @@ export interface SeasonPeriod {
 export interface PricingSettings {
   cleaningFee: number;
   linenPerPerson: number;
+  touristTaxPerPersonPerNight: number;
   depositAmount: number;
   defaultHighSeasonPrice: number;
   defaultLowSeasonPrice: number;
@@ -67,6 +68,7 @@ export async function fetchSeasons(): Promise<{ seasons: SeasonPeriod[], pricing
       pricingSettings: {
         cleaningFee: 700,
         linenPerPerson: 25,
+        touristTaxPerPersonPerNight: 3,
         depositAmount: 1500,
         defaultHighSeasonPrice: 410,
         defaultLowSeasonPrice: 310,
@@ -122,11 +124,13 @@ export function calculatePriceWithSeasons(
   checkIn: Date | string,
   checkOut: Date | string,
   seasons: SeasonPeriod[],
-  pricingSettings: PricingSettings
+  pricingSettings: PricingSettings,
+  guests: number = 2
 ): {
   nights: number;
   basePrice: number;
   cleaningFee: number;
+  touristTax: number;
   depositAmount: number;
   total: number;
   breakdown: Array<{ date: string; season: string; price: number; periodName?: string }>;
@@ -154,10 +158,11 @@ export function calculatePriceWithSeasons(
   }
 
   const cleaningFee = pricingSettings.cleaningFee;
+  const touristTax = nights * guests * pricingSettings.touristTaxPerPersonPerNight;
   const depositAmount = pricingSettings.depositAmount;
-  const total = basePrice + cleaningFee;
+  const total = basePrice + cleaningFee + touristTax;
 
-  return { nights, basePrice, cleaningFee, depositAmount, total, breakdown };
+  return { nights, basePrice, cleaningFee, touristTax, depositAmount, total, breakdown };
 }
 
 // Vérifier si une période contient des jours de haute saison

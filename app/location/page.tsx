@@ -366,38 +366,6 @@ export default function LocationPage() {
         </div>
       </section>
 
-      {/* CTA Final */}
-      <section className="py-16 bg-gradient-to-br from-slate-50 via-white to-gray-50">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            {t({ en: 'Ready to Visit?', fr: 'Prêt à Venir ?' })}
-          </h2>
-          <p className="text-base md:text-xl text-gray-600 mb-8">
-            {t({
-              en: 'Strategic location • 5 resorts • Endless adventures',
-              fr: 'Position stratégique • 5 stations • Aventures infinies'
-            })}
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              href="/booking"
-              className="inline-flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all shadow-lg hover:shadow-xl"
-            >
-              <span>📅</span>
-              {t({ en: 'Check Availability', fr: 'Voir Disponibilités' })}
-            </Link>
-
-            <Link
-              href="/"
-              className="inline-flex items-center justify-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all"
-            >
-              {t({ en: 'Discover', fr: 'Découvrir' })}
-              <span>→</span>
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

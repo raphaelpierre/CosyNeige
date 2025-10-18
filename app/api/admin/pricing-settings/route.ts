@@ -19,10 +19,12 @@ export async function GET(req: NextRequest) {
         data: {
           cleaningFee: 450,
           linenPerPerson: 25,
+          touristTaxPerPersonPerNight: 3,
           depositAmount: 1500,
           defaultHighSeasonPrice: 410,
           defaultLowSeasonPrice: 310,
-          defaultMinimumStay: 3
+          defaultMinimumStay: 3,
+          highSeasonMinimumStay: 7
         }
       });
     }
@@ -48,10 +50,12 @@ export async function PUT(req: NextRequest) {
     const {
       cleaningFee,
       linenPerPerson,
+      touristTaxPerPersonPerNight,
       depositAmount,
       defaultHighSeasonPrice,
       defaultLowSeasonPrice,
-      defaultMinimumStay
+      defaultMinimumStay,
+      highSeasonMinimumStay
     } = await req.json();
 
     // Récupérer les paramètres existants
@@ -60,10 +64,12 @@ export async function PUT(req: NextRequest) {
     const updateData: any = {};
     if (cleaningFee !== undefined) updateData.cleaningFee = cleaningFee;
     if (linenPerPerson !== undefined) updateData.linenPerPerson = linenPerPerson;
+    if (touristTaxPerPersonPerNight !== undefined) updateData.touristTaxPerPersonPerNight = touristTaxPerPersonPerNight;
     if (depositAmount !== undefined) updateData.depositAmount = depositAmount;
     if (defaultHighSeasonPrice !== undefined) updateData.defaultHighSeasonPrice = defaultHighSeasonPrice;
     if (defaultLowSeasonPrice !== undefined) updateData.defaultLowSeasonPrice = defaultLowSeasonPrice;
     if (defaultMinimumStay !== undefined) updateData.defaultMinimumStay = defaultMinimumStay;
+    if (highSeasonMinimumStay !== undefined) updateData.highSeasonMinimumStay = highSeasonMinimumStay;
 
     if (settings) {
       // Mettre à jour les paramètres existants
@@ -77,10 +83,12 @@ export async function PUT(req: NextRequest) {
         data: {
           cleaningFee: cleaningFee || 450,
           linenPerPerson: linenPerPerson || 25,
+          touristTaxPerPersonPerNight: touristTaxPerPersonPerNight || 3,
           depositAmount: depositAmount || 1500,
           defaultHighSeasonPrice: defaultHighSeasonPrice || 410,
           defaultLowSeasonPrice: defaultLowSeasonPrice || 310,
-          defaultMinimumStay: defaultMinimumStay || 3
+          defaultMinimumStay: defaultMinimumStay || 3,
+          highSeasonMinimumStay: highSeasonMinimumStay || 7
         }
       });
     }

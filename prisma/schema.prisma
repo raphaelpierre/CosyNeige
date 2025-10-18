@@ -95,6 +95,7 @@ model PricingSettings {
   id              String   @id @default(cuid())
   cleaningFee     Float    @default(450)
   linenPerPerson  Float    @default(25)
+  touristTaxPerPersonPerNight Float @default(3) // Taxe de séjour par personne par nuit
   depositAmount   Float    @default(1500)
   defaultHighSeasonPrice Float @default(410)
   defaultLowSeasonPrice  Float @default(310)

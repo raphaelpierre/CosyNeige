@@ -55,7 +55,7 @@ export default function BookingPage() {
   // Calculs automatiques
   const nights = checkIn && checkOut ? calculateNights(checkIn, checkOut) : 0;
   const priceCalculation = checkIn && checkOut && seasons.length > 0 && pricingSettings
-    ? calculatePriceWithSeasons(checkIn, checkOut, seasons, pricingSettings)
+    ? calculatePriceWithSeasons(checkIn, checkOut, seasons, pricingSettings, guests)
     : null;
 
   // Calculer les jours avant l'arrivée
@@ -464,6 +464,15 @@ export default function BookingPage() {
                                 <span className="text-green-600 flex-shrink-0">✓</span>
                                 <span>
                                   {t({
+                                    en: `Tourist tax: ${formatEuro(pricingSettings.touristTaxPerPersonPerNight)}/pers./night`,
+                                    fr: `Taxe de séjour: ${formatEuro(pricingSettings.touristTaxPerPersonPerNight)}/pers./nuit`
+                                  })}
+                                </span>
+                              </div>
+                              <div className="flex items-start gap-2">
+                                <span className="text-green-600 flex-shrink-0">✓</span>
+                                <span>
+                                  {t({
                                     en: `Deposit: ${formatEuro(pricingSettings.depositAmount)}`,
                                     fr: `Caution: ${formatEuro(pricingSettings.depositAmount)}`
                                   })}
@@ -758,6 +767,10 @@ export default function BookingPage() {
                             <span>{t({ en: 'Cleaning fee', fr: 'Frais de ménage' })}</span>
                             <span className="font-semibold">{formatEuro(priceCalculation.cleaningFee)}</span>
                           </div>
+                          <div className="flex justify-between">
+                            <span>{t({ en: 'Tourist tax', fr: 'Taxe de séjour' })}</span>
+                            <span className="font-semibold">{formatEuro(priceCalculation.touristTax)}</span>
+                          </div>
                           <div className="border-t pt-2 flex justify-between text-lg font-bold text-forest-900">
                             <span>{t({ en: 'Total', fr: 'Total' })}</span>
                             <span>{formatEuro(priceCalculation.total)}</span>
@@ -970,6 +983,11 @@ export default function BookingPage() {
                         <span className="font-semibold">{formatEuro(priceCalculation.cleaningFee)}</span>
                       </div>
 
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">{t({ en: 'Tourist tax', fr: 'Taxe de séjour' })}</span>
+                        <span className="font-semibold">{formatEuro(priceCalculation.touristTax)}</span>
+                      </div>
+
                       <div className="border-t pt-3 flex justify-between">
                         <span className="font-bold text-lg">{t({ en: 'Total', fr: 'Total' })}</span>
                         <span className="font-bold text-xl text-forest-700">{formatEuro(priceCalculation.total)}</span>
@@ -980,10 +998,6 @@ export default function BookingPage() {
                       <div className="flex justify-between">
                         <span>{t({ en: 'Deposit', fr: 'Caution' })}</span>
                         <span>{formatEuro(priceCalculation.depositAmount)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t({ en: 'Tourist tax', fr: 'Taxe séjour' })}</span>
-                        <span>{formatEuro(guests * nights * 2)}</span>
                       </div>
                     </div>
                   </div>

@@ -35,12 +35,6 @@ export default function Footer() {
                 <p className="text-gray-700 text-sm font-medium">{t({ en: 'French Alps', fr: 'Alpes Françaises' })}</p>
               </div>
             </div>
-            <p className="text-gray-700 text-sm leading-relaxed mb-4 font-medium">
-              {t({
-                en: 'Alpine chalet in Haute-Savoie. 180m², 5 bedrooms, access to 5 ski resorts.',
-                fr: 'Chalet alpin en Haute-Savoie. 180m², 5 chambres, accès à 5 stations de ski.',
-              })}
-            </p>
             <div className="text-gray-700 text-sm">
               <p className="font-bold text-gray-700 mb-1">{t({ en: 'Location', fr: 'Localisation' })}</p>
               {location.street && <p className="font-medium text-gray-700">{location.street}</p>}
