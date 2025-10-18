@@ -10,52 +10,69 @@ export default function LocationPage() {
 
   return (
     <div className="bg-white">
-      {/* Hero Section - Épuré et moderne */}
-      <section className="relative h-[55vh] md:h-[70vh] flex items-center justify-center overflow-hidden">
+      {/* Hero Section - Modern & Clean */}
+      <section className="relative h-[60vh] md:h-[75vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/entre2vallees.webp"
             alt={t({ en: 'Mountain landscape', fr: 'Paysage montagnard' })}
             fill
-            className="object-cover brightness-75"
+            className="object-cover brightness-[0.7]"
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/50" />
         </div>
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
-            <span className="text-white font-semibold text-sm md:text-base">
-              📍 Châtillon-sur-Cluses
+        <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
+          <div className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-md border border-white/30 rounded-full px-5 py-2.5 mb-8 shadow-2xl">
+            <span className="text-2xl">📍</span>
+            <span className="text-white font-bold text-base md:text-lg tracking-wide">
+              Châtillon-sur-Cluses • Haute-Savoie
             </span>
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-2xl mb-4 md:mb-6">
-            {t({ en: 'Location & Info', fr: 'Localisation & Infos' })}
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white drop-shadow-2xl mb-6 tracking-tight">
+            {t({ en: 'Your Alpine Hub', fr: 'Votre Base Alpine' })}
           </h1>
-          <p className="text-xl md:text-2xl lg:text-3xl text-white/95 font-light drop-shadow-lg max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl lg:text-3xl text-white font-medium drop-shadow-xl max-w-4xl mx-auto mb-8 leading-relaxed">
             {t({
-              en: 'Between 2 valleys • Access to 5 resorts • Gateway to the Alps',
-              fr: 'Entre 2 vallées • Accès à 5 stations • Porte des Alpes'
+              en: 'Strategic location • 5 resorts within 30 min • Endless adventures',
+              fr: 'Emplacement stratégique • 5 stations en 30 min • Aventures infinies'
             })}
           </p>
+          <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+            <a
+              href="#activities"
+              className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-slate-900 px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all shadow-2xl hover:scale-105"
+            >
+              <span>🎯</span>
+              {t({ en: 'Discover Activities', fr: 'Découvrir Activités' })}
+            </a>
+            <a
+              href="#exclusive"
+              className="inline-flex items-center gap-2 bg-slate-700/90 backdrop-blur-sm hover:bg-slate-800 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all shadow-2xl border-2 border-white/20 hover:scale-105"
+            >
+              <span>✨</span>
+              {t({ en: 'Exclusive Offers', fr: 'Offres Exclusives' })}
+            </a>
+          </div>
         </div>
       </section>
 
       {/* Activities Section - Winter & Summer */}
-      <section className="py-12 md:py-16 bg-white">
+      <section id="activities" className="py-16 md:py-24 bg-gradient-to-b from-white via-slate-50 to-white">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          <div className="text-center mb-10 md:mb-12">
-            <div className="inline-flex items-center gap-2 bg-slate-700 text-white px-4 py-2 rounded-full text-sm md:text-base font-bold mb-3 shadow-lg">
-              <span className="text-xl">🎯</span>
-              <span>{t({ en: 'Year-Round', fr: 'Toute l\'Année' })}</span>
+          <div className="text-center mb-12 md:mb-16">
+            <div className="inline-flex items-center gap-3 bg-slate-700 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-6 shadow-xl">
+              <span className="text-2xl">🎯</span>
+              <span className="tracking-wide">{t({ en: 'Year-Round Adventures', fr: 'Aventures Toute l\'Année' })}</span>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
-              {t({ en: 'Activities & Experiences', fr: 'Activités & Expériences' })}
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 tracking-tight">
+              {t({ en: 'Unlimited Experiences', fr: 'Expériences Illimitées' })}
             </h2>
-            <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               {t({
-                en: 'Endless adventures in the French Alps, every season',
-                fr: 'Aventures infinies dans les Alpes françaises, chaque saison'
+                en: 'From epic ski adventures to serene spa retreats, discover what makes the French Alps truly unforgettable',
+                fr: 'Des aventures ski épiques aux retraites spa sereines, découvrez ce qui rend les Alpes françaises vraiment inoubliables'
               })}
             </p>
           </div>
@@ -384,80 +401,123 @@ export default function LocationPage() {
             </div>
           </div>
 
-          {/* CTA for Exclusive Offers */}
-          <div className="mt-16 bg-gradient-to-br from-slate-700 to-slate-800 rounded-2xl p-8 md:p-12 text-center shadow-2xl border border-slate-600">
-            <div className="mb-6">
-              <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-4">
-                <span className="text-2xl">🎁</span>
-                <span className="text-white font-semibold text-sm">
-                  {t({ en: 'Exclusive Benefits', fr: 'Avantages Exclusifs' })}
-                </span>
-              </span>
+          {/* CTA for Exclusive Offers - Redesigned for Maximum Impact */}
+          <div id="exclusive" className="mt-20 relative overflow-hidden">
+            {/* Background gradient blur effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl transform -rotate-1 scale-105"></div>
+
+            <div className="relative bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800 rounded-3xl p-8 md:p-16 shadow-2xl border border-slate-600/50">
+              {/* Decorative elements */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-slate-900/50 rounded-full blur-3xl"></div>
+
+              <div className="relative z-10 text-center max-w-4xl mx-auto">
+                {/* Badge */}
+                <div className="inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-8 shadow-xl animate-pulse">
+                  <span className="text-2xl">✨</span>
+                  <span className="tracking-wide uppercase">{t({ en: 'Limited Exclusive Access', fr: 'Accès Exclusif Limité' })}</span>
+                </div>
+
+                {/* Main Headline */}
+                <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
+                  {t({
+                    en: 'Unlock Premium Local Deals',
+                    fr: 'Débloquez des Offres Premium'
+                  })}
+                  <br />
+                  <span className="bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">
+                    {t({
+                      en: 'Worth €500+ Per Stay',
+                      fr: 'Valeur de 500€+ par Séjour'
+                    })}
+                  </span>
+                </h3>
+
+                {/* Subheadline */}
+                <p className="text-xl md:text-2xl text-white/90 mb-10 leading-relaxed font-medium">
+                  {t({
+                    en: 'Join our VIP community and get instant access to negotiated discounts, priority bookings, and insider experiences',
+                    fr: 'Rejoignez notre communauté VIP et obtenez un accès instantané aux réductions négociées, réservations prioritaires et expériences privilégiées'
+                  })}
+                </p>
+
+                {/* Benefits Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
+                    <div className="text-4xl mb-3">🎿</div>
+                    <div className="text-2xl font-bold text-white mb-2">15%</div>
+                    <p className="text-white/80 text-sm">{t({ en: 'Off ski passes & rentals', fr: 'Sur forfaits & location ski' })}</p>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
+                    <div className="text-4xl mb-3">🍽️</div>
+                    <div className="text-2xl font-bold text-white mb-2">20%</div>
+                    <p className="text-white/80 text-sm">{t({ en: 'Restaurant & spa deals', fr: 'Restaurants & forfaits spa' })}</p>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
+                    <div className="text-4xl mb-3">🎯</div>
+                    <div className="text-2xl font-bold text-white mb-2">{t({ en: 'VIP', fr: 'VIP' })}</div>
+                    <p className="text-white/80 text-sm">{t({ en: 'Priority bookings & tips', fr: 'Réservations & conseils prioritaires' })}</p>
+                  </div>
+                </div>
+
+                {/* CTA Button */}
+                <a
+                  href="/client/login?action=register"
+                  className="inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-10 md:px-12 py-5 md:py-6 rounded-full font-black text-xl md:text-2xl transition-all shadow-2xl hover:shadow-amber-500/50 hover:scale-105 transform"
+                >
+                  <span className="text-2xl">🔑</span>
+                  {t({ en: 'Get Exclusive Access Now', fr: 'Accéder aux Offres VIP' })}
+                </a>
+
+                {/* Trust Signals */}
+                <div className="mt-8 flex flex-wrap justify-center gap-6 text-white/70 text-sm">
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-400 text-lg">✓</span>
+                    <span>{t({ en: 'Free forever', fr: 'Gratuit à vie' })}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-400 text-lg">✓</span>
+                    <span>{t({ en: 'Instant access', fr: 'Accès instantané' })}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-400 text-lg">✓</span>
+                    <span>{t({ en: 'No commitment', fr: 'Sans engagement' })}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-400 text-lg">✓</span>
+                    <span>{t({ en: '500+ active members', fr: '500+ membres actifs' })}</span>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-              {t({
-                en: 'Unlock Exclusive Local Offers & Discounts',
-                fr: 'Débloquez des Offres Locales Exclusives & Réductions'
-              })}
-            </h3>
-
-            <p className="text-lg text-white/90 mb-6 max-w-3xl mx-auto leading-relaxed">
-              {t({
-                en: 'Register to access our curated selection of exclusive partnerships: ski pass discounts, restaurant deals, spa packages, activity bookings, and much more. Our local offers are constantly updated to give you the best experience.',
-                fr: 'Inscrivez-vous pour accéder à notre sélection d\'offres exclusives négociées : réductions forfaits ski, tarifs préférentiels restaurants, forfaits spa, réservations d\'activités, et bien plus. Nos offres locales évoluent constamment pour vous offrir la meilleure expérience.'
-              })}
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
-              <div className="flex items-center gap-2 text-white/90">
-                <span className="text-xl">✓</span>
-                <span className="text-sm font-medium">{t({ en: 'Up to 15% off ski passes', fr: 'Jusqu\'à 15% sur forfaits ski' })}</span>
-              </div>
-              <div className="flex items-center gap-2 text-white/90">
-                <span className="text-xl">✓</span>
-                <span className="text-sm font-medium">{t({ en: 'Priority booking', fr: 'Réservations prioritaires' })}</span>
-              </div>
-              <div className="flex items-center gap-2 text-white/90">
-                <span className="text-xl">✓</span>
-                <span className="text-sm font-medium">{t({ en: 'Local insider tips', fr: 'Conseils locaux exclusifs' })}</span>
-              </div>
-            </div>
-
-            <a
-              href="/booking"
-              className="inline-flex items-center gap-2 bg-white hover:bg-gray-100 text-slate-800 px-8 py-4 rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-xl hover:scale-105"
-            >
-              <span>🔑</span>
-              {t({ en: 'Register for Exclusive Access', fr: 'S\'inscrire pour Accès Exclusif' })}
-            </a>
-
-            <p className="text-xs text-white/70 mt-4">
-              {t({
-                en: 'Free registration • Instant access • Cancel anytime',
-                fr: 'Inscription gratuite • Accès instantané • Sans engagement'
-              })}
-            </p>
           </div>
         </div>
       </section>
 
-      {/* Section 5 Stations - Style homepage */}
-      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-slate-50">
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          {/* Titre */}
-          <div className="text-center mb-8 md:mb-10">
-            <div className="inline-flex items-center gap-2 bg-slate-700 text-white px-4 py-2 rounded-full text-sm md:text-base font-bold mb-3 shadow-lg">
-              <span className="text-xl">⛷️</span>
-              <span>{t({ en: '5 Resorts in 30min', fr: '5 Stations en 30min' })}</span>
+      {/* Section 5 Stations - Enhanced Professional Design */}
+      <section className="py-20 md:py-28 bg-gradient-to-b from-slate-50 via-white to-slate-50 relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 left-0 w-96 h-96 bg-slate-100 rounded-full blur-3xl opacity-50"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-slate-100 rounded-full blur-3xl opacity-50"></div>
+
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 relative z-10">
+          {/* Title Section */}
+          <div className="text-center mb-12 md:mb-16">
+            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-slate-700 to-slate-900 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-6 shadow-xl">
+              <span className="text-2xl">⛷️</span>
+              <span className="tracking-wide uppercase">{t({ en: 'Ski Paradise', fr: 'Paradis du Ski' })}</span>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
-              {t({ en: 'Unlimited Skiing', fr: 'Ski Illimité' })}
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 tracking-tight">
+              {t({ en: '5 World-Class Resorts', fr: '5 Stations de Classe Mondiale' })}
+              <br />
+              <span className="bg-gradient-to-r from-slate-600 to-slate-900 bg-clip-text text-transparent">
+                {t({ en: 'Within 30 Minutes', fr: 'En Moins de 30 Minutes' })}
+              </span>
             </h2>
-            <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               {t({
-                en: 'Central position = maximum variety, minimum travel time',
-                fr: 'Position centrale = variété maximale, temps de trajet minimal'
+                en: 'Our strategic location gives you unmatched access to 650km of slopes across the French Alps',
+                fr: 'Notre emplacement stratégique vous donne un accès inégalé à 650km de pistes dans les Alpes françaises'
               })}
             </p>
           </div>
@@ -526,15 +586,19 @@ export default function LocationPage() {
         </div>
       </section>
 
-      {/* Section Services & Villes - Compact et moderne */}
-      <section className="py-12 md:py-16 bg-white">
+      {/* Section Services & Villes - Modern & Clean */}
+      <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              {t({ en: 'Nearby', fr: 'À Proximité' })}
+          <div className="text-center mb-12 md:mb-16">
+            <div className="inline-flex items-center gap-3 bg-slate-700 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-6 shadow-xl">
+              <span className="text-2xl">📍</span>
+              <span className="tracking-wide uppercase">{t({ en: 'Perfect Location', fr: 'Emplacement Parfait' })}</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 tracking-tight">
+              {t({ en: 'Everything Within Reach', fr: 'Tout à Portée de Main' })}
             </h2>
-            <p className="text-base md:text-lg text-gray-600">
-              {t({ en: 'Everything you need is within reach', fr: 'Tout à portée de main' })}
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              {t({ en: 'From charming alpine villages to international airports, convenience meets adventure', fr: 'Des villages alpins charmants aux aéroports internationaux, commodité et aventure se rencontrent' })}
             </p>
           </div>
 
@@ -582,50 +646,57 @@ export default function LocationPage() {
         </div>
       </section>
 
-      {/* Google Maps - Section moderne */}
-      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-gray-50">
+      {/* Google Maps - Professional & Modern */}
+      <section className="py-20 md:py-28 bg-gradient-to-b from-slate-50 to-white">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          <div className="text-center mb-6 md:mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              {t({ en: 'Find Us', fr: 'Nous Trouver' })}
+          <div className="text-center mb-12 md:mb-16">
+            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-slate-700 to-slate-900 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-6 shadow-xl">
+              <span className="text-2xl">🗺️</span>
+              <span className="tracking-wide uppercase">{t({ en: 'Easy Access', fr: 'Accès Facile' })}</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 tracking-tight">
+              {t({ en: 'Your Journey Starts Here', fr: 'Votre Voyage Commence Ici' })}
             </h2>
-            <p className="text-base md:text-lg text-gray-600">
-              Châtillon-sur-Cluses, Haute-Savoie
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-4">
+              810 Route de Balmotte • Châtillon-sur-Cluses • 74300
+            </p>
+            <p className="text-base text-gray-500">
+              {t({ en: '45 min from Geneva Airport • Well-connected by highways', fr: '45 min de l\'Aéroport de Genève • Bien desservi par autoroutes' })}
             </p>
           </div>
 
-          <div className="bg-white rounded-xl md:rounded-2xl shadow-xl overflow-hidden">
+          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200">
             <iframe
               src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d44343.65!2d6.5769!3d46.0833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478c64d0dc1d5623%3A0x40a7d8c6d6c3c3e0!2zQ2jDonRpbGxvbi1zdXItQ2x1c2VzLCBGcmFuY2U!5e0!3m2!1s${t({ en: 'en', fr: 'fr' })}!2sus!4v1234567890123!5m2!1s${t({ en: 'en', fr: 'fr' })}!2sus`}
               width="100%"
-              height="400"
+              height="450"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              className="w-full md:h-[500px]"
+              className="w-full md:h-[550px]"
               title="Location map"
             />
           </div>
 
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
             <a
               href={`https://www.google.com/maps/dir//${location.latitude},${location.longitude}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-6 py-3 rounded-full font-bold text-sm md:text-base transition-all shadow-lg hover:shadow-xl"
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-slate-700 to-slate-900 hover:from-slate-800 hover:to-black text-white px-8 py-4 rounded-full font-bold text-base md:text-lg transition-all shadow-xl hover:shadow-2xl hover:scale-105"
             >
-              <span>🚗</span>
-              {t({ en: 'Get Directions', fr: 'Itinéraire' })}
+              <span className="text-xl">🚗</span>
+              {t({ en: 'Get Directions', fr: 'Obtenir l\'Itinéraire' })}
             </a>
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-6 py-3 rounded-full font-bold text-sm md:text-base transition-all"
+              className="inline-flex items-center gap-3 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-8 py-4 rounded-full font-bold text-base md:text-lg transition-all hover:scale-105"
             >
-              <span>📍</span>
-              Google Maps
+              <span className="text-xl">📍</span>
+              {t({ en: 'Open in Maps', fr: 'Ouvrir dans Maps' })}
             </a>
           </div>
         </div>
