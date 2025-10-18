@@ -11,7 +11,7 @@ export const specs: ChaletSpecs = {
   capacity: 10,
   bedrooms: 4,
   bathrooms: 2,
-  surface: 180,
+  surface: 200,
   parkingSpaces: 5
 };
 

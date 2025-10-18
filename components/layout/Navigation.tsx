@@ -59,7 +59,7 @@ export default function Navigation() {
             <Link href="/" className="flex items-center gap-2 lg:gap-3 group text-sm font-medium transition-all duration-300 relative text-gray-700 hover:text-slate-700 px-2 lg:px-3 py-2 rounded-lg bg-white/90 backdrop-blur-sm shadow-sm hover:bg-white/95 outline-none focus:outline-none">
               <div className="text-xl lg:text-2xl transform group-hover:scale-110 transition-transform duration-300">🏔️</div>
               <div>
-                <div className="text-base lg:text-lg font-bold">
+                <div className="text-lg lg:text-xl font-bold">
                   {chaletName}
                 </div>
                 <div className="text-xs text-gray-600">{t({ en: 'French Alps', fr: 'Alpes Françaises' })}</div>

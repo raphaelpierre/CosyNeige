@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import { useAuth } from '@/lib/context/AuthContext';
-import { formatEuro } from '@/lib/utils';
 import InvoicePDF from '@/components/invoice/InvoicePDF';
 import InvoiceModal from '@/components/invoice/InvoiceModal';
 
@@ -55,7 +54,7 @@ interface Message {
 type TabType = 'reservations' | 'users' | 'messages' | 'invoices' | 'accounting' | 'calendar' | 'settings';
 
 export default function AdminPage() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const { user, isAuthenticated, loading } = useAuth();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabType>('reservations');
