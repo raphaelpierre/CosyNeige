@@ -3535,35 +3535,46 @@ export default function AdminPage() {
         />
       )}
 
-      {/* Navigation mobile sous forme d'onglets horizontaux */}
-      <nav className="md:hidden bg-white border-b border-gray-200 sticky top-16 z-30 shadow-sm overflow-x-auto scrollbar-hide">
-        <div className="flex gap-1.5 px-2 py-2.5">
-          {tabs.map(tab => {
-            const hasNotification =
-              (tab.id === 'messages' && messages.filter(m => !m.read).length > 0) ||
-              (tab.id === 'reservations' && reservations.filter(r => r.status === 'pending').length > 0);
+      {/* Navigation mobile - Grid layout moderne */}
+      <nav className="md:hidden bg-gradient-to-br from-gray-50 to-white border-b border-gray-200 sticky top-16 z-30 shadow-md">
+        <div className="px-3 py-4">
+          <div className="grid grid-cols-4 gap-2">
+            {tabs.map(tab => {
+              const hasNotification =
+                (tab.id === 'messages' && messages.filter(m => !m.read).length > 0) ||
+                (tab.id === 'reservations' && reservations.filter(r => r.status === 'pending').length > 0);
 
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`relative flex flex-col items-center justify-center gap-0.5 px-2 sm:px-3 py-2 rounded-lg text-xs font-medium transition-all min-w-[60px] sm:min-w-[80px] ${
-                  activeTab === tab.id
-                    ? 'bg-slate-900 text-white shadow-sm'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                }`}
-                title={t(tab.label)}
-              >
-                <span className="text-xl sm:text-2xl">{tab.icon}</span>
-                <span className="text-[9px] sm:text-xs font-semibold leading-tight truncate w-full text-center">
-                  {t(tab.label)}
-                </span>
-                {hasNotification && (
-                  <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                )}
-              </button>
-            );
-          })}
+              const notificationCount =
+                tab.id === 'messages' ? messages.filter(m => !m.read).length :
+                tab.id === 'reservations' ? reservations.filter(r => r.status === 'pending').length : 0;
+
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`relative flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl transition-all duration-200 active:scale-95 ${
+                    activeTab === tab.id
+                      ? 'bg-gradient-to-br from-slate-700 to-slate-900 text-white shadow-lg scale-105'
+                      : 'bg-white text-gray-700 hover:bg-gray-50 shadow-sm hover:shadow-md border border-gray-200'
+                  }`}
+                >
+                  <span className={`text-2xl transition-transform ${activeTab === tab.id ? 'scale-110' : ''}`}>
+                    {tab.icon}
+                  </span>
+                  <span className={`text-[10px] font-bold leading-tight text-center ${
+                    activeTab === tab.id ? 'text-white' : 'text-gray-600'
+                  }`}>
+                    {t(tab.label)}
+                  </span>
+                  {hasNotification && notificationCount > 0 && (
+                    <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-lg">
+                      {notificationCount}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </nav>
     </div>

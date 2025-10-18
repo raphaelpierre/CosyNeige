@@ -57,12 +57,12 @@ export default function Navigation() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 lg:h-20">
             <Link href="/" className="flex items-center gap-2 lg:gap-3 group text-sm font-medium transition-all duration-300 relative text-gray-700 hover:text-slate-700 px-2 lg:px-3 py-2 rounded-lg bg-white/90 backdrop-blur-sm shadow-sm hover:bg-white/95 outline-none focus:outline-none">
-              <div className="text-xl lg:text-2xl transform group-hover:scale-110 transition-transform duration-300">🏔️</div>
+              <div className="text-2xl lg:text-3xl transform group-hover:scale-110 transition-transform duration-300">🏔️</div>
               <div>
-                <div className="text-lg lg:text-xl font-bold">
+                <div className="text-xl lg:text-2xl font-bold">
                   {chaletName}
                 </div>
-                <div className="text-xs text-gray-600">{t({ en: 'French Alps', fr: 'Alpes Françaises' })}</div>
+                <div className="text-xs lg:text-sm text-gray-600">{t({ en: 'French Alps', fr: 'Alpes Françaises' })}</div>
               </div>
               <span className="absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-slate-600 to-slate-800 transition-all duration-300 w-0 group-hover:w-full" />
             </Link>
