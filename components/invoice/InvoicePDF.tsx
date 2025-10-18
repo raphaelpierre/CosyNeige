@@ -189,22 +189,62 @@ export default function InvoicePDF({ invoice, onClose, autoGenerate = false }: I
       pdf.setDrawColor(229, 231, 235);
 
       const vatRate = 0.10;
-      const priceExVat = invoice.totalAmount / (1 + vatRate);
-      const pricePerNight = invoice.pricePerNight || (priceExVat / nights);
 
-      // Location
+      // Calculate base amounts (HT = Hors Taxes)
+      const baseAmountHT = invoice.baseAmount ? invoice.baseAmount / (1 + vatRate) : 0;
+      const cleaningFeeHT = invoice.cleaningFee ? invoice.cleaningFee / (1 + vatRate) : 0;
+      const linenFeeHT = invoice.linenFee ? invoice.linenFee / (1 + vatRate) : 0;
+      const taxAmountHT = invoice.taxAmount || 0; // Tourist tax is not subject to VAT
+
+      const pricePerNightHT = baseAmountHT / nights;
+
+      // 1. Location (Accommodation)
       pdf.text('Location Chalet', margin + 2, y);
       pdf.text(`${formatDate(invoice.checkIn)} - ${formatDate(invoice.checkOut)}`, margin + 2, y + 3);
       pdf.text(nights.toString(), pageWidth - margin - 60, y, { align: 'right' });
-      pdf.text(formatEuro(pricePerNight / (1 + vatRate)), pageWidth - margin - 40, y, { align: 'right' });
-      pdf.text(formatEuro((pricePerNight * nights) / (1 + vatRate)), pageWidth - margin - 2, y, { align: 'right' });
+      pdf.text(formatEuro(pricePerNightHT), pageWidth - margin - 40, y, { align: 'right' });
+      pdf.text(formatEuro(baseAmountHT), pageWidth - margin - 2, y, { align: 'right' });
       pdf.line(margin, y + 4, pageWidth - margin, y + 4);
       y += 8;
 
+      // 2. Cleaning Fee (Frais de ménage)
+      if (invoice.cleaningFee && invoice.cleaningFee > 0) {
+        pdf.text('Frais de menage', margin + 2, y);
+        pdf.text('1', pageWidth - margin - 60, y, { align: 'right' });
+        pdf.text(formatEuro(cleaningFeeHT), pageWidth - margin - 40, y, { align: 'right' });
+        pdf.text(formatEuro(cleaningFeeHT), pageWidth - margin - 2, y, { align: 'right' });
+        pdf.line(margin, y + 4, pageWidth - margin, y + 4);
+        y += 8;
+      }
+
+      // 3. Linen Fee (Linge)
+      if (invoice.linenFee && invoice.linenFee > 0) {
+        const guests = invoice.guests || 1;
+        pdf.text('Linge de maison', margin + 2, y);
+        pdf.text(guests.toString(), pageWidth - margin - 60, y, { align: 'right' });
+        pdf.text(formatEuro(linenFeeHT / guests), pageWidth - margin - 40, y, { align: 'right' });
+        pdf.text(formatEuro(linenFeeHT), pageWidth - margin - 2, y, { align: 'right' });
+        pdf.line(margin, y + 4, pageWidth - margin, y + 4);
+        y += 8;
+      }
+
+      // 4. Tourist Tax (Taxe de séjour) - Not subject to VAT
+      if (invoice.taxAmount && invoice.taxAmount > 0) {
+        const guests = invoice.guests || 1;
+        const taxPerPersonPerNight = taxAmountHT / (nights * guests);
+        pdf.text('Taxe de sejour', margin + 2, y);
+        pdf.text(`${guests} x ${nights}`, pageWidth - margin - 60, y, { align: 'right' });
+        pdf.text(formatEuro(taxPerPersonPerNight), pageWidth - margin - 40, y, { align: 'right' });
+        pdf.text(formatEuro(taxAmountHT), pageWidth - margin - 2, y, { align: 'right' });
+        pdf.line(margin, y + 4, pageWidth - margin, y + 4);
+        y += 8;
+      }
+
       // Totaux
       y += 4;
-      const subtotalHT = priceExVat;
-      const vatAmount = invoice.totalAmount - priceExVat;
+      const subtotalHT = baseAmountHT + cleaningFeeHT + linenFeeHT; // VAT applies to these
+      const vatAmount = subtotalHT * vatRate;
+      const totalBeforeTax = subtotalHT + vatAmount + taxAmountHT;
 
       pdf.setFontSize(9);
       pdf.text('Sous-total HT:', pageWidth - margin - 40, y);
@@ -213,7 +253,16 @@ export default function InvoicePDF({ invoice, onClose, autoGenerate = false }: I
 
       pdf.text('TVA (10%):', pageWidth - margin - 40, y);
       pdf.text(formatEuro(vatAmount), pageWidth - margin - 2, y, { align: 'right' });
-      y += 6;
+      y += 5;
+
+      // Add tourist tax to totals if present (not subject to VAT)
+      if (taxAmountHT > 0) {
+        pdf.text('Taxe de sejour:', pageWidth - margin - 40, y);
+        pdf.text(formatEuro(taxAmountHT), pageWidth - margin - 2, y, { align: 'right' });
+        y += 5;
+      }
+
+      y += 1;
 
       // Total TTC
       pdf.setFont('helvetica', 'bold');

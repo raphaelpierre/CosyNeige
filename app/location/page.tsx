@@ -252,10 +252,13 @@ export default function LocationPage() {
                     {t({ en: 'Check-in / Check-out', fr: 'Arrivée / Départ' })}
                   </h3>
                   <p className="text-sm text-gray-700 mb-1">
-                    <strong>{t({ en: 'Arrival:', fr: 'Arrivée :' })}</strong> {t({ en: 'Sunday from 4:00 PM', fr: 'Dimanche dès 16h00' })}
+                    <strong>{t({ en: 'Check-in:', fr: 'Arrivée :' })}</strong> {t({ en: 'Sunday from 4:00 PM', fr: 'Dimanche dès 16h00' })}
                   </p>
-                  <p className="text-sm text-gray-700">
-                    <strong>{t({ en: 'Departure:', fr: 'Départ :' })}</strong> {t({ en: 'Sunday before 10:00 AM', fr: 'Dimanche avant 10h00' })}
+                  <p className="text-sm text-gray-700 mb-2">
+                    <strong>{t({ en: 'Check-out:', fr: 'Départ :' })}</strong> {t({ en: 'Sunday before 10:00 AM', fr: 'Dimanche avant 10h00' })}
+                  </p>
+                  <p className="text-xs text-gray-600">
+                    💡 {t({ en: 'Flexible times upon request', fr: 'Horaires flexibles sur demande' })}
                   </p>
                 </div>
               </div>

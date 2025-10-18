@@ -4,163 +4,151 @@ import Image from 'next/image';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import { chaletName, location } from '@/lib/data/chalet';
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 
 export default function GuidePage() {
   const { t } = useLanguage();
 
-  const generatePDF = async () => {
+  const generatePDF = () => {
     try {
-      // Créer un élément temporaire avec le contenu à imprimer
-      const printContent = document.createElement('div');
-      printContent.style.width = '210mm';
-      printContent.style.padding = '20mm';
-      printContent.style.fontFamily = 'Arial, sans-serif';
-      printContent.style.fontSize = '12px';
-      printContent.style.lineHeight = '1.4';
-      printContent.style.color = '#333';
-      printContent.style.backgroundColor = '#fff';
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const margin = 15;
+      const contentWidth = pageWidth - (margin * 2);
+      let y = margin;
 
-      // Contenu du PDF
-      printContent.innerHTML = `
-        <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="color: #1e293b; font-size: 24px; margin-bottom: 10px;">${t({ en: 'Guest Guide', fr: 'Guide du Voyageur' })}</h1>
-          <h2 style="color: #1e293b; font-size: 18px; margin-bottom: 20px;">${chaletName}</h2>
-          <p style="font-size: 14px; color: #666;">${t({ en: 'Everything You Need to Know', fr: 'Tout ce que Vous Devez Savoir' })}</p>
-        </div>
+      // Helper to add new page if needed
+      const checkPageBreak = (spaceNeeded: number) => {
+        if (y + spaceNeeded > pageHeight - margin) {
+          pdf.addPage();
+          y = margin;
+          return true;
+        }
+        return false;
+      };
 
-        <div style="margin-bottom: 25px;">
-          <h3 style="color: #1e293b; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #1e293b; padding-bottom: 5px;">🏠 ${t({ en: 'Welcome & Check-in', fr: 'Bienvenue & Arrivée' })}</h3>
-          <div style="margin-bottom: 15px;">
-            <strong>${t({ en: 'Check-in Time', fr: 'Heure d\'Arrivée' })}</strong><br>
-            ${t({ en: 'Sunday from 4:00 PM. Please contact us if you need to arrive earlier.', fr: 'Dimanche à partir de 16h00. Contactez-nous si vous devez arriver plus tôt.' })}
-          </div>
-          <div style="margin-bottom: 15px;">
-            <strong>${t({ en: 'Key Collection', fr: 'Récupération des Clés' })}</strong><br>
-            ${t({ en: 'Keys will be provided upon arrival. We will meet you at the chalet to show you around.', fr: 'Les clés seront fournies à l\'arrivée. Nous vous accueillerons au chalet pour vous faire visiter.' })}
-          </div>
-          <div style="margin-bottom: 15px;">
-            <strong>${t({ en: 'WiFi Access', fr: 'Accès WiFi' })}</strong><br>
-            ${t({ en: 'WiFi credentials will be provided upon arrival.', fr: 'Les identifiants WiFi vous seront communiqués à votre arrivée.' })}
-          </div>
-        </div>
+      // HEADER - Same style as invoice
+      pdf.setFont('helvetica');
 
-        <div style="margin-bottom: 25px;">
-          <h3 style="color: #1e293b; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #1e293b; padding-bottom: 5px;">🔧 ${t({ en: 'House Equipment', fr: 'Équipements de la Maison' })}</h3>
-          <div style="margin-bottom: 15px;">
-            <strong>${t({ en: 'Gourmet Kitchen', fr: 'Cuisine Gastronomique' })}</strong><br>
-            ${t({ en: 'Authentic Savoyard kitchen fully equipped: professional oven, traditional gas range, premium dishwasher, Nespresso machine, toaster, kettle, and grand dining table seating 10 guests. All cooking utensils, pots, pans, and dinnerware provided.', fr: 'Authentique cuisine savoyarde entièrement équipée : four professionnel, piano à gaz traditionnel, lave-vaisselle haut de gamme, machine Nespresso, grille-pain, bouilloire, et grande table conviviale pour 10 convives. Tous ustensiles, casseroles, poêles et vaisselle fournis.' })}
-          </div>
-          <div style="margin-bottom: 15px;">
-            <strong>${t({ en: 'Wellness & Relaxation', fr: 'Bien-être & Détente' })}</strong><br>
-            ${t({ en: 'Outdoor hot tub with breathtaking mountain views, authentic stone fireplace with complimentary firewood, and premium heated floors throughout for ultimate comfort.', fr: 'Jacuzzi extérieur avec vue montagne à couper le souffle, authentique cheminée en pierre avec bois gratuit, et sols chauffants haut de gamme partout pour un confort ultime.' })}
-          </div>
-          <div style="margin-bottom: 15px;">
-            <strong>${t({ en: 'Entertainment & Technology', fr: 'Divertissement & Technologie' })}</strong><br>
-            ${t({ en: '65" Smart TV with Netflix and Amazon Prime, high-speed WiFi throughout, Bluetooth speaker available. Board games and books in the living room cabinet for cozy evenings.', fr: 'Smart TV 65" avec Netflix et Amazon Prime, WiFi haut débit partout, enceinte Bluetooth disponible. Jeux de société et livres dans le meuble du salon pour les soirées cosy.' })}
-          </div>
-          <div style="margin-bottom: 15px;">
-            <strong>${t({ en: 'Practical Amenities', fr: 'Équipements Pratiques' })}</strong><br>
-            ${t({ en: 'Ski room with boot warmers, washing machine and dryer with detergent provided, iron and ironing board in utility room, 5 private parking spaces, and professional BBQ station on the terrace.', fr: 'Local à skis avec chauffe-chaussures, lave-linge et sèche-linge avec lessive fournie, fer et planche à repasser dans la buanderie, 5 places de parking privé, et station BBQ professionnelle sur la terrasse.' })}
-          </div>
-        </div>
+      // Mountain logo
+      const logoY = y - 2;
+      pdf.setFillColor(30, 41, 59);
+      pdf.setLineWidth(0);
+      pdf.lines([[2.5, -5], [2.5, 5], [-5, 0]], margin, logoY + 4, [1, 1], 'F');
+      pdf.setFillColor(51, 65, 85);
+      pdf.lines([[2.5, -3.5], [2.5, 3.5], [-5, 0]], margin + 3.5, logoY + 4, [1, 1], 'F');
 
-        <div style="margin-bottom: 25px;">
-          <h3 style="color: #1e293b; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #1e293b; padding-bottom: 5px;">📋 ${t({ en: 'House Rules', fr: 'Règlement Intérieur' })}</h3>
-          <div style="margin-bottom: 10px;">
-            <strong>${t({ en: 'Smoking', fr: 'Tabac' })}</strong><br>
-            ${t({ en: 'Non-smoking property. Smoking is permitted on the terrace only.', fr: 'Propriété non-fumeur. Fumer est autorisé sur la terrasse uniquement.' })}
-          </div>
-          <div style="margin-bottom: 10px;">
-            <strong>${t({ en: 'Pets', fr: 'Animaux' })}</strong><br>
-            ${t({ en: 'Pets are not allowed without prior authorization. Additional fee may apply.', fr: 'Animaux non autorisés sans accord préalable. Supplément possible.' })}
-          </div>
-          <div style="margin-bottom: 10px;">
-            <strong>${t({ en: 'Noise', fr: 'Bruit' })}</strong><br>
-            ${t({ en: 'Please respect quiet hours from 10:00 PM to 8:00 AM. Be considerate of neighbors.', fr: 'Merci de respecter les horaires de calme de 22h00 à 8h00. Soyez respectueux des voisins.' })}
-          </div>
-          <div style="margin-bottom: 10px;">
-            <strong>${t({ en: 'Maximum Capacity', fr: 'Capacité Maximale' })}</strong><br>
-            ${t({ en: 'Maximum 10 guests. No overnight visitors beyond the booked number.', fr: 'Maximum 10 personnes. Pas de visiteurs pour la nuit au-delà du nombre réservé.' })}
-          </div>
-        </div>
+      // Company name
+      pdf.setFontSize(24);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(30, 41, 59);
+      pdf.text('Chalet Balmotte810', margin + 10, y);
+      y += 6;
 
-        <div style="margin-bottom: 25px;">
-          <h3 style="color: #1e293b; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #1e293b; padding-bottom: 5px;">💡 ${t({ en: 'Practical Information', fr: 'Informations Pratiques' })}</h3>
-          <div style="margin-bottom: 10px;">
-            <strong>${t({ en: 'Parking', fr: 'Stationnement' })}</strong><br>
-            ${t({ en: '5 private parking spaces directly in front of the chalet (2 covered spaces + 3 outdoor spaces). Snow chains required in winter.', fr: '5 places de parking privé devant le chalet (2 places couvertes + 3 places extérieures). Chaînes à neige obligatoires en hiver.' })}
-          </div>
-          <div style="margin-bottom: 10px;">
-            <strong>${t({ en: 'Local Shops', fr: 'Commerces Locaux' })}</strong><br>
-            ${t({ en: 'Supermarket (Carrefour) 5 min drive in Cluses. Bakery 3 min away in village center. Pharmacy in Cluses.', fr: 'Supermarché (Carrefour) à 5 min en voiture à Cluses. Boulangerie à 3 min au centre du village. Pharmacie à Cluses.' })}
-          </div>
-        </div>
+      // Address
+      pdf.setFontSize(9);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(75, 85, 99);
+      pdf.text('810 rte de Balmotte, Chatillon-sur-Cluses, 74300', margin, y);
+      y += 4;
+      pdf.text('+33 6 85 85 84 91 • contact@chalet-balmotte810.com', margin, y);
+      y += 10;
 
-        <div style="margin-bottom: 25px;">
-          <h3 style="color: #1e293b; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #1e293b; padding-bottom: 5px;">🚨 ${t({ en: 'Emergency Contacts', fr: 'Contacts d\'Urgence' })}</h3>
-          <div style="margin-bottom: 10px;">
-            <strong>${t({ en: 'Emergency Services', fr: 'Services d\'Urgence' })}</strong><br>
-            ${t({ en: 'Emergency (Police/Fire/Ambulance): 112 or 15 | Hospital Sallanches: +33 4 50 47 30 00', fr: 'Urgences (Police/Pompiers/SAMU) : 112 ou 15 | Hôpital Sallanches : +33 4 50 47 30 00' })}
-          </div>
-          <div style="margin-bottom: 10px;">
-            <strong>${t({ en: 'Property Owner', fr: 'Propriétaire' })}</strong><br>
-            ${t({ en: 'Available 24/7 for emergencies: +33 6 85 85 84 91', fr: 'Disponible 24h/24 pour urgences : +33 6 85 85 84 91' })}
-          </div>
-        </div>
+      // Title
+      pdf.setFontSize(20);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(30, 41, 59);
+      pdf.text(t({ en: 'Guest Guide', fr: 'Guide du Voyageur' }), margin, y);
+      y += 8;
 
-        <div style="margin-top: 30px; text-align: center; border-top: 1px solid #ccc; padding-top: 20px;">
-          <p style="color: #666; font-size: 11px;">
-            ${chaletName} - ${t({ en: 'Guest Guide', fr: 'Guide du Voyageur' })}<br>
-            ${t({ en: 'Generated on', fr: 'Généré le' })} ${new Date().toLocaleDateString(t({ en: 'en-US', fr: 'fr-FR' }))}
-          </p>
-        </div>
-      `;
+      // Line separator
+      pdf.setDrawColor(203, 213, 225);
+      pdf.setLineWidth(0.5);
+      pdf.line(margin, y, pageWidth - margin, y);
+      y += 8;
 
-      // Ajouter temporairement au DOM pour la capture
-      document.body.appendChild(printContent);
+      // Process each section
+      sections.forEach((section) => {
+        checkPageBreak(20);
 
-      // Générer le canvas
-      const canvas = await html2canvas(printContent, {
-        useCORS: true,
-        allowTaint: true,
-        background: '#ffffff',
-        width: printContent.offsetWidth,
-        height: printContent.offsetHeight
+        // Section title
+        pdf.setFontSize(14);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setTextColor(30, 41, 59);
+        pdf.text(t(section.title), margin, y);
+        y += 2;
+
+        // Underline
+        pdf.setDrawColor(203, 213, 225);
+        pdf.setLineWidth(0.5);
+        pdf.line(margin, y, pageWidth - margin, y);
+        y += 6;
+
+        // Process items in section
+        section.items.forEach((item) => {
+          checkPageBreak(15);
+
+          // Item subtitle
+          pdf.setFontSize(10);
+          pdf.setFont('helvetica', 'bold');
+          pdf.setTextColor(51, 65, 81);
+          pdf.text(t(item.subtitle), margin + 3, y);
+          y += 5;
+
+          // Item content - split into lines
+          pdf.setFontSize(9);
+          pdf.setFont('helvetica', 'normal');
+          pdf.setTextColor(100, 116, 139);
+
+          const contentText = t(item.content);
+          const lines = pdf.splitTextToSize(contentText, contentWidth - 6);
+
+          lines.forEach((line: string) => {
+            checkPageBreak(5);
+            pdf.text(line, margin + 3, y);
+            y += 4;
+          });
+
+          y += 3;
+        });
+
+        y += 5;
       });
 
-      // Supprimer l'élément temporaire
-      document.body.removeChild(printContent);
+      // Footer
+      checkPageBreak(20);
+      y += 5;
+      pdf.setDrawColor(203, 213, 225);
+      pdf.line(margin, y, pageWidth - margin, y);
+      y += 6;
 
-      // Créer le PDF
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      
-      const imgWidth = 210;
-      const pageHeight = 295;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      let heightLeft = imgHeight;
-      let position = 0;
+      pdf.setFontSize(9);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(100, 116, 139);
+      const emergencyText = t({
+        en: 'For emergencies during your stay, contact us 24/7 at +33 6 85 85 84 91',
+        fr: 'Pour les urgences pendant votre sejour, contactez-nous 24h/24 au +33 6 85 85 84 91'
+      });
+      pdf.text(emergencyText, pageWidth / 2, y, { align: 'center' });
+      y += 6;
 
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
+      pdf.setFontSize(9);
+      pdf.setTextColor(148, 163, 184);
+      const wishText = t({
+        en: 'We wish you a wonderful stay at Chalet-Balmotte810!',
+        fr: 'Nous vous souhaitons un merveilleux sejour au Chalet-Balmotte810 !'
+      });
+      pdf.text(wishText, pageWidth / 2, y, { align: 'center' });
 
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-
-      // Télécharger le PDF
+      // Save PDF
       const fileName = `${chaletName}-Guide-${t({ en: 'En', fr: 'Fr' })}.pdf`;
       pdf.save(fileName);
 
     } catch (error) {
-      console.error('Erreur lors de la génération du PDF:', error);
-      alert(t({ 
-        en: 'Error generating PDF. Please try again.', 
-        fr: 'Erreur lors de la génération du PDF. Veuillez réessayer.' 
+      console.error('Erreur lors de la generation du PDF:', error);
+      alert(t({
+        en: 'Error generating PDF. Please try again.',
+        fr: 'Erreur lors de la generation du PDF. Veuillez reessayer.'
       }));
     }
   };
@@ -203,6 +191,46 @@ export default function GuidePage() {
         {
           subtitle: { en: 'Practical Amenities', fr: 'Équipements Pratiques' },
           content: { en: 'Ski room with boot warmers, washing machine and dryer with detergent provided, iron and ironing board in utility room, 5 private parking spaces, and professional BBQ station on the terrace.', fr: 'Local à skis avec chauffe-chaussures, lave-linge et sèche-linge avec lessive fournie, fer et planche à repasser dans la buanderie, 5 places de parking privé, et station BBQ professionnelle sur la terrasse.' },
+        },
+      ],
+    },
+    {
+      title: { en: 'WiFi & Connectivity', fr: 'WiFi & Connectivité' },
+      icon: '📶',
+      items: [
+        {
+          subtitle: { en: 'High-Speed Internet', fr: 'Internet Haut Débit' },
+          content: { en: 'Fiber optic connection with speeds up to 500 Mbps. WiFi credentials provided upon arrival. Strong coverage throughout the chalet including all bedrooms.', fr: 'Connexion fibre optique jusqu\'à 500 Mbps. Identifiants WiFi fournis à l\'arrivée. Couverture forte dans tout le chalet y compris toutes les chambres.' },
+        },
+        {
+          subtitle: { en: 'Mobile Coverage', fr: 'Réseau Mobile' },
+          content: { en: 'Good 4G/5G coverage with most French providers (Orange, SFR, Free, Bouygues). Signal may be weaker in the basement ski room.', fr: 'Bonne couverture 4G/5G avec la plupart des opérateurs français (Orange, SFR, Free, Bouygues). Signal peut être plus faible au sous-sol (local à skis).' },
+        },
+        {
+          subtitle: { en: 'Streaming & Remote Work', fr: 'Streaming & Télétravail' },
+          content: { en: 'Internet speed is suitable for video calls, streaming, and remote work. Multiple devices can connect simultaneously without issues.', fr: 'Vitesse internet adaptée pour visioconférences, streaming, et télétravail. Connexion simultanée de plusieurs appareils sans problème.' },
+        },
+      ],
+    },
+    {
+      title: { en: 'What to Bring', fr: 'À Apporter' },
+      icon: '🎒',
+      items: [
+        {
+          subtitle: { en: 'Essentials', fr: 'Essentiels' },
+          content: { en: 'Towels and bed linens are provided. Bring: toiletries, medications, phone chargers, adapters (EU plugs), sunscreen, sunglasses.', fr: 'Draps et serviettes fournis. À apporter : produits toilette, médicaments, chargeurs téléphone, adaptateurs (prises EU), crème solaire, lunettes soleil.' },
+        },
+        {
+          subtitle: { en: 'Winter Season', fr: 'Saison Hiver' },
+          content: { en: 'Snow chains (mandatory by law in winter), warm clothes, ski gear (or rent locally), winter boots, gloves, hat. The chalet has boot warmers and ski storage.', fr: 'Chaînes à neige (obligatoires par loi en hiver), vêtements chauds, équipement ski (ou location sur place), chaussures hiver, gants, bonnet. Le chalet a chauffe-chaussures et rangement skis.' },
+        },
+        {
+          subtitle: { en: 'Summer Season', fr: 'Saison Été' },
+          content: { en: 'Hiking boots, swimsuit (for hot tub), light jacket for evenings, insect repellent, reusable water bottle. BBQ equipment provided.', fr: 'Chaussures randonnée, maillot bain (pour jacuzzi), veste légère pour soirées, anti-moustiques, gourde réutilisable. Équipement BBQ fourni.' },
+        },
+        {
+          subtitle: { en: 'Groceries', fr: 'Courses' },
+          content: { en: 'We recommend shopping before arrival (Carrefour in Cluses). Basic condiments provided: salt, pepper, oil. Coffee capsules (Nespresso) not included.', fr: 'Nous recommandons de faire courses avant arrivée (Carrefour à Cluses). Condiments basiques fournis : sel, poivre, huile. Capsules café (Nespresso) non incluses.' },
         },
       ],
     },
