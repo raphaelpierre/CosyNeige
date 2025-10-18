@@ -8,3 +8,15 @@ import { twMerge } from 'tailwind-merge';
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+/**
+ * Format a number as Euro currency
+ * @param amount - The amount to format
+ * @returns Formatted string in EUR format (e.g., "1 234,56 €")
+ */
+export function formatEuro(amount: number): string {
+  return new Intl.NumberFormat('fr-FR', {
+    style: 'currency',
+    currency: 'EUR'
+  }).format(amount);
+}
