@@ -38,7 +38,7 @@ export default function FrenchDatePicker({
   onChange,
   label,
   required = false,
-  className = "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent cursor-pointer",
+  className = "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-800 focus:border-transparent cursor-pointer",
   placeholder,
 }: FrenchDatePickerProps) {
   const { language } = useLanguage();
@@ -82,7 +82,7 @@ export default function FrenchDatePicker({
         popperClassName="z-50"
         calendarClassName="shadow-lg border border-gray-200 rounded-lg"
         dayClassName={(date) => 
-          "hover:bg-forest-100 hover:text-forest-900 text-center leading-9 transition-colors duration-150"
+          "hover:bg-slate-100 hover:text-slate-900 text-center leading-9 transition-colors duration-150"
         }
         weekDayClassName={() => 
           "text-gray-500 text-xs font-medium leading-8 text-center"

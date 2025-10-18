@@ -103,7 +103,7 @@ function LoginPageContent() {
     return (
       <div className="min-h-screen bg-gradient-to-b from-cream via-white to-cream py-8 flex items-center justify-center">
         <div className="text-center px-4">
-          <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-forest-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-slate-700 mx-auto mb-4"></div>
           <p className="text-gray-600 text-sm sm:text-base">{t({ en: 'Loading...', fr: 'Chargement...' })}</p>
         </div>
       </div>
@@ -115,7 +115,7 @@ function LoginPageContent() {
       <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-6 lg:mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-forest-900 mb-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-2">
             {isLogin
               ? t({ en: 'Client Login', fr: 'Connexion Client' })
               : t({ en: 'Create Account', fr: 'Créer un Compte' })}
@@ -259,8 +259,8 @@ function LoginPageContent() {
         </div>
 
         {/* Benefits */}
-        <div className="mt-6 sm:mt-8 bg-gradient-to-br from-forest-50 to-cream rounded-xl p-4 sm:p-6">
-          <h3 className="font-bold text-forest-900 mb-3 sm:mb-4 text-center text-sm sm:text-base">
+        <div className="mt-6 sm:mt-8 bg-gradient-to-br from-slate-50 to-cream rounded-xl p-4 sm:p-6">
+          <h3 className="font-bold text-slate-900 mb-3 sm:mb-4 text-center text-sm sm:text-base">
             {t({ en: 'With your client account:', fr: 'Avec votre espace client :' })}
           </h3>
           <ul className="space-y-2 text-xs sm:text-sm text-gray-700">

@@ -253,7 +253,7 @@ export default function BookingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cream via-white to-forest-50">
+    <div className="min-h-screen bg-gradient-to-br from-cream via-white to-slate-50">
       {/* Header compact avec progression */}
       <section className="bg-white shadow-sm border-b sticky top-0 z-20">
         <div className="max-w-6xl mx-auto px-4 py-3">
@@ -264,7 +264,7 @@ export default function BookingPage() {
               </h1>
               <p className="text-gray-600 text-xs">
                 {t({ en: '3 easy steps', fr: '3 étapes simples' })} •
-                <span className="font-medium text-forest-700 ml-1">
+                <span className="font-medium text-slate-800 ml-1">
                   {t(steps[currentStep - 1]?.title)}
                 </span>
               </p>
@@ -277,7 +277,7 @@ export default function BookingPage() {
                   <div
                     className={`flex items-center justify-center w-8 h-8 rounded-full border-2 font-bold text-xs transition-all duration-300 ${
                       currentStep === step.id
-                        ? 'bg-forest-600 text-white border-forest-600 scale-110'
+                        ? 'bg-slate-700 text-white border-slate-700 scale-110'
                         : step.completed
                           ? 'bg-slate-600 text-white border-slate-600'
                           : 'bg-white text-gray-400 border-gray-300'
@@ -495,7 +495,7 @@ export default function BookingPage() {
                   </div>
 
                   {/* Sélecteur personnes - COMPACT et sous le calendrier */}
-                  <div className="bg-forest-50 rounded-lg p-2 sm:p-3 border border-forest-200">
+                  <div className="bg-slate-50 rounded-lg p-2 sm:p-3 border border-slate-200">
                     <div className="flex flex-row items-center justify-between gap-3">
                       <div className="flex items-center gap-2">
                         <span className="text-base">👥</span>
@@ -507,21 +507,21 @@ export default function BookingPage() {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => setGuests(Math.max(1, guests - 1))}
-                          className="w-8 h-8 rounded-full bg-white shadow border border-gray-200 hover:border-forest-400 flex items-center justify-center font-bold text-base text-gray-600 hover:text-forest-600 transition-all active:scale-95 touch-manipulation"
+                          className="w-8 h-8 rounded-full bg-white shadow border border-gray-200 hover:border-slate-400 flex items-center justify-center font-bold text-base text-gray-600 hover:text-slate-700 transition-all active:scale-95 touch-manipulation"
                           aria-label="Decrease guests"
                         >
                           −
                         </button>
 
-                        <div className="bg-white rounded-lg px-2 py-1 shadow-sm border border-forest-300 min-w-[50px]">
+                        <div className="bg-white rounded-lg px-2 py-1 shadow-sm border border-slate-300 min-w-[50px]">
                           <div className="text-center">
-                            <div className="font-bold text-sm text-forest-700">{guests}</div>
+                            <div className="font-bold text-sm text-slate-800">{guests}</div>
                           </div>
                         </div>
 
                         <button
                           onClick={() => setGuests(Math.min(10, guests + 1))}
-                          className="w-8 h-8 rounded-full bg-white shadow border border-gray-200 hover:border-forest-400 flex items-center justify-center font-bold text-base text-gray-600 hover:text-forest-600 transition-all active:scale-95 touch-manipulation"
+                          className="w-8 h-8 rounded-full bg-white shadow border border-gray-200 hover:border-slate-400 flex items-center justify-center font-bold text-base text-gray-600 hover:text-slate-700 transition-all active:scale-95 touch-manipulation"
                           aria-label="Increase guests"
                         >
                           +
@@ -643,7 +643,7 @@ export default function BookingPage() {
                           autoComplete="given-name"
                           value={formData.firstName}
                           onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-600 focus:border-transparent text-base"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent text-base"
                           placeholder={t({ en: 'John', fr: 'Jean' })}
                         />
                       </div>
@@ -659,7 +659,7 @@ export default function BookingPage() {
                           autoComplete="family-name"
                           value={formData.lastName}
                           onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-600 focus:border-transparent text-base"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent text-base"
                           placeholder={t({ en: 'Doe', fr: 'Dupont' })}
                         />
                       </div>
@@ -680,7 +680,7 @@ export default function BookingPage() {
                           validateEmail(e.target.value);
                         }}
                         onBlur={(e) => validateEmail(e.target.value)}
-                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-forest-600 focus:border-transparent text-base ${
+                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent text-base ${
                           formErrors.email ? 'border-red-500' : 'border-gray-300'
                         }`}
                         placeholder="john.doe@example.com"
@@ -705,7 +705,7 @@ export default function BookingPage() {
                           validatePhone(e.target.value);
                         }}
                         onBlur={(e) => validatePhone(e.target.value)}
-                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-forest-600 focus:border-transparent text-base ${
+                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent text-base ${
                           formErrors.phone ? 'border-red-500' : 'border-gray-300'
                         }`}
                         placeholder="+33 6 12 34 56 78"
@@ -723,14 +723,14 @@ export default function BookingPage() {
                         rows={3}
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-600 focus:border-transparent text-base"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent text-base"
                         placeholder={t({ en: 'Any special requests or requirements...', fr: 'Demandes spéciales ou besoins particuliers...' })}
                       />
                     </div>
                   </div>
 
                   {/* Résumé réservation intégré */}
-                  <div className="bg-forest-50 rounded-xl p-6 border-2 border-forest-200">
+                  <div className="bg-slate-50 rounded-xl p-6 border-2 border-slate-200">
                     <h4 className="font-bold text-gray-900 text-lg mb-4 flex items-center gap-2">
                       📋 {t({ en: 'Booking Summary', fr: 'Résumé de Réservation' })}
                     </h4>
@@ -738,21 +738,21 @@ export default function BookingPage() {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
                       <div className="bg-white rounded-lg p-3 shadow-sm">
                         <span className="text-gray-600 text-xs block mb-1">{t({ en: 'Check-in', fr: 'Arrivée' })}</span>
-                        <div className="font-bold text-forest-900">{checkIn}</div>
+                        <div className="font-bold text-slate-900">{checkIn}</div>
                       </div>
                       <div className="bg-white rounded-lg p-3 shadow-sm">
                         <span className="text-gray-600 text-xs block mb-1">{t({ en: 'Check-out', fr: 'Départ' })}</span>
-                        <div className="font-bold text-forest-900">{checkOut}</div>
+                        <div className="font-bold text-slate-900">{checkOut}</div>
                       </div>
                       <div className="bg-white rounded-lg p-3 shadow-sm">
                         <span className="text-gray-600 text-xs block mb-1">{t({ en: 'Duration', fr: 'Durée' })}</span>
-                        <div className="font-bold text-forest-900">
+                        <div className="font-bold text-slate-900">
                           {nights} {t({ en: nights === 1 ? 'night' : 'nights', fr: nights === 1 ? 'nuit' : 'nuits' })}
                         </div>
                       </div>
                       <div className="bg-white rounded-lg p-3 shadow-sm">
                         <span className="text-gray-600 text-xs block mb-1">{t({ en: 'Guests', fr: 'Personnes' })}</span>
-                        <div className="font-bold text-forest-900">{guests}</div>
+                        <div className="font-bold text-slate-900">{guests}</div>
                       </div>
                     </div>
 
@@ -771,7 +771,7 @@ export default function BookingPage() {
                             <span>{t({ en: 'Tourist tax', fr: 'Taxe de séjour' })}</span>
                             <span className="font-semibold">{formatEuro(priceCalculation.touristTax)}</span>
                           </div>
-                          <div className="border-t pt-2 flex justify-between text-lg font-bold text-forest-900">
+                          <div className="border-t pt-2 flex justify-between text-lg font-bold text-slate-900">
                             <span>{t({ en: 'Total', fr: 'Total' })}</span>
                             <span>{formatEuro(priceCalculation.total)}</span>
                           </div>
@@ -937,7 +937,7 @@ export default function BookingPage() {
           {/* Sidebar prix (desktop) */}
           <div className="hidden xl:block xl:col-span-1">
             <div className="bg-white rounded-xl shadow-lg border border-gray-100 sticky top-20">
-              <div className="bg-forest-50 rounded-t-xl p-4 border-b">
+              <div className="bg-slate-50 rounded-t-xl p-4 border-b">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="text-lg">💰</span>
@@ -956,12 +956,12 @@ export default function BookingPage() {
               <div className="p-4">
                 {checkIn && checkOut && isValidStay && priceCalculation ? (
                   <div className="space-y-4">
-                    <div className="bg-forest-50 rounded-lg p-4 border border-forest-200">
+                    <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
                       <div className="text-center">
                         <div className="text-sm text-gray-600 mb-1">
                           {checkIn} → {checkOut}
                         </div>
-                        <div className="text-lg font-bold text-forest-700">
+                        <div className="text-lg font-bold text-slate-800">
                           {nights} {t({ en: nights === 1 ? 'night' : 'nights', fr: nights === 1 ? 'nuit' : 'nuits' })}
                         </div>
                         <div className="text-sm text-gray-600">
@@ -990,7 +990,7 @@ export default function BookingPage() {
 
                       <div className="border-t pt-3 flex justify-between">
                         <span className="font-bold text-lg">{t({ en: 'Total', fr: 'Total' })}</span>
-                        <span className="font-bold text-xl text-forest-700">{formatEuro(priceCalculation.total)}</span>
+                        <span className="font-bold text-xl text-slate-800">{formatEuro(priceCalculation.total)}</span>
                       </div>
                     </div>
 
@@ -1032,13 +1032,13 @@ export default function BookingPage() {
 
       {/* Bottom Sheet Prix (Mobile) */}
       {checkIn && checkOut && isValidStay && priceCalculation && (
-        <div className="xl:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-forest-200 shadow-2xl z-30 p-4 pb-6 safe-area-bottom">
+        <div className="xl:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-slate-200 shadow-2xl z-30 p-4 pb-6 safe-area-bottom">
           <div className="flex items-center justify-between mb-3">
             <div>
               <div className="text-xs text-gray-600">
                 {nights} {t({ en: nights === 1 ? 'night' : 'nights', fr: nights === 1 ? 'nuit' : 'nuits' })} • {guests} {t({ en: guests === 1 ? 'guest' : 'guests', fr: 'pers.' })}
               </div>
-              <div className="text-2xl font-bold text-forest-700">
+              <div className="text-2xl font-bold text-slate-800">
                 {formatEuro(priceCalculation.total)}
               </div>
             </div>

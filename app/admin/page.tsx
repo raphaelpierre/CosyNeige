@@ -942,7 +942,7 @@ export default function AdminPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'confirmed': return 'bg-green-100 text-forest-700';
+      case 'confirmed': return 'bg-green-100 text-slate-800';
       case 'pending': return 'bg-yellow-100 text-yellow-800';
       case 'cancelled': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -1257,7 +1257,7 @@ export default function AdminPage() {
                         </div>
                         <div>
                           <span className="text-gray-500">Prix:</span>
-                          <div className="font-semibold text-forest-900">{reservation.totalPrice}€</div>
+                          <div className="font-semibold text-slate-900">{reservation.totalPrice}€</div>
                         </div>
                       </div>
 
@@ -1341,7 +1341,7 @@ export default function AdminPage() {
                           </td>
                           <td className="py-3 px-4">{reservation.guests}</td>
                           <td className="py-3 px-4">
-                            <div className="font-semibold text-forest-900">{reservation.totalPrice}€</div>
+                            <div className="font-semibold text-slate-900">{reservation.totalPrice}€</div>
                           </td>
                           <td className="py-3 px-4">
                             <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(reservation.status)}`}>
@@ -1370,7 +1370,7 @@ export default function AdminPage() {
                               {reservation.status === 'pending' && (
                                 <button
                                   onClick={() => handleStatusChange(reservation.id, 'confirmed')}
-                                  className="text-green-600 hover:text-forest-700 text-lg"
+                                  className="text-green-600 hover:text-slate-800 text-lg"
                                   title={t({ en: 'Confirm', fr: 'Confirmer' })}
                                 >
                                   ✅
@@ -1907,7 +1907,7 @@ export default function AdminPage() {
                         fr: 'Commencez à suivre vos finances en ajoutant votre première transaction.'
                       })}
                     </p>
-                    <button className="bg-forest-600 text-white px-6 py-2 rounded-lg hover:bg-forest-700 inline-flex items-center gap-2">
+                    <button className="bg-slate-700 text-white px-6 py-2 rounded-lg hover:bg-slate-800 inline-flex items-center gap-2">
                       <span>➕</span>
                       <span>{t({ en: 'Add Transaction', fr: 'Ajouter une Transaction' })}</span>
                     </button>
@@ -1959,7 +1959,7 @@ export default function AdminPage() {
 
                 {/* Current Month Display */}
                 <div className="text-center mb-4 sm:mb-6">
-                  <h3 className="text-xl sm:text-2xl font-bold text-forest-900 capitalize">
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 capitalize">
                     {currentCalendarDate.toLocaleDateString(t({ en: 'en-US', fr: 'fr-FR' }), {
                       month: 'long',
                       year: 'numeric'
@@ -2024,7 +2024,7 @@ export default function AdminPage() {
                                   key={idx}
                                   className={`text-xs p-0.5 sm:p-1 mb-1 rounded truncate cursor-pointer ${
                                     booking.status === 'confirmed'
-                                      ? 'bg-green-100 text-forest-700 hover:bg-green-200'
+                                      ? 'bg-green-100 text-slate-800 hover:bg-green-200'
                                       : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
                                   }`}
                                   title={`${booking.guestName} - ${booking.checkIn} → ${booking.checkOut}`}
@@ -2777,7 +2777,7 @@ export default function AdminPage() {
                       </div>
                       
                       <div className="flex justify-between items-center mb-3">
-                        <div className="text-lg font-bold text-forest-900">€{invoice.totalAmount}</div>
+                        <div className="text-lg font-bold text-slate-900">€{invoice.totalAmount}</div>
                         <div className="text-sm text-gray-500">
                           {new Date(invoice.createdAt).toLocaleDateString('fr-FR')}
                         </div>
@@ -2793,7 +2793,7 @@ export default function AdminPage() {
                         </button>
                         <button
                           onClick={() => handleViewInvoice(invoice)}
-                          className="flex-1 bg-forest-100 text-forest-700 px-3 py-2 rounded font-medium"
+                          className="flex-1 bg-slate-100 text-slate-800 px-3 py-2 rounded font-medium"
                           title={t({ en: 'Edit invoice', fr: 'Modifier la facture' })}
                         >
                           ✏️ Modifier
@@ -2933,7 +2933,7 @@ export default function AdminPage() {
                                 </button>
                                 <button
                                   onClick={() => handleViewInvoice(invoice)}
-                                  className="text-forest-600 hover:text-forest-900"
+                                  className="text-slate-700 hover:text-slate-900"
                                 >
                                   {t({ en: 'Edit Status', fr: 'Modifier' })}
                                 </button>
@@ -3337,7 +3337,7 @@ export default function AdminPage() {
               <textarea
                 value={replyContent}
                 onChange={(e) => setReplyContent(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-500 text-sm"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 text-sm"
                 rows={4}
                 placeholder={t({ 
                   en: 'Type your reply here...', 
@@ -3382,7 +3382,7 @@ export default function AdminPage() {
                   type="text"
                   value={newUser.firstName}
                   onChange={(e) => setNewUser({...newUser, firstName: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                   placeholder={t({ en: 'John', fr: 'Jean' })}
                   required
                 />
@@ -3395,7 +3395,7 @@ export default function AdminPage() {
                   type="text"
                   value={newUser.lastName}
                   onChange={(e) => setNewUser({...newUser, lastName: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                   placeholder={t({ en: 'Doe', fr: 'Dupont' })}
                   required
                 />
@@ -3408,7 +3408,7 @@ export default function AdminPage() {
                   type="email"
                   value={newUser.email}
                   onChange={(e) => setNewUser({...newUser, email: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                   placeholder="user@example.com"
                   required
                 />
@@ -3421,7 +3421,7 @@ export default function AdminPage() {
                   type="tel"
                   value={newUser.phone}
                   onChange={(e) => setNewUser({...newUser, phone: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                   placeholder="+33 6 12 34 56 78"
                 />
               </div>
@@ -3433,7 +3433,7 @@ export default function AdminPage() {
                   type="password"
                   value={newUser.password}
                   onChange={(e) => setNewUser({...newUser, password: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                   placeholder="••••••••"
                   required
                   minLength={8}
@@ -3446,7 +3446,7 @@ export default function AdminPage() {
                 <select
                   value={newUser.role}
                   onChange={(e) => setNewUser({...newUser, role: e.target.value as 'client' | 'admin'})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                 >
                   <option value="client">{t({ en: 'Client', fr: 'Client' })}</option>
                   <option value="admin">{t({ en: 'Admin', fr: 'Admin' })}</option>

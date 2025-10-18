@@ -33,7 +33,7 @@ export default function UserDropdown() {
   if (loading) {
     return (
       <div className="flex items-center justify-center w-8 h-8">
-        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-forest-600"></div>
+        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-slate-700"></div>
       </div>
     );
   }
@@ -44,12 +44,12 @@ export default function UserDropdown() {
         href="/client/login"
         className={`text-sm font-medium transition-all duration-300 relative group ${
           pathname === '/client/login' || pathname.startsWith('/client')
-            ? 'text-forest-700'
-            : 'text-gray-700 hover:text-forest-700'
+            ? 'text-slate-800'
+            : 'text-gray-700 hover:text-slate-800'
         }`}
       >
         👤 {t({ en: 'My Account', fr: 'Mon Compte' })}
-        <span className={`absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-forest-600 to-forest-800 transition-all duration-300 ${
+        <span className={`absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-slate-700 to-slate-800 transition-all duration-300 ${
           pathname === '/client/login' || pathname.startsWith('/client') ? 'w-full' : 'w-0 group-hover:w-full'
         }`} />
       </Link>
@@ -63,8 +63,8 @@ export default function UserDropdown() {
         onClick={() => setIsOpen(!isOpen)}
         className={`text-sm font-medium transition-all duration-300 relative group flex items-center gap-2 ${
           pathname.startsWith('/client')
-            ? 'text-forest-700'
-            : 'text-gray-700 hover:text-forest-700'
+            ? 'text-slate-800'
+            : 'text-gray-700 hover:text-slate-800'
         }`}
       >
         <div className="flex items-center gap-2">
@@ -83,7 +83,7 @@ export default function UserDropdown() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </div>
-        <span className={`absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-forest-600 to-forest-800 transition-all duration-300 ${
+        <span className={`absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-slate-700 to-slate-800 transition-all duration-300 ${
           pathname.startsWith('/client') ? 'w-full' : 'w-0 group-hover:w-full'
         }`} />
       </button>
@@ -112,7 +112,7 @@ export default function UserDropdown() {
           <div className="py-2">
             <Link
               href="/client/dashboard"
-              className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-forest-50 transition-colors"
+              className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-slate-50 transition-colors"
               onClick={() => setIsOpen(false)}
             >
               <span className="text-lg">📊</span>
@@ -121,7 +121,7 @@ export default function UserDropdown() {
             
             <Link
               href="/client/dashboard?tab=reservations"
-              className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-forest-50 transition-colors"
+              className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-slate-50 transition-colors"
               onClick={() => setIsOpen(false)}
             >
               <span className="text-lg">📅</span>
@@ -130,7 +130,7 @@ export default function UserDropdown() {
 
             <Link
               href="/client/dashboard?tab=messages"
-              className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-forest-50 transition-colors"
+              className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-slate-50 transition-colors"
               onClick={() => setIsOpen(false)}
             >
               <span className="text-lg">💬</span>
@@ -139,7 +139,7 @@ export default function UserDropdown() {
 
             <Link
               href="/booking"
-              className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-forest-50 transition-colors"
+              className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-slate-50 transition-colors"
               onClick={() => setIsOpen(false)}
             >
               <span className="text-lg">➕</span>

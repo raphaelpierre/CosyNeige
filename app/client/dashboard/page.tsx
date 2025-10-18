@@ -324,7 +324,7 @@ function ClientDashboardContent() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-cream px-4">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-forest-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-slate-700 mx-auto mb-4"></div>
           <p className="text-gray-600 text-sm sm:text-base">{t({ en: 'Loading...', fr: 'Chargement...' })}</p>
         </div>
       </div>
@@ -463,7 +463,7 @@ function ClientDashboardContent() {
           <div className="space-y-8">
             {/* Upcoming Reservations */}
             <div className="bg-white rounded-xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-forest-900 mb-6">
+              <h2 className="text-2xl font-bold text-slate-900 mb-6">
                 {t({ en: 'Upcoming Reservations', fr: 'Prochaines Réservations' })}
               </h2>
               {upcomingReservations.length === 0 ? (
@@ -520,12 +520,12 @@ function ClientDashboardContent() {
             {/* Recent Messages */}
             <div className="bg-white rounded-xl shadow-lg p-8">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-forest-900">
+                <h2 className="text-2xl font-bold text-slate-900">
                   {t({ en: 'Recent Messages', fr: 'Messages Récents' })}
                 </h2>
                 <button
                   onClick={() => setActiveTab('messages')}
-                  className="text-forest-700 hover:text-forest-900 font-semibold"
+                  className="text-slate-800 hover:text-slate-900 font-semibold"
                 >
                   {t({ en: 'View All', fr: 'Voir Tout' })} →
                 </button>
@@ -554,7 +554,7 @@ function ClientDashboardContent() {
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="font-semibold text-forest-900">
+                            <span className="font-semibold text-slate-900">
                               {message.isFromAdmin ? 'Chalet-Balmotte810' : message.fromName}
                             </span>
                             {!message.read && message.isFromAdmin && (
@@ -580,7 +580,7 @@ function ClientDashboardContent() {
 
         {activeTab === 'reservations' && (
           <div className="bg-white rounded-xl shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-forest-900 mb-6">
+            <h2 className="text-2xl font-bold text-slate-900 mb-6">
               {t({ en: 'All Reservations', fr: 'Toutes les Réservations' })}
             </h2>
 
@@ -596,7 +596,7 @@ function ClientDashboardContent() {
               </div>
             ) : (
               <div className="space-y-4">
-                <h3 className="font-bold text-forest-800 text-lg mb-3">
+                <h3 className="font-bold text-slate-800 text-lg mb-3">
                   {t({ en: 'Upcoming', fr: 'À Venir' })}
                 </h3>
                 {upcomingReservations.map((reservation) => (
@@ -701,7 +701,7 @@ function ClientDashboardContent() {
                           <div className="flex items-center gap-3 mb-4">
                             <span className={`px-4 py-1.5 rounded-full text-sm font-bold ${
                               reservation.status === 'confirmed'
-                                ? 'bg-green-100 text-forest-700'
+                                ? 'bg-green-100 text-slate-800'
                                 : reservation.status === 'pending'
                                   ? 'bg-yellow-100 text-yellow-800'
                                   : 'bg-gray-100 text-gray-800'
@@ -719,11 +719,11 @@ function ClientDashboardContent() {
                             )}
                           </div>
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div className="bg-forest-50 rounded-lg p-4">
+                            <div className="bg-slate-50 rounded-lg p-4">
                               <div className="text-xs text-gray-600 mb-1">
                                 {t({ en: 'Check-in', fr: 'Arrivée' })}
                               </div>
-                              <div className="font-bold text-forest-900">
+                              <div className="font-bold text-slate-900">
                                 {new Date(reservation.checkIn).toLocaleDateString('fr-FR', {
                                   day: 'numeric',
                                   month: 'short',
@@ -731,11 +731,11 @@ function ClientDashboardContent() {
                                 })}
                               </div>
                             </div>
-                            <div className="bg-forest-50 rounded-lg p-4">
+                            <div className="bg-slate-50 rounded-lg p-4">
                               <div className="text-xs text-gray-600 mb-1">
                                 {t({ en: 'Check-out', fr: 'Départ' })}
                               </div>
-                              <div className="font-bold text-forest-900">
+                              <div className="font-bold text-slate-900">
                                 {new Date(reservation.checkOut).toLocaleDateString('fr-FR', {
                                   day: 'numeric',
                                   month: 'short',
@@ -743,11 +743,11 @@ function ClientDashboardContent() {
                                 })}
                               </div>
                             </div>
-                            <div className="bg-forest-50 rounded-lg p-4">
+                            <div className="bg-slate-50 rounded-lg p-4">
                               <div className="text-xs text-gray-600 mb-1">
                                 {t({ en: 'Guests', fr: 'Personnes' })}
                               </div>
-                              <div className="font-bold text-forest-900">{reservation.guests}</div>
+                              <div className="font-bold text-slate-900">{reservation.guests}</div>
                             </div>
                           </div>
                         </div>
@@ -755,7 +755,7 @@ function ClientDashboardContent() {
                           <div className="text-sm text-gray-600 mb-2">
                             {t({ en: 'Total Price', fr: 'Prix Total' })}
                           </div>
-                          <div className="text-3xl font-bold text-forest-900 mb-4">
+                          <div className="text-3xl font-bold text-slate-900 mb-4">
                             {formatEuro(reservation.totalPrice)}
                           </div>
                           
@@ -856,7 +856,7 @@ function ClientDashboardContent() {
         {activeTab === 'messages' && (
           <div className="bg-white rounded-xl shadow-lg p-8">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-forest-900">
+              <h2 className="text-2xl font-bold text-slate-900">
                 {t({ en: 'Messages', fr: 'Messages' })}
               </h2>
               <div className="flex gap-3">
@@ -885,8 +885,8 @@ function ClientDashboardContent() {
             </div>
 
             {showMessageForm && (
-              <form onSubmit={handleSendMessage} className="bg-forest-50 rounded-xl p-6 mb-6">
-                <h3 className="font-bold text-forest-900 mb-4">
+              <form onSubmit={handleSendMessage} className="bg-slate-50 rounded-xl p-6 mb-6">
+                <h3 className="font-bold text-slate-900 mb-4">
                   {t({ en: 'Send a Message', fr: 'Envoyer un Message' })}
                 </h3>
                 <div className="space-y-4">
@@ -899,7 +899,7 @@ function ClientDashboardContent() {
                       required
                       value={messageForm.subject}
                       onChange={(e) => setMessageForm({ ...messageForm, subject: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-800 focus:border-transparent"
                     />
                   </div>
                   <div>
@@ -911,7 +911,7 @@ function ClientDashboardContent() {
                       rows={6}
                       value={messageForm.content}
                       onChange={(e) => setMessageForm({ ...messageForm, content: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-700 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-800 focus:border-transparent"
                     />
                   </div>
                   <button
@@ -1024,7 +1024,7 @@ function ClientDashboardContent() {
                         <div className="flex-1">
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-3">
-                              <span className="font-bold text-forest-900 text-lg">
+                              <span className="font-bold text-slate-900 text-lg">
                                 {message.isFromAdmin ? 'Chalet-Balmotte810' : message.fromName}
                               </span>
                               {!message.read && message.isFromAdmin && (
@@ -1060,7 +1060,7 @@ function ClientDashboardContent() {
                                   setShowMessageForm(true);
                                   window.scrollTo({ top: 0, behavior: 'smooth' });
                                 }}
-                                className="text-forest-700 hover:text-forest-900 font-semibold text-sm px-4 py-2.5 rounded-lg border-2 border-forest-700 hover:bg-forest-50 transition-colors touch-manipulation active:scale-95"
+                                className="text-slate-800 hover:text-slate-900 font-semibold text-sm px-4 py-2.5 rounded-lg border-2 border-slate-800 hover:bg-slate-50 transition-colors touch-manipulation active:scale-95"
                               >
                                 ↩️ {t({ en: 'Reply', fr: 'Répondre' })}
                               </button>
@@ -1134,7 +1134,7 @@ function ClientDashboardContent() {
 
         {activeTab === 'invoices' && (
           <div className="bg-white rounded-xl shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-forest-900 mb-6">
+            <h2 className="text-2xl font-bold text-slate-900 mb-6">
               {t({ en: 'My Invoices', fr: 'Mes Factures' })}
             </h2>
 
@@ -1222,7 +1222,7 @@ function ClientDashboardContent() {
                         <div className="text-sm text-gray-600 mb-2">
                           {t({ en: 'Amount', fr: 'Montant' })}
                         </div>
-                        <div className="text-3xl font-bold text-forest-900 mb-4">
+                        <div className="text-3xl font-bold text-slate-900 mb-4">
                           {formatEuro(invoice.totalAmount)}
                         </div>
                         <button

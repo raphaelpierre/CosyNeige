@@ -317,7 +317,7 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
     return (
       <div className="bg-white rounded-lg shadow-lg p-6">
         <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-forest-700"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-800"></div>
         </div>
       </div>
     );
@@ -332,17 +332,17 @@ export default function BookingCalendar({ onDateSelect }: BookingCalendarProps) 
           className="p-3 md:p-1.5 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation active:scale-95"
           aria-label={t({ en: 'Previous month', fr: 'Mois précédent' })}
         >
-          <svg className="w-6 h-6 md:w-4 md:h-4 lg:w-5 lg:h-5 text-forest-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 md:w-4 md:h-4 lg:w-5 lg:h-5 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <h3 className="text-lg md:text-sm lg:text-base font-bold text-forest-900 capitalize">{monthName}</h3>
+        <h3 className="text-lg md:text-sm lg:text-base font-bold text-slate-900 capitalize">{monthName}</h3>
         <button
           onClick={goToNextMonth}
           className="p-3 md:p-1.5 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation active:scale-95"
           aria-label={t({ en: 'Next month', fr: 'Mois suivant' })}
         >
-          <svg className="w-6 h-6 md:w-4 md:h-4 lg:w-5 lg:h-5 text-forest-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 md:w-4 md:h-4 lg:w-5 lg:h-5 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>

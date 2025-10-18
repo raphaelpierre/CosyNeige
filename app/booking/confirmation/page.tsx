@@ -39,7 +39,7 @@ function BookingConfirmationContent() {
   if (!bookingData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-forest-700"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-slate-800"></div>
       </div>
     );
   }
@@ -68,7 +68,7 @@ function BookingConfirmationContent() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-forest-900 mb-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {t({ en: 'Booking Confirmed!', fr: 'Réservation Confirmée !' })}
           </h1>
           <p className="text-xl text-gray-600 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150">
@@ -78,11 +78,11 @@ function BookingConfirmationContent() {
             })}
           </p>
           {bookingData.id && (
-            <div className="mt-4 inline-block bg-forest-50 border-2 border-forest-300 rounded-xl px-6 py-3">
-              <div className="text-sm text-forest-700 mb-1">
+            <div className="mt-4 inline-block bg-slate-50 border-2 border-slate-300 rounded-xl px-6 py-3">
+              <div className="text-sm text-slate-800 mb-1">
                 {t({ en: 'Booking Reference', fr: 'Référence de Réservation' })}
               </div>
-              <div className="font-mono text-2xl font-bold text-forest-900">
+              <div className="font-mono text-2xl font-bold text-slate-900">
                 #{bookingData.id.substring(0, 8).toUpperCase()}
               </div>
             </div>
@@ -93,40 +93,40 @@ function BookingConfirmationContent() {
         <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-12 mb-8 animate-in fade-in slide-in-from-bottom-12 duration-700 delay-300">
 
           {/* Booking Summary */}
-          <div className="bg-gradient-to-br from-forest-50 to-cream rounded-xl p-6 mb-8">
-            <h3 className="text-lg font-bold text-forest-900 mb-4 flex items-center gap-2">
+          <div className="bg-gradient-to-br from-slate-50 to-cream rounded-xl p-6 mb-8">
+            <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
               <span className="text-2xl">📋</span>
               {t({ en: 'Booking Summary', fr: 'Résumé de Réservation' })}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-white rounded-lg p-4 shadow-sm">
                 <div className="text-sm text-gray-600 mb-1">📅 {t({ en: 'Check-in', fr: 'Arrivée' })}</div>
-                <div className="font-bold text-forest-900">{formatDate(bookingData.checkIn)}</div>
+                <div className="font-bold text-slate-900">{formatDate(bookingData.checkIn)}</div>
                 <div className="text-xs text-gray-500 mt-1">
                   {t({ en: 'From 4:00 PM', fr: 'À partir de 16h00' })}
                 </div>
               </div>
               <div className="bg-white rounded-lg p-4 shadow-sm">
                 <div className="text-sm text-gray-600 mb-1">📅 {t({ en: 'Check-out', fr: 'Départ' })}</div>
-                <div className="font-bold text-forest-900">{formatDate(bookingData.checkOut)}</div>
+                <div className="font-bold text-slate-900">{formatDate(bookingData.checkOut)}</div>
                 <div className="text-xs text-gray-500 mt-1">
                   {t({ en: 'Before 10:00 AM', fr: 'Avant 10h00' })}
                 </div>
               </div>
               <div className="bg-white rounded-lg p-4 shadow-sm">
                 <div className="text-sm text-gray-600 mb-1">🌙 {t({ en: 'Duration', fr: 'Durée' })}</div>
-                <div className="font-bold text-forest-900">
+                <div className="font-bold text-slate-900">
                   {nights} {t({ en: nights === 1 ? 'night' : 'nights', fr: nights === 1 ? 'nuit' : 'nuits' })}
                 </div>
               </div>
               <div className="bg-white rounded-lg p-4 shadow-sm">
                 <div className="text-sm text-gray-600 mb-1">👥 {t({ en: 'Guests', fr: 'Personnes' })}</div>
-                <div className="font-bold text-forest-900">{bookingData.guests || '—'}</div>
+                <div className="font-bold text-slate-900">{bookingData.guests || '—'}</div>
               </div>
               {bookingData.total && (
                 <div className="bg-white rounded-lg p-4 shadow-sm md:col-span-2">
                   <div className="text-sm text-gray-600 mb-1">💰 {t({ en: 'Total Amount', fr: 'Montant Total' })}</div>
-                  <div className="font-bold text-2xl text-forest-900">{bookingData.total}€</div>
+                  <div className="font-bold text-2xl text-slate-900">{bookingData.total}€</div>
                   <div className="text-xs text-gray-500 mt-1">
                     {t({ en: '30% paid - Balance due 30 days before arrival', fr: '30% payé - Solde dû 30 jours avant l\'arrivée' })}
                   </div>
@@ -163,7 +163,7 @@ function BookingConfirmationContent() {
 
           {/* Next Steps Timeline */}
           <div className="mb-8">
-            <h3 className="text-lg font-bold text-forest-900 mb-6 flex items-center gap-2">
+            <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
               <span className="text-2xl">🗓️</span>
               {t({ en: 'Next Steps', fr: 'Prochaines Étapes' })}
             </h3>
@@ -241,14 +241,14 @@ function BookingConfirmationContent() {
                 href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Chalet Balmotte 810 Stay')}&dates=${bookingData.checkIn.replace(/-/g, '')}/${bookingData.checkOut.replace(/-/g, '')}&details=${encodeURIComponent('Your stay at Chalet Balmotte 810')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 px-4 py-3 bg-white border-2 border-forest-200 hover:border-forest-400 rounded-lg font-semibold text-forest-800 transition-all hover:shadow-md"
+                className="flex items-center justify-center gap-2 px-4 py-3 bg-white border-2 border-slate-200 hover:border-slate-400 rounded-lg font-semibold text-slate-800 transition-all hover:shadow-md"
               >
                 <span>📅</span>
                 {t({ en: 'Add to Calendar', fr: 'Ajouter au Calendrier' })}
               </a>
               <button
                 onClick={() => window.print()}
-                className="flex items-center justify-center gap-2 px-4 py-3 bg-white border-2 border-forest-200 hover:border-forest-400 rounded-lg font-semibold text-forest-800 transition-all hover:shadow-md"
+                className="flex items-center justify-center gap-2 px-4 py-3 bg-white border-2 border-slate-200 hover:border-slate-400 rounded-lg font-semibold text-slate-800 transition-all hover:shadow-md"
               >
                 <span>🖨️</span>
                 {t({ en: 'Print Confirmation', fr: 'Imprimer Confirmation' })}
@@ -279,7 +279,7 @@ function BookingConfirmationContent() {
         </div>
 
         {/* Useful Information Card */}
-        <div className="bg-gradient-to-r from-forest-700 to-forest-800 rounded-2xl p-8 text-white mb-8">
+        <div className="bg-gradient-to-r from-slate-800 to-slate-800 rounded-2xl p-8 text-white mb-8">
           <h3 className="font-bold text-2xl mb-6 text-center">
             {t({ en: 'Useful Information', fr: 'Informations Utiles' })}
           </h3>
@@ -313,8 +313,8 @@ function BookingConfirmationContent() {
         </div>
 
         {/* Contact Info */}
-        <div className="text-center p-6 bg-white rounded-2xl shadow-lg border-2 border-forest-100">
-          <h3 className="font-bold text-xl mb-4 text-forest-900">
+        <div className="text-center p-6 bg-white rounded-2xl shadow-lg border-2 border-slate-100">
+          <h3 className="font-bold text-xl mb-4 text-slate-900">
             {t({ en: 'Questions?', fr: 'Des Questions ?' })}
           </h3>
           <p className="mb-4 text-gray-700">
@@ -326,7 +326,7 @@ function BookingConfirmationContent() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a
               href="mailto:contact@chalet-balmotte810.com"
-              className="flex items-center gap-2 text-forest-700 hover:text-forest-900 font-semibold transition-colors"
+              className="flex items-center gap-2 text-slate-800 hover:text-slate-900 font-semibold transition-colors"
             >
               <span>📧</span>
               <span>contact@chalet-balmotte810.com</span>
@@ -334,7 +334,7 @@ function BookingConfirmationContent() {
             <span className="hidden sm:inline text-gray-300">|</span>
             <a
               href="tel:+33685858491"
-              className="flex items-center gap-2 text-forest-700 hover:text-forest-900 font-semibold transition-colors"
+              className="flex items-center gap-2 text-slate-800 hover:text-slate-900 font-semibold transition-colors"
             >
               <span>📞</span>
               <span>+33 6 85 85 84 91</span>
@@ -350,7 +350,7 @@ export default function BookingConfirmationPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-forest-700"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-slate-800"></div>
       </div>
     }>
       <BookingConfirmationContent />

@@ -10,7 +10,9 @@ const config: Config = {
     extend: {
       colors: {
         cream: '#FAFAF8',
-        forest: {
+        // DEPRECATED: 'forest' colors replaced by 'slate' for modern design system
+        // Remove after full migration to slate-based design
+        /* forest: {
           50: '#f0f7ed',
           100: '#dcecd5',
           200: '#b8d9ab',
@@ -21,7 +23,8 @@ const config: Config = {
           700: '#2d5016',
           800: '#264419',
           900: '#213a17',
-        },
+        }, */
+        // Accent colors - can be used sparingly for specific elements
         wood: {
           50: '#faf6f3',
           100: '#f0e6db',

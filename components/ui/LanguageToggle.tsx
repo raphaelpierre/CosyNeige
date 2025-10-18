@@ -11,14 +11,14 @@ export default function LanguageToggle() {
         onClick={() => setLanguage('fr')}
         className={`flex items-center gap-1 text-sm font-medium transition-all duration-300 relative group pb-2 ${
           language === 'fr'
-            ? 'text-forest-700'
-            : 'text-gray-700 hover:text-forest-700'
+            ? 'text-slate-800'
+            : 'text-gray-700 hover:text-slate-800'
         }`}
         title="Français"
       >
         <span>🇫🇷</span>
         <span>FR</span>
-        <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-forest-600 to-forest-800 transition-all duration-300 ${
+        <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-slate-700 to-slate-800 transition-all duration-300 ${
           language === 'fr' ? 'w-full' : 'w-0 group-hover:w-full'
         }`} />
       </button>
@@ -26,14 +26,14 @@ export default function LanguageToggle() {
         onClick={() => setLanguage('en')}
         className={`flex items-center gap-1 text-sm font-medium transition-all duration-300 relative group pb-2 ${
           language === 'en'
-            ? 'text-forest-700'
-            : 'text-gray-700 hover:text-forest-700'
+            ? 'text-slate-800'
+            : 'text-gray-700 hover:text-slate-800'
         }`}
         title="English"
       >
         <span>🇬🇧</span>
         <span>EN</span>
-        <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-forest-600 to-forest-800 transition-all duration-300 ${
+        <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-slate-700 to-slate-800 transition-all duration-300 ${
           language === 'en' ? 'w-full' : 'w-0 group-hover:w-full'
         }`} />
       </button>

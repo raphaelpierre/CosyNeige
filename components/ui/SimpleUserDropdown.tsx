@@ -16,7 +16,7 @@ export default function SimpleUserDropdown() {
   if (loading) {
     return (
       <div className="flex items-center gap-2">
-        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-forest-600"></div>
+        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-slate-700"></div>
         <span className="text-sm">Loading...</span>
       </div>
     );
@@ -26,7 +26,7 @@ export default function SimpleUserDropdown() {
     return (
       <Link
         href="/client/login"
-        className="text-sm font-medium text-gray-700 hover:text-forest-700 flex items-center gap-2"
+        className="text-sm font-medium text-gray-700 hover:text-slate-800 flex items-center gap-2"
       >
         👤 {t({ en: 'My Account', fr: 'Mon Compte' })}
       </Link>
@@ -36,7 +36,7 @@ export default function SimpleUserDropdown() {
   return (
     <div className="flex items-center gap-3">
       {/* Avatar */}
-      <div className="w-8 h-8 bg-gradient-to-br from-forest-600 to-forest-700 rounded-full flex items-center justify-center text-white text-xs font-bold">
+      <div className="w-8 h-8 bg-gradient-to-br from-slate-700 to-slate-800 rounded-full flex items-center justify-center text-white text-xs font-bold">
         {user.firstName.charAt(0).toUpperCase()}{user.lastName.charAt(0).toUpperCase()}
       </div>
       

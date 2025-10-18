@@ -24,13 +24,13 @@ export default function GuidePage() {
       // Contenu du PDF
       printContent.innerHTML = `
         <div style="text-align: center; margin-bottom: 30px;">
-          <h1 style="color: #2d5843; font-size: 24px; margin-bottom: 10px;">${t({ en: 'Guest Guide', fr: 'Guide du Voyageur' })}</h1>
-          <h2 style="color: #2d5843; font-size: 18px; margin-bottom: 20px;">${chaletName}</h2>
+          <h1 style="color: #1e293b; font-size: 24px; margin-bottom: 10px;">${t({ en: 'Guest Guide', fr: 'Guide du Voyageur' })}</h1>
+          <h2 style="color: #1e293b; font-size: 18px; margin-bottom: 20px;">${chaletName}</h2>
           <p style="font-size: 14px; color: #666;">${t({ en: 'Everything You Need to Know', fr: 'Tout ce que Vous Devez Savoir' })}</p>
         </div>
 
         <div style="margin-bottom: 25px;">
-          <h3 style="color: #2d5843; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #2d5843; padding-bottom: 5px;">🏠 ${t({ en: 'Welcome & Check-in', fr: 'Bienvenue & Arrivée' })}</h3>
+          <h3 style="color: #1e293b; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #1e293b; padding-bottom: 5px;">🏠 ${t({ en: 'Welcome & Check-in', fr: 'Bienvenue & Arrivée' })}</h3>
           <div style="margin-bottom: 15px;">
             <strong>${t({ en: 'Check-in Time', fr: 'Heure d\'Arrivée' })}</strong><br>
             ${t({ en: 'Sunday from 4:00 PM. Please contact us if you need to arrive earlier.', fr: 'Dimanche à partir de 16h00. Contactez-nous si vous devez arriver plus tôt.' })}
@@ -46,7 +46,7 @@ export default function GuidePage() {
         </div>
 
         <div style="margin-bottom: 25px;">
-          <h3 style="color: #2d5843; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #2d5843; padding-bottom: 5px;">🔧 ${t({ en: 'House Equipment', fr: 'Équipements de la Maison' })}</h3>
+          <h3 style="color: #1e293b; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #1e293b; padding-bottom: 5px;">🔧 ${t({ en: 'House Equipment', fr: 'Équipements de la Maison' })}</h3>
           <div style="margin-bottom: 15px;">
             <strong>${t({ en: 'Gourmet Kitchen', fr: 'Cuisine Gastronomique' })}</strong><br>
             ${t({ en: 'Authentic Savoyard kitchen fully equipped: professional oven, traditional gas range, premium dishwasher, Nespresso machine, toaster, kettle, and grand dining table seating 10 guests. All cooking utensils, pots, pans, and dinnerware provided.', fr: 'Authentique cuisine savoyarde entièrement équipée : four professionnel, piano à gaz traditionnel, lave-vaisselle haut de gamme, machine Nespresso, grille-pain, bouilloire, et grande table conviviale pour 10 convives. Tous ustensiles, casseroles, poêles et vaisselle fournis.' })}
@@ -66,7 +66,7 @@ export default function GuidePage() {
         </div>
 
         <div style="margin-bottom: 25px;">
-          <h3 style="color: #2d5843; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #2d5843; padding-bottom: 5px;">📋 ${t({ en: 'House Rules', fr: 'Règlement Intérieur' })}</h3>
+          <h3 style="color: #1e293b; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #1e293b; padding-bottom: 5px;">📋 ${t({ en: 'House Rules', fr: 'Règlement Intérieur' })}</h3>
           <div style="margin-bottom: 10px;">
             <strong>${t({ en: 'Smoking', fr: 'Tabac' })}</strong><br>
             ${t({ en: 'Non-smoking property. Smoking is permitted on the terrace only.', fr: 'Propriété non-fumeur. Fumer est autorisé sur la terrasse uniquement.' })}
@@ -86,7 +86,7 @@ export default function GuidePage() {
         </div>
 
         <div style="margin-bottom: 25px;">
-          <h3 style="color: #2d5843; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #2d5843; padding-bottom: 5px;">💡 ${t({ en: 'Practical Information', fr: 'Informations Pratiques' })}</h3>
+          <h3 style="color: #1e293b; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #1e293b; padding-bottom: 5px;">💡 ${t({ en: 'Practical Information', fr: 'Informations Pratiques' })}</h3>
           <div style="margin-bottom: 10px;">
             <strong>${t({ en: 'Parking', fr: 'Stationnement' })}</strong><br>
             ${t({ en: '5 private parking spaces directly in front of the chalet (2 covered spaces + 3 outdoor spaces). Snow chains required in winter.', fr: '5 places de parking privé devant le chalet (2 places couvertes + 3 places extérieures). Chaînes à neige obligatoires en hiver.' })}
@@ -98,7 +98,7 @@ export default function GuidePage() {
         </div>
 
         <div style="margin-bottom: 25px;">
-          <h3 style="color: #2d5843; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #2d5843; padding-bottom: 5px;">🚨 ${t({ en: 'Emergency Contacts', fr: 'Contacts d\'Urgence' })}</h3>
+          <h3 style="color: #1e293b; font-size: 16px; margin-bottom: 15px; border-bottom: 2px solid #1e293b; padding-bottom: 5px;">🚨 ${t({ en: 'Emergency Contacts', fr: 'Contacts d\'Urgence' })}</h3>
           <div style="margin-bottom: 10px;">
             <strong>${t({ en: 'Emergency Services', fr: 'Services d\'Urgence' })}</strong><br>
             ${t({ en: 'Emergency (Police/Fire/Ambulance): 112 or 15 | Hospital Sallanches: +33 4 50 47 30 00', fr: 'Urgences (Police/Pompiers/SAMU) : 112 ou 15 | Hôpital Sallanches : +33 4 50 47 30 00' })}
