@@ -413,13 +413,13 @@ export default function LocationPage() {
 
               <div className="relative z-10 text-center max-w-4xl mx-auto">
                 {/* Badge */}
-                <div className="inline-flex items-center gap-3 bg-gradient-to-r from-slate-600 to-slate-700 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-8 shadow-xl">
-                  <span className="text-2xl">🎁</span>
+                <div className="inline-flex items-center gap-2 md:gap-3 bg-gradient-to-r from-slate-600 to-slate-700 text-white px-4 md:px-6 py-2.5 md:py-3 rounded-full text-xs md:text-base font-bold mb-6 md:mb-8 shadow-xl">
+                  <span className="text-xl md:text-2xl">🎁</span>
                   <span className="tracking-wide uppercase">{t({ en: 'Member Benefits', fr: 'Avantages Membres' })}</span>
                 </div>
 
                 {/* Main Headline */}
-                <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white mb-4 md:mb-6 leading-tight px-2">
                   {t({
                     en: 'Discover Local Partnerships',
                     fr: 'Découvrez nos Partenariats Locaux'
@@ -434,7 +434,7 @@ export default function LocationPage() {
                 </h3>
 
                 {/* Subheadline */}
-                <p className="text-xl md:text-2xl text-white/90 mb-10 leading-relaxed font-medium">
+                <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 mb-8 md:mb-10 leading-relaxed font-medium px-2">
                   {t({
                     en: 'Create a free account to access curated local deals, activity bookings, and insider travel tips to enhance your stay',
                     fr: 'Créez un compte gratuit pour accéder aux offres locales, réservations d\'activités et conseils de voyage pour enrichir votre séjour'
@@ -442,49 +442,49 @@ export default function LocationPage() {
                 </p>
 
                 {/* Benefits Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
-                    <div className="text-4xl mb-3">🎿</div>
-                    <div className="text-xl font-bold text-white mb-2">{t({ en: 'Ski & Activities', fr: 'Ski & Activités' })}</div>
-                    <p className="text-white/80 text-sm">{t({ en: 'Partner deals on passes & equipment', fr: 'Offres partenaires forfaits & équipement' })}</p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-8 md:mb-10 px-2">
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-4 md:p-6 hover:bg-white/15 transition-all">
+                    <div className="text-3xl md:text-4xl mb-2 md:mb-3">🎿</div>
+                    <div className="text-lg md:text-xl font-bold text-white mb-1 md:mb-2">{t({ en: 'Ski & Activities', fr: 'Ski & Activités' })}</div>
+                    <p className="text-white/80 text-xs md:text-sm">{t({ en: 'Partner deals on passes & equipment', fr: 'Offres partenaires forfaits & équipement' })}</p>
                   </div>
-                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
-                    <div className="text-4xl mb-3">🍽️</div>
-                    <div className="text-xl font-bold text-white mb-2">{t({ en: 'Dining & Wellness', fr: 'Restaurants & Bien-être' })}</div>
-                    <p className="text-white/80 text-sm">{t({ en: 'Local restaurants & spa experiences', fr: 'Restaurants locaux & expériences spa' })}</p>
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-4 md:p-6 hover:bg-white/15 transition-all">
+                    <div className="text-3xl md:text-4xl mb-2 md:mb-3">🍽️</div>
+                    <div className="text-lg md:text-xl font-bold text-white mb-1 md:mb-2">{t({ en: 'Dining & Wellness', fr: 'Restaurants & Bien-être' })}</div>
+                    <p className="text-white/80 text-xs md:text-sm">{t({ en: 'Local restaurants & spa experiences', fr: 'Restaurants locaux & expériences spa' })}</p>
                   </div>
-                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
-                    <div className="text-4xl mb-3">💡</div>
-                    <div className="text-xl font-bold text-white mb-2">{t({ en: 'Expert Advice', fr: 'Conseils d\'Expert' })}</div>
-                    <p className="text-white/80 text-sm">{t({ en: 'Personalized tips & recommendations', fr: 'Conseils personnalisés & recommandations' })}</p>
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-4 md:p-6 hover:bg-white/15 transition-all">
+                    <div className="text-3xl md:text-4xl mb-2 md:mb-3">💡</div>
+                    <div className="text-lg md:text-xl font-bold text-white mb-1 md:mb-2">{t({ en: 'Expert Advice', fr: 'Conseils d\'Expert' })}</div>
+                    <p className="text-white/80 text-xs md:text-sm">{t({ en: 'Personalized tips & recommendations', fr: 'Conseils personnalisés & recommandations' })}</p>
                   </div>
                 </div>
 
                 {/* CTA Button */}
                 <a
                   href="/client/login?action=register"
-                  className="inline-flex items-center gap-3 bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-800 hover:to-slate-900 text-white px-10 md:px-12 py-5 md:py-6 rounded-full font-black text-xl md:text-2xl transition-all shadow-2xl hover:shadow-slate-900/50 hover:scale-105 transform border-2 border-slate-600 hover:border-slate-500"
+                  className="inline-flex items-center gap-2 md:gap-3 bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-800 hover:to-slate-900 text-white px-6 sm:px-8 md:px-12 py-4 md:py-5 lg:py-6 rounded-full font-black text-base sm:text-lg md:text-xl lg:text-2xl transition-all shadow-2xl hover:shadow-slate-900/50 hover:scale-105 transform border-2 border-slate-600 hover:border-slate-500"
                 >
-                  <span className="text-2xl">✨</span>
+                  <span className="text-xl md:text-2xl">✨</span>
                   {t({ en: 'Create Free Account', fr: 'Créer un Compte Gratuit' })}
                 </a>
 
                 {/* Trust Signals */}
-                <div className="mt-8 flex flex-wrap justify-center gap-6 text-white/70 text-sm">
+                <div className="mt-6 md:mt-8 flex flex-wrap justify-center gap-4 md:gap-6 text-white/70 text-xs md:text-sm px-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-amber-200 text-lg">✓</span>
+                    <span className="text-amber-200 text-base md:text-lg">✓</span>
                     <span>{t({ en: '100% Free', fr: '100% Gratuit' })}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-amber-200 text-lg">✓</span>
+                    <span className="text-amber-200 text-base md:text-lg">✓</span>
                     <span>{t({ en: 'Instant access', fr: 'Accès immédiat' })}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-amber-200 text-lg">✓</span>
+                    <span className="text-amber-200 text-base md:text-lg">✓</span>
                     <span>{t({ en: 'No obligation', fr: 'Sans obligation' })}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-amber-200 text-lg">✓</span>
+                    <span className="text-amber-200 text-base md:text-lg">✓</span>
                     <span>{t({ en: 'Cancel anytime', fr: 'Résiliation libre' })}</span>
                   </div>
                 </div>
