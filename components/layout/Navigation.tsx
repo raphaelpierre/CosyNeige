@@ -62,15 +62,16 @@ export default function Navigation() {
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 lg:h-20">
-            <Link href="/" className="flex items-center gap-2 lg:gap-3 group text-sm font-medium transition-all duration-300 relative text-gray-700 hover:text-slate-700 px-2 lg:px-3 py-2 rounded-lg bg-white/90 backdrop-blur-sm shadow-sm hover:bg-white/95 outline-none focus:outline-none">
-              <div className="text-2xl lg:text-3xl transform group-hover:scale-110 transition-transform duration-300">🏔️</div>
-              <div>
-                <div className="text-xl lg:text-2xl font-bold">
+            <Link href="/" className="flex items-center gap-3 lg:gap-4 group transition-all duration-300 outline-none focus:outline-none">
+              <div className="text-3xl lg:text-4xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">🏔️</div>
+              <div className="flex flex-col">
+                <div className="text-xl lg:text-2xl font-bold text-slate-900 group-hover:text-slate-700 transition-colors duration-300">
                   {chaletName}
                 </div>
-                <div className="text-xs lg:text-sm text-gray-600">{t({ en: 'French Alps', fr: 'Alpes Françaises' })}</div>
+                <div className="text-xs lg:text-sm text-slate-600 font-medium group-hover:text-slate-500 transition-colors duration-300">
+                  {t({ en: 'French Alps', fr: 'Alpes Françaises' })}
+                </div>
               </div>
-              <span className="absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-slate-600 to-slate-800 transition-all duration-300 w-0 group-hover:w-full" />
             </Link>
 
             <div className="flex items-center gap-8">
@@ -150,9 +151,14 @@ export default function Navigation() {
         <div className="pl-2 pr-1 py-2.5">
           <div className="flex items-center gap-1">
             {/* Logo et titre - Occupe toute la largeur disponible */}
-            <Link href="/" className="flex items-center gap-2 py-1 flex-1 min-w-0 outline-none focus:outline-none">
-              <span className="text-3xl flex-shrink-0">🏔️</span>
-              <span className="font-bold text-base text-gray-900 tracking-tight truncate">{chaletName}</span>
+            <Link href="/" className="flex items-center gap-3 py-1 flex-1 min-w-0 outline-none focus:outline-none group">
+              <span className="text-3xl flex-shrink-0 transform group-active:scale-95 transition-transform">🏔️</span>
+              <div className="flex flex-col min-w-0">
+                <span className="font-bold text-base text-slate-900 tracking-tight truncate leading-tight">{chaletName}</span>
+                <span className="text-xs text-slate-600 font-medium truncate leading-tight">
+                  {t({ en: 'French Alps', fr: 'Alpes Françaises' })}
+                </span>
+              </div>
             </Link>
 
             {/* Hamburger icon - Position fixe à droite */}
