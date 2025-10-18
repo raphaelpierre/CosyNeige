@@ -45,10 +45,9 @@ export default function InvoicePDF({ invoice, onClose, autoGenerate = false }: I
   };
 
   const formatEuro = (amount: number) => {
-    return new Intl.NumberFormat('fr-FR', {
-      style: 'currency',
-      currency: 'EUR'
-    }).format(amount);
+    // Format manually to avoid jsPDF encoding issues with Intl.NumberFormat special characters
+    const formattedNumber = amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return formattedNumber + ' €';
   };
 
   const calculateNights = () => {
@@ -70,11 +69,23 @@ export default function InvoicePDF({ invoice, onClose, autoGenerate = false }: I
       // Configuration des polices
       pdf.setFont('helvetica');
 
-      // HEADER - Logo et titre
+      // HEADER - Logo (simple mountain icon) et titre
+      // Draw simple mountain icon using triangles
+      const logoY = y - 2;
+      pdf.setFillColor(30, 41, 59); // slate-800
+      // First mountain peak (left)
+      pdf.setLineWidth(0);
+      pdf.lines([[2.5, -5], [2.5, 5], [-5, 0]], margin, logoY + 4, [1, 1], 'F');
+
+      pdf.setFillColor(51, 65, 85); // slate-700
+      // Second mountain peak (right, slightly shorter)
+      pdf.lines([[2.5, -3.5], [2.5, 3.5], [-5, 0]], margin + 3.5, logoY + 4, [1, 1], 'F');
+
+      // Company name next to logo
       pdf.setFontSize(24);
       pdf.setFont('helvetica', 'bold');
       pdf.setTextColor(30, 41, 59); // slate-800
-      pdf.text('🏔️ Chalet Balmotte810', margin, y);
+      pdf.text('Chalet Balmotte810', margin + 10, y);
       y += 6;
 
       pdf.setFontSize(9);
