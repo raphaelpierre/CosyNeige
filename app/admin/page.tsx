@@ -960,48 +960,172 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Top Header - Simple */}
+      {/* Top Header - Desktop avec navigation intégrée */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
-        <div className="px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+        {/* Desktop Header */}
+        <div className="hidden md:block px-4 sm:px-6 lg:px-8 py-3">
+          <div className="flex items-center justify-between gap-6">
             {/* Logo & Title */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-shrink-0">
               <div className="text-2xl">🏔️</div>
               <div>
                 <h1 className="text-lg font-bold text-slate-900">{t({ en: 'Admin Panel', fr: 'Panneau Admin' })}</h1>
-                <p className="text-xs text-gray-500 hidden sm:block">Chalet-Balmotte810</p>
+                <p className="text-xs text-gray-500">Chalet-Balmotte810</p>
               </div>
             </div>
 
-            {/* Quick notifications badges */}
-            <div className="flex items-center gap-3">
+            {/* Navigation Tabs - Desktop */}
+            <nav className="flex-1 flex items-center justify-center">
+              <div className="flex items-center gap-2 flex-wrap">
+                {tabs.map(tab => {
+                  const hasNotification =
+                    (tab.id === 'messages' && messages.filter(m => !m.read).length > 0) ||
+                    (tab.id === 'reservations' && reservations.filter(r => r.status === 'pending').length > 0);
+
+                  const notificationCount =
+                    tab.id === 'messages' ? messages.filter(m => !m.read).length :
+                    tab.id === 'reservations' ? reservations.filter(r => r.status === 'pending').length : 0;
+
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`relative flex items-center gap-1.5 px-3 py-2 rounded-lg transition-all duration-200 ${
+                        activeTab === tab.id
+                          ? 'bg-gradient-to-br from-slate-700 to-slate-900 text-white shadow-md'
+                          : 'text-gray-700 hover:bg-gray-50 border border-gray-200'
+                      }`}
+                    >
+                      <span className="text-lg">
+                        {tab.icon}
+                      </span>
+                      <span className="text-xs font-semibold whitespace-nowrap hidden lg:inline">
+                        {t(tab.label)}
+                      </span>
+                      {hasNotification && notificationCount > 0 && (
+                        <span className="min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                          {notificationCount}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </nav>
+
+            {/* Quick notifications badges - Desktop */}
+            <div className="flex items-center gap-2 flex-shrink-0">
               {reservations.filter(r => r.status === 'pending').length > 0 && (
                 <button
                   onClick={() => {
                     setActiveTab('reservations');
                     setStatusFilter('pending');
                   }}
-                  className="flex items-center gap-2 px-3 py-1.5 bg-amber-50 text-amber-700 rounded-lg hover:bg-amber-100 transition-colors"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 bg-amber-50 text-amber-700 rounded-lg hover:bg-amber-100 transition-colors"
                   title={t({ en: 'Pending reservations', fr: 'Réservations en attente' })}
                 >
                   <span className="text-sm">⏳</span>
-                  <span className="font-semibold text-sm">{reservations.filter(r => r.status === 'pending').length}</span>
+                  <span className="font-semibold text-xs">{reservations.filter(r => r.status === 'pending').length}</span>
                 </button>
               )}
               {messages.filter(m => !m.read).length > 0 && (
                 <button
                   onClick={() => setActiveTab('messages')}
-                  className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors"
                   title={t({ en: 'Unread messages', fr: 'Messages non lus' })}
                 >
                   <span className="text-sm">💬</span>
-                  <span className="font-semibold text-sm">{messages.filter(m => !m.read).length}</span>
+                  <span className="font-semibold text-xs">{messages.filter(m => !m.read).length}</span>
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Header */}
+        <div className="md:hidden px-4 sm:px-6 py-3">
+          <div className="flex items-center justify-between">
+            {/* Logo & Title */}
+            <div className="flex items-center gap-3">
+              <div className="text-2xl">🏔️</div>
+              <div>
+                <h1 className="text-base font-bold text-slate-900">{t({ en: 'Admin Panel', fr: 'Panneau Admin' })}</h1>
+                <p className="text-xs text-gray-500">Chalet-Balmotte810</p>
+              </div>
+            </div>
+
+            {/* Quick notifications badges - Mobile */}
+            <div className="flex items-center gap-2">
+              {reservations.filter(r => r.status === 'pending').length > 0 && (
+                <button
+                  onClick={() => {
+                    setActiveTab('reservations');
+                    setStatusFilter('pending');
+                  }}
+                  className="flex items-center gap-1.5 px-2 py-1.5 bg-amber-50 text-amber-700 rounded-lg hover:bg-amber-100 transition-colors"
+                  title={t({ en: 'Pending reservations', fr: 'Réservations en attente' })}
+                >
+                  <span className="text-sm">⏳</span>
+                  <span className="font-semibold text-xs">{reservations.filter(r => r.status === 'pending').length}</span>
+                </button>
+              )}
+              {messages.filter(m => !m.read).length > 0 && (
+                <button
+                  onClick={() => setActiveTab('messages')}
+                  className="flex items-center gap-1.5 px-2 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors"
+                  title={t({ en: 'Unread messages', fr: 'Messages non lus' })}
+                >
+                  <span className="text-sm">💬</span>
+                  <span className="font-semibold text-xs">{messages.filter(m => !m.read).length}</span>
                 </button>
               )}
             </div>
           </div>
         </div>
       </header>
+
+      {/* Navigation mobile - Grid layout moderne */}
+      <nav className="md:hidden bg-gradient-to-br from-gray-50 to-white border-b border-gray-200 sticky top-[72px] z-30 shadow-md">
+        <div className="px-3 py-3">
+          <div className="grid grid-cols-4 gap-2">
+            {tabs.map(tab => {
+              const hasNotification =
+                (tab.id === 'messages' && messages.filter(m => !m.read).length > 0) ||
+                (tab.id === 'reservations' && reservations.filter(r => r.status === 'pending').length > 0);
+
+              const notificationCount =
+                tab.id === 'messages' ? messages.filter(m => !m.read).length :
+                tab.id === 'reservations' ? reservations.filter(r => r.status === 'pending').length : 0;
+
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`relative flex flex-col items-center justify-center gap-1 p-2.5 rounded-xl transition-all duration-200 active:scale-95 ${
+                    activeTab === tab.id
+                      ? 'bg-gradient-to-br from-slate-700 to-slate-900 text-white shadow-lg scale-105'
+                      : 'bg-white text-gray-700 hover:bg-gray-50 shadow-sm hover:shadow-md border border-gray-200'
+                  }`}
+                >
+                  <span className={`text-xl transition-transform ${activeTab === tab.id ? 'scale-110' : ''}`}>
+                    {tab.icon}
+                  </span>
+                  <span className={`text-[9px] font-bold leading-tight text-center ${
+                    activeTab === tab.id ? 'text-white' : 'text-gray-600'
+                  }`}>
+                    {t(tab.label)}
+                  </span>
+                  {hasNotification && notificationCount > 0 && (
+                    <span className="absolute -top-1 -right-1 min-w-[16px] h-[16px] px-1 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center shadow-lg">
+                      {notificationCount}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </nav>
 
       {/* Main Content */}
       <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-7xl mx-auto">
@@ -3535,89 +3659,6 @@ export default function AdminPage() {
         />
       )}
 
-      {/* Navigation desktop - Horizontal tabs */}
-      <nav className="hidden md:block bg-white border-b border-gray-200 sticky top-16 z-30 shadow-sm">
-        <div className="px-6 py-3">
-          <div className="flex items-center gap-2">
-            {tabs.map(tab => {
-              const hasNotification =
-                (tab.id === 'messages' && messages.filter(m => !m.read).length > 0) ||
-                (tab.id === 'reservations' && reservations.filter(r => r.status === 'pending').length > 0);
-
-              const notificationCount =
-                tab.id === 'messages' ? messages.filter(m => !m.read).length :
-                tab.id === 'reservations' ? reservations.filter(r => r.status === 'pending').length : 0;
-
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`relative flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-200 ${
-                    activeTab === tab.id
-                      ? 'bg-gradient-to-br from-slate-700 to-slate-900 text-white shadow-md'
-                      : 'text-gray-700 hover:bg-gray-50 border border-gray-200'
-                  }`}
-                >
-                  <span className="text-xl">
-                    {tab.icon}
-                  </span>
-                  <span className="text-sm font-semibold whitespace-nowrap">
-                    {t(tab.label)}
-                  </span>
-                  {hasNotification && notificationCount > 0 && (
-                    <span className="min-w-[20px] h-[20px] px-1.5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
-                      {notificationCount}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </nav>
-
-      {/* Navigation mobile - Grid layout moderne */}
-      <nav className="md:hidden bg-gradient-to-br from-gray-50 to-white border-b border-gray-200 sticky top-16 z-30 shadow-md">
-        <div className="px-3 py-4">
-          <div className="grid grid-cols-4 gap-2">
-            {tabs.map(tab => {
-              const hasNotification =
-                (tab.id === 'messages' && messages.filter(m => !m.read).length > 0) ||
-                (tab.id === 'reservations' && reservations.filter(r => r.status === 'pending').length > 0);
-
-              const notificationCount =
-                tab.id === 'messages' ? messages.filter(m => !m.read).length :
-                tab.id === 'reservations' ? reservations.filter(r => r.status === 'pending').length : 0;
-
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`relative flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl transition-all duration-200 active:scale-95 ${
-                    activeTab === tab.id
-                      ? 'bg-gradient-to-br from-slate-700 to-slate-900 text-white shadow-lg scale-105'
-                      : 'bg-white text-gray-700 hover:bg-gray-50 shadow-sm hover:shadow-md border border-gray-200'
-                  }`}
-                >
-                  <span className={`text-2xl transition-transform ${activeTab === tab.id ? 'scale-110' : ''}`}>
-                    {tab.icon}
-                  </span>
-                  <span className={`text-[10px] font-bold leading-tight text-center ${
-                    activeTab === tab.id ? 'text-white' : 'text-gray-600'
-                  }`}>
-                    {t(tab.label)}
-                  </span>
-                  {hasNotification && notificationCount > 0 && (
-                    <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-lg">
-                      {notificationCount}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </nav>
     </div>
   );
 }
