@@ -401,7 +401,7 @@ export default function LocationPage() {
             </div>
           </div>
 
-          {/* CTA for Exclusive Offers - Redesigned for Maximum Impact */}
+          {/* CTA for Local Offers - Redesigned for Maximum Impact */}
           <div id="exclusive" className="mt-20 relative overflow-hidden">
             {/* Background gradient blur effect */}
             <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl transform -rotate-1 scale-105"></div>
@@ -413,22 +413,22 @@ export default function LocationPage() {
 
               <div className="relative z-10 text-center max-w-4xl mx-auto">
                 {/* Badge */}
-                <div className="inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-8 shadow-xl animate-pulse">
-                  <span className="text-2xl">✨</span>
-                  <span className="tracking-wide uppercase">{t({ en: 'Limited Exclusive Access', fr: 'Accès Exclusif Limité' })}</span>
+                <div className="inline-flex items-center gap-3 bg-gradient-to-r from-slate-600 to-slate-700 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-8 shadow-xl">
+                  <span className="text-2xl">🎁</span>
+                  <span className="tracking-wide uppercase">{t({ en: 'Member Benefits', fr: 'Avantages Membres' })}</span>
                 </div>
 
                 {/* Main Headline */}
                 <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
                   {t({
-                    en: 'Unlock Premium Local Deals',
-                    fr: 'Débloquez des Offres Premium'
+                    en: 'Access Great Local Deals',
+                    fr: 'Accédez aux Meilleures Offres Locales'
                   })}
                   <br />
-                  <span className="bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
                     {t({
-                      en: 'Worth €500+ Per Stay',
-                      fr: 'Valeur de 500€+ par Séjour'
+                      en: 'Save Up to €500 Per Stay',
+                      fr: 'Économisez jusqu\'à 500€ par Séjour'
                     })}
                   </span>
                 </h3>
@@ -436,8 +436,8 @@ export default function LocationPage() {
                 {/* Subheadline */}
                 <p className="text-xl md:text-2xl text-white/90 mb-10 leading-relaxed font-medium">
                   {t({
-                    en: 'Join our VIP community and get instant access to negotiated discounts, priority bookings, and insider experiences',
-                    fr: 'Rejoignez notre communauté VIP et obtenez un accès instantané aux réductions négociées, réservations prioritaires et expériences privilégiées'
+                    en: 'Create a free account to access our curated local partnerships, special rates, and helpful travel tips',
+                    fr: 'Créez un compte gratuit pour accéder à nos partenariats locaux, tarifs préférentiels et conseils de voyage'
                   })}
                 </p>
 
@@ -445,47 +445,47 @@ export default function LocationPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
                   <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
                     <div className="text-4xl mb-3">🎿</div>
-                    <div className="text-2xl font-bold text-white mb-2">15%</div>
-                    <p className="text-white/80 text-sm">{t({ en: 'Off ski passes & rentals', fr: 'Sur forfaits & location ski' })}</p>
+                    <div className="text-2xl font-bold text-white mb-2">{t({ en: 'Up to 15%', fr: 'Jusqu\'à 15%' })}</div>
+                    <p className="text-white/80 text-sm">{t({ en: 'On ski passes & rentals', fr: 'Sur forfaits & location ski' })}</p>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
                     <div className="text-4xl mb-3">🍽️</div>
-                    <div className="text-2xl font-bold text-white mb-2">20%</div>
-                    <p className="text-white/80 text-sm">{t({ en: 'Restaurant & spa deals', fr: 'Restaurants & forfaits spa' })}</p>
+                    <div className="text-2xl font-bold text-white mb-2">{t({ en: 'Special Rates', fr: 'Tarifs Préférentiels' })}</div>
+                    <p className="text-white/80 text-sm">{t({ en: 'Restaurants & activities', fr: 'Restaurants & activités' })}</p>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
-                    <div className="text-4xl mb-3">🎯</div>
-                    <div className="text-2xl font-bold text-white mb-2">{t({ en: 'VIP', fr: 'VIP' })}</div>
-                    <p className="text-white/80 text-sm">{t({ en: 'Priority bookings & tips', fr: 'Réservations & conseils prioritaires' })}</p>
+                    <div className="text-4xl mb-3">💡</div>
+                    <div className="text-2xl font-bold text-white mb-2">{t({ en: 'Local Tips', fr: 'Conseils Locaux' })}</div>
+                    <p className="text-white/80 text-sm">{t({ en: 'Insider recommendations', fr: 'Recommandations privilégiées' })}</p>
                   </div>
                 </div>
 
                 {/* CTA Button */}
                 <a
                   href="/client/login?action=register"
-                  className="inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-10 md:px-12 py-5 md:py-6 rounded-full font-black text-xl md:text-2xl transition-all shadow-2xl hover:shadow-amber-500/50 hover:scale-105 transform"
+                  className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-10 md:px-12 py-5 md:py-6 rounded-full font-black text-xl md:text-2xl transition-all shadow-2xl hover:shadow-blue-500/50 hover:scale-105 transform"
                 >
-                  <span className="text-2xl">🔑</span>
-                  {t({ en: 'Get Exclusive Access Now', fr: 'Accéder aux Offres VIP' })}
+                  <span className="text-2xl">✨</span>
+                  {t({ en: 'Create Free Account', fr: 'Créer un Compte Gratuit' })}
                 </a>
 
                 {/* Trust Signals */}
                 <div className="mt-8 flex flex-wrap justify-center gap-6 text-white/70 text-sm">
                   <div className="flex items-center gap-2">
-                    <span className="text-green-400 text-lg">✓</span>
-                    <span>{t({ en: 'Free forever', fr: 'Gratuit à vie' })}</span>
+                    <span className="text-blue-400 text-lg">✓</span>
+                    <span>{t({ en: '100% Free', fr: '100% Gratuit' })}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-green-400 text-lg">✓</span>
-                    <span>{t({ en: 'Instant access', fr: 'Accès instantané' })}</span>
+                    <span className="text-blue-400 text-lg">✓</span>
+                    <span>{t({ en: 'Instant access', fr: 'Accès immédiat' })}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-green-400 text-lg">✓</span>
-                    <span>{t({ en: 'No commitment', fr: 'Sans engagement' })}</span>
+                    <span className="text-blue-400 text-lg">✓</span>
+                    <span>{t({ en: 'No obligation', fr: 'Sans obligation' })}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-green-400 text-lg">✓</span>
-                    <span>{t({ en: '500+ active members', fr: '500+ membres actifs' })}</span>
+                    <span className="text-blue-400 text-lg">✓</span>
+                    <span>{t({ en: 'Cancel anytime', fr: 'Résiliation libre' })}</span>
                   </div>
                 </div>
               </div>
