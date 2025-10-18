@@ -35,8 +35,8 @@ export default function LocationPage() {
           </h1>
           <p className="text-xl md:text-2xl lg:text-3xl text-white font-medium drop-shadow-xl max-w-4xl mx-auto mb-8 leading-relaxed">
             {t({
-              en: 'Strategic location • 5 resorts within 30 min • Endless adventures',
-              fr: 'Emplacement stratégique • 5 stations en 30 min • Aventures infinies'
+              en: '5 resorts within 30 min • Endless adventures',
+              fr: '5 stations en 30 min • Aventures infinies'
             })}
           </p>
           <div className="flex flex-wrap justify-center gap-3 md:gap-4">
