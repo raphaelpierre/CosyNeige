@@ -309,24 +309,6 @@ export default function ContactPage() {
               </div>
             ))}
           </div>
-
-          <div className="mt-12 text-center bg-gray-100 rounded-lg p-8">
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              {t({ en: 'Still have questions?', fr: 'Vous avez encore des questions ?' })}
-            </h3>
-            <p className="text-gray-700 mb-6">
-              {t({
-                en: 'Don\'t hesitate to reach out. We\'re happy to provide more information about the chalet, the area, or help plan your perfect Alpine getaway.',
-                fr: 'N\'hésitez pas à nous contacter. Nous sommes heureux de fournir plus d\'informations sur le chalet, la région, ou d\'aider à planifier votre escapade alpine parfaite.',
-              })}
-            </p>
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="inline-block bg-slate-700 hover:bg-slate-800 text-white px-8 py-3 rounded-lg font-bold transition-colors border-2 border-slate-700 hover:border-slate-800"
-            >
-              {t({ en: 'Contact Us', fr: 'Nous Contacter' })}
-            </button>
-          </div>
         </div>
       </section>
 

@@ -1577,7 +1577,7 @@ export default function AdminPage() {
                         <div className="flex flex-col sm:flex-row gap-2 pt-3 sm:pt-4">
                           <button
                             type="submit"
-                            className="w-full sm:flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 text-sm sm:text-base"
+                            className="w-full sm:flex-1 bg-slate-700 text-white py-2 rounded-lg hover:bg-slate-800 text-sm sm:text-base"
                           >
                             {t({ en: 'Save Changes', fr: 'Enregistrer' })}
                           </button>
@@ -1889,7 +1889,7 @@ export default function AdminPage() {
 
                 {/* Bouton d'ajout de transaction */}
                 <div className="flex justify-end mb-4">
-                  <button className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 flex items-center gap-2 font-medium shadow-lg hover:shadow-xl transition-all">
+                  <button className="bg-slate-700 text-white px-6 py-3 rounded-lg hover:bg-slate-800 flex items-center gap-2 font-medium shadow-lg hover:shadow-xl transition-all">
                     <span className="text-xl">➕</span>
                     <span>{t({ en: 'Add Transaction', fr: 'Ajouter une Transaction' })}</span>
                   </button>
@@ -2269,7 +2269,7 @@ export default function AdminPage() {
                         <div className="flex flex-col sm:flex-row gap-2 pt-3 sm:pt-4">
                           <button
                             type="submit"
-                            className="w-full sm:flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 text-sm sm:text-base"
+                            className="w-full sm:flex-1 bg-slate-700 text-white py-2 rounded-lg hover:bg-slate-800 text-sm sm:text-base"
                           >
                             {t({ en: 'Create', fr: 'Créer' })}
                           </button>
@@ -2371,7 +2371,7 @@ export default function AdminPage() {
                         <div className="flex flex-col sm:flex-row gap-2 pt-3 sm:pt-4">
                           <button
                             type="submit"
-                            className="w-full sm:flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 text-sm sm:text-base"
+                            className="w-full sm:flex-1 bg-slate-700 text-white py-2 rounded-lg hover:bg-slate-800 text-sm sm:text-base"
                           >
                             {t({ en: 'Save Changes', fr: 'Enregistrer' })}
                           </button>
@@ -2400,7 +2400,7 @@ export default function AdminPage() {
                   </h2>
                   <button
                     onClick={() => setShowSendMessageModal(true)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors font-bold text-sm"
+                    className="bg-slate-700 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors font-bold text-sm"
                   >
                     💬 {t({ en: 'Send Message', fr: 'Envoyer Message' })}
                   </button>
@@ -2586,7 +2586,7 @@ export default function AdminPage() {
                           <button
                             type="submit"
                             disabled={selectedUserIds.length === 0}
-                            className="w-full sm:flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full sm:flex-1 bg-slate-700 text-white py-2 rounded-lg hover:bg-slate-800 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             {t({ en: 'Send Message', fr: 'Envoyer le Message' })}
                           </button>
@@ -3100,7 +3100,7 @@ export default function AdminPage() {
                         });
                         setShowSeasonModal(true);
                       }}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg text-sm"
+                      className="bg-slate-700 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-lg text-sm"
                     >
                       + {t({ en: 'Add Season', fr: 'Ajouter Saison' })}
                     </button>
@@ -3289,7 +3289,7 @@ export default function AdminPage() {
                         <div className="flex gap-2 pt-3">
                           <button
                             type="submit"
-                            className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+                            className="flex-1 bg-slate-700 text-white py-2 rounded-lg hover:bg-slate-800"
                           >
                             {editingSeason.id ? t({ en: 'Save', fr: 'Enregistrer' }) : t({ en: 'Create', fr: 'Créer' })}
                           </button>
@@ -3599,7 +3599,7 @@ export default function AdminPage() {
                 </button>
                 <button
                   onClick={() => handleUpdateInvoiceStatus(selectedInvoice.id, 'paid')}
-                  className="px-3 sm:px-4 py-2 bg-green-100 hover:bg-green-200 text-green-800 rounded-lg font-semibold transition-colors text-sm sm:text-base"
+                  className="px-3 sm:px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg font-semibold transition-colors text-sm sm:text-base"
                 >
                   {t({ en: 'Mark Paid', fr: 'Marquer Payée' })}
                 </button>
@@ -3640,7 +3640,7 @@ export default function AdminPage() {
               )}
               <button
                 onClick={() => handleDownloadPDF(selectedInvoice)}
-                className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors text-sm sm:text-base"
+                className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg font-semibold transition-colors text-sm sm:text-base"
               >
                 {t({ en: 'Download PDF', fr: 'Télécharger PDF' })}
               </button>
