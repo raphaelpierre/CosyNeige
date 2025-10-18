@@ -30,6 +30,7 @@ export async function GET(req: NextRequest) {
         id: 'default',
         cleaningFee: 450,
         linenPerPerson: 25,
+        touristTaxPerPersonPerNight: 3,
         depositAmount: 1500,
         defaultHighSeasonPrice: 410,
         defaultLowSeasonPrice: 310,
