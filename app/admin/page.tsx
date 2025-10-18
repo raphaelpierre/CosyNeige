@@ -3004,6 +3004,18 @@ export default function AdminPage() {
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
+                            {t({ en: 'Tourist Tax per Person per Night (€)', fr: 'Taxe de Séjour par Personne par Nuit (€)' })}
+                          </label>
+                          <input
+                            type="number"
+                            step="0.01"
+                            value={pricingSettings.touristTaxPerPersonPerNight}
+                            onChange={(e) => setPricingSettings({...pricingSettings, touristTaxPerPersonPerNight: parseFloat(e.target.value)})}
+                            className="w-full px-3 py-2 border rounded-lg"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
                             {t({ en: 'Deposit Amount (€)', fr: 'Caution (€)' })}
                           </label>
                           <input
