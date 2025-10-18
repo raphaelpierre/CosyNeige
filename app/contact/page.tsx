@@ -330,29 +330,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Emergency Contact */}
-      <section className="py-12 bg-red-50 border-t border-red-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-white border-2 border-red-200 rounded-lg p-8 max-w-2xl mx-auto">
-            <h3 className="text-xl font-bold mb-4 text-red-700">
-              {t({ en: 'Emergency During Your Stay?', fr: 'Urgence Pendant Votre Séjour ?' })}
-            </h3>
-            <p className="text-gray-700 mb-4">
-              {t({
-                en: 'We are available 24/7 for emergencies during your stay. Don\'t hesitate to call us anytime.',
-                fr: 'Nous sommes disponibles 24h/24 pour les urgences pendant votre séjour. N\'hésitez pas à nous appeler à tout moment.',
-              })}
-            </p>
-            <a
-              href="tel:+33685858491"
-              className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-bold transition-colors border-2 border-red-600 hover:border-red-700"
-            >
-              📞 {t({ en: 'Emergency Contact', fr: 'Contact Urgence' })}
-            </a>
-          </div>
-        </div>
-      </section>
-
       {/* Book Now CTA */}
       <section className="py-10 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

@@ -6,6 +6,7 @@ import { useLanguage } from '@/lib/hooks/useLanguage';
 import { useAuth } from '@/lib/context/AuthContext';
 import InvoicePDF from '@/components/invoice/InvoicePDF';
 import InvoiceModal from '@/components/invoice/InvoiceModal';
+import { Button, Badge, Card } from '@/components/ui';
 
 interface User {
   id: string;

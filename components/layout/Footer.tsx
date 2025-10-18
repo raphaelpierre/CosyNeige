@@ -23,8 +23,8 @@ export default function Footer() {
             </div>
             <p className="text-slate-400 text-sm leading-relaxed">
               {t({
-                en: 'Authentic mountain chalet in the heart of the French Alps. Experience alpine comfort and breathtaking views.',
-                fr: 'Chalet de montagne authentique au cœur des Alpes françaises. Vivez le confort alpin et des vues à couper le souffle.'
+                en: 'Mountain chalet in the heart of the French Alps.',
+                fr: 'Chalet de montagne au cœur des Alpes françaises.'
               })}
             </p>
           </div>
