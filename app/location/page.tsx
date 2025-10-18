@@ -41,195 +41,6 @@ export default function LocationPage() {
         </div>
       </section>
 
-      {/* Section 5 Stations - Style homepage */}
-      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-slate-50">
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          {/* Titre */}
-          <div className="text-center mb-8 md:mb-10">
-            <div className="inline-flex items-center gap-2 bg-slate-700 text-white px-4 py-2 rounded-full text-sm md:text-base font-bold mb-3 shadow-lg">
-              <span className="text-xl">⛷️</span>
-              <span>{t({ en: '5 Resorts in 30min', fr: '5 Stations en 30min' })}</span>
-            </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
-              {t({ en: 'Unlimited Skiing', fr: 'Ski Illimité' })}
-            </h2>
-            <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
-              {t({
-                en: 'Central position = maximum variety, minimum travel time',
-                fr: 'Position centrale = variété maximale, temps de trajet minimal'
-              })}
-            </p>
-          </div>
-
-          {/* Cartes stations - Style homepage */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
-            {nearbyResorts.map((resort, index) => (
-              <div
-                key={index}
-                className="group relative bg-white rounded-xl md:rounded-2xl p-3 md:p-4 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden"
-              >
-                {/* Badge distance */}
-                <div className="absolute top-2 right-2 bg-slate-700 text-white text-xs font-bold px-2 py-1 rounded-full">
-                  {resort.drivingTime}min
-                </div>
-
-                {/* Contenu */}
-                <div className="flex flex-col items-center text-center">
-                  <div className="text-3xl md:text-4xl mb-2 group-hover:scale-110 transition-transform duration-300">
-                    ⛷️
-                  </div>
-                  <h3 className="font-bold text-sm md:text-base text-gray-900 leading-tight mb-1">
-                    {resort.name}
-                  </h3>
-                  <div className="flex items-center gap-1 text-xs text-gray-600">
-                    <span>🚗</span>
-                    <span className="font-semibold">{resort.distance}km</span>
-                  </div>
-                </div>
-
-                {/* Barre de progression */}
-                <div className="mt-3 h-1 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-slate-600 to-slate-800 transition-all duration-500 group-hover:w-full"
-                    style={{ width: `${Math.max(20, 100 - resort.drivingTime * 2)}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Stats chocs */}
-          <div className="mt-8 flex flex-wrap justify-center gap-4 md:gap-6">
-            <div className="flex items-center gap-2 bg-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-md border border-gray-200">
-              <span className="text-2xl md:text-3xl">🏔️</span>
-              <div className="text-left">
-                <div className="text-xl md:text-2xl font-bold text-slate-700">650km</div>
-                <div className="text-xs md:text-sm text-gray-600">{t({ en: 'of slopes', fr: 'de pistes' })}</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 bg-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-md border border-gray-200">
-              <span className="text-2xl md:text-3xl">🎿</span>
-              <div className="text-left">
-                <div className="text-xl md:text-2xl font-bold text-slate-700">200+</div>
-                <div className="text-xs md:text-sm text-gray-600">{t({ en: 'ski lifts', fr: 'remontées' })}</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 bg-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-md border border-gray-200">
-              <span className="text-2xl md:text-3xl">⏱️</span>
-              <div className="text-left">
-                <div className="text-xl md:text-2xl font-bold text-slate-700">20min</div>
-                <div className="text-xs md:text-sm text-gray-600">{t({ en: 'average', fr: 'moyenne' })}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Section Services & Villes - Compact et moderne */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              {t({ en: 'Nearby', fr: 'À Proximité' })}
-            </h2>
-            <p className="text-base md:text-lg text-gray-600">
-              {t({ en: 'Everything you need is within reach', fr: 'Tout à portée de main' })}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-            {/* Cluses */}
-            <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl md:rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all">
-              <div className="text-3xl mb-2">🏙️</div>
-              <h3 className="font-bold text-sm md:text-base text-gray-900 mb-1">Cluses</h3>
-              <p className="text-xs text-gray-600 mb-2">{t({ en: 'Town center', fr: 'Centre-ville' })}</p>
-              <div className="inline-block bg-slate-700 text-white text-xs font-bold px-2 py-1 rounded-full">
-                4 km
-              </div>
-            </div>
-
-            {/* Geneva */}
-            <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl md:rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all">
-              <div className="text-3xl mb-2">✈️</div>
-              <h3 className="font-bold text-sm md:text-base text-gray-900 mb-1">Genève</h3>
-              <p className="text-xs text-gray-600 mb-2">{t({ en: 'Airport', fr: 'Aéroport' })}</p>
-              <div className="inline-block bg-slate-700 text-white text-xs font-bold px-2 py-1 rounded-full">
-                45 km
-              </div>
-            </div>
-
-            {/* Samoëns */}
-            <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl md:rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all">
-              <div className="text-3xl mb-2">🏘️</div>
-              <h3 className="font-bold text-sm md:text-base text-gray-900 mb-1">Samoëns</h3>
-              <p className="text-xs text-gray-600 mb-2">{t({ en: 'Village', fr: 'Village' })}</p>
-              <div className="inline-block bg-slate-700 text-white text-xs font-bold px-2 py-1 rounded-full">
-                12 km
-              </div>
-            </div>
-
-            {/* Chamonix */}
-            <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl md:rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all">
-              <div className="text-3xl mb-2">🏔️</div>
-              <h3 className="font-bold text-sm md:text-base text-gray-900 mb-1">Chamonix</h3>
-              <p className="text-xs text-gray-600 mb-2">Mont-Blanc</p>
-              <div className="inline-block bg-slate-700 text-white text-xs font-bold px-2 py-1 rounded-full">
-                35 km
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Google Maps - Section moderne */}
-      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-gray-50">
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          <div className="text-center mb-6 md:mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              {t({ en: 'Find Us', fr: 'Nous Trouver' })}
-            </h2>
-            <p className="text-base md:text-lg text-gray-600">
-              Châtillon-sur-Cluses, Haute-Savoie
-            </p>
-          </div>
-
-          <div className="bg-white rounded-xl md:rounded-2xl shadow-xl overflow-hidden">
-            <iframe
-              src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d44343.65!2d6.5769!3d46.0833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478c64d0dc1d5623%3A0x40a7d8c6d6c3c3e0!2zQ2jDonRpbGxvbi1zdXItQ2x1c2VzLCBGcmFuY2U!5e0!3m2!1s${t({ en: 'en', fr: 'fr' })}!2sus!4v1234567890123!5m2!1s${t({ en: 'en', fr: 'fr' })}!2sus`}
-              width="100%"
-              height="400"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="w-full md:h-[500px]"
-              title="Location map"
-            />
-          </div>
-
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <a
-              href={`https://www.google.com/maps/dir//${location.latitude},${location.longitude}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-6 py-3 rounded-full font-bold text-sm md:text-base transition-all shadow-lg hover:shadow-xl"
-            >
-              <span>🚗</span>
-              {t({ en: 'Get Directions', fr: 'Itinéraire' })}
-            </a>
-            <a
-              href={`https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-6 py-3 rounded-full font-bold text-sm md:text-base transition-all"
-            >
-              <span>📍</span>
-              Google Maps
-            </a>
-          </div>
-        </div>
-      </section>
-
       {/* Activities Section - Winter & Summer */}
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
@@ -571,6 +382,251 @@ export default function LocationPage() {
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* CTA for Exclusive Offers */}
+          <div className="mt-16 bg-gradient-to-br from-slate-700 to-slate-800 rounded-2xl p-8 md:p-12 text-center shadow-2xl border border-slate-600">
+            <div className="mb-6">
+              <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-4">
+                <span className="text-2xl">🎁</span>
+                <span className="text-white font-semibold text-sm">
+                  {t({ en: 'Exclusive Benefits', fr: 'Avantages Exclusifs' })}
+                </span>
+              </span>
+            </div>
+
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+              {t({
+                en: 'Unlock Exclusive Local Offers & Discounts',
+                fr: 'Débloquez des Offres Locales Exclusives & Réductions'
+              })}
+            </h3>
+
+            <p className="text-lg text-white/90 mb-6 max-w-3xl mx-auto leading-relaxed">
+              {t({
+                en: 'Register to access our curated selection of exclusive partnerships: ski pass discounts, restaurant deals, spa packages, activity bookings, and much more. Our local offers are constantly updated to give you the best experience.',
+                fr: 'Inscrivez-vous pour accéder à notre sélection d\'offres exclusives négociées : réductions forfaits ski, tarifs préférentiels restaurants, forfaits spa, réservations d\'activités, et bien plus. Nos offres locales évoluent constamment pour vous offrir la meilleure expérience.'
+              })}
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
+              <div className="flex items-center gap-2 text-white/90">
+                <span className="text-xl">✓</span>
+                <span className="text-sm font-medium">{t({ en: 'Up to 15% off ski passes', fr: 'Jusqu\'à 15% sur forfaits ski' })}</span>
+              </div>
+              <div className="flex items-center gap-2 text-white/90">
+                <span className="text-xl">✓</span>
+                <span className="text-sm font-medium">{t({ en: 'Priority booking', fr: 'Réservations prioritaires' })}</span>
+              </div>
+              <div className="flex items-center gap-2 text-white/90">
+                <span className="text-xl">✓</span>
+                <span className="text-sm font-medium">{t({ en: 'Local insider tips', fr: 'Conseils locaux exclusifs' })}</span>
+              </div>
+            </div>
+
+            <a
+              href="/booking"
+              className="inline-flex items-center gap-2 bg-white hover:bg-gray-100 text-slate-800 px-8 py-4 rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-xl hover:scale-105"
+            >
+              <span>🔑</span>
+              {t({ en: 'Register for Exclusive Access', fr: 'S\'inscrire pour Accès Exclusif' })}
+            </a>
+
+            <p className="text-xs text-white/70 mt-4">
+              {t({
+                en: 'Free registration • Instant access • Cancel anytime',
+                fr: 'Inscription gratuite • Accès instantané • Sans engagement'
+              })}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 5 Stations - Style homepage */}
+      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-slate-50">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+          {/* Titre */}
+          <div className="text-center mb-8 md:mb-10">
+            <div className="inline-flex items-center gap-2 bg-slate-700 text-white px-4 py-2 rounded-full text-sm md:text-base font-bold mb-3 shadow-lg">
+              <span className="text-xl">⛷️</span>
+              <span>{t({ en: '5 Resorts in 30min', fr: '5 Stations en 30min' })}</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
+              {t({ en: 'Unlimited Skiing', fr: 'Ski Illimité' })}
+            </h2>
+            <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+              {t({
+                en: 'Central position = maximum variety, minimum travel time',
+                fr: 'Position centrale = variété maximale, temps de trajet minimal'
+              })}
+            </p>
+          </div>
+
+          {/* Cartes stations - Style homepage */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+            {nearbyResorts.map((resort, index) => (
+              <div
+                key={index}
+                className="group relative bg-white rounded-xl md:rounded-2xl p-3 md:p-4 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden"
+              >
+                {/* Badge distance */}
+                <div className="absolute top-2 right-2 bg-slate-700 text-white text-xs font-bold px-2 py-1 rounded-full">
+                  {resort.drivingTime}min
+                </div>
+
+                {/* Contenu */}
+                <div className="flex flex-col items-center text-center">
+                  <div className="text-3xl md:text-4xl mb-2 group-hover:scale-110 transition-transform duration-300">
+                    ⛷️
+                  </div>
+                  <h3 className="font-bold text-sm md:text-base text-gray-900 leading-tight mb-1">
+                    {resort.name}
+                  </h3>
+                  <div className="flex items-center gap-1 text-xs text-gray-600">
+                    <span>🚗</span>
+                    <span className="font-semibold">{resort.distance}km</span>
+                  </div>
+                </div>
+
+                {/* Barre de progression */}
+                <div className="mt-3 h-1 bg-gray-100 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-slate-600 to-slate-800 transition-all duration-500 group-hover:w-full"
+                    style={{ width: `${Math.max(20, 100 - resort.drivingTime * 2)}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Stats chocs */}
+          <div className="mt-8 flex flex-wrap justify-center gap-4 md:gap-6">
+            <div className="flex items-center gap-2 bg-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-md border border-gray-200">
+              <span className="text-2xl md:text-3xl">🏔️</span>
+              <div className="text-left">
+                <div className="text-xl md:text-2xl font-bold text-slate-700">650km</div>
+                <div className="text-xs md:text-sm text-gray-600">{t({ en: 'of slopes', fr: 'de pistes' })}</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 bg-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-md border border-gray-200">
+              <span className="text-2xl md:text-3xl">🎿</span>
+              <div className="text-left">
+                <div className="text-xl md:text-2xl font-bold text-slate-700">200+</div>
+                <div className="text-xs md:text-sm text-gray-600">{t({ en: 'ski lifts', fr: 'remontées' })}</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 bg-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-md border border-gray-200">
+              <span className="text-2xl md:text-3xl">⏱️</span>
+              <div className="text-left">
+                <div className="text-xl md:text-2xl font-bold text-slate-700">20min</div>
+                <div className="text-xs md:text-sm text-gray-600">{t({ en: 'average', fr: 'moyenne' })}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section Services & Villes - Compact et moderne */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+          <div className="text-center mb-8 md:mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+              {t({ en: 'Nearby', fr: 'À Proximité' })}
+            </h2>
+            <p className="text-base md:text-lg text-gray-600">
+              {t({ en: 'Everything you need is within reach', fr: 'Tout à portée de main' })}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+            {/* Cluses */}
+            <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl md:rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all">
+              <div className="text-3xl mb-2">🏙️</div>
+              <h3 className="font-bold text-sm md:text-base text-gray-900 mb-1">Cluses</h3>
+              <p className="text-xs text-gray-600 mb-2">{t({ en: 'Town center', fr: 'Centre-ville' })}</p>
+              <div className="inline-block bg-slate-700 text-white text-xs font-bold px-2 py-1 rounded-full">
+                4 km
+              </div>
+            </div>
+
+            {/* Geneva */}
+            <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl md:rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all">
+              <div className="text-3xl mb-2">✈️</div>
+              <h3 className="font-bold text-sm md:text-base text-gray-900 mb-1">Genève</h3>
+              <p className="text-xs text-gray-600 mb-2">{t({ en: 'Airport', fr: 'Aéroport' })}</p>
+              <div className="inline-block bg-slate-700 text-white text-xs font-bold px-2 py-1 rounded-full">
+                45 km
+              </div>
+            </div>
+
+            {/* Samoëns */}
+            <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl md:rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all">
+              <div className="text-3xl mb-2">🏘️</div>
+              <h3 className="font-bold text-sm md:text-base text-gray-900 mb-1">Samoëns</h3>
+              <p className="text-xs text-gray-600 mb-2">{t({ en: 'Village', fr: 'Village' })}</p>
+              <div className="inline-block bg-slate-700 text-white text-xs font-bold px-2 py-1 rounded-full">
+                12 km
+              </div>
+            </div>
+
+            {/* Chamonix */}
+            <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl md:rounded-2xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all">
+              <div className="text-3xl mb-2">🏔️</div>
+              <h3 className="font-bold text-sm md:text-base text-gray-900 mb-1">Chamonix</h3>
+              <p className="text-xs text-gray-600 mb-2">Mont-Blanc</p>
+              <div className="inline-block bg-slate-700 text-white text-xs font-bold px-2 py-1 rounded-full">
+                35 km
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Google Maps - Section moderne */}
+      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-gray-50">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+          <div className="text-center mb-6 md:mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+              {t({ en: 'Find Us', fr: 'Nous Trouver' })}
+            </h2>
+            <p className="text-base md:text-lg text-gray-600">
+              Châtillon-sur-Cluses, Haute-Savoie
+            </p>
+          </div>
+
+          <div className="bg-white rounded-xl md:rounded-2xl shadow-xl overflow-hidden">
+            <iframe
+              src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d44343.65!2d6.5769!3d46.0833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478c64d0dc1d5623%3A0x40a7d8c6d6c3c3e0!2zQ2jDonRpbGxvbi1zdXItQ2x1c2VzLCBGcmFuY2U!5e0!3m2!1s${t({ en: 'en', fr: 'fr' })}!2sus!4v1234567890123!5m2!1s${t({ en: 'en', fr: 'fr' })}!2sus`}
+              width="100%"
+              height="400"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="w-full md:h-[500px]"
+              title="Location map"
+            />
+          </div>
+
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <a
+              href={`https://www.google.com/maps/dir//${location.latitude},${location.longitude}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-6 py-3 rounded-full font-bold text-sm md:text-base transition-all shadow-lg hover:shadow-xl"
+            >
+              <span>🚗</span>
+              {t({ en: 'Get Directions', fr: 'Itinéraire' })}
+            </a>
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-6 py-3 rounded-full font-bold text-sm md:text-base transition-all"
+            >
+              <span>📍</span>
+              Google Maps
+            </a>
           </div>
         </div>
       </section>

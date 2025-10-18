@@ -283,6 +283,36 @@ export default function GuidePage() {
       ],
     },
     {
+      title: { en: 'Activities & Experiences', fr: 'Activités & Expériences' },
+      icon: '🎯',
+      items: [
+        {
+          subtitle: { en: 'Winter - Alpine Skiing & Snowboarding', fr: 'Hiver - Ski Alpin & Snowboard' },
+          content: { en: '650km slopes across 5 resorts (Grand Massif, Les Carroz, Flaine, Samoëns, Morillon). All levels, parks & freeride zones. Arrive before 9 AM to avoid crowds. Book ski school in advance during holidays.', fr: '650km de pistes sur 5 stations (Grand Massif, Les Carroz, Flaine, Samoëns, Morillon). Tous niveaux, parks & zones freeride. Arriver avant 9h pour éviter la foule. Réserver école de ski à l\'avance pendant vacances.' },
+        },
+        {
+          subtitle: { en: 'Winter - Snowshoeing & Ice Climbing', fr: 'Hiver - Raquettes & Cascade de Glace' },
+          content: { en: 'Marked snowshoe trails at Col de la Colombière and Plateau des Glières. Guided moonlight tours available. Ice climbing at Cascade de Boëge and Sixt-Fer-à-Cheval. Nordic skiing, sledding, dog sledding, and ice skating also available.', fr: 'Sentiers raquettes balisés au Col de la Colombière et Plateau des Glières. Sorties nocturnes guidées disponibles. Cascade de glace à Boëge et Sixt-Fer-à-Cheval. Ski de fond, luge, traîneau à chiens, et patinage également disponibles.' },
+        },
+        {
+          subtitle: { en: 'Summer - Hiking & Mountain Biking', fr: 'Été - Randonnée & VTT' },
+          content: { en: '100+ mountain trails from easy family walks to challenging alpine routes. Must-see: Cirque du Fer-à-Cheval, Lac Bleu. Mountain biking with downhill parks, enduro trails, and cross-country routes. Bike rentals & lessons available.', fr: '100+ sentiers montagne des balades familiales aux routes alpines exigeantes. Incontournables : Cirque du Fer-à-Cheval, Lac Bleu. VTT avec parcs de descente, trails enduro, et parcours cross-country. Location vélos & cours disponibles.' },
+        },
+        {
+          subtitle: { en: 'Summer - Paragliding & Water Sports', fr: 'Été - Parapente & Sports Nautiques' },
+          content: { en: 'Tandem paragliding flights with breathtaking views. Via ferrata routes at Passy and Curalla. Mountain lakes (Lac Bleu, Lac de Passy) for swimming. Kayaking, rafting, SUP on rivers. Rock climbing and horse riding also available.', fr: 'Vols tandem parapente avec vues à couper le souffle. Parcours via ferrata à Passy et Curalla. Lacs de montagne (Lac Bleu, Lac de Passy) pour baignade. Kayak, rafting, SUP sur rivières. Escalade et équitation également disponibles.' },
+        },
+        {
+          subtitle: { en: 'Wellness & Spa', fr: 'Bien-être & Spa' },
+          content: { en: 'Les Thermes de St-Gervais (20 min) - natural hot springs with spa facilities. Multiple spa centers offering massages, treatments, and wellness programs. Yoga retreats and aquatic centers with pools available year-round.', fr: 'Les Thermes de St-Gervais (20 min) - sources chaudes naturelles avec installations spa. Centres spa offrant massages, soins, et programmes bien-être. Retraites yoga et centres aquatiques avec piscines disponibles toute l\'année.' },
+        },
+        {
+          subtitle: { en: 'Culture & Excursions', fr: 'Culture & Excursions' },
+          content: { en: 'Visit charming alpine villages: Samoëns (Plus Beau Village de France), Megève, Yvoire. Mont-Blanc excursions: Aiguille du Midi cable car (35 min), Chamonix valley, Mer de Glace glacier. Weekly markets, cheese farms, wine tastings, castles & museums. Adventure parks and year-round festivals.', fr: 'Visiter villages alpins charmants : Samoëns (Plus Beau Village de France), Megève, Yvoire. Excursions Mont-Blanc : téléphérique Aiguille du Midi (35 min), vallée de Chamonix, glacier Mer de Glace. Marchés hebdomadaires, fermes fromagères, dégustations vins, châteaux & musées. Parcs aventure et festivals toute l\'année.' },
+        },
+      ],
+    },
+    {
       title: { en: 'Emergency Contacts', fr: 'Contacts d\'Urgence' },
       icon: '🚨',
       items: [
@@ -393,48 +423,130 @@ export default function GuidePage() {
         </section>
       ))}
 
-      {/* Local Tips */}
+      {/* Activities & Experiences */}
       <section className="py-12 bg-white border-t border-gray-200/20">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-700">
-            {t({ en: 'Local Tips & Recommendations', fr: 'Conseils & Recommandations Locales' })}
+            {t({ en: 'Activities & Experiences', fr: 'Activités & Expériences' })}
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-              <h3 className="text-xl font-bold mb-3 text-gray-700">🍽️ {t({ en: 'Restaurants', fr: 'Restaurants' })}</h3>
-              <ul className="space-y-2 text-gray-700">
-                <li><strong>La Ferme des Vonezins</strong> - {t({ en: 'Traditional Savoyard cuisine', fr: 'Cuisine savoyarde traditionnelle' })}</li>
-                <li><strong>Le Belvédère</strong> - {t({ en: 'Mountain views, fondue specialist', fr: 'Vue montagne, spécialiste fondue' })}</li>
-                <li><strong>Le Refuge</strong> - {t({ en: 'Cozy atmosphere, local ingredients', fr: 'Ambiance chaleureuse, produits locaux' })}</li>
-              </ul>
+          {/* Winter Activities */}
+          <div className="mb-10">
+            <h3 className="text-2xl font-bold mb-6 text-gray-800 flex items-center gap-2">
+              <span>❄️</span>
+              {t({ en: 'Winter Activities', fr: 'Activités Hiver' })}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">⛷️ {t({ en: 'Alpine Skiing & Snowboarding', fr: 'Ski Alpin & Snowboard' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: '650km slopes across 5 resorts (Grand Massif, Les Carroz, Flaine, Samoëns, Morillon). All levels, parks & freeride zones.', fr: '650km de pistes sur 5 stations (Grand Massif, Les Carroz, Flaine, Samoëns, Morillon). Tous niveaux, parks & zones freeride.' })}</p>
+              </div>
+              <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">🥾 {t({ en: 'Snowshoeing', fr: 'Raquettes' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: 'Marked trails at Col de la Colombière and Plateau des Glières. Guided moonlight tours available.', fr: 'Sentiers balisés au Col de la Colombière et Plateau des Glières. Sorties nocturnes guidées disponibles.' })}</p>
+              </div>
+              <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">🧗 {t({ en: 'Ice Climbing', fr: 'Cascade de Glace' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: 'Cascade de Boëge, Sixt-Fer-à-Cheval. Guided expeditions for beginners to experts.', fr: 'Cascade de Boëge, Sixt-Fer-à-Cheval. Sorties encadrées débutants à experts.' })}</p>
+              </div>
+              <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">🎿 {t({ en: 'Cross-Country & Sledding', fr: 'Ski de Fond & Luge' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: 'Nordic trails nearby. Family sledding slopes at each resort.', fr: 'Pistes nordiques à proximité. Pistes de luge familiales dans chaque station.' })}</p>
+              </div>
+              <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">🐕 {t({ en: 'Dog Sledding & Ice Skating', fr: 'Traîneau à Chiens & Patinage' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: 'Unique dog sled experiences. Outdoor ice rinks in villages.', fr: 'Expériences traîneau à chiens uniques. Patinoires extérieures dans villages.' })}</p>
+              </div>
+              <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">⛷️ {t({ en: 'Ski Tips', fr: 'Conseils Ski' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: 'Arrive before 9 AM to avoid crowds. Book ski school in advance during holidays. Flaine quieter on Sundays.', fr: 'Arriver avant 9h pour éviter la foule. Réserver école de ski à l\'avance pendant vacances. Flaine plus calme le dimanche.' })}</p>
+              </div>
             </div>
+          </div>
 
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-              <h3 className="text-xl font-bold mb-3 text-gray-700">🛒 {t({ en: 'Shopping', fr: 'Courses' })}</h3>
-              <ul className="space-y-2 text-gray-700">
-                <li><strong>Carrefour Cluses</strong> - {t({ en: 'Large supermarket, 5 min drive', fr: 'Grand supermarché, 5 min voiture' })}</li>
-                <li><strong>Boulangerie du Village</strong> - {t({ en: 'Fresh bread daily, 3 min', fr: 'Pain frais quotidien, 3 min' })}</li>
-                <li><strong>Fromagerie Bouvier</strong> - {t({ en: 'Local cheeses, must-visit', fr: 'Fromages locaux, incontournable' })}</li>
-              </ul>
+          {/* Summer Activities */}
+          <div className="mb-10">
+            <h3 className="text-2xl font-bold mb-6 text-gray-800 flex items-center gap-2">
+              <span>☀️</span>
+              {t({ en: 'Summer Activities', fr: 'Activités Été' })}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="bg-green-50 border border-green-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">🥾 {t({ en: 'Hiking', fr: 'Randonnée' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: '100+ mountain trails. Easy family walks to challenging alpine routes. Must-see: Cirque du Fer-à-Cheval, Lac Bleu.', fr: '100+ sentiers montagne. Balades familiales aux routes alpines exigeantes. Incontournables : Cirque du Fer-à-Cheval, Lac Bleu.' })}</p>
+              </div>
+              <div className="bg-green-50 border border-green-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">🚵 {t({ en: 'Mountain Biking', fr: 'VTT' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: 'Downhill parks, enduro trails, and cross-country routes. Bike rentals & lessons available.', fr: 'Parcs de descente, trails enduro, et parcours cross-country. Location vélos & cours disponibles.' })}</p>
+              </div>
+              <div className="bg-green-50 border border-green-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">🪂 {t({ en: 'Paragliding & Via Ferrata', fr: 'Parapente & Via Ferrata' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: 'Tandem paragliding flights. Via ferrata routes at Passy and Curalla. Breathtaking views.', fr: 'Vols tandem parapente. Parcours via ferrata à Passy et Curalla. Vues à couper le souffle.' })}</p>
+              </div>
+              <div className="bg-green-50 border border-green-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">🏊 {t({ en: 'Swimming & Water Sports', fr: 'Baignade & Sports Nautiques' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: 'Mountain lakes (Lac Bleu, Lac de Passy). Kayaking, rafting, SUP on rivers. Aquatic centers.', fr: 'Lacs de montagne (Lac Bleu, Lac de Passy). Kayak, rafting, SUP sur rivières. Centres aquatiques.' })}</p>
+              </div>
+              <div className="bg-green-50 border border-green-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">🧗 {t({ en: 'Rock Climbing', fr: 'Escalade' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: 'Natural cliffs and climbing parks. Routes for all levels. Guided climbing sessions.', fr: 'Falaises naturelles et parcs d\'escalade. Voies tous niveaux. Séances guidées.' })}</p>
+              </div>
+              <div className="bg-green-50 border border-green-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">🐎 {t({ en: 'Golf & Horse Riding', fr: 'Golf & Équitation' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: 'Mountain golf courses nearby. Trail horse riding through alpine meadows.', fr: 'Parcours de golf montagne à proximité. Randonnées équestres dans prairies alpines.' })}</p>
+              </div>
             </div>
+          </div>
 
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-              <h3 className="text-xl font-bold mb-3 text-gray-700">⛷️ {t({ en: 'Ski Tips', fr: 'Conseils Ski' })}</h3>
-              <ul className="space-y-2 text-gray-700">
-                <li>{t({ en: 'Arrive at slopes before 9 AM to avoid crowds', fr: 'Arriver aux pistes avant 9h pour éviter la foule' })}</li>
-                <li>{t({ en: 'Book ski school in advance during holidays', fr: 'Réserver l\'école de ski à l\'avance pendant vacances' })}</li>
-                <li>{t({ en: 'Flaine (Grand Massif) on Sundays - quieter than weekdays', fr: 'Flaine (Grand Massif) le dimanche - plus calme qu\'en semaine' })}</li>
-              </ul>
+          {/* Wellness & Culture */}
+          <div className="mb-10">
+            <h3 className="text-2xl font-bold mb-6 text-gray-800 flex items-center gap-2">
+              <span>💆</span>
+              {t({ en: 'Wellness & Culture', fr: 'Bien-être & Culture' })}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-purple-50 border border-purple-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">♨️ {t({ en: 'Thermal Spa & Wellness', fr: 'Thermes & Bien-être' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: 'Les Thermes de St-Gervais (20 min) - natural hot springs. Spa centers with massages & treatments. Yoga retreats.', fr: 'Les Thermes de St-Gervais (20 min) - sources chaudes naturelles. Centres spa avec massages & soins. Retraites yoga.' })}</p>
+              </div>
+              <div className="bg-purple-50 border border-purple-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">🏘️ {t({ en: 'Alpine Villages & Culture', fr: 'Villages Alpins & Culture' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: 'Visit Samoëns (Plus Beau Village), Megève, Yvoire. Weekly markets, local cheeses, wine tasting. Castles & museums.', fr: 'Visiter Samoëns (Plus Beau Village), Megève, Yvoire. Marchés hebdomadaires, fromages locaux, dégustation vins. Châteaux & musées.' })}</p>
+              </div>
+              <div className="bg-purple-50 border border-purple-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">🏔️ {t({ en: 'Mont-Blanc & Excursions', fr: 'Mont-Blanc & Excursions' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: 'Aiguille du Midi cable car (35 min). Chamonix valley. Mer de Glace glacier. Guided mountain tours.', fr: 'Téléphérique Aiguille du Midi (35 min). Vallée de Chamonix. Glacier Mer de Glace. Visites guidées montagne.' })}</p>
+              </div>
+              <div className="bg-purple-50 border border-purple-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">🎪 {t({ en: 'Family & Events', fr: 'Famille & Événements' })}</h4>
+                <p className="text-sm text-gray-700">{t({ en: 'Adventure parks, animal farms. Year-round festivals: music, food, alpine traditions. Christmas markets in winter.', fr: 'Parcs aventure, fermes animalières. Festivals toute l\'année : musique, gastronomie, traditions alpines. Marchés de Noël en hiver.' })}</p>
+              </div>
             </div>
+          </div>
 
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-              <h3 className="text-xl font-bold mb-3 text-gray-700">🌄 {t({ en: 'Activities', fr: 'Activités' })}</h3>
-              <ul className="space-y-2 text-gray-700">
-                <li>{t({ en: 'Ice climbing - Cascade de Boëge', fr: 'Cascade de glace - Boëge' })}</li>
-                <li>{t({ en: 'Snowshoeing - Col de la Colombière', fr: 'Raquettes - Col de la Colombière' })}</li>
-                <li>{t({ en: 'Thermal spa - Les Thermes de St-Gervais', fr: 'Spa thermal - Thermes de St-Gervais' })}</li>
-              </ul>
+          {/* Local Tips */}
+          <div>
+            <h3 className="text-2xl font-bold mb-6 text-gray-800 flex items-center gap-2">
+              <span>💡</span>
+              {t({ en: 'Local Tips', fr: 'Conseils Locaux' })}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-amber-50 border border-amber-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">🍽️ {t({ en: 'Restaurants', fr: 'Restaurants' })}</h4>
+                <ul className="space-y-1 text-sm text-gray-700">
+                  <li><strong>La Ferme des Vonezins</strong> - {t({ en: 'Traditional Savoyard', fr: 'Savoyard traditionnel' })}</li>
+                  <li><strong>Le Belvédère</strong> - {t({ en: 'Mountain views, fondue', fr: 'Vue montagne, fondue' })}</li>
+                  <li><strong>Le Refuge</strong> - {t({ en: 'Local ingredients', fr: 'Produits locaux' })}</li>
+                </ul>
+              </div>
+              <div className="bg-amber-50 border border-amber-100 rounded-lg p-4">
+                <h4 className="font-bold text-gray-800 mb-2">🛒 {t({ en: 'Shopping', fr: 'Courses' })}</h4>
+                <ul className="space-y-1 text-sm text-gray-700">
+                  <li><strong>Carrefour Cluses</strong> - {t({ en: '5 min drive', fr: '5 min voiture' })}</li>
+                  <li><strong>Boulangerie du Village</strong> - {t({ en: '3 min, fresh daily', fr: '3 min, frais quotidien' })}</li>
+                  <li><strong>Fromagerie Bouvier</strong> - {t({ en: 'Local cheeses', fr: 'Fromages locaux' })}</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
