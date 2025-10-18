@@ -14,12 +14,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 mb-8">
           {/* Brand Section */}
           <div>
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-3 mb-4">
               <span className="text-4xl">🏔️</span>
-              <div>
-                <h3 className="text-xl font-bold text-white">{chaletName}</h3>
-                <p className="text-slate-300 text-sm">{t({ en: 'French Alps', fr: 'Alpes Françaises' })}</p>
-              </div>
+              <h3 className="text-xl font-bold text-white">{chaletName}</h3>
             </div>
             <p className="text-slate-400 text-sm leading-relaxed">
               {t({
