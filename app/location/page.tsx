@@ -230,6 +230,351 @@ export default function LocationPage() {
         </div>
       </section>
 
+      {/* Activities Section - Winter & Summer */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+          <div className="text-center mb-10 md:mb-12">
+            <div className="inline-flex items-center gap-2 bg-slate-700 text-white px-4 py-2 rounded-full text-sm md:text-base font-bold mb-3 shadow-lg">
+              <span className="text-xl">🎯</span>
+              <span>{t({ en: 'Year-Round', fr: 'Toute l\'Année' })}</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
+              {t({ en: 'Activities & Experiences', fr: 'Activités & Expériences' })}
+            </h2>
+            <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+              {t({
+                en: 'Endless adventures in the French Alps, every season',
+                fr: 'Aventures infinies dans les Alpes françaises, chaque saison'
+              })}
+            </p>
+          </div>
+
+          {/* Winter Activities */}
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-4xl">❄️</span>
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+                {t({ en: 'Winter Activities', fr: 'Activités Hiver' })}
+              </h3>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+              <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl p-4 border border-blue-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">⛷️</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Alpine Skiing', fr: 'Ski Alpin' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: '650km slopes nearby', fr: '650km pistes à proximité' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl p-4 border border-blue-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🏂</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Snowboarding', fr: 'Snowboard' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Parks & freeride zones', fr: 'Parks & zones freeride' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl p-4 border border-blue-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🥾</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Snowshoeing', fr: 'Raquettes' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Marked trails', fr: 'Sentiers balisés' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl p-4 border border-blue-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🧗</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Ice Climbing', fr: 'Cascade de Glace' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Guided expeditions', fr: 'Sorties encadrées' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl p-4 border border-blue-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🛷</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Sledding', fr: 'Luge' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Family fun slopes', fr: 'Pistes familiales' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl p-4 border border-blue-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🎿</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Cross-Country', fr: 'Ski de Fond' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Nordic trails', fr: 'Pistes nordiques' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl p-4 border border-blue-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🐕</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Dog Sledding', fr: 'Traîneau à Chiens' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Unique experience', fr: 'Expérience unique' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl p-4 border border-blue-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">⛸️</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Ice Skating', fr: 'Patinage' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Outdoor rinks', fr: 'Patinoires extérieures' })}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Summer Activities */}
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-4xl">☀️</span>
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+                {t({ en: 'Summer Activities', fr: 'Activités Été' })}
+              </h3>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+              <div className="bg-gradient-to-br from-green-50 to-white rounded-xl p-4 border border-green-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🥾</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Hiking', fr: 'Randonnée' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: '100+ mountain trails', fr: '100+ sentiers montagne' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-50 to-white rounded-xl p-4 border border-green-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🚵</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Mountain Biking', fr: 'VTT' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Downhill & trails', fr: 'Descente & sentiers' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-50 to-white rounded-xl p-4 border border-green-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🪂</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Paragliding', fr: 'Parapente' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Tandem flights available', fr: 'Vols tandem disponibles' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-50 to-white rounded-xl p-4 border border-green-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🧗</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Rock Climbing', fr: 'Escalade' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Via ferrata & cliffs', fr: 'Via ferrata & falaises' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-50 to-white rounded-xl p-4 border border-green-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🏊</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Swimming', fr: 'Baignade' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Mountain lakes', fr: 'Lacs de montagne' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-50 to-white rounded-xl p-4 border border-green-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🚣</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Water Sports', fr: 'Sports Nautiques' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Kayak, rafting, SUP', fr: 'Kayak, rafting, SUP' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-50 to-white rounded-xl p-4 border border-green-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">⛳</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Golf', fr: 'Golf' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Mountain courses', fr: 'Parcours montagne' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-50 to-white rounded-xl p-4 border border-green-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🐎</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Horse Riding', fr: 'Équitation' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Trail riding', fr: 'Randonnées équestres' })}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Wellness & Spa */}
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-4xl">💆</span>
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+                {t({ en: 'Wellness & Spa', fr: 'Bien-être & Spa' })}
+              </h3>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+              <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl p-4 border border-purple-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">♨️</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Thermal Baths', fr: 'Thermes' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'St-Gervais (20 min)', fr: 'St-Gervais (20 min)' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl p-4 border border-purple-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🧖</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Spa Centers', fr: 'Centres Spa' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Massages & treatments', fr: 'Massages & soins' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl p-4 border border-purple-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🧘</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Yoga & Wellness', fr: 'Yoga & Bien-être' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Mountain retreats', fr: 'Retraites montagne' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl p-4 border border-purple-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🌊</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Aquatic Centers', fr: 'Centres Aquatiques' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Pools & wellness', fr: 'Piscines & bien-être' })}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Leisure & Culture */}
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-4xl">🎭</span>
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+                {t({ en: 'Leisure & Culture', fr: 'Loisirs & Culture' })}
+              </h3>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+              <div className="bg-gradient-to-br from-amber-50 to-white rounded-xl p-4 border border-amber-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🏘️</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Alpine Villages', fr: 'Villages Alpins' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Samoëns, Megève, Yvoire', fr: 'Samoëns, Megève, Yvoire' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-amber-50 to-white rounded-xl p-4 border border-amber-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🏔️</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Mont-Blanc', fr: 'Mont-Blanc' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Cable car, Aiguille du Midi', fr: 'Téléphérique, Aiguille du Midi' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-amber-50 to-white rounded-xl p-4 border border-amber-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🧀</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Farm Visits', fr: 'Fermes' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Cheese & local products', fr: 'Fromages & produits locaux' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-amber-50 to-white rounded-xl p-4 border border-amber-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🏰</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Castles & Museums', fr: 'Châteaux & Musées' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Historical sites', fr: 'Sites historiques' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-amber-50 to-white rounded-xl p-4 border border-amber-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🛍️</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Markets', fr: 'Marchés' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Local weekly markets', fr: 'Marchés hebdomadaires' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-amber-50 to-white rounded-xl p-4 border border-amber-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🎪</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Family Parks', fr: 'Parcs Familiaux' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Adventure & animal parks', fr: 'Parcs aventure & animaux' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-amber-50 to-white rounded-xl p-4 border border-amber-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🍷</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Wine Tasting', fr: 'Dégustation Vins' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Savoie vineyards', fr: 'Vignobles savoyards' })}
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-amber-50 to-white rounded-xl p-4 border border-amber-100 shadow-sm hover:shadow-lg transition-all">
+                <div className="text-3xl mb-2">🎵</div>
+                <h4 className="font-bold text-sm md:text-base text-gray-900 mb-1">
+                  {t({ en: 'Events & Festivals', fr: 'Événements & Festivals' })}
+                </h4>
+                <p className="text-xs text-gray-600">
+                  {t({ en: 'Year-round cultural events', fr: 'Événements toute l\'année' })}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }
