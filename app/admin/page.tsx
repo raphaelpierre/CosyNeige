@@ -1887,14 +1887,6 @@ export default function AdminPage() {
                   </div>
                 </div>
 
-                {/* Bouton d'ajout de transaction */}
-                <div className="flex justify-end mb-4">
-                  <button className="bg-slate-700 text-white px-6 py-3 rounded-lg hover:bg-slate-800 flex items-center gap-2 font-medium shadow-lg hover:shadow-xl transition-all">
-                    <span className="text-xl">➕</span>
-                    <span>{t({ en: 'Add Transaction', fr: 'Ajouter une Transaction' })}</span>
-                  </button>
-                </div>
-
                 {/* Liste des transactions (vide pour le moment) */}
                 <div className="bg-white rounded-lg shadow overflow-hidden">
                   <div className="p-8 text-center">
