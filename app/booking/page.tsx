@@ -297,7 +297,7 @@ export default function BookingPage() {
         </div>
       </section>
 
-      <div className="max-w-6xl mx-auto px-4 py-4">
+      <div className="max-w-6xl mx-auto px-4 py-4 pb-8 sm:pb-4">
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
 
           {/* Colonne principale */}
@@ -306,7 +306,7 @@ export default function BookingPage() {
 
               {/* ÉTAPE 1: Dates & Invités */}
               {currentStep === 1 && (
-                <div className="space-y-4">
+                <div className="space-y-4 pb-6 sm:pb-0">
                   <div className="text-center">
                     <div className="flex items-center justify-center gap-2 mb-2">
                       <span className="text-2xl">🗓️</span>
@@ -361,11 +361,11 @@ export default function BookingPage() {
                           </div>
                         </div>
 
-                        {/* Bouton Continuer - Desktop uniquement, mobile utilise bottom sheet */}
-                        <div className="hidden sm:flex flex-shrink-0">
+                        {/* Bouton Continuer - Visible sur mobile et desktop */}
+                        <div className="flex flex-shrink-0 w-full sm:w-auto">
                           <button
                             onClick={() => setCurrentStep(2)}
-                            className="px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 active:scale-98 border-2 border-green-700"
+                            className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-bold text-base sm:text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3 active:scale-98 border-2 border-green-700"
                           >
                             <span>{t({ en: 'Continue', fr: 'Continuer' })}</span>
                             <span className="text-xl">→</span>
@@ -1030,38 +1030,6 @@ export default function BookingPage() {
         </div>
       </div>
 
-      {/* Bottom Sheet Prix (Mobile) */}
-      {checkIn && checkOut && isValidStay && priceCalculation && (
-        <div className="xl:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-slate-200 shadow-2xl z-30 p-4 pb-6 safe-area-bottom">
-          <div className="flex items-center justify-between mb-3">
-            <div>
-              <div className="text-xs text-gray-600">
-                {nights} {t({ en: nights === 1 ? 'night' : 'nights', fr: nights === 1 ? 'nuit' : 'nuits' })} • {guests} {t({ en: guests === 1 ? 'guest' : 'guests', fr: 'pers.' })}
-              </div>
-              <div className="text-2xl font-bold text-slate-800">
-                {formatEuro(priceCalculation.total)}
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-xs text-gray-600">{t({
-                en: requiresFullPayment ? 'Payment' : 'Deposit',
-                fr: requiresFullPayment ? 'Paiement' : 'Acompte'
-              })}</div>
-              <div className="text-lg font-bold text-yellow-700">
-                {formatEuro(depositAmount)}
-              </div>
-            </div>
-          </div>
-          {currentStep === 1 && steps[0].completed && (
-            <button
-              onClick={() => setCurrentStep(2)}
-              className="w-full bg-slate-700 hover:bg-slate-800 text-white py-4 rounded-lg font-bold transition-colors text-base active:scale-98 touch-manipulation"
-            >
-              {t({ en: 'Continue', fr: 'Continuer' })} →
-            </button>
-          )}
-        </div>
-      )}
     </div>
   );
 }
