@@ -102,7 +102,11 @@ export default function PaymentForm({
         <PaymentElement
           options={{
             layout: 'tabs',
-            paymentMethodOrder: ['card', 'paypal'],
+            paymentMethodOrder: ['apple_pay', 'google_pay', 'card', 'paypal'],
+            wallets: {
+              applePay: 'auto',
+              googlePay: 'auto',
+            },
             defaultValues: billingDetails ? {
               billingDetails: {
                 name: billingDetails.name,
