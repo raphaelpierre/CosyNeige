@@ -8,17 +8,20 @@ datasource db {
 }
 
 model User {
-  id           String        @id @default(cuid())
-  email        String        @unique
-  password     String
-  firstName    String
-  lastName     String
-  phone        String?
-  role         String        @default("client") // client, admin
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  messages     Message[]
-  reservations Reservation[]
+  id                String        @id @default(cuid())
+  email             String        @unique
+  password          String?       // Optionnel - null si pas encore défini
+  firstName         String
+  lastName          String
+  phone             String?
+  role              String        @default("client") // client, admin
+  passwordSet       Boolean       @default(false) // True si l'utilisateur a défini son mot de passe
+  passwordResetToken String?      // Token pour définir/réinitialiser le mot de passe
+  tokenExpiry       DateTime?     // Expiration du token
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  messages          Message[]
+  reservations      Reservation[]
 }
 
 model Reservation {

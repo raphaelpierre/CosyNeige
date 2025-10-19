@@ -35,6 +35,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Vérifier si l'utilisateur a défini son mot de passe
+    if (!user.passwordSet || !user.password) {
+      return NextResponse.json(
+        {
+          error: 'Veuillez d\'abord créer votre mot de passe via le lien envoyé par email',
+          errorEn: 'Please create your password first using the link sent by email',
+          passwordNotSet: true
+        },
+        { status: 403 }
+      );
+    }
+
     // Vérifier le mot de passe
     const isPasswordValid = await bcrypt.compare(password, user.password);
 

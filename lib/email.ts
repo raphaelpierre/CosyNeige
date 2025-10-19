@@ -358,3 +358,127 @@ export async function sendContactEmail({
     return { success: false, error };
   }
 }
+
+// Email d'invitation à créer un compte après réservation
+export async function sendAccountCreationInvite({
+  to,
+  firstName,
+  lastName,
+  token
+}: {
+  to: string;
+  firstName: string;
+  lastName: string;
+  token: string;
+}) {
+  const setupUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/client/setup-password?token=${token}`;
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>Créez votre compte - Chalet-Balmotte810</title>
+    </head>
+    <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+          <h1 style="color: #334155; margin-bottom: 10px;">🏔️ Chalet-Balmotte810</h1>
+          <p style="color: #666; margin: 0;">Châtillon-sur-Cluses, Alpes Françaises</p>
+        </div>
+
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+          <h2 style="color: #334155; margin-top: 0;">Bienvenue ${firstName} ${lastName} !</h2>
+          <p>Merci pour votre réservation chez Chalet-Balmotte810.</p>
+          <p>Nous avons créé un espace client pour vous permettre de gérer facilement vos réservations et messages.</p>
+        </div>
+
+        <div style="background-color: #fff; border: 2px solid #334155; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+          <h3 style="color: #334155; margin-top: 0;">Créez votre mot de passe</h3>
+          <p>Pour accéder à votre espace client, veuillez créer votre mot de passe en cliquant sur le bouton ci-dessous :</p>
+
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${setupUrl}" style="display: inline-block; background-color: #334155; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">
+              Créer mon mot de passe
+            </a>
+          </div>
+
+          <p style="font-size: 14px; color: #666;">
+            Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :<br>
+            <a href="${setupUrl}" style="color: #334155; word-break: break-all;">${setupUrl}</a>
+          </p>
+        </div>
+
+        <div style="background-color: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+          <p style="margin: 0; font-size: 14px;"><strong>⚠️ Ce lien est valable pendant 72 heures.</strong></p>
+        </div>
+
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px;">
+          <h3 style="color: #334155; margin-top: 0;">Avec votre espace client :</h3>
+          <ul style="padding-left: 20px;">
+            <li>Consultez vos réservations en temps réel</li>
+            <li>Échangez des messages avec nous</li>
+            <li>Accédez à l'historique de vos séjours</li>
+            <li>Bénéficiez d'offres exclusives</li>
+          </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+          <p style="color: #666; font-size: 14px;">
+            Pour toute question, contactez-nous :<br>
+            <a href="mailto:contact@chalet-balmotte810.com" style="color: #334155;">contact@chalet-balmotte810.com</a><br>
+            +33 6 85 85 84 91
+          </p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  const text = `
+Créez votre compte - Chalet-Balmotte810
+
+Bienvenue ${firstName} ${lastName} !
+
+Merci pour votre réservation. Nous avons créé un espace client pour vous.
+
+Pour accéder à votre espace, créez votre mot de passe en cliquant sur ce lien :
+${setupUrl}
+
+Ce lien est valable pendant 72 heures.
+
+Avec votre espace client :
+- Consultez vos réservations en temps réel
+- Échangez des messages avec nous
+- Accédez à l'historique de vos séjours
+- Bénéficiez d'offres exclusives
+
+Cordialement,
+L'équipe Chalet-Balmotte810
+  `;
+
+  try {
+    if (!resend) {
+      console.warn('Resend is not configured. Email sending is disabled.');
+      return { success: false, error: 'Email service not configured' };
+    }
+
+    const { data, error } = await resend.emails.send({
+      from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
+      to,
+      subject: 'Créez votre compte - Chalet-Balmotte810',
+      html,
+      text,
+    });
+
+    if (error) {
+      console.error('Error sending account creation email:', error);
+      return { success: false, error };
+    }
+
+    return { success: true, data };
+  } catch (error) {
+    console.error('Error sending account creation email:', error);
+    return { success: false, error };
+  }
+}
