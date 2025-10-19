@@ -62,7 +62,7 @@ export default function HomePage() {
                 <div className="flex items-baseline gap-1">
                   <span className="text-white font-bold text-xs sm:text-sm md:text-base"
                         style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
-                    180m²
+                    200m²
                   </span>
                 </div>
               </div>
@@ -161,7 +161,7 @@ export default function HomePage() {
               <div className="absolute bottom-3 sm:bottom-4 md:bottom-6 left-3 sm:left-4 md:left-6 text-white">
                 <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-0.5 sm:mb-1">{t({ en: 'Cozy Living Space', fr: 'Espace Chaleureux' })}</h3>
                 <p className="text-white/90 text-sm sm:text-base flex items-center gap-2">
-                  {t({ en: '180m² of Comfort', fr: '180m² de Confort' })}
+                  {t({ en: '200m² of Comfort', fr: '200m² de Confort' })}
                   <span className="text-xs sm:text-sm opacity-0 group-hover:opacity-100 transition-opacity">→</span>
                 </p>
               </div>

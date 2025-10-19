@@ -59,14 +59,14 @@ export default function LocationPage() {
       </section>
 
       {/* Activities Section - Winter & Summer */}
-      <section id="activities" className="py-16 md:py-24 bg-gradient-to-b from-white via-slate-50 to-white">
+      <section id="activities" className="py-10 md:py-14 bg-gradient-to-b from-white via-slate-50 to-white">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          <div className="text-center mb-12 md:mb-16">
-            <div className="inline-flex items-center gap-3 bg-slate-700 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-6 shadow-xl">
+          <div className="text-center mb-8 md:mb-10">
+            <div className="inline-flex items-center gap-3 bg-slate-700 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-4 shadow-xl">
               <span className="text-2xl">🎯</span>
               <span className="tracking-wide">{t({ en: 'Year-Round Adventures', fr: 'Aventures Toute l\'Année' })}</span>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 tracking-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4 tracking-tight">
               {t({ en: 'Unlimited Experiences', fr: 'Expériences Illimitées' })}
             </h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -78,8 +78,8 @@ export default function LocationPage() {
           </div>
 
           {/* Winter Activities */}
-          <div className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-4">
               <span className="text-4xl">❄️</span>
               <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
                 {t({ en: 'Winter Activities', fr: 'Activités Hiver' })}
@@ -169,8 +169,8 @@ export default function LocationPage() {
           </div>
 
           {/* Summer Activities */}
-          <div className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-4">
               <span className="text-4xl">☀️</span>
               <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
                 {t({ en: 'Summer Activities', fr: 'Activités Été' })}
@@ -260,8 +260,8 @@ export default function LocationPage() {
           </div>
 
           {/* Wellness & Spa */}
-          <div className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-4">
               <span className="text-4xl">💆</span>
               <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
                 {t({ en: 'Wellness & Spa', fr: 'Bien-être & Spa' })}
@@ -312,7 +312,7 @@ export default function LocationPage() {
 
           {/* Leisure & Culture */}
           <div>
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-3 mb-4">
               <span className="text-4xl">🎭</span>
               <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
                 {t({ en: 'Leisure & Culture', fr: 'Loisirs & Culture' })}
@@ -402,7 +402,7 @@ export default function LocationPage() {
           </div>
 
           {/* CTA for Local Offers - Redesigned for Maximum Impact */}
-          <div id="exclusive" className="mt-20 relative overflow-hidden">
+          <div id="exclusive" className="mt-12 relative overflow-hidden">
             {/* Background gradient blur effect */}
             <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl transform -rotate-1 scale-105"></div>
 
@@ -495,19 +495,19 @@ export default function LocationPage() {
       </section>
 
       {/* Section 5 Stations - Enhanced Professional Design */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-slate-50 via-white to-slate-50 relative overflow-hidden">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-slate-50 via-white to-slate-50 relative overflow-hidden">
         {/* Background decoration */}
         <div className="absolute top-0 left-0 w-96 h-96 bg-slate-100 rounded-full blur-3xl opacity-50"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-slate-100 rounded-full blur-3xl opacity-50"></div>
 
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 relative z-10">
           {/* Title Section */}
-          <div className="text-center mb-12 md:mb-16">
-            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-slate-700 to-slate-900 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-6 shadow-xl">
+          <div className="text-center mb-8 md:mb-10">
+            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-slate-700 to-slate-900 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-4 shadow-xl">
               <span className="text-2xl">⛷️</span>
               <span className="tracking-wide uppercase">{t({ en: 'Ski Paradise', fr: 'Paradis du Ski' })}</span>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 tracking-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4 tracking-tight">
               {t({ en: '5 Ski Resorts', fr: '5 Stations de Ski' })}
               <br />
               <span className="bg-gradient-to-r from-slate-600 to-slate-900 bg-clip-text text-transparent">
@@ -587,14 +587,14 @@ export default function LocationPage() {
       </section>
 
       {/* Section Services & Villes - Modern & Clean */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          <div className="text-center mb-12 md:mb-16">
-            <div className="inline-flex items-center gap-3 bg-slate-700 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-6 shadow-xl">
+          <div className="text-center mb-8 md:mb-10">
+            <div className="inline-flex items-center gap-3 bg-slate-700 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-4 shadow-xl">
               <span className="text-2xl">📍</span>
               <span className="tracking-wide uppercase">{t({ en: 'Perfect Location', fr: 'Emplacement Parfait' })}</span>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 tracking-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4 tracking-tight">
               {t({ en: 'Everything Within Reach', fr: 'Tout à Portée de Main' })}
             </h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -647,14 +647,14 @@ export default function LocationPage() {
       </section>
 
       {/* Google Maps - Professional & Modern */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-slate-50 to-white">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-slate-50 to-white">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          <div className="text-center mb-12 md:mb-16">
-            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-slate-700 to-slate-900 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-6 shadow-xl">
+          <div className="text-center mb-8 md:mb-10">
+            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-slate-700 to-slate-900 text-white px-6 py-3 rounded-full text-sm md:text-base font-bold mb-4 shadow-xl">
               <span className="text-2xl">🗺️</span>
               <span className="tracking-wide uppercase">{t({ en: 'Easy Access', fr: 'Accès Facile' })}</span>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 tracking-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4 tracking-tight">
               {t({ en: 'Your Journey Starts Here', fr: 'Votre Voyage Commence Ici' })}
             </h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-4">

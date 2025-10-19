@@ -111,9 +111,9 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Information */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-8 md:py-10 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center bg-gray-50 rounded-lg p-8 hover:shadow-lg transition-shadow">
               <div className="text-5xl mb-4">📧</div>
               <h3 className="text-xl font-bold text-gray-800 mb-3">{t({ en: 'Email', fr: 'Email' })}</h3>
@@ -151,12 +151,12 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form */}
-      <section className="py-12 bg-white">
+      <section className="py-8 md:py-10 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 text-center">
             {t({ en: 'Send Us a Message', fr: 'Envoyez-nous un Message' })}
           </h2>
-          <p className="text-center text-gray-600 mb-12">
+          <p className="text-center text-gray-600 mb-8">
             {t({
               en: 'Have questions about the chalet, availability, or planning your stay? Fill out the form below and we\'ll get back to you promptly.',
               fr: 'Vous avez des questions sur le chalet, les disponibilités ou la planification de votre séjour ? Remplissez le formulaire ci-dessous et nous vous répondrons rapidement.',
@@ -272,12 +272,12 @@ export default function ContactPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-12 md:py-14 bg-white">
+      <section className="py-8 md:py-10 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 text-center">
             {t({ en: 'Frequently Asked Questions', fr: 'Questions Fréquentes' })}
           </h2>
-          <p className="text-center text-gray-600 mb-12">
+          <p className="text-center text-gray-600 mb-6 md:mb-8">
             {t({
               en: 'Find quick answers to common questions about Chalet-Balmotte810',
               fr: 'Trouvez des réponses rapides aux questions courantes sur Chalet-Balmotte810',
@@ -313,12 +313,12 @@ export default function ContactPage() {
       </section>
 
       {/* Book Now CTA */}
-      <section className="py-10 bg-gray-50">
+      <section className="py-8 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
             {t({ en: 'Ready to Book?', fr: 'Prêt à Réserver ?' })}
           </h2>
-          <p className="text-lg text-gray-700 mb-8">
+          <p className="text-lg text-gray-700 mb-6">
             {t({
               en: 'Check our availability and rates to plan your perfect Alpine escape',
               fr: 'Consultez nos disponibilités et tarifs pour planifier votre escapade alpine parfaite',

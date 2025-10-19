@@ -9,7 +9,7 @@ Une plateforme de réservation moderne pour un chalet alpin premium dans les Alp
 ## ✨ Fonctionnalités Principales
 
 ### 🏠 Chalet de Luxe
-- **Capacité 10 personnes** - 4 chambres, 3 salles de bains (180m²)
+- **Capacité 10 personnes** - 4 chambres, 3 salles de bains (200m²)
 - **Équipements premium** - Sauna privatif, jacuzzi extérieur, cheminée, local à ski
 - **Localisation stratégique** - Entre vallées de l'Arve et du Giffre
 - **Accès à 5 stations de ski** en moins de 30 minutes
