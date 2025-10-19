@@ -32,7 +32,7 @@ export default function Navigation() {
     { href: '/gallery', label: { en: 'Gallery', fr: 'Galerie' }, icon: '📸' },
     { href: '/location', label: { en: 'Info', fr: 'Infos' }, icon: '📍' },
     { href: '/guide', label: { en: 'Guide', fr: 'Guide' }, icon: '📖', authRequired: true },
-    { href: '/booking', label: { en: 'Book', fr: 'Réserver' }, icon: '📅', highlight: true },
+    { href: '/booking', label: { en: 'Book', fr: 'Réserver' }, icon: '📅' },
     { href: '/contact', label: { en: 'Contact', fr: 'Contact' }, icon: '✉️' },
   ];
 
