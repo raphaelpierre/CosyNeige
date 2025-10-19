@@ -283,10 +283,10 @@ function GalleryContent() {
       <section className="py-12 md:py-16 bg-white border-t border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 md:mb-6">
-            {t({ en: 'Ready to Book?', fr: 'Prêt à Réserver ?' })}
+            {t({ en: 'Discover the Region', fr: 'Découvrez les Environs' })}
           </h2>
           <p className="text-lg md:text-xl text-gray-600 mb-8 md:mb-10">
-            {t({ en: 'Experience the chalet in person', fr: 'Vivez l\'expérience du chalet' })}
+            {t({ en: 'Explore activities and attractions nearby', fr: 'Explorez les activités et attractions à proximité' })}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
             <a
@@ -297,10 +297,10 @@ function GalleryContent() {
               {t({ en: 'Check Availability', fr: 'Vérifier Disponibilités' })}
             </a>
             <Link
-              href="/"
+              href="/location"
               className="inline-flex items-center justify-center gap-2 border-2 border-slate-700 hover:bg-slate-700 hover:text-white text-slate-700 px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all duration-300"
             >
-              {t({ en: 'Discover Chalet', fr: 'Découvrir le Chalet' })}
+              {t({ en: 'Discover Activities', fr: 'Découvrir les Activités' })}
               <span>→</span>
             </Link>
           </div>

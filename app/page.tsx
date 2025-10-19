@@ -311,7 +311,7 @@ export default function HomePage() {
           {/* Grille des pièces */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Salon */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+            <Link href="/gallery?filter=living" className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group block">
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src="/images/VueSalonBas.webp"
@@ -322,7 +322,10 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Living Room', fr: 'Salon' })}</h3>
+                  <h3 className="text-2xl font-bold flex items-center gap-2">
+                    {t({ en: 'Living Room', fr: 'Salon' })}
+                    <span className="text-sm opacity-75 group-hover:translate-x-1 transition-transform">→</span>
+                  </h3>
                 </div>
               </div>
               <div className="p-6">
@@ -351,10 +354,10 @@ export default function HomePage() {
                   </li>
                 </ul>
               </div>
-            </div>
+            </Link>
 
             {/* Cuisine */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+            <Link href="/gallery?filter=kitchen" className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group block">
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src="/images/Cuisine2.webp"
@@ -365,7 +368,10 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Kitchen', fr: 'Cuisine' })}</h3>
+                  <h3 className="text-2xl font-bold flex items-center gap-2">
+                    {t({ en: 'Kitchen', fr: 'Cuisine' })}
+                    <span className="text-sm opacity-75 group-hover:translate-x-1 transition-transform">→</span>
+                  </h3>
                 </div>
               </div>
               <div className="p-6">
@@ -386,10 +392,10 @@ export default function HomePage() {
                   </li>
                 </ul>
               </div>
-            </div>
+            </Link>
 
             {/* Chambre 1 - Suite Master */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+            <Link href="/gallery?filter=bedroom" className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group block">
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src="/images/Chambre4.webp"
@@ -400,7 +406,10 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Master Suite', fr: 'Suite Master' })}</h3>
+                  <h3 className="text-2xl font-bold flex items-center gap-2">
+                    {t({ en: 'Master Suite', fr: 'Suite Master' })}
+                    <span className="text-sm opacity-75 group-hover:translate-x-1 transition-transform">→</span>
+                  </h3>
                 </div>
               </div>
               <div className="p-6">
@@ -425,10 +434,10 @@ export default function HomePage() {
                   </li>
                 </ul>
               </div>
-            </div>
+            </Link>
 
             {/* Chambre 2 - Chambre du Bas avec Vue Jardin */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+            <Link href="/gallery?filter=bedroom" className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group block">
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src="/images/Chambre23.webp"
@@ -439,7 +448,10 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Garden View Bedroom', fr: 'Chambre Vue Jardin' })}</h3>
+                  <h3 className="text-2xl font-bold flex items-center gap-2">
+                    {t({ en: 'Garden View Bedroom', fr: 'Chambre Vue Jardin' })}
+                    <span className="text-sm opacity-75 group-hover:translate-x-1 transition-transform">→</span>
+                  </h3>
                 </div>
               </div>
               <div className="p-6">
@@ -464,10 +476,10 @@ export default function HomePage() {
                   </li>
                 </ul>
               </div>
-            </div>
+            </Link>
 
             {/* Chambre 3 - Saphir */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+            <Link href="/gallery?filter=bedroom" className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group block">
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src="/images/ChambreDortoir2.webp"
@@ -478,7 +490,10 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Sapphire Room', fr: 'Chambre Saphir' })}</h3>
+                  <h3 className="text-2xl font-bold flex items-center gap-2">
+                    {t({ en: 'Sapphire Room', fr: 'Chambre Saphir' })}
+                    <span className="text-sm opacity-75 group-hover:translate-x-1 transition-transform">→</span>
+                  </h3>
                 </div>
               </div>
               <div className="p-6">
@@ -499,10 +514,10 @@ export default function HomePage() {
                   </li>
                 </ul>
               </div>
-            </div>
+            </Link>
 
             {/* Chambre 4 - Chambre Enfants */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+            <Link href="/gallery?filter=bedroom" className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group block">
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src="/images/ChambreDortoir.webp"
@@ -513,7 +528,10 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Children\'s Bedroom', fr: 'Chambre Enfants' })}</h3>
+                  <h3 className="text-2xl font-bold flex items-center gap-2">
+                    {t({ en: 'Children\'s Bedroom', fr: 'Chambre Enfants' })}
+                    <span className="text-sm opacity-75 group-hover:translate-x-1 transition-transform">→</span>
+                  </h3>
                 </div>
               </div>
               <div className="p-6">
@@ -538,12 +556,12 @@ export default function HomePage() {
                   </li>
                 </ul>
               </div>
-            </div>
+            </Link>
 
             {/* Chambre 5 - Rubis (removed - now using Family Dormitory as Chambre d'en bas) */}
 
             {/* Salle de Bain 1 - Suite Prestige */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+            <Link href="/gallery?filter=bathroom" className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group block">
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src="/images/SalledeBain1.webp"
@@ -554,7 +572,10 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Prestige Suite Bathroom', fr: 'Salle de Bain Suite Prestige' })}</h3>
+                  <h3 className="text-2xl font-bold flex items-center gap-2">
+                    {t({ en: 'Prestige Suite Bathroom', fr: 'Salle de Bain Suite Prestige' })}
+                    <span className="text-sm opacity-75 group-hover:translate-x-1 transition-transform">→</span>
+                  </h3>
                 </div>
               </div>
               <div className="p-6">
@@ -579,10 +600,10 @@ export default function HomePage() {
                   </li>
                 </ul>
               </div>
-            </div>
+            </Link>
 
             {/* Salle de Bain 2 - Spa Familial */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+            <Link href="/gallery?filter=bathroom" className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group block">
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src="/images/salleDebain_GrabnBaignire.webp"
@@ -593,7 +614,10 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Family Spa Bathroom', fr: 'Salle de Bain Spa Familial' })}</h3>
+                  <h3 className="text-2xl font-bold flex items-center gap-2">
+                    {t({ en: 'Family Spa Bathroom', fr: 'Salle de Bain Spa Familial' })}
+                    <span className="text-sm opacity-75 group-hover:translate-x-1 transition-transform">→</span>
+                  </h3>
                 </div>
               </div>
               <div className="p-6">
@@ -618,10 +642,10 @@ export default function HomePage() {
                   </li>
                 </ul>
               </div>
-            </div>
+            </Link>
 
             {/* Jacuzzi */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+            <Link href="/gallery?filter=wellness" className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group block">
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src="/images/jacusi.webp"
@@ -632,7 +656,10 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Hot Tub', fr: 'Jacuzzi' })}</h3>
+                  <h3 className="text-2xl font-bold flex items-center gap-2">
+                    {t({ en: 'Hot Tub', fr: 'Jacuzzi' })}
+                    <span className="text-sm opacity-75 group-hover:translate-x-1 transition-transform">→</span>
+                  </h3>
                 </div>
               </div>
               <div className="p-6">
@@ -657,10 +684,10 @@ export default function HomePage() {
                   </li>
                 </ul>
               </div>
-            </div>
+            </Link>
 
             {/* Terrasse */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+            <Link href="/gallery?filter=exterior" className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group block">
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src="/images/Terrasse1.webp"
@@ -671,7 +698,10 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Terrace', fr: 'Terrasse' })}</h3>
+                  <h3 className="text-2xl font-bold flex items-center gap-2">
+                    {t({ en: 'Terrace', fr: 'Terrasse' })}
+                    <span className="text-sm opacity-75 group-hover:translate-x-1 transition-transform">→</span>
+                  </h3>
                 </div>
               </div>
               <div className="p-6">
@@ -696,10 +726,10 @@ export default function HomePage() {
                   </li>
                 </ul>
               </div>
-            </div>
+            </Link>
 
             {/* Parking & Local à Skis */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group">
+            <Link href="/gallery?filter=exterior" className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group block">
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src="/images/Chalet_Exterieur.webp"
@@ -710,7 +740,10 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-2xl font-bold">{t({ en: 'Parking & Ski Room', fr: 'Parking & Local Skis' })}</h3>
+                  <h3 className="text-2xl font-bold flex items-center gap-2">
+                    {t({ en: 'Parking & Ski Room', fr: 'Parking & Local Skis' })}
+                    <span className="text-sm opacity-75 group-hover:translate-x-1 transition-transform">→</span>
+                  </h3>
                 </div>
               </div>
               <div className="p-6">
@@ -735,7 +768,7 @@ export default function HomePage() {
                   </li>
                 </ul>
               </div>
-            </div>
+            </Link>
           </div>
 
           {/* Lien vers galerie */}
