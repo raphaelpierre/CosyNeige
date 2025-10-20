@@ -20,5 +20,5 @@ Allow: /location
 Allow: /guide
 Allow: /chalet
 
-# Sitemap location
+# Sitemap location. 
 Sitemap: https://chalet-balmotte810.com/sitemap.xml
