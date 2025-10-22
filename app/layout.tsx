@@ -24,6 +24,28 @@ export const metadata: Metadata = {
   title: "Chalet-Balmotte810 - Luxury Chalet in Châtillon-sur-Cluses, French Alps",
   description: "Experience luxury alpine living at Chalet-Balmotte810, perfectly positioned between the Arve and Giffre valleys. Access to 5 major ski resorts including Grand Massif, Portes du Soleil, and Chamonix.",
   keywords: "luxury chalet, French Alps, Châtillon-sur-Cluses, Haute-Savoie, Grand Massif, Portes du Soleil, ski chalet, alpine retreat",
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '',
+  },
+  openGraph: {
+    title: "Chalet-Balmotte810 - Luxury Alpine Chalet",
+    description: "Luxury 5-bedroom chalet in Haute-Savoie with jacuzzi. Access to 5 ski resorts: Grand Massif, Portes du Soleil, Chamonix.",
+    url: "https://chalet-balmotte810.com",
+    siteName: "Chalet-Balmotte810",
+    locale: "fr_FR",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({
