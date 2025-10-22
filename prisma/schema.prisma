@@ -20,8 +20,8 @@ model User {
   tokenExpiry       DateTime?     // Expiration du token
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
-  messages          Message[]
   reservations      Reservation[]
+  conversations     Conversation[]
 }
 
 model Reservation {
@@ -45,32 +45,12 @@ model Reservation {
   updatedAt       DateTime  @updatedAt
   user            User?     @relation(fields: [userId], references: [id])
   invoices        Invoice[]
+  conversations   Conversation[]
 }
 
-model Message {
-  id          String   @id @default(cuid())
-  subject     String
-  content     String
-  fromUserId  String?
-  fromEmail   String
-  fromName    String
-  isFromAdmin Boolean  @default(false)
-  read        Boolean  @default(false)
-  archived    Boolean  @default(false)
-  replyTo     String?
-  createdAt   DateTime @default(now())
-  fromUser    User?    @relation(fields: [fromUserId], references: [id])
-}
-
-model ContactMessage {
-  id        String   @id @default(cuid())
-  name      String
-  email     String
-  subject   String
-  message   String
-  read      Boolean  @default(false)
-  createdAt DateTime @default(now())
-}
+// LEGACY MODELS - Supprimés et remplacés par Conversation/ConversationMessage
+// model Message { ... }
+// model ContactMessage { ... }
 
 model BookedPeriod {
   id        String   @id @default(cuid())
@@ -203,4 +183,117 @@ model AccountingTransaction {
   @@index([category])
   @@index([transactionDate])
   @@index([reservationId])
+}
+
+// Modèle de logs d'emails
+model EmailLog {
+  id              String   @id @default(cuid())
+
+  // Type d'email
+  emailType       String   // "booking_confirmation", "admin_notification", "contact", "account_creation", "custom"
+
+  // Expéditeur et destinataire
+  from            String   // Adresse email "from"
+  to              String   // Adresse email "to"
+  replyTo         String?  // Adresse "reply-to" si applicable
+
+  // Contenu
+  subject         String
+  htmlContent     String?  @db.Text // Contenu HTML de l'email
+  textContent     String?  @db.Text // Contenu texte de l'email
+
+  // Statut d'envoi
+  status          String   @default("pending") // "pending", "sent", "failed", "bounced"
+  resendId        String?  // ID retourné par Resend API
+  errorMessage    String?  @db.Text // Message d'erreur si échec
+
+  // Liens avec autres entités
+  reservationId   String?  // Lié à une réservation si applicable
+  userId          String?  // Lié à un utilisateur si applicable
+
+  // Métadonnées
+  sentAt          DateTime? // Date d'envoi effectif
+  openedAt        DateTime? // Date d'ouverture (si tracking activé)
+  clickedAt       DateTime? // Date du premier clic (si tracking activé)
+
+  // Tentatives de réenvoi
+  retryCount      Int      @default(0)
+  lastRetryAt     DateTime?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relation avec ConversationMessage
+  conversationMessage ConversationMessage?
+
+  @@index([emailType])
+  @@index([status])
+  @@index([reservationId])
+  @@index([userId])
+  @@index([to])
+  @@index([createdAt])
+}
+
+// Nouveau système de conversations unifié
+model Conversation {
+  id              String   @id @default(cuid())
+
+  // Relations
+  userId          String   // Client concerné
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  reservationId   String?  // Lié à une réservation optionnelle (si conversation liée à une résa)
+  reservation     Reservation? @relation(fields: [reservationId], references: [id], onDelete: SetNull)
+
+  // Informations
+  subject         String   // Sujet de la conversation
+  status          String   @default("open") // "open", "closed", "archived"
+
+  // Tracking
+  unreadByAdmin   Int      @default(0) // Nombre de messages non lus par admin
+  unreadByClient  Int      @default(0) // Nombre de messages non lus par client
+  lastMessageAt   DateTime @default(now())
+  lastMessageFrom String?  // "client" ou "admin"
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  messages        ConversationMessage[]
+
+  @@index([userId])
+  @@index([reservationId])
+  @@index([status])
+  @@index([lastMessageAt])
+}
+
+model ConversationMessage {
+  id              String   @id @default(cuid())
+
+  // Relation avec la conversation
+  conversationId  String
+  conversation    Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  // Expéditeur
+  fromUserId      String?  // ID de l'utilisateur si connecté
+  fromEmail       String   // Email de l'expéditeur
+  fromName        String   // Nom de l'expéditeur
+  isFromAdmin     Boolean  @default(false)
+
+  // Contenu
+  content         String   @db.Text
+
+  // Email envoyé
+  emailLogId      String?  @unique // Lié à l'email envoyé via Resend
+  emailLog        EmailLog? @relation(fields: [emailLogId], references: [id], onDelete: SetNull)
+
+  // Statut
+  read            Boolean  @default(false)
+  readAt          DateTime?
+
+  createdAt       DateTime @default(now())
+
+  @@index([conversationId])
+  @@index([fromUserId])
+  @@index([isFromAdmin])
+  @@index([createdAt])
 }

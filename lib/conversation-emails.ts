@@ -1,0 +1,350 @@
+/**
+ * Fonctions d'envoi d'emails pour le système de conversations
+ */
+
+import { Resend } from 'resend';
+import { prisma } from './prisma';
+
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
+
+// Helper pour logger les emails
+async function logConversationEmail({
+  emailType,
+  from,
+  to,
+  subject,
+  htmlContent,
+  conversationId,
+  messageId,
+  status,
+  resendId,
+  errorMessage,
+}: {
+  emailType: string;
+  from: string;
+  to: string;
+  subject: string;
+  htmlContent: string;
+  conversationId?: string;
+  messageId?: string;
+  status: 'pending' | 'sent' | 'failed';
+  resendId?: string;
+  errorMessage?: string;
+}) {
+  try {
+    const emailLog = await prisma.emailLog.create({
+      data: {
+        emailType,
+        from,
+        to,
+        subject,
+        htmlContent,
+        status,
+        resendId,
+        errorMessage,
+        sentAt: status === 'sent' ? new Date() : null,
+      },
+    });
+
+    // Lier l'email au message de conversation si fourni
+    if (messageId && status === 'sent') {
+      await prisma.conversationMessage.update({
+        where: { id: messageId },
+        data: { emailLogId: emailLog.id },
+      });
+    }
+
+    return emailLog;
+  } catch (error) {
+    console.error('Error logging conversation email:', error);
+  }
+}
+
+// Email de notification pour un nouveau message client → admin
+export async function sendConversationMessageToAdmin({
+  conversationId,
+  messageId,
+  fromName,
+  fromEmail,
+  subject,
+  content,
+  reservationId,
+}: {
+  conversationId: string;
+  messageId: string;
+  fromName: string;
+  fromEmail: string;
+  subject: string;
+  content: string;
+  reservationId?: string;
+}) {
+  const adminEmail = process.env.ADMIN_EMAIL || 'info@chalet-balmotte810.com';
+  const emailFrom = 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>';
+  const emailSubject = `Nouveau message: ${subject}`;
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>Nouveau message - Chalet-Balmotte810</title>
+    </head>
+    <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+          <h1 style="color: #334155; margin-bottom: 10px;">💬 Nouveau Message</h1>
+        </div>
+
+        <div style="background-color: #fff; border: 2px solid #334155; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+          <h2 style="color: #334155; margin-top: 0;">Message de ${fromName}</h2>
+
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>De:</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${fromName} (${fromEmail})</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Sujet:</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${subject}</td>
+            </tr>
+            ${reservationId ? `
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Réservation:</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${reservationId}</td>
+            </tr>
+            ` : ''}
+          </table>
+
+          <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px;">
+            <h3 style="color: #334155; margin-top: 0;">Message:</h3>
+            <p style="margin: 0; white-space: pre-wrap;">${content}</p>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+          <a href="${process.env.NEXT_PUBLIC_BASE_URL}/admin/conversations/${conversationId}"
+             style="background-color: #334155; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
+            Répondre au message
+          </a>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+          <p style="color: #666; font-size: 12px;">
+            Pour répondre, utilisez le panneau d'administration ou répondez directement à cet email.
+          </p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    if (!resend) {
+      console.warn('Resend is not configured. Email sending is disabled.');
+      await logConversationEmail({
+        emailType: 'conversation_to_admin',
+        from: emailFrom,
+        to: adminEmail,
+        subject: emailSubject,
+        htmlContent: html,
+        conversationId,
+        messageId,
+        status: 'failed',
+        errorMessage: 'Resend not configured',
+      });
+      return { success: false, error: 'Email service not configured' };
+    }
+
+    const { data, error } = await resend.emails.send({
+      from: emailFrom,
+      to: adminEmail,
+      replyTo: fromEmail,
+      subject: emailSubject,
+      html,
+    });
+
+    if (error) {
+      console.error('Error sending conversation email to admin:', error);
+      await logConversationEmail({
+        emailType: 'conversation_to_admin',
+        from: emailFrom,
+        to: adminEmail,
+        subject: emailSubject,
+        htmlContent: html,
+        conversationId,
+        messageId,
+        status: 'failed',
+        errorMessage: JSON.stringify(error),
+      });
+      return { success: false, error };
+    }
+
+    // Logger le succès
+    await logConversationEmail({
+      emailType: 'conversation_to_admin',
+      from: emailFrom,
+      to: adminEmail,
+      subject: emailSubject,
+      htmlContent: html,
+      conversationId,
+      messageId,
+      status: 'sent',
+      resendId: data?.id,
+    });
+
+    return { success: true, data };
+  } catch (error) {
+    console.error('Error sending conversation email to admin:', error);
+    await logConversationEmail({
+      emailType: 'conversation_to_admin',
+      from: emailFrom,
+      to: adminEmail,
+      subject: emailSubject,
+      htmlContent: html,
+      conversationId,
+      messageId,
+      status: 'failed',
+      errorMessage: error instanceof Error ? error.message : String(error),
+    });
+    return { success: false, error };
+  }
+}
+
+// Email de notification pour une réponse admin → client
+export async function sendConversationMessageToClient({
+  conversationId,
+  messageId,
+  toEmail,
+  toName,
+  subject,
+  content,
+  reservationId,
+}: {
+  conversationId: string;
+  messageId: string;
+  toEmail: string;
+  toName: string;
+  subject: string;
+  content: string;
+  reservationId?: string;
+}) {
+  const emailFrom = 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>';
+  const adminEmail = process.env.ADMIN_EMAIL || 'info@chalet-balmotte810.com';
+  const emailSubject = `Réponse: ${subject}`;
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>Nouvelle réponse - Chalet-Balmotte810</title>
+    </head>
+    <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+          <h1 style="color: #334155; margin-bottom: 10px;">🏔️ Chalet-Balmotte810</h1>
+          <p style="color: #666; margin: 0;">Châtillon-sur-Cluses, Alpes Françaises</p>
+        </div>
+
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+          <h2 style="color: #334155; margin-top: 0;">Bonjour ${toName},</h2>
+          <p>Nous avons répondu à votre message concernant: <strong>${subject}</strong></p>
+        </div>
+
+        <div style="background-color: #fff; border: 2px solid #334155; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+          <h3 style="color: #334155; margin-top: 0;">Notre réponse:</h3>
+          <p style="margin: 0; white-space: pre-wrap;">${content}</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+          <a href="${process.env.NEXT_PUBLIC_BASE_URL}/client/conversations/${conversationId}"
+             style="background-color: #334155; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
+            Voir la conversation complète
+          </a>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+          <p style="color: #666; font-size: 14px;">
+            Pour nous contacter:<br>
+            <a href="mailto:${adminEmail}" style="color: #334155;">${adminEmail}</a><br>
+            +33 6 85 85 84 91
+          </p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    if (!resend) {
+      console.warn('Resend is not configured. Email sending is disabled.');
+      await logConversationEmail({
+        emailType: 'conversation_to_client',
+        from: emailFrom,
+        to: toEmail,
+        subject: emailSubject,
+        htmlContent: html,
+        conversationId,
+        messageId,
+        status: 'failed',
+        errorMessage: 'Resend not configured',
+      });
+      return { success: false, error: 'Email service not configured' };
+    }
+
+    const { data, error } = await resend.emails.send({
+      from: emailFrom,
+      to: toEmail,
+      replyTo: adminEmail,
+      subject: emailSubject,
+      html,
+    });
+
+    if (error) {
+      console.error('Error sending conversation email to client:', error);
+      await logConversationEmail({
+        emailType: 'conversation_to_client',
+        from: emailFrom,
+        to: toEmail,
+        subject: emailSubject,
+        htmlContent: html,
+        conversationId,
+        messageId,
+        status: 'failed',
+        errorMessage: JSON.stringify(error),
+      });
+      return { success: false, error };
+    }
+
+    // Logger le succès
+    await logConversationEmail({
+      emailType: 'conversation_to_client',
+      from: emailFrom,
+      to: toEmail,
+      subject: emailSubject,
+      htmlContent: html,
+      conversationId,
+      messageId,
+      status: 'sent',
+      resendId: data?.id,
+    });
+
+    return { success: true, data };
+  } catch (error) {
+    console.error('Error sending conversation email to client:', error);
+    await logConversationEmail({
+      emailType: 'conversation_to_client',
+      from: emailFrom,
+      to: toEmail,
+      subject: emailSubject,
+      htmlContent: html,
+      conversationId,
+      messageId,
+      status: 'failed',
+      errorMessage: error instanceof Error ? error.message : String(error),
+    });
+    return { success: false, error };
+  }
+}
