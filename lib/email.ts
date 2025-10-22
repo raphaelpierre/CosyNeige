@@ -1,62 +1,9 @@
 import { Resend } from 'resend';
-import { prisma } from './prisma';
 
 // Initialize Resend only if API key is available
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
-
-// Helper pour logger les emails en base de données
-async function logEmail({
-  emailType,
-  from,
-  to,
-  replyTo,
-  subject,
-  htmlContent,
-  textContent,
-  reservationId,
-  userId,
-  status,
-  resendId,
-  errorMessage,
-}: {
-  emailType: string;
-  from: string;
-  to: string;
-  replyTo?: string;
-  subject: string;
-  htmlContent?: string;
-  textContent?: string;
-  reservationId?: string;
-  userId?: string;
-  status: 'pending' | 'sent' | 'failed';
-  resendId?: string;
-  errorMessage?: string;
-}) {
-  try {
-    await prisma.emailLog.create({
-      data: {
-        emailType,
-        from,
-        to,
-        replyTo,
-        subject,
-        htmlContent,
-        textContent,
-        reservationId,
-        userId,
-        status,
-        resendId,
-        errorMessage,
-        sentAt: status === 'sent' ? new Date() : null,
-      },
-    });
-  } catch (error) {
-    console.error('Error logging email:', error);
-    // Ne pas bloquer l'envoi d'email si le logging échoue
-  }
-}
 
 // Email de confirmation de réservation pour le client
 export async function sendBookingConfirmation({
@@ -172,77 +119,28 @@ Cordialement,
 L'équipe Chalet-Balmotte810
   `;
 
-  const emailFrom = 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>';
-  const emailSubject = 'Confirmation de votre réservation - Chalet-Balmotte810';
-
   try {
     if (!resend) {
       console.warn('Resend is not configured. Email sending is disabled.');
-      await logEmail({
-        emailType: 'booking_confirmation',
-        from: emailFrom,
-        to,
-        subject: emailSubject,
-        htmlContent: html,
-        textContent: text,
-        reservationId,
-        status: 'failed',
-        errorMessage: 'Resend not configured',
-      });
       return { success: false, error: 'Email service not configured' };
     }
 
     const { data, error } = await resend.emails.send({
-      from: emailFrom,
+      from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
       to,
-      subject: emailSubject,
+      subject: 'Confirmation de votre réservation - Chalet-Balmotte810',
       html,
       text,
     });
 
     if (error) {
       console.error('Error sending booking confirmation email:', error);
-      await logEmail({
-        emailType: 'booking_confirmation',
-        from: emailFrom,
-        to,
-        subject: emailSubject,
-        htmlContent: html,
-        textContent: text,
-        reservationId,
-        status: 'failed',
-        errorMessage: JSON.stringify(error),
-      });
       return { success: false, error };
     }
-
-    // Logger le succès
-    await logEmail({
-      emailType: 'booking_confirmation',
-      from: emailFrom,
-      to,
-      subject: emailSubject,
-      htmlContent: html,
-      textContent: text,
-      reservationId,
-      status: 'sent',
-      resendId: data?.id,
-    });
 
     return { success: true, data };
   } catch (error) {
     console.error('Error sending booking confirmation email:', error);
-    await logEmail({
-      emailType: 'booking_confirmation',
-      from: emailFrom,
-      to,
-      subject: emailSubject,
-      htmlContent: html,
-      textContent: text,
-      reservationId,
-      status: 'failed',
-      errorMessage: error instanceof Error ? error.message : String(error),
-    });
     return { success: false, error };
   }
 }
@@ -274,7 +172,7 @@ export async function sendAdminNotification({
   const checkInDate = new Date(checkIn).toLocaleDateString('fr-FR');
   const checkOutDate = new Date(checkOut).toLocaleDateString('fr-FR');
 
-  const html = `
+  const html = `0
     <!DOCTYPE html>
     <html>
     <head>
@@ -343,73 +241,27 @@ export async function sendAdminNotification({
     </html>
   `;
 
-  const emailFrom = 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>';
-  const emailTo = process.env.ADMIN_EMAIL || 'info@chalet-balmotte810.com';
-  const emailSubject = `Nouvelle réservation : ${firstName} ${lastName} - ${checkInDate}`;
-
   try {
     if (!resend) {
       console.warn('Resend is not configured. Email sending is disabled.');
-      await logEmail({
-        emailType: 'admin_notification',
-        from: emailFrom,
-        to: emailTo,
-        subject: emailSubject,
-        htmlContent: html,
-        reservationId,
-        status: 'failed',
-        errorMessage: 'Resend not configured',
-      });
       return { success: false, error: 'Email service not configured' };
     }
 
     const { data, error } = await resend.emails.send({
-      from: emailFrom,
-      to: emailTo,
-      subject: emailSubject,
+      from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
+      to: process.env.ADMIN_EMAIL || 'info@chalet-balmotte810.com',
+      subject: `Nouvelle réservation : ${firstName} ${lastName} - ${checkInDate}`,
       html,
     });
 
     if (error) {
       console.error('Error sending admin notification email:', error);
-      await logEmail({
-        emailType: 'admin_notification',
-        from: emailFrom,
-        to: emailTo,
-        subject: emailSubject,
-        htmlContent: html,
-        reservationId,
-        status: 'failed',
-        errorMessage: JSON.stringify(error),
-      });
       return { success: false, error };
     }
-
-    // Logger le succès
-    await logEmail({
-      emailType: 'admin_notification',
-      from: emailFrom,
-      to: emailTo,
-      subject: emailSubject,
-      htmlContent: html,
-      reservationId,
-      status: 'sent',
-      resendId: data?.id,
-    });
 
     return { success: true, data };
   } catch (error) {
     console.error('Error sending admin notification email:', error);
-    await logEmail({
-      emailType: 'admin_notification',
-      from: emailFrom,
-      to: emailTo,
-      subject: emailSubject,
-      htmlContent: html,
-      reservationId,
-      status: 'failed',
-      errorMessage: error instanceof Error ? error.message : String(error),
-    });
     return { success: false, error };
   }
 }
@@ -481,74 +333,28 @@ export async function sendContactEmail({
     </html>
   `;
 
-  const emailFrom = 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>';
-  const emailTo = process.env.ADMIN_EMAIL || 'info@chalet-balmotte810.com';
-  const emailSubject = `Contact: ${subject}`;
-
   try {
     if (!resend) {
       console.warn('Resend is not configured. Email sending is disabled.');
-      await logEmail({
-        emailType: 'contact',
-        from: emailFrom,
-        to: emailTo,
-        replyTo: email,
-        subject: emailSubject,
-        htmlContent: html,
-        status: 'failed',
-        errorMessage: 'Resend not configured',
-      });
       return { success: false, error: 'Email service not configured' };
     }
 
     const { data, error } = await resend.emails.send({
-      from: emailFrom,
-      to: emailTo,
-      subject: emailSubject,
+      from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
+      to: process.env.ADMIN_EMAIL || 'info@chalet-balmotte810.com',
+      subject: `Contact: ${subject}`,
       html,
       replyTo: email,
     });
 
     if (error) {
       console.error('Error sending contact email:', error);
-      await logEmail({
-        emailType: 'contact',
-        from: emailFrom,
-        to: emailTo,
-        replyTo: email,
-        subject: emailSubject,
-        htmlContent: html,
-        status: 'failed',
-        errorMessage: JSON.stringify(error),
-      });
       return { success: false, error };
     }
-
-    // Logger le succès
-    await logEmail({
-      emailType: 'contact',
-      from: emailFrom,
-      to: emailTo,
-      replyTo: email,
-      subject: emailSubject,
-      htmlContent: html,
-      status: 'sent',
-      resendId: data?.id,
-    });
 
     return { success: true, data };
   } catch (error) {
     console.error('Error sending contact email:', error);
-    await logEmail({
-      emailType: 'contact',
-      from: emailFrom,
-      to: emailTo,
-      replyTo: email,
-      subject: emailSubject,
-      htmlContent: html,
-      status: 'failed',
-      errorMessage: error instanceof Error ? error.message : String(error),
-    });
     return { success: false, error };
   }
 }
