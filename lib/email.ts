@@ -126,7 +126,7 @@ L'équipe Chalet-Balmotte810
     }
 
     const { data, error } = await resend.emails.send({
-      from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.fr>',
+      from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
       to,
       subject: 'Confirmation de votre réservation - Chalet-Balmotte810',
       html,
@@ -248,8 +248,8 @@ export async function sendAdminNotification({
     }
 
     const { data, error } = await resend.emails.send({
-      from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.fr>',
-      to: process.env.ADMIN_EMAIL || 'admin@chalet-balmotte810.fr',
+      from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
+      to: process.env.ADMIN_EMAIL || 'info@chalet-balmotte810.com',
       subject: `Nouvelle réservation : ${firstName} ${lastName} - ${checkInDate}`,
       html,
     });
@@ -340,8 +340,8 @@ export async function sendContactEmail({
     }
 
     const { data, error } = await resend.emails.send({
-      from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.fr>',
-      to: process.env.ADMIN_EMAIL || 'admin@chalet-balmotte810.fr',
+      from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
+      to: process.env.ADMIN_EMAIL || 'info@chalet-balmotte810.com',
       subject: `Contact: ${subject}`,
       html,
       replyTo: email,
