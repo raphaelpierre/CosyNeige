@@ -34,7 +34,7 @@ export default function ClientConversationDetailPage() {
   const { t } = useLanguage();
   const router = useRouter();
   const params = useParams();
-  const conversationId = params?.id as string;
+  const conversationId = params?.id as string | undefined;
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const [conversation, setConversation] = useState<Conversation | null>(null);
   const [loading, setLoading] = useState(true);

@@ -7,9 +7,10 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-producti
 // GET - Récupérer une conversation avec tous ses messages
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: conversationId } = await params;
     const token = request.cookies.get('auth-token')?.value;
 
     if (!token) {
@@ -22,7 +23,7 @@ export async function GET(
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; role?: string };
 
     const conversation = await prisma.conversation.findUnique({
-      where: { id: params.id },
+      where: { id: conversationId },
       include: {
         user: {
           select: {
@@ -109,7 +110,7 @@ export async function GET(
 
       // Réinitialiser le compteur unreadByClient
       await prisma.conversation.update({
-        where: { id: params.id },
+        where: { id: conversationId },
         data: { unreadByClient: 0 },
       });
     }
@@ -127,9 +128,10 @@ export async function GET(
 // PATCH - Mettre à jour le statut de la conversation (admin uniquement)
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: conversationId } = await params;
     const token = request.cookies.get('auth-token')?.value;
 
     if (!token) {
@@ -158,7 +160,7 @@ export async function PATCH(
     }
 
     const conversation = await prisma.conversation.update({
-      where: { id: params.id },
+      where: { id: conversationId },
       data: { status },
     });
 

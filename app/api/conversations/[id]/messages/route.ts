@@ -8,9 +8,10 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-producti
 // POST - Ajouter un message à une conversation
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: conversationId } = await params;
     const token = request.cookies.get('auth-token')?.value;
 
     if (!token) {
@@ -32,7 +33,7 @@ export async function POST(
 
     // Vérifier que la conversation existe
     const conversation = await prisma.conversation.findUnique({
-      where: { id: params.id },
+      where: { id: conversationId },
       include: {
         user: true,
       },
@@ -90,7 +91,7 @@ export async function POST(
     // Créer le message
     const message = await prisma.conversationMessage.create({
       data: {
-        conversationId: params.id,
+        conversationId,
         fromUserId,
         fromEmail,
         fromName,
