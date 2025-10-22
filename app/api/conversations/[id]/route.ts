@@ -79,7 +79,7 @@ export async function GET(
       // Marquer les messages non lus du client comme lus
       await prisma.conversationMessage.updateMany({
         where: {
-          conversationId: params.id,
+          conversationId: conversationId,
           isFromAdmin: false,
           read: false,
         },
@@ -91,14 +91,14 @@ export async function GET(
 
       // Réinitialiser le compteur unreadByAdmin
       await prisma.conversation.update({
-        where: { id: params.id },
+        where: { id: conversationId },
         data: { unreadByAdmin: 0 },
       });
     } else {
       // Marquer les messages non lus de l'admin comme lus
       await prisma.conversationMessage.updateMany({
         where: {
-          conversationId: params.id,
+          conversationId: conversationId,
           isFromAdmin: true,
           read: false,
         },

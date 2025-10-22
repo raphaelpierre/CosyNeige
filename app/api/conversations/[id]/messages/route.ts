@@ -114,7 +114,7 @@ export async function POST(
     }
 
     await prisma.conversation.update({
-      where: { id: params.id },
+      where: { id: conversationId },
       data: updateData,
     });
 
