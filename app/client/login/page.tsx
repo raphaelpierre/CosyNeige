@@ -48,13 +48,19 @@ function LoginPageContent() {
   // Rediriger si déjà connecté
   useEffect(() => {
     if (!loading && isAuthenticated && user) {
+      // Vérifier si un returnTo est spécifié
+      const returnTo = searchParams.get('returnTo');
+
       if (user.role === 'admin') {
         router.push('/admin');
+      } else if (returnTo) {
+        // Rediriger vers la page demandée
+        router.push(returnTo);
       } else {
         router.push('/client/dashboard');
       }
     }
-  }, [isAuthenticated, loading, user, router]);
+  }, [isAuthenticated, loading, user, router, searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -145,10 +151,16 @@ function LoginPageContent() {
 
       console.log('🚀 Redirection en cours...');
 
+      // Vérifier si un returnTo est spécifié dans l'URL
+      const returnTo = searchParams.get('returnTo');
+
       // Rediriger selon le rôle de l'utilisateur
       if (data.user?.role === 'admin') {
         console.log('👑 Utilisateur admin détecté, redirection vers le panneau admin');
         router.push('/admin');
+      } else if (returnTo) {
+        console.log('🔄 Redirection vers:', returnTo);
+        router.push(returnTo);
       } else {
         console.log('👤 Utilisateur client, redirection vers le dashboard');
         router.push('/client/dashboard');

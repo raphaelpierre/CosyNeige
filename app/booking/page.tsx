@@ -150,6 +150,31 @@ export default function BookingPage() {
     loadSeasons();
   }, []);
 
+  // Restaurer les données de réservation depuis localStorage au montage
+  useEffect(() => {
+    const bookingData = localStorage.getItem('booking-temp');
+    if (bookingData) {
+      try {
+        const parsed = JSON.parse(bookingData);
+        if (parsed.checkIn) setCheckIn(parsed.checkIn);
+        if (parsed.checkOut) setCheckOut(parsed.checkOut);
+        if (parsed.guests) setGuests(parsed.guests);
+
+        // Nettoyer le localStorage après restauration
+        localStorage.removeItem('booking-temp');
+
+        console.log('✅ Données de réservation restaurées:', parsed);
+
+        // Si les dates sont présentes, passer directement à l'étape 2
+        if (parsed.checkIn && parsed.checkOut) {
+          setCurrentStep(2);
+        }
+      } catch (error) {
+        console.error('Error restoring booking data:', error);
+      }
+    }
+  }, []);
+
   // Scroll to top when step changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
