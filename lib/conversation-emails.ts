@@ -178,7 +178,8 @@ export async function sendConversationMessageToAdmin({
 
     const { data, error } = await resend.emails.send({
       from: emailFrom,
-      to: forwardingEmails,
+      to: ADMIN_EMAIL, // Primary recipient
+      bcc: forwardingEmails, // Send as BCC (cci)
       replyTo: fromEmail,
       subject: emailSubject,
       html,
