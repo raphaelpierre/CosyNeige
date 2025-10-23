@@ -18,10 +18,9 @@ const resend = process.env.RESEND_API_KEY && !USE_SMTP
 // Configuration du transporteur SMTP pour la production
 const transporter = USE_SMTP ? nodemailer.createTransport({
   host: process.env.SMTP_HOST || '51.83.99.118',
-  port: parseInt(process.env.SMTP_PORT || '25'),
-  secure: false, // true pour port 465, false pour autres ports (25, 587)
-  // Pour l'instant, pas d'authentification (relay local)
-  // On peut ajouter auth plus tard si nécessaire
+  port: parseInt(process.env.SMTP_PORT || '587'),
+  secure: false, // false pour STARTTLS (port 587)
+  requireTLS: true, // Forcer l'utilisation de TLS
   tls: {
     rejectUnauthorized: false, // Accepter les certificats auto-signés
   },
