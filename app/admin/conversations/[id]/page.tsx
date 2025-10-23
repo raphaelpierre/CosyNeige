@@ -377,7 +377,7 @@ export default function AdminConversationDetailPage() {
             <form onSubmit={handleSendReply} className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  {t({ en: 'Your Reply', fr: 'Votre Réponse' }) *
+                  {t({ en: 'Your Reply', fr: 'Votre Réponse' })} *
                 </label>
                 <textarea
                   required
