@@ -66,10 +66,12 @@ export async function POST(request: NextRequest) {
         const message = await prisma.conversationMessage.create({
           data: {
             conversationId: conversation.id,
+            fromUserId: user.id,
             fromEmail: user.email,
             fromName: `${user.firstName} ${user.lastName}`,
             isFromAdmin: true,
             content,
+            read: false,
           },
         });
 
