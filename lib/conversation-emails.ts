@@ -2,12 +2,8 @@
  * Fonctions d'envoi d'emails pour le système de conversations
  */
 
-import { Resend } from 'resend';
 import { prisma } from './prisma';
-
-const resend = process.env.RESEND_API_KEY
-  ? new Resend(process.env.RESEND_API_KEY)
-  : null;
+import { sendEmail } from './smtp';
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'contact@chalet-balmotte810.com';
 
@@ -160,23 +156,8 @@ export async function sendConversationMessageToAdmin({
   `;
 
   try {
-    if (!resend) {
-      console.warn('Resend is not configured. Email sending is disabled.');
-      await logConversationEmail({
-        emailType: 'conversation_to_admin',
-        from: emailFrom,
-        to: forwardingEmails.join(', '),
-        subject: emailSubject,
-        htmlContent: html,
-        conversationId,
-        messageId,
-        status: 'failed',
-        errorMessage: 'Resend not configured',
-      });
-      return { success: false, error: 'Email service not configured' };
-    }
-
-    const { data, error } = await resend.emails.send({
+    // Envoyer via SMTP
+    const result = await sendEmail({
       from: emailFrom,
       to: ADMIN_EMAIL, // Primary recipient
       bcc: forwardingEmails, // Send as BCC (cci)
@@ -185,8 +166,8 @@ export async function sendConversationMessageToAdmin({
       html,
     });
 
-    if (error) {
-      console.error('Error sending conversation email to admin:', error);
+    if (!result.success) {
+      console.error('Error sending conversation email to admin:', result.error);
       await logConversationEmail({
         emailType: 'conversation_to_admin',
         from: emailFrom,
@@ -196,9 +177,9 @@ export async function sendConversationMessageToAdmin({
         conversationId,
         messageId,
         status: 'failed',
-        errorMessage: JSON.stringify(error),
+        errorMessage: result.error,
       });
-      return { success: false, error };
+      return { success: false, error: result.error };
     }
 
     // Logger le succès
@@ -211,12 +192,12 @@ export async function sendConversationMessageToAdmin({
       conversationId,
       messageId,
       status: 'sent',
-      resendId: data?.id,
+      resendId: result.messageId,
     });
 
     console.log(`📧 Conversation message sent to: ${forwardingEmails.join(', ')}`);
 
-    return { success: true, data };
+    return { success: true, data: { id: result.messageId } };
   } catch (error) {
     console.error('Error sending conversation email to admin:', error);
     await logConversationEmail({
@@ -300,23 +281,8 @@ export async function sendConversationMessageToClient({
   `;
 
   try {
-    if (!resend) {
-      console.warn('Resend is not configured. Email sending is disabled.');
-      await logConversationEmail({
-        emailType: 'conversation_to_client',
-        from: emailFrom,
-        to: toEmail,
-        subject: emailSubject,
-        htmlContent: html,
-        conversationId,
-        messageId,
-        status: 'failed',
-        errorMessage: 'Resend not configured',
-      });
-      return { success: false, error: 'Email service not configured' };
-    }
-
-    const { data, error } = await resend.emails.send({
+    // Envoyer via SMTP
+    const result = await sendEmail({
       from: emailFrom,
       to: toEmail,
       replyTo: adminEmail,
@@ -324,8 +290,8 @@ export async function sendConversationMessageToClient({
       html,
     });
 
-    if (error) {
-      console.error('Error sending conversation email to client:', error);
+    if (!result.success) {
+      console.error('Error sending conversation email to client:', result.error);
       await logConversationEmail({
         emailType: 'conversation_to_client',
         from: emailFrom,
@@ -335,9 +301,9 @@ export async function sendConversationMessageToClient({
         conversationId,
         messageId,
         status: 'failed',
-        errorMessage: JSON.stringify(error),
+        errorMessage: result.error,
       });
-      return { success: false, error };
+      return { success: false, error: result.error };
     }
 
     // Logger le succès
@@ -350,10 +316,10 @@ export async function sendConversationMessageToClient({
       conversationId,
       messageId,
       status: 'sent',
-      resendId: data?.id,
+      resendId: result.messageId,
     });
 
-    return { success: true, data };
+    return { success: true, data: { id: result.messageId } };
   } catch (error) {
     console.error('Error sending conversation email to client:', error);
     await logConversationEmail({
