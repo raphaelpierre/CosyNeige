@@ -6,6 +6,7 @@ import { useLanguage } from '@/lib/hooks/useLanguage';
 import { useAuth } from '@/lib/context/AuthContext';
 import InvoicePDF from '@/components/invoice/InvoicePDF';
 import InvoiceModal from '@/components/invoice/InvoiceModal';
+import EmailSettingsForm from '@/components/admin/EmailSettingsForm';
 import { Button, Badge, Card } from '@/components/ui';
 
 interface User {
@@ -2969,6 +2970,9 @@ export default function AdminPage() {
                 <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">
                   {t({ en: 'Settings', fr: 'Paramètres' })}
                 </h2>
+
+                {/* Paramètres Email */}
+                <EmailSettingsForm />
 
                 {/* Paramètres de tarification globaux */}
                 <div className="bg-white border rounded-lg p-4 sm:p-6 mb-6">

@@ -43,9 +43,9 @@ function VerifyEmailContent() {
         setStatus('success');
         setMessage(data.message || data.messageEn);
 
-        // Rediriger vers la page de connexion après 3 secondes
+        // Rediriger vers la page de connexion après 3 secondes avec paramètre de succès
         setTimeout(() => {
-          router.push('/client/login');
+          router.push('/client/login?verified=true');
         }, 3000);
       } else {
         setStatus('error');

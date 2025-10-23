@@ -9,6 +9,22 @@ const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
 
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'contact@chalet-balmotte810.com';
+
+// Helper function to get forwarding emails from database
+async function getForwardingEmails(): Promise<string[]> {
+  try {
+    const settings = await prisma.emailSettings.findFirst();
+    if (settings && settings.forwardingEmails && settings.forwardingEmails.length > 0) {
+      return settings.forwardingEmails;
+    }
+  } catch (error) {
+    console.error('Error fetching forwarding emails:', error);
+  }
+  // Fallback to env variable
+  return [ADMIN_EMAIL];
+}
+
 // Helper pour logger les emails
 async function logConversationEmail({
   emailType,
@@ -80,9 +96,12 @@ export async function sendConversationMessageToAdmin({
   content: string;
   reservationId?: string;
 }) {
-  const adminEmail = process.env.ADMIN_EMAIL || 'info@chalet-balmotte810.com';
   const emailFrom = 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>';
   const emailSubject = `Nouveau message: ${subject}`;
+
+  // Get forwarding emails from settings
+  const forwardingEmails = await getForwardingEmails();
+  const adminEmailDisplay = forwardingEmails[0]; // For display in logs
 
   const html = `
     <!DOCTYPE html>
@@ -146,7 +165,7 @@ export async function sendConversationMessageToAdmin({
       await logConversationEmail({
         emailType: 'conversation_to_admin',
         from: emailFrom,
-        to: adminEmail,
+        to: forwardingEmails.join(', '),
         subject: emailSubject,
         htmlContent: html,
         conversationId,
@@ -159,7 +178,7 @@ export async function sendConversationMessageToAdmin({
 
     const { data, error } = await resend.emails.send({
       from: emailFrom,
-      to: adminEmail,
+      to: forwardingEmails,
       replyTo: fromEmail,
       subject: emailSubject,
       html,
@@ -170,7 +189,7 @@ export async function sendConversationMessageToAdmin({
       await logConversationEmail({
         emailType: 'conversation_to_admin',
         from: emailFrom,
-        to: adminEmail,
+        to: forwardingEmails.join(', '),
         subject: emailSubject,
         htmlContent: html,
         conversationId,
@@ -185,7 +204,7 @@ export async function sendConversationMessageToAdmin({
     await logConversationEmail({
       emailType: 'conversation_to_admin',
       from: emailFrom,
-      to: adminEmail,
+      to: forwardingEmails.join(', '),
       subject: emailSubject,
       htmlContent: html,
       conversationId,
@@ -194,13 +213,15 @@ export async function sendConversationMessageToAdmin({
       resendId: data?.id,
     });
 
+    console.log(`📧 Conversation message sent to: ${forwardingEmails.join(', ')}`);
+
     return { success: true, data };
   } catch (error) {
     console.error('Error sending conversation email to admin:', error);
     await logConversationEmail({
       emailType: 'conversation_to_admin',
       from: emailFrom,
-      to: adminEmail,
+      to: forwardingEmails.join(', '),
       subject: emailSubject,
       htmlContent: html,
       conversationId,
@@ -231,7 +252,7 @@ export async function sendConversationMessageToClient({
   reservationId?: string;
 }) {
   const emailFrom = 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>';
-  const adminEmail = process.env.ADMIN_EMAIL || 'info@chalet-balmotte810.com';
+  const adminEmail = process.env.ADMIN_EMAIL || 'contact@chalet-balmotte810.com';
   const emailSubject = `Réponse: ${subject}`;
 
   const html = `

@@ -152,7 +152,7 @@ Récupérer une conversation complète avec tous ses messages
       "id": "msg_2",
       "content": "Bonjour John, oui nous avons...",
       "fromName": "Admin Chalet",
-      "fromEmail": "info@chalet-balmotte810.com",
+      "fromEmail": "contact@chalet-balmotte810.com",
       "isFromAdmin": true,
       "read": false,
       "createdAt": "2025-10-22T13:00:00Z",
@@ -303,7 +303,7 @@ Chaque message déclenche automatiquement un email:
 
 **Admin → Client:**
 - Template: Réponse professionnelle
-- ReplyTo: Email admin (info@chalet-balmotte810.com)
+- ReplyTo: Email admin (contact@chalet-balmotte810.com)
 - Lien vers: `/client/conversations/[id]`
 
 Tous les emails sont:

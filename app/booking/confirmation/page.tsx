@@ -20,6 +20,8 @@ function BookingConfirmationContent() {
     total: string | null;
   } | null>(null);
 
+  const [paymentMethod, setPaymentMethod] = useState<string>('stripe');
+
   useEffect(() => {
     const bookingId = searchParams.get('bookingId');
     const checkIn = searchParams.get('checkIn');
@@ -27,10 +29,15 @@ function BookingConfirmationContent() {
     const guests = searchParams.get('guests');
     const total = searchParams.get('total');
     const email = searchParams.get('email');
+    const payment = searchParams.get('paymentMethod');
 
     if (!bookingId && (!checkIn || !checkOut)) {
       router.push('/booking');
       return;
+    }
+
+    if (payment) {
+      setPaymentMethod(payment);
     }
 
     setBookingData({ id: bookingId || undefined, checkIn: checkIn || '', checkOut: checkOut || '', guests, total, email });
@@ -176,13 +183,33 @@ function BookingConfirmationContent() {
                     {t({ en: 'Booking Confirmed', fr: 'Réservation Confirmée' })}
                   </h4>
                   <p className="text-gray-700 text-sm">
-                    {t({
+                    {paymentMethod === 'bank' ? t({
+                      en: 'Your booking is confirmed. Please complete the bank transfer to secure your dates.',
+                      fr: 'Votre réservation est confirmée. Veuillez effectuer le virement bancaire pour sécuriser vos dates.'
+                    }) : t({
                       en: 'Your 30% deposit has been received. Your dates are now secured!',
                       fr: 'Votre acompte de 30% a été reçu. Vos dates sont maintenant sécurisées !'
                     })}
                   </p>
                 </div>
               </div>
+
+              {paymentMethod === 'bank' && (
+                <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-yellow-50 to-transparent rounded-lg border-l-4 border-yellow-500">
+                  <span className="text-3xl flex-shrink-0">🏦</span>
+                  <div>
+                    <h4 className="font-semibold text-yellow-900 mb-1">
+                      {t({ en: 'Bank Transfer Pending', fr: 'Virement Bancaire en Attente' })}
+                    </h4>
+                    <p className="text-gray-700 text-sm">
+                      {t({
+                        en: 'Please check your email for bank transfer details. Processing takes 2-3 business days.',
+                        fr: 'Veuillez consulter votre email pour les coordonnées bancaires. Le traitement prend 2-3 jours ouvrables.'
+                      })}
+                    </p>
+                  </div>
+                </div>
+              )}
 
               <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-blue-50 to-transparent rounded-lg border-l-4 border-blue-500">
                 <span className="text-3xl flex-shrink-0">📱</span>

@@ -1,9 +1,26 @@
 import { Resend } from 'resend';
+import { prisma } from '@/lib/prisma';
 
 // Initialize Resend only if API key is available
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
+
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'contact@chalet-balmotte810.com';
+
+// Helper function to get forwarding emails from database
+async function getForwardingEmails(): Promise<string[]> {
+  try {
+    const settings = await prisma.emailSettings.findFirst();
+    if (settings && settings.forwardingEmails && settings.forwardingEmails.length > 0) {
+      return settings.forwardingEmails;
+    }
+  } catch (error) {
+    console.error('Error fetching forwarding emails:', error);
+  }
+  // Fallback to env variable
+  return [ADMIN_EMAIL];
+}
 
 // Email de confirmation de réservation pour le client
 export async function sendBookingConfirmation({
@@ -247,9 +264,12 @@ export async function sendAdminNotification({
       return { success: false, error: 'Email service not configured' };
     }
 
+    // Get forwarding emails from settings
+    const forwardingEmails = await getForwardingEmails();
+
     const { data, error } = await resend.emails.send({
       from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
-      to: process.env.ADMIN_EMAIL || 'info@chalet-balmotte810.com',
+      to: forwardingEmails,
       subject: `Nouvelle réservation : ${firstName} ${lastName} - ${checkInDate}`,
       html,
     });
@@ -259,6 +279,7 @@ export async function sendAdminNotification({
       return { success: false, error };
     }
 
+    console.log(`📧 Admin notification sent to: ${forwardingEmails.join(', ')}`);
     return { success: true, data };
   } catch (error) {
     console.error('Error sending admin notification email:', error);
@@ -339,9 +360,12 @@ export async function sendContactEmail({
       return { success: false, error: 'Email service not configured' };
     }
 
+    // Get forwarding emails from settings
+    const forwardingEmails = await getForwardingEmails();
+
     const { data, error } = await resend.emails.send({
       from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
-      to: process.env.ADMIN_EMAIL || 'info@chalet-balmotte810.com',
+      to: forwardingEmails,
       subject: `Contact: ${subject}`,
       html,
       replyTo: email,
@@ -352,6 +376,7 @@ export async function sendContactEmail({
       return { success: false, error };
     }
 
+    console.log(`📧 Contact email sent to: ${forwardingEmails.join(', ')}`);
     return { success: true, data };
   } catch (error) {
     console.error('Error sending contact email:', error);
@@ -550,7 +575,7 @@ export async function sendEmailVerification({
         <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
           <p style="color: #666; font-size: 14px;">
             Pour toute question, contactez-nous :<br>
-            <a href="mailto:info@chalet-balmotte810.com" style="color: #334155;">info@chalet-balmotte810.com</a><br>
+            <a href="mailto:contact@chalet-balmotte810.com" style="color: #334155;">contact@chalet-balmotte810.com</a><br>
             +33 6 85 85 84 91
           </p>
         </div>
@@ -577,7 +602,7 @@ Après vérification, vous pourrez :
 - Échanger des messages avec nous
 - Accéder à l'historique de vos séjours
 
-Pour toute question : info@chalet-balmotte810.com
+Pour toute question : contact@chalet-balmotte810.com
 
 Cordialement,
 L'équipe Chalet-Balmotte810
@@ -742,7 +767,7 @@ export async function sendBankTransferConfirmation({
           <h3 style="color: #2d5016; margin-top: 0;">📞 Besoin d'aide ?</h3>
           <p>Si vous avez des questions ou besoin d'assistance, n'hésitez pas à nous contacter :</p>
           <p style="margin: 10px 0;">
-            📧 Email : <a href="mailto:info@chalet-balmotte810.com" style="color: #2d5016;">info@chalet-balmotte810.com</a><br>
+            📧 Email : <a href="mailto:contact@chalet-balmotte810.com" style="color: #2d5016;">contact@chalet-balmotte810.com</a><br>
           </p>
         </div>
 
@@ -788,7 +813,7 @@ IMPORTANT :
 - Le solde de ${remainingAmount.toLocaleString('fr-FR')}€ sera dû 30 jours avant votre arrivée
 
 Pour toute question, contactez-nous :
-Email : info@chalet-balmotte810.com
+Email : contact@chalet-balmotte810.com
 
 Merci de votre confiance !
 À bientôt au Chalet-Balmotte810 🏔️
@@ -800,6 +825,7 @@ Merci de votre confiance !
       return { success: false, error: 'Email service not configured' };
     }
 
+    // Send to client
     const { data, error } = await resend.emails.send({
       from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
       to,
@@ -812,6 +838,28 @@ Merci de votre confiance !
       console.error('Error sending bank transfer confirmation email:', error);
       return { success: false, error };
     }
+
+    // Also send copy to admin/forwarding emails
+    const forwardingEmails = await getForwardingEmails();
+    const adminHtml = `
+      <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+        <h3 style="margin-top: 0;">📧 Copie de l'email envoyé au client</h3>
+        <p><strong>Client:</strong> ${firstName} ${lastName} (${to})</p>
+        <p><strong>Réservation:</strong> ${reservationId}</p>
+        <p><strong>Montant acompte:</strong> ${depositAmount.toLocaleString('fr-FR')}€</p>
+      </div>
+      ${html}
+    `;
+
+    await resend.emails.send({
+      from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
+      to: forwardingEmails,
+      subject: `[ADMIN] Virement bancaire en attente - ${firstName} ${lastName} - ${depositAmount}€`,
+      html: adminHtml,
+    });
+
+    console.log(`📧 Bank transfer confirmation sent to client: ${to}`);
+    console.log(`📧 Copy sent to admin: ${forwardingEmails.join(', ')}`);
 
     return { success: true, data };
   } catch (error) {

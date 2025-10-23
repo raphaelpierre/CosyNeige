@@ -297,3 +297,28 @@ model ConversationMessage {
   @@index([isFromAdmin])
   @@index([createdAt])
 }
+
+// Paramètres des emails et transferts
+model EmailSettings {
+  id                    String   @id @default(cuid())
+
+  // Email principal de contact (celui affiché publiquement)
+  contactEmail          String   @default("contact@chalet-balmotte810.com")
+
+  // Emails de transfert (recevront des copies de tous les emails importants)
+  forwardingEmails      String[] // Array d'emails séparés par des virgules
+
+  // Paramètres d'envoi
+  fromName              String   @default("Chalet-Balmotte810")
+  fromEmail             String   @default("noreply@chalet-balmotte810.com")
+  replyToEmail          String   @default("contact@chalet-balmotte810.com")
+
+  // Notifications spécifiques
+  notifyOnNewBooking    Boolean  @default(true)
+  notifyOnNewMessage    Boolean  @default(true)
+  notifyOnPayment       Boolean  @default(true)
+  notifyOnContact       Boolean  @default(true)
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
