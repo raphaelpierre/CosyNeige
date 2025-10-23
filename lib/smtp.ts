@@ -5,10 +5,10 @@
 import nodemailer from 'nodemailer';
 import { Resend } from 'resend';
 
-// En développement, utiliser Resend (le port 25 est bloqué par les FAI)
-// En production, utiliser notre serveur SMTP
+// Vercel et la plupart des hébergeurs cloud bloquent les connexions SMTP sortantes
+// Utiliser Resend pour l'envoi, et garder le VPS SMTP pour la réception via webhook
+const USE_SMTP = process.env.USE_SMTP === 'true'; // Désactivé par défaut
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
-const USE_SMTP = process.env.USE_SMTP === 'true' || IS_PRODUCTION;
 
 // Resend pour le développement
 const resend = process.env.RESEND_API_KEY && !USE_SMTP
