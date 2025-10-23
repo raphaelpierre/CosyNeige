@@ -336,19 +336,32 @@ export default function AdminConversationDetailPage() {
                     }`}>
                       <div className="flex items-center justify-between mb-3">
                         <div>
-                          <div className="font-bold text-slate-900">
-                            {message.isFromAdmin
-                              ? `${message.fromName} (Admin)`
-                              : message.fromName}
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-slate-900">
+                              {message.isFromAdmin
+                                ? `${message.fromName} (Admin)`
+                                : message.fromName}
+                            </span>
+                            <span className="text-xs text-gray-400">
+                              ({message.fromEmail})
+                            </span>
                           </div>
-                          <div className="text-xs text-gray-500">
-                            {new Date(message.createdAt).toLocaleString('fr-FR', {
-                              day: 'numeric',
-                              month: 'short',
-                              year: 'numeric',
-                              hour: '2-digit',
-                              minute: '2-digit'
-                            })}
+                          <div className="text-xs text-gray-500 flex items-center gap-2">
+                            <span>
+                              {new Date(message.createdAt).toLocaleString('fr-FR', {
+                                day: 'numeric',
+                                month: 'short',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                              })}
+                            </span>
+                            <span className="text-blue-500" title={t({
+                              en: 'Sent via email',
+                              fr: 'Envoyé par email'
+                            })}>
+                              📧
+                            </span>
                           </div>
                         </div>
                         {!message.read && (
@@ -390,12 +403,17 @@ export default function AdminConversationDetailPage() {
                     fr: 'Tapez votre réponse au client ici...'
                   })}
                 />
-                <p className="text-xs text-gray-500 mt-2">
-                  {t({
-                    en: 'The client will receive an email notification with your reply.',
-                    fr: 'Le client recevra une notification par email avec votre réponse.'
-                  })}
-                </p>
+                <div className="mt-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                  <p className="text-xs text-blue-700 flex items-center gap-2">
+                    <span>📧</span>
+                    <span>
+                      {t({
+                        en: 'The client will receive an email notification with your reply. They can respond directly by email or via the web interface.',
+                        fr: 'Le client recevra une notification par email avec votre réponse. Il pourra répondre directement par email ou via l\'interface web.'
+                      })}
+                    </span>
+                  </p>
+                </div>
               </div>
               <button
                 type="submit"
