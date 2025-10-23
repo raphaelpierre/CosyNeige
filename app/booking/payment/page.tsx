@@ -32,7 +32,7 @@ function PaymentPageContent() {
   const handleStripePayment = async () => {
     setIsProcessing(true);
     try {
-      // Ici vous intégrerez la logique Stripe
+      // Créer un Payment Intent avec Stripe
       const response = await fetch('/api/payments/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -44,9 +44,19 @@ function PaymentPageContent() {
       });
 
       const { clientSecret } = await response.json();
-      
-      // Redirection vers le formulaire Stripe
-      router.push(`/booking/payment/stripe?clientSecret=${clientSecret}&bookingId=${bookingId}`);
+
+      // Redirection vers le formulaire Stripe avec tous les paramètres
+      const params = new URLSearchParams({
+        clientSecret,
+        bookingId: bookingId || '',
+        amount: deposit.toString(),
+        email: email || '',
+        firstName: firstName || '',
+        lastName: lastName || '',
+        phone: searchParams.get('phone') || '',
+      });
+
+      router.push(`/booking/payment/stripe?${params.toString()}`);
     } catch (error) {
       console.error('Error creating payment intent:', error);
       alert(t({

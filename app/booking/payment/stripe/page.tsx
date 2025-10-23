@@ -1,19 +1,50 @@
 'use client';
 
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useState, Suspense } from 'react';
+import { Suspense } from 'react';
 import { useLanguage } from '@/lib/hooks/useLanguage';
+import StripeProvider from '@/components/payment/StripeProvider';
+import PaymentForm from '@/components/payment/PaymentForm';
 
 function StripePaymentContent() {
   const { t } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [isLoading, setIsLoading] = useState(true);
 
   const clientSecret = searchParams.get('clientSecret');
   const bookingId = searchParams.get('bookingId');
+  const amount = parseFloat(searchParams.get('amount') || '0');
+  const email = searchParams.get('email') || '';
+  const firstName = searchParams.get('firstName') || '';
+  const lastName = searchParams.get('lastName') || '';
+  const phone = searchParams.get('phone') || '';
 
-  // Ici vous intégrerez les composants Stripe Elements
+  const handleSuccess = () => {
+    router.push(`/booking/confirmation?bookingId=${bookingId}`);
+  };
+
+  const handleError = (error: string) => {
+    console.error('Payment error:', error);
+  };
+
+  if (!clientSecret) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-red-600 mb-4">
+            {t({ en: 'Invalid payment session', fr: 'Session de paiement invalide' })}
+          </h1>
+          <button
+            onClick={() => router.push('/booking/payment')}
+            className="px-6 py-3 bg-gray-600 text-white rounded-lg font-semibold"
+          >
+            {t({ en: 'Back to payment', fr: 'Retour au paiement' })}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
       {/* Header */}
@@ -43,43 +74,27 @@ function StripePaymentContent() {
               {t({ en: 'Secure Payment with Stripe', fr: 'Paiement Sécurisé avec Stripe' })}
             </h2>
             <p className="text-gray-600">
-              {t({ 
+              {t({
                 en: 'Complete your payment safely and securely',
                 fr: 'Finalisez votre paiement en toute sécurité'
               })}
             </p>
           </div>
 
-          {/* Placeholder pour les composants Stripe */}
-          <div className="space-y-6">
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-              <div className="text-4xl mb-4">🔧</div>
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">
-                {t({ en: 'Stripe Integration in Progress', fr: 'Intégration Stripe en Cours' })}
-              </h3>
-              <p className="text-gray-600 text-sm mb-4">
-                {t({ 
-                  en: 'The Stripe payment form will be integrated here. For now, you can continue with bank transfer.',
-                  fr: 'Le formulaire de paiement Stripe sera intégré ici. Pour l\'instant, vous pouvez continuer avec un virement bancaire.'
-                })}
-              </p>
-              
-              <div className="flex gap-4 justify-center">
-                <button
-                  onClick={() => router.push(`/booking/payment/bank-transfer?bookingId=${bookingId}`)}
-                  className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors"
-                >
-                  🏦 {t({ en: 'Use Bank Transfer', fr: 'Utiliser le Virement' })}
-                </button>
-                <button
-                  onClick={() => router.back()}
-                  className="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-colors"
-                >
-                  ← {t({ en: 'Go Back', fr: 'Retour' })}
-                </button>
-              </div>
-            </div>
-          </div>
+          {/* Stripe Payment Form */}
+          <StripeProvider clientSecret={clientSecret}>
+            <PaymentForm
+              amount={amount}
+              clientSecret={clientSecret}
+              onSuccess={handleSuccess}
+              onError={handleError}
+              billingDetails={{
+                name: `${firstName} ${lastName}`,
+                email,
+                phone,
+              }}
+            />
+          </StripeProvider>
 
           {/* Indicateurs de sécurité */}
           <div className="mt-8 pt-6 border-t">

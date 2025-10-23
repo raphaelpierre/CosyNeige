@@ -608,3 +608,214 @@ L'équipe Chalet-Balmotte810
     return { success: false, error };
   }
 }
+
+// Email de confirmation de virement bancaire
+export async function sendBankTransferConfirmation({
+  to,
+  firstName,
+  lastName,
+  checkIn,
+  checkOut,
+  guests,
+  totalPrice,
+  depositAmount,
+  reservationId
+}: {
+  to: string;
+  firstName: string;
+  lastName: string;
+  checkIn: string;
+  checkOut: string;
+  guests: number;
+  totalPrice: number;
+  depositAmount: number;
+  reservationId: string;
+}) {
+  const checkInDate = new Date(checkIn).toLocaleDateString('fr-FR');
+  const checkOutDate = new Date(checkOut).toLocaleDateString('fr-FR');
+  const remainingAmount = totalPrice - depositAmount;
+
+  const bankDetails = {
+    bankName: 'BANQUE POPULAIRE RIVES DE PARIS',
+    iban: 'FR76 4061 8802 7000 0401 2783 208',
+    bic: 'BOUSFRPPXXX',
+    accountName: 'Chalet Les Sires SARL',
+    domiciliation: '44 rue Traversière, CS 80134, 92772 BOULOGNE-BILLANCOURT',
+    reference: `CHALET-${reservationId}`,
+  };
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>Confirmation de virement bancaire - Chalet-Balmotte810</title>
+    </head>
+    <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+          <h1 style="color: #2d5016; margin-bottom: 10px;">🏔️ Chalet-Balmotte810</h1>
+          <p style="color: #666; margin: 0;">Châtillon-sur-Cluses, Alpes Françaises</p>
+        </div>
+
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+          <h2 style="color: #2d5016; margin-top: 0;">✅ Confirmation de virement bancaire</h2>
+          <p>Bonjour ${firstName} ${lastName},</p>
+          <p>Nous avons bien enregistré votre choix de paiement par virement bancaire pour votre réservation au Chalet-Balmotte810.</p>
+        </div>
+
+        <div style="background-color: #fff; border: 2px solid #2d5016; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+          <h3 style="color: #2d5016; margin-top: 0;">📋 Détails de la réservation</h3>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Référence :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${reservationId}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Arrivée :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${checkInDate}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Départ :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${checkOutDate}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Nombre de personnes :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${guests}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Prix total :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;">${totalPrice.toLocaleString('fr-FR')}€</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Acompte à verser :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #2d5016;">${depositAmount.toLocaleString('fr-FR')}€</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0;"><strong>Solde restant :</strong></td>
+              <td style="padding: 8px 0; color: #666;">${remainingAmount.toLocaleString('fr-FR')}€</td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="background-color: #e8f5e9; border: 2px solid #4caf50; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+          <h3 style="color: #2d5016; margin-top: 0;">🏦 Coordonnées bancaires</h3>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #c8e6c9;"><strong>Banque :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #c8e6c9;">${bankDetails.bankName}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #c8e6c9;"><strong>IBAN :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #c8e6c9; font-family: monospace;">${bankDetails.iban}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #c8e6c9;"><strong>BIC :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #c8e6c9; font-family: monospace;">${bankDetails.bic}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #c8e6c9;"><strong>Titulaire :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #c8e6c9;">${bankDetails.accountName}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #c8e6c9;"><strong>Domiciliation :</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #c8e6c9; font-size: 12px;">${bankDetails.domiciliation}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0;"><strong>⚠️ Référence :</strong></td>
+              <td style="padding: 8px 0; font-family: monospace; font-weight: bold; color: #d32f2f;">${bankDetails.reference}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="background-color: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+          <p style="margin: 0;"><strong>⚠️ Important :</strong></p>
+          <ul style="margin: 10px 0 0 0; padding-left: 20px;">
+            <li>N'oubliez pas d'indiquer la référence <strong>${bankDetails.reference}</strong> lors de votre virement</li>
+            <li>Le montant exact à verser est de <strong>${depositAmount.toLocaleString('fr-FR')}€</strong></li>
+            <li>Le traitement prend généralement 2-3 jours ouvrables</li>
+            <li>Le solde de <strong>${remainingAmount.toLocaleString('fr-FR')}€</strong> sera dû 30 jours avant votre arrivée</li>
+          </ul>
+        </div>
+
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px;">
+          <h3 style="color: #2d5016; margin-top: 0;">📞 Besoin d'aide ?</h3>
+          <p>Si vous avez des questions ou besoin d'assistance, n'hésitez pas à nous contacter :</p>
+          <p style="margin: 10px 0;">
+            📧 Email : <a href="mailto:info@chalet-balmotte810.com" style="color: #2d5016;">info@chalet-balmotte810.com</a><br>
+          </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+          <p style="color: #666; font-size: 14px;">
+            Merci de votre confiance !<br>
+            À bientôt au Chalet-Balmotte810 🏔️
+          </p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  const text = `
+Confirmation de virement bancaire - Chalet-Balmotte810
+
+Bonjour ${firstName} ${lastName},
+
+Nous avons bien enregistré votre choix de paiement par virement bancaire pour votre réservation au Chalet-Balmotte810.
+
+Détails de la réservation :
+- Référence : ${reservationId}
+- Arrivée : ${checkInDate}
+- Départ : ${checkOutDate}
+- Nombre de personnes : ${guests}
+- Prix total : ${totalPrice.toLocaleString('fr-FR')}€
+- Acompte à verser : ${depositAmount.toLocaleString('fr-FR')}€
+- Solde restant : ${remainingAmount.toLocaleString('fr-FR')}€
+
+Coordonnées bancaires :
+- Banque : ${bankDetails.bankName}
+- IBAN : ${bankDetails.iban}
+- BIC : ${bankDetails.bic}
+- Titulaire : ${bankDetails.accountName}
+- Domiciliation : ${bankDetails.domiciliation}
+- Référence : ${bankDetails.reference}
+
+IMPORTANT :
+- N'oubliez pas d'indiquer la référence ${bankDetails.reference} lors de votre virement
+- Le montant exact à verser est de ${depositAmount.toLocaleString('fr-FR')}€
+- Le traitement prend généralement 2-3 jours ouvrables
+- Le solde de ${remainingAmount.toLocaleString('fr-FR')}€ sera dû 30 jours avant votre arrivée
+
+Pour toute question, contactez-nous :
+Email : info@chalet-balmotte810.com
+
+Merci de votre confiance !
+À bientôt au Chalet-Balmotte810 🏔️
+  `;
+
+  try {
+    if (!resend) {
+      console.warn('Resend is not configured. Email sending is disabled.');
+      return { success: false, error: 'Email service not configured' };
+    }
+
+    const { data, error } = await resend.emails.send({
+      from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
+      to,
+      subject: 'Virement bancaire - Détails de paiement - Chalet-Balmotte810',
+      html,
+      text,
+    });
+
+    if (error) {
+      console.error('Error sending bank transfer confirmation email:', error);
+      return { success: false, error };
+    }
+
+    return { success: true, data };
+  } catch (error) {
+    console.error('Error sending bank transfer confirmation email:', error);
+    return { success: false, error };
+  }
+}
