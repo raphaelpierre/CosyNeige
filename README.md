@@ -101,8 +101,7 @@ Chalet-Balmotte810.com is a full-stack web application built for managing a luxu
 
 ### External Services
 - **Stripe** - Payment processing
-- **Resend** - Transactional emails
-- **SMTP Server** - Inbound email handling
+- **SMTP Server** - Email sending and receiving
 
 ### Deployment & Infrastructure
 - **Self-Hosted VPS** - Debian server (production)
@@ -211,18 +210,12 @@ NEXTAUTH_URL="http://localhost:3000"  # or production URL
 NEXT_PUBLIC_BASE_URL="http://localhost:3000"  # or production URL
 ADMIN_EMAIL="admin@chalet-balmotte810.com"
 
-# Email Service (Resend)
-RESEND_API_KEY="re_your_resend_api_key"
-RESEND_ADMIN_EMAILS="admin1@example.com,admin2@example.com"
-NEXT_PUBLIC_CONTACT_EMAIL="contact@chalet-balmotte810.com"
-
-# SMTP Server (for inbound emails)
-USE_SMTP="true"
-SMTP_HOST="mail.chalet-balmotte810.com"
+# SMTP Configuration
+SMTP_HOST="51.83.99.118"
 SMTP_PORT="587"
-SMTP_SECURE="false"
-SMTP_USER="noreply@chalet-balmotte810.com"
-SMTP_PASS="your-smtp-password"
+SMTP_FROM="noreply@chalet-balmotte810.com"
+SMTP_USER=""  # Optional, for SMTP authentication
+SMTP_PASS=""  # Optional, for SMTP authentication
 
 # Stripe (optional, for payments)
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."
@@ -236,16 +229,15 @@ WEBHOOK_SECRET="your-webhook-secret-key"
 
 **Development:**
 - Use local PostgreSQL or NeonDB
-- Use Resend test API key
 - Use Stripe test keys
 - Set `NEXTAUTH_URL` to `http://localhost:3000`
+- Configure SMTP server for email functionality
 
 **Production:**
 - Use production PostgreSQL database
-- Use Resend production API key
 - Use Stripe live keys
 - Set `NEXTAUTH_URL` to your domain
-- Configure SMTP server for inbound emails
+- Configure production SMTP server
 
 ---
 

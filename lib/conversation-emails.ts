@@ -31,7 +31,7 @@ async function logConversationEmail({
   conversationId,
   messageId,
   status,
-  resendId,
+  smtpMessageId,
   errorMessage,
 }: {
   emailType: string;
@@ -42,7 +42,7 @@ async function logConversationEmail({
   conversationId?: string;
   messageId?: string;
   status: 'pending' | 'sent' | 'failed';
-  resendId?: string;
+  smtpMessageId?: string;
   errorMessage?: string;
 }) {
   try {
@@ -54,7 +54,7 @@ async function logConversationEmail({
         subject,
         htmlContent,
         status,
-        resendId,
+        resendId: smtpMessageId, // Utiliser resendId pour stocker le messageId SMTP
         errorMessage,
         sentAt: status === 'sent' ? new Date() : null,
       },
@@ -192,7 +192,7 @@ export async function sendConversationMessageToAdmin({
       conversationId,
       messageId,
       status: 'sent',
-      resendId: result.messageId,
+      smtpMessageId: result.messageId,
     });
 
     console.log(`📧 Conversation message sent to: ${forwardingEmails.join(', ')}`);
@@ -316,7 +316,7 @@ export async function sendConversationMessageToClient({
       conversationId,
       messageId,
       status: 'sent',
-      resendId: result.messageId,
+      smtpMessageId: result.messageId,
     });
 
     return { success: true, data: { id: result.messageId } };

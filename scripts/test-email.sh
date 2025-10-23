@@ -16,7 +16,9 @@ fi
 # Afficher les configs (masquer les valeurs sensibles)
 echo ""
 echo "Configuration:"
-echo "  RESEND_API_KEY: ${RESEND_API_KEY:0:10}..."
+echo "  SMTP_HOST: $SMTP_HOST"
+echo "  SMTP_PORT: $SMTP_PORT"
+echo "  SMTP_FROM: $SMTP_FROM"
 echo "  ADMIN_EMAIL: $ADMIN_EMAIL"
 echo "  NEXT_PUBLIC_BASE_URL: $NEXT_PUBLIC_BASE_URL"
 echo ""

@@ -222,8 +222,8 @@ export default function EmailSettingsForm() {
               className="w-full px-3 py-2 border rounded-lg"
               disabled
               title={t({
-                en: 'This field cannot be changed (configured in Resend)',
-                fr: 'Ce champ ne peut pas être modifié (configuré dans Resend)'
+                en: 'This field cannot be changed (configured in SMTP settings)',
+                fr: 'Ce champ ne peut pas être modifié (configuré dans les paramètres SMTP)'
               })}
             />
           </div>

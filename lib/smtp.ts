@@ -3,28 +3,21 @@
  */
 
 import nodemailer from 'nodemailer';
-import { Resend } from 'resend';
 
-// Vercel et la plupart des hébergeurs cloud bloquent les connexions SMTP sortantes
-// Utiliser Resend pour l'envoi, et garder le VPS SMTP pour la réception via webhook
-const USE_SMTP = process.env.USE_SMTP === 'true'; // Désactivé par défaut
-const IS_PRODUCTION = process.env.NODE_ENV === 'production';
-
-// Resend pour le développement
-const resend = process.env.RESEND_API_KEY && !USE_SMTP
-  ? new Resend(process.env.RESEND_API_KEY)
-  : null;
-
-// Configuration du transporteur SMTP pour la production
-const transporter = USE_SMTP ? nodemailer.createTransport({
+// Configuration du transporteur SMTP
+const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || '51.83.99.118',
   port: parseInt(process.env.SMTP_PORT || '587'),
   secure: false, // false pour STARTTLS (port 587)
   requireTLS: true, // Forcer l'utilisation de TLS
+  auth: process.env.SMTP_USER && process.env.SMTP_PASS ? {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  } : undefined,
   tls: {
     rejectUnauthorized: false, // Accepter les certificats auto-signés
   },
-}) : null;
+});
 
 export interface EmailOptions {
   from?: string;
@@ -37,90 +30,39 @@ export interface EmailOptions {
 }
 
 /**
- * Envoie un email via SMTP ou Resend selon le mode
+ * Envoie un email via SMTP
  */
 export async function sendEmail(options: EmailOptions) {
   try {
     const fromAddress = options.from || process.env.SMTP_FROM || 'noreply@chalet-balmotte810.com';
 
-    // Mode développement : utiliser Resend
-    if (!USE_SMTP && resend) {
-      console.log('📤 Sending email via Resend (dev mode):', {
-        from: fromAddress,
-        to: options.to,
-        subject: options.subject,
-      });
+    const mailOptions = {
+      from: fromAddress,
+      to: Array.isArray(options.to) ? options.to.join(', ') : options.to,
+      subject: options.subject,
+      text: options.text,
+      html: options.html,
+      replyTo: options.replyTo,
+      bcc: options.bcc ? (Array.isArray(options.bcc) ? options.bcc.join(', ') : options.bcc) : undefined,
+    };
 
-      const emailPayload: any = {
-        from: fromAddress,
-        to: Array.isArray(options.to) ? options.to : [options.to],
-        subject: options.subject,
-      };
+    console.log('📤 Sending email via SMTP:', {
+      from: fromAddress,
+      to: options.to,
+      subject: options.subject,
+    });
 
-      if (options.html) emailPayload.html = options.html;
-      if (options.text) emailPayload.text = options.text;
-      if (options.replyTo) emailPayload.replyTo = options.replyTo;
-      if (options.bcc) emailPayload.bcc = Array.isArray(options.bcc) ? options.bcc : [options.bcc];
+    const info = await transporter.sendMail(mailOptions);
 
-      const { data, error } = await resend.emails.send(emailPayload);
+    console.log('✅ Email sent successfully via SMTP:', {
+      messageId: info.messageId,
+      response: info.response,
+    });
 
-      if (error) {
-        console.error('❌ Error sending email via Resend:', error);
-        return {
-          success: false,
-          error: JSON.stringify(error),
-        };
-      }
-
-      console.log('✅ Email sent successfully via Resend:', {
-        messageId: data?.id,
-      });
-
-      return {
-        success: true,
-        messageId: data?.id,
-        response: 'Sent via Resend',
-      };
-    }
-
-    // Mode production : utiliser SMTP
-    if (USE_SMTP && transporter) {
-      const mailOptions = {
-        from: fromAddress,
-        to: Array.isArray(options.to) ? options.to.join(', ') : options.to,
-        subject: options.subject,
-        text: options.text,
-        html: options.html,
-        replyTo: options.replyTo,
-        bcc: options.bcc ? (Array.isArray(options.bcc) ? options.bcc.join(', ') : options.bcc) : undefined,
-      };
-
-      console.log('📤 Sending email via SMTP (production mode):', {
-        from: fromAddress,
-        to: options.to,
-        subject: options.subject,
-      });
-
-      const info = await transporter.sendMail(mailOptions);
-
-      console.log('✅ Email sent successfully via SMTP:', {
-        messageId: info.messageId,
-        response: info.response,
-      });
-
-      return {
-        success: true,
-        messageId: info.messageId,
-        response: info.response,
-      };
-    }
-
-    // Aucun service d'email configuré
-    const error = 'No email service configured (neither Resend nor SMTP)';
-    console.error('❌', error);
     return {
-      success: false,
-      error,
+      success: true,
+      messageId: info.messageId,
+      response: info.response,
     };
   } catch (error) {
     console.error('❌ Error sending email:', error);
@@ -132,19 +74,9 @@ export async function sendEmail(options: EmailOptions) {
 }
 
 /**
- * Vérifie la connexion SMTP (seulement en mode production)
+ * Vérifie la connexion SMTP
  */
 export async function verifySMTPConnection() {
-  if (!USE_SMTP) {
-    console.log('ℹ️ In development mode, using Resend (skipping SMTP verification)');
-    return true;
-  }
-
-  if (!transporter) {
-    console.error('❌ SMTP transporter not initialized');
-    return false;
-  }
-
   try {
     await transporter.verify();
     console.log('✅ SMTP server is ready to send emails');
