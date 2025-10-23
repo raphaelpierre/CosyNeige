@@ -1,10 +1,5 @@
-import { Resend } from 'resend';
 import { prisma } from '@/lib/prisma';
-
-// Initialize Resend only if API key is available
-const resend = process.env.RESEND_API_KEY
-  ? new Resend(process.env.RESEND_API_KEY)
-  : null;
+import { sendEmail } from './smtp';
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'contact@chalet-balmotte810.com';
 
@@ -137,12 +132,7 @@ L'équipe Chalet-Balmotte810
   `;
 
   try {
-    if (!resend) {
-      console.warn('Resend is not configured. Email sending is disabled.');
-      return { success: false, error: 'Email service not configured' };
-    }
-
-    const { data, error } = await resend.emails.send({
+    const result = await sendEmail({
       from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
       to,
       subject: 'Confirmation de votre réservation - Chalet-Balmotte810',
@@ -150,12 +140,12 @@ L'équipe Chalet-Balmotte810
       text,
     });
 
-    if (error) {
-      console.error('Error sending booking confirmation email:', error);
-      return { success: false, error };
+    if (!result.success) {
+      console.error('Error sending booking confirmation email:', result.error);
+      return { success: false, error: result.error };
     }
 
-    return { success: true, data };
+    return { success: true, data: { id: result.messageId } };
   } catch (error) {
     console.error('Error sending booking confirmation email:', error);
     return { success: false, error };
@@ -259,28 +249,24 @@ export async function sendAdminNotification({
   `;
 
   try {
-    if (!resend) {
-      console.warn('Resend is not configured. Email sending is disabled.');
-      return { success: false, error: 'Email service not configured' };
-    }
-
     // Get forwarding emails from settings
     const forwardingEmails = await getForwardingEmails();
 
-    const { data, error } = await resend.emails.send({
+    const result = await sendEmail({
       from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
-      to: forwardingEmails,
+      to: ADMIN_EMAIL,
+      bcc: forwardingEmails,
       subject: `Nouvelle réservation : ${firstName} ${lastName} - ${checkInDate}`,
       html,
     });
 
-    if (error) {
-      console.error('Error sending admin notification email:', error);
-      return { success: false, error };
+    if (!result.success) {
+      console.error('Error sending admin notification email:', result.error);
+      return { success: false, error: result.error };
     }
 
     console.log(`📧 Admin notification sent to: ${forwardingEmails.join(', ')}`);
-    return { success: true, data };
+    return { success: true, data: { id: result.messageId } };
   } catch (error) {
     console.error('Error sending admin notification email:', error);
     return { success: false, error };
@@ -355,29 +341,25 @@ export async function sendContactEmail({
   `;
 
   try {
-    if (!resend) {
-      console.warn('Resend is not configured. Email sending is disabled.');
-      return { success: false, error: 'Email service not configured' };
-    }
-
     // Get forwarding emails from settings
     const forwardingEmails = await getForwardingEmails();
 
-    const { data, error } = await resend.emails.send({
+    const result = await sendEmail({
       from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
-      to: forwardingEmails,
+      to: ADMIN_EMAIL,
+      bcc: forwardingEmails,
       subject: `Contact: ${subject}`,
       html,
       replyTo: email,
     });
 
-    if (error) {
-      console.error('Error sending contact email:', error);
-      return { success: false, error };
+    if (!result.success) {
+      console.error('Error sending contact email:', result.error);
+      return { success: false, error: result.error };
     }
 
     console.log(`📧 Contact email sent to: ${forwardingEmails.join(', ')}`);
-    return { success: true, data };
+    return { success: true, data: { id: result.messageId } };
   } catch (error) {
     console.error('Error sending contact email:', error);
     return { success: false, error };
@@ -483,12 +465,7 @@ L'équipe Chalet-Balmotte810
   `;
 
   try {
-    if (!resend) {
-      console.warn('Resend is not configured. Email sending is disabled.');
-      return { success: false, error: 'Email service not configured' };
-    }
-
-    const { data, error } = await resend.emails.send({
+    const result = await sendEmail({
       from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
       to,
       subject: 'Créez votre compte - Chalet-Balmotte810',
@@ -496,12 +473,12 @@ L'équipe Chalet-Balmotte810
       text,
     });
 
-    if (error) {
-      console.error('Error sending account creation email:', error);
-      return { success: false, error };
+    if (!result.success) {
+      console.error('Error sending account creation email:', result.error);
+      return { success: false, error: result.error };
     }
 
-    return { success: true, data };
+    return { success: true, data: { id: result.messageId } };
   } catch (error) {
     console.error('Error sending account creation email:', error);
     return { success: false, error };
@@ -609,12 +586,7 @@ L'équipe Chalet-Balmotte810
   `;
 
   try {
-    if (!resend) {
-      console.warn('Resend is not configured. Email sending is disabled.');
-      return { success: false, error: 'Email service not configured' };
-    }
-
-    const { data, error } = await resend.emails.send({
+    const result = await sendEmail({
       from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
       to,
       subject: 'Vérifiez votre email - Chalet-Balmotte810',
@@ -622,12 +594,12 @@ L'équipe Chalet-Balmotte810
       text,
     });
 
-    if (error) {
-      console.error('Error sending email verification:', error);
-      return { success: false, error };
+    if (!result.success) {
+      console.error('Error sending email verification:', result.error);
+      return { success: false, error: result.error };
     }
 
-    return { success: true, data };
+    return { success: true, data: { id: result.messageId } };
   } catch (error) {
     console.error('Error sending email verification:', error);
     return { success: false, error };
@@ -820,13 +792,8 @@ Merci de votre confiance !
   `;
 
   try {
-    if (!resend) {
-      console.warn('Resend is not configured. Email sending is disabled.');
-      return { success: false, error: 'Email service not configured' };
-    }
-
     // Send to client
-    const { data, error } = await resend.emails.send({
+    const result = await sendEmail({
       from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
       to,
       subject: 'Virement bancaire - Détails de paiement - Chalet-Balmotte810',
@@ -834,9 +801,9 @@ Merci de votre confiance !
       text,
     });
 
-    if (error) {
-      console.error('Error sending bank transfer confirmation email:', error);
-      return { success: false, error };
+    if (!result.success) {
+      console.error('Error sending bank transfer confirmation email:', result.error);
+      return { success: false, error: result.error };
     }
 
     // Also send copy to admin/forwarding emails
@@ -851,9 +818,10 @@ Merci de votre confiance !
       ${html}
     `;
 
-    await resend.emails.send({
+    await sendEmail({
       from: 'Chalet-Balmotte810 <noreply@chalet-balmotte810.com>',
-      to: forwardingEmails,
+      to: ADMIN_EMAIL,
+      bcc: forwardingEmails,
       subject: `[ADMIN] Virement bancaire en attente - ${firstName} ${lastName} - ${depositAmount}€`,
       html: adminHtml,
     });
@@ -861,7 +829,7 @@ Merci de votre confiance !
     console.log(`📧 Bank transfer confirmation sent to client: ${to}`);
     console.log(`📧 Copy sent to admin: ${forwardingEmails.join(', ')}`);
 
-    return { success: true, data };
+    return { success: true, data: { id: result.messageId } };
   } catch (error) {
     console.error('Error sending bank transfer confirmation email:', error);
     return { success: false, error };
