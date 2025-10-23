@@ -53,6 +53,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Empêcher les boucles de notifications (emails automatiques renvoyés)
+    if (
+      subject.includes('Nouveau message:') ||
+      subject.includes('Réponse:') ||
+      fromEmail.includes('noreply@chalet-balmotte810.com')
+    ) {
+      console.log(`⚠️ Email automatique ignoré: ${subject}`);
+      return NextResponse.json({
+        success: true,
+        message: 'Automatic email ignored to prevent loops',
+      });
+    }
+
     // Vérifier que l'email est destiné au domaine du chalet
     const validRecipients = [
       'admin@chalet-balmotte810.com',
