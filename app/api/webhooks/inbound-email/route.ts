@@ -16,20 +16,39 @@ export async function POST(request: NextRequest) {
       from: data.from,
       to: data.to,
       subject: data.subject,
+      rawData: JSON.stringify(data).substring(0, 200),
     });
 
-    // Extraire les informations de l'email
-    const fromEmail = data.from?.email || data.from;
-    const fromName = data.from?.name || fromEmail.split('@')[0];
-    const toEmail = data.to;
+    // Extraire les informations de l'email avec gestion robuste
+    let fromEmail: string;
+    let fromName: string;
+
+    // Support pour les deux formats : Resend {email, name} et notre VPS {email, name}
+    if (typeof data.from === 'object' && data.from !== null) {
+      fromEmail = data.from.email || '';
+      fromName = data.from.name || '';
+    } else if (typeof data.from === 'string') {
+      fromEmail = data.from;
+      fromName = '';
+    } else {
+      fromEmail = '';
+      fromName = '';
+    }
+
+    // Si fromName est vide, utiliser la partie avant @ de l'email
+    if (!fromName && fromEmail) {
+      fromName = fromEmail.split('@')[0];
+    }
+
+    const toEmail = data.to || '';
     const subject = data.subject || 'Email sans sujet';
     const content = data.text || data.html || 'Email vide';
 
     // Validation
     if (!fromEmail || !toEmail) {
-      console.error('❌ Missing from or to email');
+      console.error('❌ Missing from or to email', { fromEmail, toEmail, data });
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Missing required fields', received: { from: data.from, to: data.to } },
         { status: 400 }
       );
     }
