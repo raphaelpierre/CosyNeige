@@ -47,6 +47,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Vérifier si l'email a été vérifié
+    // Si l'utilisateur a un token actif et passwordSet = true, c'est qu'il n'a pas vérifié son email
+    if (user.passwordSet && user.passwordResetToken && user.tokenExpiry) {
+      const now = new Date();
+
+      // Si le token n'est pas expiré, l'email n'a pas été vérifié
+      if (user.tokenExpiry > now) {
+        return NextResponse.json(
+          {
+            error: 'Veuillez d\'abord vérifier votre email. Un lien de vérification vous a été envoyé.',
+            errorEn: 'Please verify your email first. A verification link has been sent to you.',
+            emailNotVerified: true
+          },
+          { status: 403 }
+        );
+      }
+    }
+
     // Vérifier le mot de passe
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
