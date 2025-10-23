@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
 
     // Créer un token JWT
     const token = jwt.sign(
-      { userId: user.id, email: user.email },
+      { userId: user.id, email: user.email, role: user.role },
       JWT_SECRET,
       { expiresIn: '7d' }
     );

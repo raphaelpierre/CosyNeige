@@ -150,21 +150,52 @@ export async function PATCH(
       );
     }
 
-    const { status } = await request.json();
+    const body = await request.json();
+    const { status, markAsRead } = body;
 
-    if (!['open', 'closed', 'archived'].includes(status)) {
-      return NextResponse.json(
-        { error: 'Invalid status. Must be: open, closed, or archived' },
-        { status: 400 }
-      );
+    // Handle mark as read action
+    if (markAsRead) {
+      await prisma.conversationMessage.updateMany({
+        where: {
+          conversationId: conversationId,
+          isFromAdmin: false,
+          read: false,
+        },
+        data: {
+          read: true,
+          readAt: new Date(),
+        },
+      });
+
+      const conversation = await prisma.conversation.update({
+        where: { id: conversationId },
+        data: { unreadByAdmin: 0 },
+      });
+
+      return NextResponse.json(conversation);
     }
 
-    const conversation = await prisma.conversation.update({
-      where: { id: conversationId },
-      data: { status },
-    });
+    // Handle status update
+    if (status) {
+      if (!['open', 'closed', 'archived'].includes(status)) {
+        return NextResponse.json(
+          { error: 'Invalid status. Must be: open, closed, or archived' },
+          { status: 400 }
+        );
+      }
 
-    return NextResponse.json(conversation);
+      const conversation = await prisma.conversation.update({
+        where: { id: conversationId },
+        data: { status },
+      });
+
+      return NextResponse.json(conversation);
+    }
+
+    return NextResponse.json(
+      { error: 'No valid action specified' },
+      { status: 400 }
+    );
   } catch (error) {
     console.error('Error updating conversation:', error);
     return NextResponse.json(

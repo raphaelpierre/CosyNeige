@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import { useAuth } from '@/lib/context/AuthContext';
 import InvoicePDF from '@/components/invoice/InvoicePDF';
@@ -41,16 +42,21 @@ interface Reservation {
 interface Message {
   id: string;
   subject: string;
-  content: string;
-  fromEmail: string;
-  fromName: string;
-  isFromAdmin: boolean;
-  read: boolean;
+  status: 'open' | 'closed' | 'archived';
+  unreadByAdmin: number;
+  unreadByClient: number;
+  lastMessageAt: string;
+  lastMessageFrom: 'client' | 'admin' | null;
   createdAt: string;
-  name?: string; // Pour compatibilité avec l'affichage
-  email?: string; // Pour compatibilité avec l'affichage
-  date?: string; // Pour compatibilité avec l'affichage
-  message?: string; // Pour compatibilité avec l'affichage
+  user: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  };
+  _count: {
+    messages: number;
+  };
 }
 
 type TabType = 'reservations' | 'users' | 'messages' | 'invoices' | 'accounting' | 'calendar' | 'settings';
@@ -560,7 +566,7 @@ export default function AdminPage() {
           messageId: message.id,
           type: 'internal',
           replyContent,
-          recipientEmail: message.fromEmail
+          recipientEmail: message.user.email
         })
       });
 
@@ -625,26 +631,19 @@ export default function AdminPage() {
     }
   };
 
-  // Fonction pour charger les données
+  // Fonction pour charger les conversations
   const loadMessages = async () => {
     try {
-      const response = await fetch('/api/messages', {
+      const response = await fetch('/api/conversations', {
         credentials: 'include' // Pour inclure les cookies
       });
       if (response.ok) {
         const data = await response.json();
-        // Transformer les données pour la compatibilité avec l'interface
-        const transformedMessages = data.messages?.map((msg: any) => ({
-          ...msg,
-          name: msg.name || msg.fromName,
-          email: msg.email || msg.fromEmail,
-          message: msg.message || msg.content,
-          date: msg.createdAt
-        })) || [];
-        setMessages(transformedMessages);
+        // data est maintenant un tableau de conversations
+        setMessages(data);
       }
     } catch (error) {
-      console.error('Error loading messages:', error);
+      console.error('Error loading conversations:', error);
       setMessages([]);
     }
   };
@@ -934,8 +933,8 @@ export default function AdminPage() {
 
   const tabs = [
     { id: 'reservations' as TabType, icon: '📅', label: { en: 'Reservations', fr: 'Réservations' } },
-    { id: 'users' as TabType, icon: '�', label: { en: 'Users', fr: 'Utilisateurs' } },
-    { id: 'messages' as TabType, icon: '💬', label: { en: 'Messages', fr: 'Messages' } },
+    { id: 'users' as TabType, icon: '👥', label: { en: 'Users', fr: 'Utilisateurs' } },
+    { id: 'messages' as TabType, icon: '💬', label: { en: 'Conversations', fr: 'Conversations' } },
     { id: 'invoices' as TabType, icon: '🧾', label: { en: 'Invoices', fr: 'Factures' } },
     { id: 'accounting' as TabType, icon: '💰', label: { en: 'Accounting', fr: 'Comptabilité' } },
     { id: 'calendar' as TabType, icon: '🗓️', label: { en: 'Calendar', fr: 'Calendrier' } },
@@ -981,12 +980,35 @@ export default function AdminPage() {
               <div className="flex items-center gap-2 flex-wrap">
                 {tabs.map(tab => {
                   const hasNotification =
-                    (tab.id === 'messages' && messages.filter(m => !m.read).length > 0) ||
+                    (tab.id === 'messages' && messages.filter(m => m.unreadByAdmin > 0).length > 0) ||
                     (tab.id === 'reservations' && reservations.filter(r => r.status === 'pending').length > 0);
 
                   const notificationCount =
-                    tab.id === 'messages' ? messages.filter(m => !m.read).length :
+                    tab.id === 'messages' ? messages.filter(m => m.unreadByAdmin > 0).length :
                     tab.id === 'reservations' ? reservations.filter(r => r.status === 'pending').length : 0;
+
+                  // If this is the conversations tab, render as Link
+                  if (tab.id === 'messages') {
+                    return (
+                      <Link
+                        key={tab.id}
+                        href="/admin/conversations"
+                        className="relative flex items-center gap-1.5 px-3 py-2 rounded-lg transition-all duration-200 text-gray-700 hover:bg-gray-50 border border-gray-200"
+                      >
+                        <span className="text-lg">
+                          {tab.icon}
+                        </span>
+                        <span className="text-xs font-semibold whitespace-nowrap hidden lg:inline">
+                          {t(tab.label)}
+                        </span>
+                        {hasNotification && notificationCount > 0 && (
+                          <span className="min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                            {notificationCount}
+                          </span>
+                        )}
+                      </Link>
+                    );
+                  }
 
                   return (
                     <button
@@ -1030,15 +1052,15 @@ export default function AdminPage() {
                   <span className="font-semibold text-xs">{reservations.filter(r => r.status === 'pending').length}</span>
                 </button>
               )}
-              {messages.filter(m => !m.read).length > 0 && (
-                <button
-                  onClick={() => setActiveTab('messages')}
+              {messages.filter(m => m.unreadByAdmin > 0).length > 0 && (
+                <Link
+                  href="/admin/conversations"
                   className="flex items-center gap-1.5 px-2.5 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors"
                   title={t({ en: 'Unread messages', fr: 'Messages non lus' })}
                 >
                   <span className="text-sm">💬</span>
-                  <span className="font-semibold text-xs">{messages.filter(m => !m.read).length}</span>
-                </button>
+                  <span className="font-semibold text-xs">{messages.filter(m => m.unreadByAdmin > 0).length}</span>
+                </Link>
               )}
             </div>
           </div>
@@ -1071,15 +1093,15 @@ export default function AdminPage() {
                   <span className="font-semibold text-xs">{reservations.filter(r => r.status === 'pending').length}</span>
                 </button>
               )}
-              {messages.filter(m => !m.read).length > 0 && (
-                <button
-                  onClick={() => setActiveTab('messages')}
+              {messages.filter(m => m.unreadByAdmin > 0).length > 0 && (
+                <Link
+                  href="/admin/conversations"
                   className="flex items-center gap-1.5 px-2 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors"
                   title={t({ en: 'Unread messages', fr: 'Messages non lus' })}
                 >
                   <span className="text-sm">💬</span>
-                  <span className="font-semibold text-xs">{messages.filter(m => !m.read).length}</span>
-                </button>
+                  <span className="font-semibold text-xs">{messages.filter(m => m.unreadByAdmin > 0).length}</span>
+                </Link>
               )}
             </div>
           </div>
@@ -1092,12 +1114,35 @@ export default function AdminPage() {
           <div className="grid grid-cols-4 gap-2">
             {tabs.map(tab => {
               const hasNotification =
-                (tab.id === 'messages' && messages.filter(m => !m.read).length > 0) ||
+                (tab.id === 'messages' && messages.filter(m => m.unreadByAdmin > 0).length > 0) ||
                 (tab.id === 'reservations' && reservations.filter(r => r.status === 'pending').length > 0);
 
               const notificationCount =
-                tab.id === 'messages' ? messages.filter(m => !m.read).length :
+                tab.id === 'messages' ? messages.filter(m => m.unreadByAdmin > 0).length :
                 tab.id === 'reservations' ? reservations.filter(r => r.status === 'pending').length : 0;
+
+              // If this is the conversations tab, render as Link instead of button
+              if (tab.id === 'messages') {
+                return (
+                  <Link
+                    key={tab.id}
+                    href="/admin/conversations"
+                    className={`relative flex flex-col items-center justify-center gap-1 p-2.5 rounded-xl transition-all duration-200 active:scale-95 bg-white text-gray-700 hover:bg-gray-50 shadow-sm hover:shadow-md border border-gray-200`}
+                  >
+                    <span className="text-xl transition-transform">
+                      {tab.icon}
+                    </span>
+                    <span className="text-[9px] font-bold leading-tight text-center text-gray-600">
+                      {t(tab.label)}
+                    </span>
+                    {hasNotification && notificationCount > 0 && (
+                      <span className="absolute -top-1 -right-1 min-w-[16px] h-[16px] px-1 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center shadow-lg">
+                        {notificationCount}
+                      </span>
+                    )}
+                  </Link>
+                );
+              }
 
               return (
                 <button
@@ -2400,27 +2445,27 @@ export default function AdminPage() {
                 </div>
                 <div className="space-y-3 sm:space-y-4">
                   {messages.map(message => (
-                    <div key={message.id} className={`border rounded-lg p-3 sm:p-4 ${!message.read ? 'bg-blue-50 border-blue-200' : 'bg-white'}`}>
+                    <div key={message.id} className={`border rounded-lg p-3 sm:p-4 ${message.unreadByAdmin > 0 ? 'bg-blue-50 border-blue-200' : 'bg-white'}`}>
                       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3 gap-2">
                         <div className="flex-1">
-                          <div className="font-semibold text-gray-900">{message.name}</div>
-                          <div className="text-sm text-gray-600">{message.email}</div>
+                          <div className="font-semibold text-gray-900">{message.user.firstName} {message.user.lastName}</div>
+                          <div className="text-sm text-gray-600">{message.user.email}</div>
                         </div>
                         <div className="flex items-center gap-2 sm:gap-3 text-sm">
-                          <span className="text-gray-500">{message.date ? new Date(message.date).toLocaleDateString('fr-FR') : ''}</span>
-                          {!message.read && (
+                          <span className="text-gray-500">{message.lastMessageAt ? new Date(message.lastMessageAt).toLocaleDateString('fr-FR') : ''}</span>
+                          {message.unreadByAdmin > 0 && (
                             <span className="bg-slate-700 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
                               {t({ en: 'New', fr: 'Nouveau' })}
                             </span>
                           )}
                         </div>
                       </div>
-                      
+
                       <div className="mb-2">
                         <span className="font-medium text-gray-800 text-sm sm:text-base">{message.subject}</span>
                       </div>
-                      
-                      <p className="text-gray-700 text-sm mb-3 line-clamp-3">{message.message}</p>
+
+                      <p className="text-gray-700 text-sm mb-3 line-clamp-3">{message._count.messages} {t({ en: 'message(s)', fr: 'message(s)' })}</p>
                       
                       {/* Mobile Actions - Stacked */}
                       <div className="sm:hidden flex flex-col gap-2">
@@ -3330,13 +3375,13 @@ export default function AdminPage() {
             </h3>
             <div className="mb-3 sm:mb-4 p-3 bg-gray-50 rounded text-sm">
               <p className="text-gray-600 mb-2">
-                <strong>De :</strong> {selectedMessage.name} ({selectedMessage.email})
+                <strong>De :</strong> {selectedMessage.user.firstName} {selectedMessage.user.lastName} ({selectedMessage.user.email})
               </p>
               <p className="text-gray-600 mb-2">
                 <strong>Sujet :</strong> {selectedMessage.subject}
               </p>
               <p className="text-gray-700">
-                <strong>Message :</strong> {selectedMessage.message}
+                <strong>Conversation :</strong> {selectedMessage._count.messages} message(s)
               </p>
             </div>
             <div className="mb-4">

@@ -42,15 +42,22 @@ export default function AdminConversationDetailPage() {
   const { t } = useLanguage();
   const router = useRouter();
   const params = useParams();
-  const conversationId = params?.id as string | undefined;
+  const conversationId = (params?.id as string) || '';
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const [conversation, setConversation] = useState<Conversation | null>(null);
   const [loading, setLoading] = useState(true);
   const [replyContent, setReplyContent] = useState('');
   const [sending, setSending] = useState(false);
   const [updatingStatus, setUpdatingStatus] = useState(false);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
+    if (!conversationId) {
+      setError('Invalid conversation ID');
+      setLoading(false);
+      return;
+    }
+
     if (!authLoading && !isAuthenticated) {
       router.push('/client/login');
     } else if (!authLoading && user?.role !== 'admin') {
@@ -65,18 +72,37 @@ export default function AdminConversationDetailPage() {
       const response = await fetch(`/api/conversations/${conversationId}`);
       if (response.ok) {
         const data = await response.json();
+        console.log('Conversation data loaded:', data);
         setConversation(data);
       } else if (response.status === 404) {
-        alert(t({
+        setError(t({
           en: 'Conversation not found',
           fr: 'Conversation introuvable'
         }));
-        router.push('/admin/conversations');
+      } else if (response.status === 401) {
+        setError(t({
+          en: 'Authentication required. Please log in again.',
+          fr: 'Authentification requise. Veuillez vous reconnecter.'
+        }));
+      } else if (response.status === 403) {
+        setError(t({
+          en: 'You do not have permission to view this conversation.',
+          fr: 'Vous n\'avez pas la permission de voir cette conversation.'
+        }));
       } else {
-        console.error('Failed to fetch conversation');
+        const errorText = await response.text();
+        console.error('Failed to fetch conversation:', response.status, errorText);
+        setError(t({
+          en: `Failed to load conversation (Error ${response.status})`,
+          fr: `Échec du chargement de la conversation (Erreur ${response.status})`
+        }));
       }
     } catch (error) {
       console.error('Error fetching conversation:', error);
+      setError(t({
+        en: 'Network error. Please check your connection.',
+        fr: 'Erreur réseau. Veuillez vérifier votre connexion.'
+      }));
     } finally {
       setLoading(false);
     }
@@ -148,6 +174,26 @@ export default function AdminConversationDetailPage() {
       setUpdatingStatus(false);
     }
   };
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-cream px-4">
+        <div className="text-center">
+          <div className="text-6xl mb-4">⚠️</div>
+          <p className="text-red-600 font-bold text-lg mb-2">
+            {t({ en: 'Error', fr: 'Erreur' })}
+          </p>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <Link
+            href="/admin/conversations"
+            className="inline-block bg-slate-700 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-semibold transition-all"
+          >
+            {t({ en: 'Back to Conversations', fr: 'Retour aux Conversations' })}
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   if (authLoading || loading) {
     return (

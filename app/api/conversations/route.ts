@@ -38,21 +38,30 @@ export async function GET(request: NextRequest) {
               checkOut: true,
             },
           },
-          messages: {
-            orderBy: { createdAt: 'desc' },
-            take: 1, // Dernier message seulement
+          _count: {
+            select: {
+              messages: true,
+            },
           },
         },
         orderBy: { lastMessageAt: 'desc' },
       });
 
-      return NextResponse.json({ conversations });
+      return NextResponse.json(conversations);
     }
 
     // Sinon, récupérer les conversations de l'utilisateur
     const conversations = await prisma.conversation.findMany({
       where: { userId: decoded.userId },
       include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
         reservation: {
           select: {
             id: true,
@@ -60,15 +69,16 @@ export async function GET(request: NextRequest) {
             checkOut: true,
           },
         },
-        messages: {
-          orderBy: { createdAt: 'desc' },
-          take: 1, // Dernier message seulement
+        _count: {
+          select: {
+            messages: true,
+          },
         },
       },
       orderBy: { lastMessageAt: 'desc' },
     });
 
-    return NextResponse.json({ conversations });
+    return NextResponse.json(conversations);
   } catch (error) {
     console.error('Error fetching conversations:', error);
     return NextResponse.json(

@@ -32,8 +32,9 @@ export default function AdminConversationsPage() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
-  const [statusFilter, setStatusFilter] = useState<'all' | 'open' | 'closed' | 'archived'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'unread' | 'open' | 'closed' | 'archived'>('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState<'unread-first' | 'newest' | 'oldest'>('unread-first');
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
@@ -52,7 +53,7 @@ export default function AdminConversationsPage() {
         const data = await response.json();
         setConversations(data);
       } else {
-        console.error('Failed to fetch conversations');
+        console.error('Failed to fetch conversations, status:', response.status);
       }
     } catch (error) {
       console.error('Error fetching conversations:', error);
@@ -71,10 +72,6 @@ export default function AdminConversationsPage() {
 
       if (response.ok) {
         fetchConversations(); // Refresh list
-        alert(t({
-          en: 'Status updated successfully!',
-          fr: 'Statut mis à jour avec succès !'
-        }));
       } else {
         throw new Error('Failed to update status');
       }
@@ -83,6 +80,28 @@ export default function AdminConversationsPage() {
       alert(t({
         en: 'Error updating status. Please try again.',
         fr: 'Erreur lors de la mise à jour du statut. Veuillez réessayer.'
+      }));
+    }
+  };
+
+  const handleMarkAsRead = async (conversationId: string) => {
+    try {
+      const response = await fetch(`/api/conversations/${conversationId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ markAsRead: true }),
+      });
+
+      if (response.ok) {
+        fetchConversations(); // Refresh list
+      } else {
+        throw new Error('Failed to mark as read');
+      }
+    } catch (error) {
+      console.error('Error marking as read:', error);
+      alert(t({
+        en: 'Error marking as read. Please try again.',
+        fr: 'Erreur lors du marquage comme lu. Veuillez réessayer.'
       }));
     }
   };
@@ -106,7 +125,11 @@ export default function AdminConversationsPage() {
 
   const filteredConversations = conversations
     .filter(conv => {
-      if (statusFilter !== 'all' && conv.status !== statusFilter) return false;
+      // Filter by unread
+      if (statusFilter === 'unread' && conv.unreadByAdmin === 0) return false;
+      // Filter by status
+      if (statusFilter !== 'all' && statusFilter !== 'unread' && conv.status !== statusFilter) return false;
+      // Search filter
       if (searchTerm) {
         const search = searchTerm.toLowerCase();
         return (
@@ -118,13 +141,20 @@ export default function AdminConversationsPage() {
       return true;
     })
     .sort((a, b) => {
-      // Sort by unread first, then by last message date
-      if (a.unreadByAdmin > 0 && b.unreadByAdmin === 0) return -1;
-      if (a.unreadByAdmin === 0 && b.unreadByAdmin > 0) return 1;
-      return new Date(b.lastMessageAt).getTime() - new Date(a.lastMessageAt).getTime();
+      // Apply sorting
+      if (sortBy === 'unread-first') {
+        // Unread first, then by date
+        if (a.unreadByAdmin > 0 && b.unreadByAdmin === 0) return -1;
+        if (a.unreadByAdmin === 0 && b.unreadByAdmin > 0) return 1;
+        return new Date(b.lastMessageAt).getTime() - new Date(a.lastMessageAt).getTime();
+      } else if (sortBy === 'newest') {
+        return new Date(b.lastMessageAt).getTime() - new Date(a.lastMessageAt).getTime();
+      } else { // oldest
+        return new Date(a.lastMessageAt).getTime() - new Date(b.lastMessageAt).getTime();
+      }
     });
 
-  const unreadCount = conversations.reduce((acc, conv) => acc + conv.unreadByAdmin, 0);
+  const unreadConversationsCount = conversations.filter(c => c.unreadByAdmin > 0).length;
   const openCount = conversations.filter(c => c.status === 'open').length;
 
   return (
@@ -169,12 +199,12 @@ export default function AdminConversationsPage() {
           <div className="bg-white rounded-xl shadow p-4 text-center relative">
             <div className="text-3xl mb-2">🔔</div>
             <div className="text-2xl font-bold text-red-600 mb-1">
-              {unreadCount}
+              {unreadConversationsCount}
             </div>
             <div className="text-xs text-gray-600">
-              {t({ en: 'Unread', fr: 'Non Lus' })}
+              {t({ en: 'Unread', fr: 'Non Lues' })}
             </div>
-            {unreadCount > 0 && (
+            {unreadConversationsCount > 0 && (
               <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
             )}
           </div>
@@ -202,7 +232,7 @@ export default function AdminConversationsPage() {
 
         {/* Filters and Search */}
         <div className="bg-white rounded-xl shadow p-4 mb-6">
-          <div className="flex flex-col lg:flex-row gap-4">
+          <div className="flex flex-col gap-4">
             {/* Status Filters */}
             <div className="flex gap-2 overflow-x-auto">
               <button
@@ -214,6 +244,16 @@ export default function AdminConversationsPage() {
                 }`}
               >
                 {t({ en: 'All', fr: 'Tout' })} ({conversations.length})
+              </button>
+              <button
+                onClick={() => setStatusFilter('unread')}
+                className={`px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap transition-all ${
+                  statusFilter === 'unread'
+                    ? 'bg-red-600 text-white'
+                    : 'bg-red-50 text-red-700 hover:bg-red-100'
+                }`}
+              >
+                🔔 {t({ en: 'Unread', fr: 'Non Lues' })} ({unreadConversationsCount})
               </button>
               <button
                 onClick={() => setStatusFilter('open')}
@@ -247,18 +287,37 @@ export default function AdminConversationsPage() {
               </button>
             </div>
 
-            {/* Search */}
-            <div className="flex-1">
-              <input
-                type="text"
-                placeholder={t({
-                  en: 'Search by subject, name or email...',
-                  fr: 'Rechercher par sujet, nom ou email...'
-                })}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
-              />
+            {/* Search and Sort */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex-1">
+                <input
+                  type="text"
+                  placeholder={t({
+                    en: 'Search by subject, name or email...',
+                    fr: 'Rechercher par sujet, nom ou email...'
+                  })}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent"
+                />
+              </div>
+              <div className="sm:w-48">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as 'unread-first' | 'newest' | 'oldest')}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-700 focus:border-transparent font-semibold text-sm"
+                >
+                  <option value="unread-first">
+                    {t({ en: '🔔 Unread First', fr: '🔔 Non Lues D\'abord' })}
+                  </option>
+                  <option value="newest">
+                    {t({ en: '⬇️ Newest First', fr: '⬇️ Plus Récentes' })}
+                  </option>
+                  <option value="oldest">
+                    {t({ en: '⬆️ Oldest First', fr: '⬆️ Plus Anciennes' })}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
@@ -268,6 +327,8 @@ export default function AdminConversationsPage() {
           <h2 className="text-xl font-bold text-slate-900 mb-4">
             {statusFilter === 'all'
               ? t({ en: 'All Conversations', fr: 'Toutes les Conversations' })
+              : statusFilter === 'unread'
+              ? t({ en: 'Unread Conversations', fr: 'Conversations Non Lues' })
               : statusFilter === 'open'
               ? t({ en: 'Open Conversations', fr: 'Conversations Ouvertes' })
               : statusFilter === 'closed'
@@ -370,14 +431,30 @@ export default function AdminConversationsPage() {
                     </div>
 
                     {/* Right: Actions */}
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                       <Link
                         href={`/admin/conversations/${conversation.id}`}
                         className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-all text-sm whitespace-nowrap"
                       >
                         {t({ en: 'View', fr: 'Voir' })} →
                       </Link>
-                      {conversation.status !== 'closed' && (
+                      {conversation.unreadByAdmin > 0 && (
+                        <button
+                          onClick={() => handleMarkAsRead(conversation.id)}
+                          className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold transition-all text-sm whitespace-nowrap"
+                        >
+                          ✓ {t({ en: 'Mark Read', fr: 'Marquer Lu' })}
+                        </button>
+                      )}
+                      {conversation.status !== 'archived' && (
+                        <button
+                          onClick={() => handleUpdateStatus(conversation.id, 'archived')}
+                          className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold transition-all text-sm whitespace-nowrap"
+                        >
+                          📦 {t({ en: 'Archive', fr: 'Archiver' })}
+                        </button>
+                      )}
+                      {conversation.status !== 'closed' && conversation.status !== 'archived' && (
                         <button
                           onClick={() => handleUpdateStatus(conversation.id, 'closed')}
                           className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-all text-sm whitespace-nowrap"
