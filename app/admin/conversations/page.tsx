@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useLanguage } from '@/lib/hooks/useLanguage';
 import { useAuth } from '@/lib/context/AuthContext';
+import SendEmailModal from '@/components/admin/SendEmailModal';
 
 interface Conversation {
   id: string;
@@ -35,6 +36,8 @@ export default function AdminConversationsPage() {
   const [statusFilter, setStatusFilter] = useState<'all' | 'unread' | 'open' | 'closed' | 'archived'>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'unread-first' | 'newest' | 'oldest'>('unread-first');
+  const [showSendEmailModal, setShowSendEmailModal] = useState(false);
+  const [emailRecipients, setEmailRecipients] = useState<Array<{id: string; email: string; name: string}>>([]);
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
@@ -174,13 +177,39 @@ export default function AdminConversationsPage() {
                 })}
               </p>
             </div>
-            <Link
-              href="/admin"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-100 text-slate-900 px-6 py-3 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl hover:scale-105"
-            >
-              <span>←</span>
-              <span>{t({ en: 'Admin Dashboard', fr: 'Dashboard Admin' })}</span>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+              <button
+                onClick={() => {
+                  const uniqueUsers = Array.from(
+                    new Map(
+                      conversations.map(c => [
+                        c.user.id,
+                        {
+                          id: c.user.id,
+                          email: c.user.email,
+                          name: `${c.user.firstName} ${c.user.lastName}`,
+                        }
+                      ])
+                    ).values()
+                  );
+                  setEmailRecipients(uniqueUsers);
+                  setShowSendEmailModal(true);
+                }}
+                disabled={conversations.length === 0}
+                className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                title={t({ en: 'Send email to all conversation participants', fr: 'Envoyer un email à tous les participants' })}
+              >
+                <span>📧</span>
+                <span>{t({ en: 'Email All', fr: 'Email Tous' })}</span>
+              </button>
+              <Link
+                href="/admin"
+                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-100 text-slate-900 px-6 py-3 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl hover:scale-105"
+              >
+                <span>←</span>
+                <span>{t({ en: 'Admin Dashboard', fr: 'Dashboard Admin' })}</span>
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -478,6 +507,20 @@ export default function AdminConversationsPage() {
           )}
         </div>
       </div>
+
+      {/* Send Email Modal */}
+      <SendEmailModal
+        isOpen={showSendEmailModal}
+        onClose={() => {
+          setShowSendEmailModal(false);
+          setEmailRecipients([]);
+        }}
+        recipients={emailRecipients}
+        recipientType="users"
+        onSuccess={() => {
+          fetchConversations();
+        }}
+      />
     </div>
   );
 }

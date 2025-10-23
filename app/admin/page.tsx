@@ -8,6 +8,7 @@ import { useAuth } from '@/lib/context/AuthContext';
 import InvoicePDF from '@/components/invoice/InvoicePDF';
 import InvoiceModal from '@/components/invoice/InvoiceModal';
 import EmailSettingsForm from '@/components/admin/EmailSettingsForm';
+import SendEmailModal from '@/components/admin/SendEmailModal';
 import { Button, Badge, Card } from '@/components/ui';
 
 interface User {
@@ -81,6 +82,8 @@ export default function AdminPage() {
   const [showSendMessageModal, setShowSendMessageModal] = useState(false);
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
   const [messageForm, setMessageForm] = useState({ subject: '', content: '' });
+  const [showSendEmailModal, setShowSendEmailModal] = useState(false);
+  const [emailRecipients, setEmailRecipients] = useState<Array<{id: string; email: string; name: string}>>([]);
   const [seasons, setSeasons] = useState<any[]>([]);
   const [pricingSettings, setPricingSettings] = useState<any>(null);
   const [editingSeason, setEditingSeason] = useState<any | null>(null);
@@ -2112,12 +2115,30 @@ export default function AdminPage() {
                   <h2 className="text-lg sm:text-xl font-bold text-gray-900">
                     {t({ en: 'Users', fr: 'Utilisateurs' })}
                   </h2>
-                  <button
-                    onClick={() => setShowUserModal(true)}
-                    className="bg-slate-700 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800 font-bold text-sm"
-                  >
-                    {t({ en: '+ Add User', fr: '+ Ajouter' })}
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        const clientUsers = users.filter(u => u.role === 'client').map(u => ({
+                          id: u.id,
+                          email: u.email,
+                          name: `${u.firstName} ${u.lastName}`,
+                        }));
+                        setEmailRecipients(clientUsers);
+                        setShowSendEmailModal(true);
+                      }}
+                      disabled={users.filter(u => u.role === 'client').length === 0}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors font-bold text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                      title={t({ en: 'Send email to all clients', fr: 'Envoyer un email à tous les clients' })}
+                    >
+                      📧 {t({ en: 'Email All Clients', fr: 'Email Clients' })}
+                    </button>
+                    <button
+                      onClick={() => setShowUserModal(true)}
+                      className="bg-slate-700 hover:bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors border-2 border-slate-700 hover:border-slate-800 font-bold text-sm"
+                    >
+                      {t({ en: '+ Add User', fr: '+ Ajouter' })}
+                    </button>
+                  </div>
                 </div>
 
                 {/* Mobile Card View */}
@@ -2144,6 +2165,20 @@ export default function AdminPage() {
                       </div>
 
                       <div className="flex justify-end gap-2">
+                        <button
+                          onClick={() => {
+                            setEmailRecipients([{
+                              id: user.id,
+                              email: user.email,
+                              name: `${user.firstName} ${user.lastName}`,
+                            }]);
+                            setShowSendEmailModal(true);
+                          }}
+                          className="bg-green-100 text-green-700 px-3 py-1 rounded text-sm font-medium"
+                          title={t({ en: 'Send email', fr: 'Envoyer un email' })}
+                        >
+                          📧
+                        </button>
                         <button
                           onClick={() => setEditingUser(user)}
                           className="bg-blue-100 text-blue-700 px-3 py-1 rounded text-sm font-medium"
@@ -2198,6 +2233,20 @@ export default function AdminPage() {
                           </td>
                           <td className="py-3 px-4">
                             <div className="flex gap-2">
+                              <button
+                                onClick={() => {
+                                  setEmailRecipients([{
+                                    id: user.id,
+                                    email: user.email,
+                                    name: `${user.firstName} ${user.lastName}`,
+                                  }]);
+                                  setShowSendEmailModal(true);
+                                }}
+                                className="text-green-600 hover:text-green-800"
+                                title={t({ en: 'Send email', fr: 'Envoyer un email' })}
+                              >
+                                📧
+                              </button>
                               <button
                                 onClick={() => setEditingUser(user)}
                                 className="text-blue-600 hover:text-blue-800"
@@ -3712,6 +3761,20 @@ export default function AdminPage() {
           }}
         />
       )}
+
+      {/* Send Email Modal */}
+      <SendEmailModal
+        isOpen={showSendEmailModal}
+        onClose={() => {
+          setShowSendEmailModal(false);
+          setEmailRecipients([]);
+        }}
+        recipients={emailRecipients}
+        recipientType="users"
+        onSuccess={() => {
+          fetchData();
+        }}
+      />
 
     </div>
   );
