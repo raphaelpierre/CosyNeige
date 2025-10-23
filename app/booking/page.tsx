@@ -400,6 +400,44 @@ export default function BookingPage() {
                     </div>
                   )}
 
+                  {/* Sélecteur personnes - Version fine et compacte */}
+                  <div className="bg-slate-50 rounded-lg p-2.5 sm:p-3 border border-slate-200">
+                    <div className="flex flex-row items-center justify-between gap-3">
+                      <div className="flex items-center gap-2">
+                        <span className="text-base">👥</span>
+                        <label className="font-semibold text-gray-800 text-sm">
+                          {t({ en: 'Guests', fr: 'Personnes' })}
+                        </label>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => setGuests(Math.max(1, guests - 1))}
+                          className="w-8 h-8 rounded-full bg-white shadow-sm border border-gray-300 hover:border-slate-400 hover:bg-slate-50 flex items-center justify-center font-bold text-base text-gray-600 hover:text-slate-700 transition-all active:scale-95"
+                          aria-label="Decrease guests"
+                        >
+                          −
+                        </button>
+
+                        <div className="bg-slate-700 rounded-md px-3 py-1 shadow-sm min-w-[45px]">
+                          <div className="text-center font-bold text-lg text-white">{guests}</div>
+                        </div>
+
+                        <button
+                          onClick={() => setGuests(Math.min(10, guests + 1))}
+                          className="w-8 h-8 rounded-full bg-white shadow-sm border border-gray-300 hover:border-slate-400 hover:bg-slate-50 flex items-center justify-center font-bold text-base text-gray-600 hover:text-slate-700 transition-all active:scale-95"
+                          aria-label="Increase guests"
+                        >
+                          +
+                        </button>
+
+                        <span className="text-xs text-gray-500 ml-1 hidden sm:inline">
+                          {t({ en: '(max 10)', fr: '(max 10)' })}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Grille calendrier + widgets - Côte à côte sur desktop */}
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     {/* Calendrier - 2 colonnes sur desktop */}
@@ -516,46 +554,6 @@ export default function BookingPage() {
                           </div>
                         </div>
                       )}
-                    </div>
-                  </div>
-
-                  {/* Sélecteur personnes - COMPACT et sous le calendrier */}
-                  <div className="bg-slate-50 rounded-lg p-2 sm:p-3 border border-slate-200">
-                    <div className="flex flex-row items-center justify-between gap-3">
-                      <div className="flex items-center gap-2">
-                        <span className="text-base">👥</span>
-                        <label className="font-bold text-gray-800 text-xs sm:text-sm">
-                          {t({ en: 'Guests', fr: 'Personnes' })}
-                        </label>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => setGuests(Math.max(1, guests - 1))}
-                          className="w-8 h-8 rounded-full bg-white shadow border border-gray-200 hover:border-slate-400 flex items-center justify-center font-bold text-base text-gray-600 hover:text-slate-700 transition-all active:scale-95 touch-manipulation"
-                          aria-label="Decrease guests"
-                        >
-                          −
-                        </button>
-
-                        <div className="bg-white rounded-lg px-2 py-1 shadow-sm border border-slate-300 min-w-[50px]">
-                          <div className="text-center">
-                            <div className="font-bold text-sm text-slate-800">{guests}</div>
-                          </div>
-                        </div>
-
-                        <button
-                          onClick={() => setGuests(Math.min(10, guests + 1))}
-                          className="w-8 h-8 rounded-full bg-white shadow border border-gray-200 hover:border-slate-400 flex items-center justify-center font-bold text-base text-gray-600 hover:text-slate-700 transition-all active:scale-95 touch-manipulation"
-                          aria-label="Increase guests"
-                        >
-                          +
-                        </button>
-
-                        <span className="text-[10px] text-gray-500 ml-1">
-                          {t({ en: '(max 10)', fr: '(max 10)' })}
-                        </span>
-                      </div>
                     </div>
                   </div>
 
