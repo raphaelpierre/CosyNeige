@@ -34,6 +34,15 @@ debug-*.ts
 check-*.js
 simple-test.*
 
+# deployment files (VPS-specific)
+deploy.sh
+ecosystem.config.js
+nginx.conf
+DEPLOYMENT.md
+restore-data.ts
+*.sql
+neondb-export.json
+
 # debug
 npm-debug.log*
 yarn-debug.log*
