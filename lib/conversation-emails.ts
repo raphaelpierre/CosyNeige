@@ -54,7 +54,7 @@ async function logConversationEmail({
         subject,
         htmlContent,
         status,
-        resendId: smtpMessageId, // Utiliser resendId pour stocker le messageId SMTP
+        smtpMessageId, // ID du message SMTP
         errorMessage,
         sentAt: status === 'sent' ? new Date() : null,
       },
