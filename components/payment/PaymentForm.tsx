@@ -10,7 +10,7 @@ import { useLanguage } from '@/lib/hooks/useLanguage';
 
 interface PaymentFormProps {
   amount: number;
-  onSuccess: () => void;
+  onSuccess: (paymentIntentId?: string) => void;
   onError: (error: string) => void;
   clientSecret: string;
   billingDetails?: {
@@ -43,7 +43,7 @@ export default function PaymentForm({
     setIsLoading(true);
     setErrorMessage('');
 
-    const { error } = await stripe.confirmPayment({
+    const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: `${window.location.origin}/booking/confirmation`,
@@ -54,7 +54,11 @@ export default function PaymentForm({
     if (error) {
       setErrorMessage(error.message || 'Une erreur est survenue');
       onError(error.message || 'Payment failed');
+    } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+      // Payment succeeded - pass payment intent ID to callback
+      onSuccess(paymentIntent.id);
     } else {
+      // Payment in another state (requires_action, processing, etc.)
       onSuccess();
     }
 

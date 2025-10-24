@@ -19,8 +19,22 @@ function StripePaymentContent() {
   const lastName = searchParams.get('lastName') || '';
   const phone = searchParams.get('phone') || '';
 
-  const handleSuccess = () => {
-    router.push(`/booking/confirmation?bookingId=${bookingId}`);
+  const handleSuccess = async (paymentIntentId?: string) => {
+    // Update reservation status in database
+    if (bookingId && paymentIntentId) {
+      try {
+        await fetch(`/api/reservations/${bookingId}/confirm-payment`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ paymentIntentId }),
+        });
+        console.log('✅ Reservation status updated');
+      } catch (error) {
+        console.error('Failed to update reservation:', error);
+        // Continue to confirmation anyway - webhook will handle it
+      }
+    }
+    router.push(`/booking/confirmation?bookingId=${bookingId}&paymentMethod=stripe`);
   };
 
   const handleError = (error: string) => {
