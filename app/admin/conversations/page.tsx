@@ -33,7 +33,7 @@ export default function AdminConversationsPage() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
-  const [statusFilter, setStatusFilter] = useState<'all' | 'unread' | 'open' | 'closed' | 'archived'>('all');
+  const [statusFilter, setStatusFilter] = useState<'active' | 'closed' | 'archived'>('active');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'unread-first' | 'newest' | 'oldest'>('unread-first');
   const [showSendEmailModal, setShowSendEmailModal] = useState(false);
@@ -128,12 +128,16 @@ export default function AdminConversationsPage() {
 
   const filteredConversations = conversations
     .filter(conv => {
-      // Filter by unread
-      if (statusFilter === 'unread' && conv.unreadByAdmin === 0) return false;
       // Filter by status
-      if (statusFilter !== 'all' && statusFilter !== 'unread' && conv.status !== statusFilter) return false;
-      // Exclude archived from 'all' view - only show archived when explicitly selected
-      if (statusFilter === 'all' && conv.status === 'archived') return false;
+      if (statusFilter === 'active') {
+        // Active = open conversations (archived and closed are excluded)
+        if (conv.status !== 'open') return false;
+      } else if (statusFilter === 'closed') {
+        if (conv.status !== 'closed') return false;
+      } else if (statusFilter === 'archived') {
+        if (conv.status !== 'archived') return false;
+      }
+
       // Search filter
       if (searchTerm) {
         const search = searchTerm.toLowerCase();
@@ -159,8 +163,10 @@ export default function AdminConversationsPage() {
       }
     });
 
-  const unreadConversationsCount = conversations.filter(c => c.unreadByAdmin > 0).length;
-  const openCount = conversations.filter(c => c.status === 'open').length;
+  const unreadConversationsCount = conversations.filter(c => c.unreadByAdmin > 0 && c.status === 'open').length;
+  const activeCount = conversations.filter(c => c.status === 'open').length;
+  const closedCount = conversations.filter(c => c.status === 'closed').length;
+  const archivedCount = conversations.filter(c => c.status === 'archived').length;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-6 sm:py-8">
@@ -216,47 +222,39 @@ export default function AdminConversationsPage() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
-          <div className="bg-white rounded-xl shadow p-4 text-center">
-            <div className="text-3xl mb-2">💬</div>
-            <div className="text-2xl font-bold text-slate-900 mb-1">
-              {conversations.length}
-            </div>
-            <div className="text-xs text-gray-600">
-              {t({ en: 'Total', fr: 'Total' })}
-            </div>
-          </div>
-
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
           <div className="bg-white rounded-xl shadow p-4 text-center relative">
-            <div className="text-3xl mb-2">🔔</div>
-            <div className="text-2xl font-bold text-red-600 mb-1">
-              {unreadConversationsCount}
+            <div className="text-3xl mb-2">✅</div>
+            <div className="text-2xl font-bold text-green-600 mb-1">
+              {activeCount}
             </div>
             <div className="text-xs text-gray-600">
-              {t({ en: 'Unread', fr: 'Non Lues' })}
+              {t({ en: 'Active', fr: 'Actives' })}
             </div>
             {unreadConversationsCount > 0 && (
-              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+              <span className="absolute top-2 right-2 px-2 py-1 bg-red-500 text-white text-xs rounded-full font-bold">
+                {unreadConversationsCount}
+              </span>
             )}
           </div>
 
           <div className="bg-white rounded-xl shadow p-4 text-center">
-            <div className="text-3xl mb-2">✅</div>
-            <div className="text-2xl font-bold text-green-600 mb-1">
-              {openCount}
+            <div className="text-3xl mb-2">🔒</div>
+            <div className="text-2xl font-bold text-gray-600 mb-1">
+              {closedCount}
             </div>
             <div className="text-xs text-gray-600">
-              {t({ en: 'Open', fr: 'Ouvertes' })}
+              {t({ en: 'Closed', fr: 'Fermées' })}
             </div>
           </div>
 
           <div className="bg-white rounded-xl shadow p-4 text-center">
-            <div className="text-3xl mb-2">📊</div>
-            <div className="text-2xl font-bold text-blue-600 mb-1">
-              {conversations.reduce((acc, c) => acc + c._count.messages, 0)}
+            <div className="text-3xl mb-2">📦</div>
+            <div className="text-2xl font-bold text-yellow-600 mb-1">
+              {archivedCount}
             </div>
             <div className="text-xs text-gray-600">
-              {t({ en: 'Messages', fr: 'Messages' })}
+              {t({ en: 'Archived', fr: 'Archivées' })}
             </div>
           </div>
         </div>
@@ -265,56 +263,41 @@ export default function AdminConversationsPage() {
         <div className="bg-white rounded-xl shadow p-4 mb-6">
           <div className="flex flex-col gap-4">
             {/* Status Filters */}
-            <div className="flex gap-2 overflow-x-auto">
+            <div className="flex gap-2 overflow-x-auto pb-2">
               <button
-                onClick={() => setStatusFilter('all')}
-                className={`px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap transition-all ${
-                  statusFilter === 'all'
-                    ? 'bg-slate-900 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                onClick={() => setStatusFilter('active')}
+                className={`px-5 py-3 rounded-lg font-bold text-sm whitespace-nowrap transition-all relative ${
+                  statusFilter === 'active'
+                    ? 'bg-green-600 text-white shadow-lg'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                {t({ en: 'All', fr: 'Tout' })} ({conversations.length})
-              </button>
-              <button
-                onClick={() => setStatusFilter('unread')}
-                className={`px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap transition-all ${
-                  statusFilter === 'unread'
-                    ? 'bg-red-600 text-white'
-                    : 'bg-red-50 text-red-700 hover:bg-red-100'
-                }`}
-              >
-                🔔 {t({ en: 'Unread', fr: 'Non Lues' })} ({unreadConversationsCount})
-              </button>
-              <button
-                onClick={() => setStatusFilter('open')}
-                className={`px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap transition-all ${
-                  statusFilter === 'open'
-                    ? 'bg-slate-900 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                }`}
-              >
-                {t({ en: 'Open', fr: 'Ouvertes' })} ({openCount})
+                ✅ {t({ en: 'Active', fr: 'Actives' })} ({activeCount})
+                {unreadConversationsCount > 0 && (
+                  <span className="absolute -top-1 -right-1 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full font-bold">
+                    {unreadConversationsCount}
+                  </span>
+                )}
               </button>
               <button
                 onClick={() => setStatusFilter('closed')}
-                className={`px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap transition-all ${
+                className={`px-5 py-3 rounded-lg font-bold text-sm whitespace-nowrap transition-all ${
                   statusFilter === 'closed'
-                    ? 'bg-slate-900 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-gray-700 text-white shadow-lg'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                {t({ en: 'Closed', fr: 'Fermées' })} ({conversations.filter(c => c.status === 'closed').length})
+                🔒 {t({ en: 'Closed', fr: 'Fermées' })} ({closedCount})
               </button>
               <button
                 onClick={() => setStatusFilter('archived')}
-                className={`px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap transition-all ${
+                className={`px-5 py-3 rounded-lg font-bold text-sm whitespace-nowrap transition-all ${
                   statusFilter === 'archived'
-                    ? 'bg-slate-900 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-yellow-600 text-white shadow-lg'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                {t({ en: 'Archived', fr: 'Archivées' })} ({conversations.filter(c => c.status === 'archived').length})
+                📦 {t({ en: 'Archived', fr: 'Archivées' })} ({archivedCount})
               </button>
             </div>
 
@@ -356,12 +339,8 @@ export default function AdminConversationsPage() {
         {/* Conversations List */}
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h2 className="text-xl font-bold text-slate-900 mb-4">
-            {statusFilter === 'all'
-              ? t({ en: 'All Conversations', fr: 'Toutes les Conversations' })
-              : statusFilter === 'unread'
-              ? t({ en: 'Unread Conversations', fr: 'Conversations Non Lues' })
-              : statusFilter === 'open'
-              ? t({ en: 'Open Conversations', fr: 'Conversations Ouvertes' })
+            {statusFilter === 'active'
+              ? t({ en: 'Active Conversations', fr: 'Conversations Actives' })
               : statusFilter === 'closed'
               ? t({ en: 'Closed Conversations', fr: 'Conversations Fermées' })
               : t({ en: 'Archived Conversations', fr: 'Conversations Archivées' })}
