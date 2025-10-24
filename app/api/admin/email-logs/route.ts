@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
           to: true,
           subject: true,
           status: true,
-          resendId: true,
+          smtpMessageId: true,
           errorMessage: true,
           reservationId: true,
           userId: true,
