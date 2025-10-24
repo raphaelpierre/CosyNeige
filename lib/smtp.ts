@@ -5,11 +5,12 @@
 import nodemailer from 'nodemailer';
 
 // Configuration du transporteur SMTP
+const smtpPort = parseInt(process.env.SMTP_PORT || '25');
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || '51.83.99.118',
-  port: parseInt(process.env.SMTP_PORT || '587'),
-  secure: false, // false pour STARTTLS (port 587)
-  requireTLS: true, // Forcer l'utilisation de TLS
+  host: process.env.SMTP_HOST || 'localhost',
+  port: smtpPort,
+  secure: false, // false pour port 25 ou STARTTLS (port 587)
+  requireTLS: smtpPort === 587, // TLS requis seulement pour port 587
   auth: process.env.SMTP_USER && process.env.SMTP_PASS ? {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
