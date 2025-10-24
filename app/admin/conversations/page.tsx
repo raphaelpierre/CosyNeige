@@ -132,6 +132,8 @@ export default function AdminConversationsPage() {
       if (statusFilter === 'unread' && conv.unreadByAdmin === 0) return false;
       // Filter by status
       if (statusFilter !== 'all' && statusFilter !== 'unread' && conv.status !== statusFilter) return false;
+      // Exclude archived from 'all' view - only show archived when explicitly selected
+      if (statusFilter === 'all' && conv.status === 'archived') return false;
       // Search filter
       if (searchTerm) {
         const search = searchTerm.toLowerCase();
