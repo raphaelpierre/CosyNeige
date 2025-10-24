@@ -427,12 +427,25 @@ export default function AdminConversationDetailPage() {
           </div>
         </div>
 
-        {/* Reply Form */}
-        {conversation.status === 'open' && (
+        {/* Reply Form - Show for both open and archived conversations */}
+        {conversation.status !== 'closed' && (
           <div className="bg-white rounded-xl shadow-lg p-6">
             <h3 className="text-lg font-bold text-slate-900 mb-4">
               {t({ en: 'Send a Reply', fr: 'Envoyer une Réponse' })}
             </h3>
+            {conversation.status === 'archived' && (
+              <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <p className="text-xs text-yellow-700 flex items-center gap-2">
+                  <span>📦</span>
+                  <span>
+                    {t({
+                      en: 'This conversation is archived. Sending a reply will automatically reopen it.',
+                      fr: 'Cette conversation est archivée. Envoyer une réponse la rouvrira automatiquement.'
+                    })}
+                  </span>
+                </p>
+              </div>
+            )}
             <form onSubmit={handleSendReply} className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">

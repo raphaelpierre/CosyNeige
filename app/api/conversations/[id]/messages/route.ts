@@ -107,6 +107,11 @@ export async function POST(
       lastMessageFrom: isFromAdmin ? 'admin' : 'client',
     };
 
+    // Automatically reopen archived conversations when admin sends a reply
+    if (isFromAdmin && conversation.status === 'archived') {
+      updateData.status = 'open';
+    }
+
     if (isFromAdmin) {
       updateData.unreadByClient = { increment: 1 };
     } else {
