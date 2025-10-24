@@ -8,15 +8,30 @@ import { sendConversationMessageToAdmin } from '@/lib/conversation-emails';
 function decodeQuotedPrintable(text: string): string {
   if (!text) return '';
 
-  return text
-    // Replace =XX with the corresponding character
-    .replace(/=([0-9A-F]{2})/gi, (match, hex) => {
-      return String.fromCharCode(parseInt(hex, 16));
-    })
-    // Remove soft line breaks (=\n)
-    .replace(/=\r?\n/g, '')
-    // Replace =20 spaces that weren't caught
-    .replace(/=20/g, ' ');
+  let decoded = text;
+
+  // Remove soft line breaks (= at end of line)
+  decoded = decoded.replace(/=\r?\n/g, '');
+
+  // Replace =XX with the corresponding character (hex codes)
+  decoded = decoded.replace(/=([0-9A-F]{2})/gi, (match, hex) => {
+    return String.fromCharCode(parseInt(hex, 16));
+  });
+
+  // Decode UTF-8 sequences
+  try {
+    // Convert to bytes and decode as UTF-8
+    const bytes = new Uint8Array(
+      decoded.split('').map(char => char.charCodeAt(0))
+    );
+    const decoder = new TextDecoder('utf-8', { fatal: false });
+    decoded = decoder.decode(bytes);
+  } catch (e) {
+    // If UTF-8 decoding fails, keep the current decoded string
+    console.log('UTF-8 decoding not needed or failed, using direct decode');
+  }
+
+  return decoded;
 }
 
 /**
@@ -59,8 +74,8 @@ function parseEmailContent(data: any): string {
     content = typeof data.plain === 'string' ? data.plain : String(data.plain);
   }
 
-  // Decode if it's quoted-printable encoded
-  if (content.includes('=C2=') || content.includes('=3D') || content.includes('=\n')) {
+  // Decode if it's quoted-printable encoded (check for common patterns)
+  if (content.includes('=C') || content.includes('=E') || content.includes('=3D') || content.includes('=\n')) {
     content = decodeQuotedPrintable(content);
   }
 
@@ -71,6 +86,25 @@ function parseEmailContent(data: any): string {
     .replace(/Content-Transfer-Encoding:.*?\n/gi, '')
     .replace(/Mime-Version:.*?\n/gi, '')
     .replace(/--[a-f0-9]+--/g, '')
+    .replace(/--[a-f0-9]{32,}/g, '');
+
+  // Clean up URLs - shorten long Airbnb/tracking URLs
+  content = content.replace(/https?:\/\/[^\s]+/g, (url) => {
+    // Keep short, meaningful URLs
+    if (url.length < 80) return url;
+    // For long URLs, extract domain and shorten
+    try {
+      const urlObj = new URL(url);
+      return `${urlObj.origin}...`;
+    } catch {
+      return '[URL]';
+    }
+  });
+
+  // Remove excessive whitespace while preserving paragraph breaks
+  content = content
+    .replace(/[ \t]+/g, ' ') // Multiple spaces/tabs to single space
+    .replace(/\n{3,}/g, '\n\n') // Multiple newlines to double newline
     .trim();
 
   return content || 'Email vide';
