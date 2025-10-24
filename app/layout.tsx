@@ -7,6 +7,7 @@ import { NotificationProvider } from "@/lib/context/NotificationContext";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import LocaleWrapper from "@/components/LocaleWrapper";
+import { vacationRentalSchema, organizationSchema } from "./structured-data";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,6 +54,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(vacationRentalSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#1E293B" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-cream min-h-screen`}
         style={{ backgroundColor: '#FAFAF8' }}

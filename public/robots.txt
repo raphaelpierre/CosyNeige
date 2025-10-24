@@ -1,24 +1,12 @@
-# robots.txt for Chalet-Balmotte810
-# https://chalet-balmotte810.com
-
+# Allow all crawlers
 User-agent: *
 Allow: /
 
-# Disallow admin and API routes
+# Disallow private areas
 Disallow: /admin/
+Disallow: /client/login
+Disallow: /client/dashboard
 Disallow: /api/
 
-# Disallow client private areas
-Disallow: /client/dashboard
-Disallow: /client/login
-
-# Allow public pages
-Allow: /booking
-Allow: /contact
-Allow: /gallery
-Allow: /location
-Allow: /guide
-Allow: /chalet
-
-# Sitemap location. 
+# Sitemap
 Sitemap: https://chalet-balmotte810.com/sitemap.xml

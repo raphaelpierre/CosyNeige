@@ -27,8 +27,13 @@ export default function HomePage() {
 
   return (
     <div>
+      {/* Hidden H1 for SEO */}
+      <h1 className="sr-only">
+        Chalet-Balmotte810 - Luxury 5-Bedroom Alpine Chalet in Châtillon-sur-Cluses, French Alps
+      </h1>
+
       {/* Hero Carousel - Compact avec accroches */}
-      <section className="relative h-[60vh] md:h-[85vh] overflow-hidden">
+      <section className="relative h-[60vh] md:h-[85vh] overflow-hidden" aria-label="Hero carousel showcasing chalet">
         {/* Images du carousel */}
         {heroImages.map((image, index) => (
           <div
